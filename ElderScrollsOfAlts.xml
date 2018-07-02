@@ -1,0 +1,94 @@
+<GuiXml>
+<Controls>
+
+	<Control name="ESOA_RowTemplate" virtual="true" mouseEnabled="true">
+		<OnMouseEnter>
+		</OnMouseEnter>
+		<OnMouseExit>
+		</OnMouseExit>
+		<Dimensions x="300" y="200" />
+		<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+		<Controls>
+			<Texture name="$(parent)_BG" inherits="ZO_ThinListBgStrip" />
+			<Label name="$(parent)Name" font="ZoFontGame" verticalAlignment="CENTER" text="ROW">
+				<Dimensions x="50" y="30" />
+				<Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
+			</Label>
+			<Label name="$(parent)Class" font="ZoFontGame" verticalAlignment="CENTER" text="key">
+				<Dimensions x="90" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+			<Label name="$(parent)Gender" font="ZoFontGame" verticalAlignment="CENTER" text="name">
+				<Dimensions x="60" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Class" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+			<Label name="$(parent)Race" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="50" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Gender" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>        
+      <Label name="$(parent)Alchemy" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="50" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Race" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>        
+      <Label name="$(parent)Blacksmithing" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="50" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Alchemy" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>        
+      <Label name="$(parent)Clothing" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="50" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Blacksmithing" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+		</Controls>
+	</Control>
+
+    <TopLevelControl name="ESOA_GUI" inherits="ZO_RightPanelFootPrint" hidden="true">
+        <OnInitialized>
+
+        </OnInitialized>
+	<Controls>
+	<Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+	    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="BASE!">
+	  <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+	</Label>
+	</Controls>
+    </TopLevelControl>
+
+    <TopLevelControl name="ESOA_GUI_PAGE1" inherits="ZO_RightPanelFootPrint" hidden="true">
+        <OnInitialized>
+        </OnInitialized>
+	<OnShow>ElderScrollsOfAlts:SetupGuiPage1(self)</OnShow>
+	<Controls>
+		<Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+		    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Select Character To Display:">
+		  <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+		</Label>
+
+		<Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH">
+			<Dimensions y="29" />
+			<Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="TOPRIGHT" offsetX="10" />
+			<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)_Label" relativePoint="BOTTOMRIGHT" offsetX="250" offsetY="5" />
+			<OnShow>ElderScrollsOfAlts:GuiSetupDropdown(self)</OnShow>
+		</Control>
+
+		<Control name="$(parent)_List" inherits="ZO_ScrollList" mouseEnabled="true" tier="HIGH">
+			<Dimensions y="100" />
+			<Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="40" />
+			<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)_Dropdown" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="200" />
+		</Control>
+	</Controls>
+    </TopLevelControl>
+
+    <TopLevelControl name="ESOA_GUI_PAGE2" inherits="ZO_RightPanelFootPrint" hidden="true">
+        <OnInitialized>
+
+        </OnInitialized>
+	<Controls>
+	<Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+	    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="TWO!">
+	  <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+	</Label>
+	</Controls>
+    </TopLevelControl>
+
+</Controls>
+</GuiXml>
