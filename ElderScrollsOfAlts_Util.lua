@@ -12,11 +12,11 @@ end
 
 
 function ElderScrollsOfAlts:GetGenderText(genderId)
-  local genderName = "They"
+  local genderName = "O"
     if genderId == 0 then
-      genderName = "Male"
+      genderName = "M"
     elseif genderId == 1 then
-      genderName ="Female"
+      genderName ="F"
     end
     return genderName
 end

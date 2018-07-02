@@ -1,6 +1,6 @@
 <GuiXml>
 <Controls>
-
+ 
 	<Control name="ESOA_RowTemplate" virtual="true" mouseEnabled="true">
 		<OnMouseEnter>
 		</OnMouseEnter>
@@ -11,33 +11,50 @@
 		<Controls>
 			<Texture name="$(parent)_BG" inherits="ZO_ThinListBgStrip" />
 			<Label name="$(parent)Name" font="ZoFontGame" verticalAlignment="CENTER" text="ROW">
-				<Dimensions x="50" y="30" />
+				<Dimensions x="120" y="30" />
 				<Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
 			</Label>
 			<Label name="$(parent)Class" font="ZoFontGame" verticalAlignment="CENTER" text="key">
-				<Dimensions x="90" y="30" />
+				<Dimensions x="100" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
 			<Label name="$(parent)Gender" font="ZoFontGame" verticalAlignment="CENTER" text="name">
-				<Dimensions x="60" y="30" />
+				<Dimensions x="20" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Class" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
 			<Label name="$(parent)Race" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
-				<Dimensions x="50" y="30" />
+				<Dimensions x="100" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Gender" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>        
       <Label name="$(parent)Alchemy" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
-				<Dimensions x="50" y="30" />
+				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Race" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>        
       <Label name="$(parent)Blacksmithing" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
-				<Dimensions x="50" y="30" />
+				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Alchemy" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>        
       <Label name="$(parent)Clothing" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
-				<Dimensions x="50" y="30" />
+				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Blacksmithing" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>      
+      <Label name="$(parent)Enchanting" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="40" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Clothing" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
+      <Label name="$(parent)Jewelry" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="40" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Enchanting" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+      <Label name="$(parent)Provisioning" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="40" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Jewelry" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+      <Label name="$(parent)Woodworking" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="40" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Provisioning" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+      
 		</Controls>
 	</Control>
 
@@ -62,7 +79,7 @@
 		    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Select Character To Display:">
 		  <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
 		</Label>
-
+         
 		<Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH">
 			<Dimensions y="29" />
 			<Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="TOPRIGHT" offsetX="10" />
@@ -70,11 +87,38 @@
 			<OnShow>ElderScrollsOfAlts:GuiSetupDropdown(self)</OnShow>
 		</Control>
 
+        <Texture name="$(parent)Divider" textureFile="EsoUI/Art/Miscellaneous/centerscreen_topDivider.dds">
+                  <Dimensions x="900" y="4" />
+                  <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="12" />
+        </Texture>
+
+  <Control name="$(parent)Headers">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)Divider" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="12" />
+          <Dimensions y="32" />
+          <Controls>
+           <Control name="$(parent)Name" inherits="ZO_SortHeader" text="Name">
+             <Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" offsetX="32" offsetY="0" />
+              <Dimensions y="32" />
+              <OnInitialized>
+                        ZO_PlayerInventory_InitSortHeader(self, "Name", TEXT_ALIGN_LEFT, nil)
+                        ZO_SortHeader_SetTooltip(self, "sort on name")
+              </OnInitialized>
+              <OnMouseEnter></OnMouseEnter>
+              <OnMouseExit> </OnMouseExit>
+            </Control>
+          <Label name="$(parent)_Label1" width="200" height="6" font="ZoFontWinH1" inheritAlpha="true" color="FF0000" scale="0.8"
+              wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Name      Class      Gen Race       Alc Smth Clth Ench JC Prov Wood">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+          </Label>            
+          </Controls>
+  </Control>
+  
 		<Control name="$(parent)_List" inherits="ZO_ScrollList" mouseEnabled="true" tier="HIGH">
 			<Dimensions y="100" />
-			<Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="40" />
-			<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)_Dropdown" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="200" />
+			<Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="32" />
+			<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="200" />
 		</Control>
+    
 	</Controls>
     </TopLevelControl>
 

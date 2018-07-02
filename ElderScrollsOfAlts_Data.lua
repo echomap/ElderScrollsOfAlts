@@ -77,6 +77,62 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
 			playerLines[k].race = "race"
       playerLines[k].class = "class"
 		end
+    local trade = ElderScrollsOfAlts.altData.players[k].skills.trade
+    if trade ~=nil then
+      local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
+      if trade ~=nil then
+        local alchemy = tradeL["Alchemy"]
+         if alchemy ~=nil then
+           playerLines[k].alchemy = alchemy.rank   
+         else
+           playerLines[k].alchemy = "0"
+         end
+         local blacksmithing = tradeL["Blacksmithing"] 
+         if blacksmithing ~=nil then
+           playerLines[k].blacksmithing = blacksmithing.rank   
+         else
+           playerLines[k].blacksmithing = "0"
+         end
+         local clothing = tradeL["Clothing"] 
+         if clothing ~=nil then
+           playerLines[k].clothing = clothing.rank   
+         else
+           playerLines[k].clothing = "0"
+         end
+         local enchanting = tradeL["Enchanting"] 
+         if enchanting ~=nil then
+           playerLines[k].enchanting = enchanting.rank   
+         else
+           playerLines[k].enchanting = "0"
+         end         
+         local jewelry = tradeL["Jewelry Crafting"] 
+         if jewelry ~=nil then
+           playerLines[k].jewelry = jewelry.rank   
+         else
+           playerLines[k].jewelry = "0"
+         end          
+         local provisioning = tradeL["Provisioning"]          
+         if provisioning ~=nil then
+           playerLines[k].provisioning = provisioning.rank   
+         else
+           playerLines[k].provisioning = "0"
+         end              
+         local woodworking = tradeL["Woodworking"] 
+         if woodworking ~=nil then
+           playerLines[k].woodworking = woodworking.rank   
+         else
+           playerLines[k].woodworking = "0"
+         end
+        end
+    else
+      --
+    end
+    
+    --
+    --local headers = WINDOW_MANAGER:CreateControlFromVirtual(
+    --"ESOA_RowHeader", fragment.win, "ESOA_RowHeader")
+    --headers:SetAnchor(TOPRIGHT, fragment.win, TOPRIGHT, 0, 0)
+    
 		--table.insert(playerLines, getColoredString(ITEM_QUALITY_TRASH, k ))
 	end
   --for i=1, #playerLines do
@@ -130,6 +186,14 @@ function ElderScrollsOfAlts:doCharacterSelected(choiceText, choice)
 	end
 end
 
+function ElderScrollsOfAlts:formatRowData(type,text)
+  if type == 1 then
+    if text == nil then
+      text = 0;
+    end
+  end
+  return text;
+end
 --
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
@@ -154,6 +218,15 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     row_control:GetNamedChild('Class'):SetText(row_data["class"])
     row_control:GetNamedChild('Race'):SetText(row_data["race"])
 
+    row_control:GetNamedChild('Alchemy'):SetText(row_data["alchemy"])
+    row_control:GetNamedChild('Blacksmithing'):SetText(row_data["blacksmithing"])
+    
+    row_control:GetNamedChild('Clothing'):SetText(row_data["clothing"])
+    row_control:GetNamedChild('Enchanting'):SetText(row_data["enchanting"])
+    row_control:GetNamedChild('Jewelry'):SetText(ElderScrollsOfAlts:formatRowData(1,row_data["Jewelry"]))
+    row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
+    row_control:GetNamedChild('Woodworking'):SetText(row_data["woodworking"])    
+        
     --row_control:GetNamedChild("Name"):SetText(GetMoneyName(data))
 
     --local sName = GetControl(control, "_Name")
