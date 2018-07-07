@@ -31,14 +31,14 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	elseif #options == 0 or options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.debug
 		ElderScrollsOfAlts.debug = not dg
-		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
+		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.debug
 	elseif (#options == 0 or options[1] == "tab") and options[2] ~= nil then
-		d("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
+		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
 		ElderScrollsOfAlts.tab = tonumber(options[2])
 		ElderScrollsOfAlts.savedVariables.tab = ElderScrollsOfAlts.tab
 	elseif (#options == 0 or options[1] == "window") and options[2] ~= nil then
-		d("ElderScrollsOfAlts: window = " .. tostring(options[2]) )
+		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: window = " .. tostring(options[2]) )
 		ElderScrollsOfAlts.window = tonumber(options[2])
 		ElderScrollsOfAlts.savedVariables.window = ElderScrollsOfAlts.window
 	end
@@ -47,7 +47,7 @@ end
 function ElderScrollsOfAlts.Activated(e)
     EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED)
 
-    d(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Prints to chat.
+    ElderScrollsOfAlts:debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Prints to chat.
 
     ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
         ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Top-right alert.
@@ -64,9 +64,9 @@ end
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, ElderScrollsOfAlts.Activated)
 
 function ElderScrollsOfAlts.OnAddOnUnloaded(event)
-  d(ElderScrollsOfAlts.name .. "OnAddOnUnloaded called") -- Prints to chat.
+  ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded called") -- Prints to chat.
   ElderScrollsOfAlts.loadPlayerData()
-  d(ElderScrollsOfAlts.name .. "OnAddOnUnloaded done") -- Prints to chat.
+  ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded done") -- Prints to chat.
 end
 
 function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)

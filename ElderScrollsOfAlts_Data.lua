@@ -1,4 +1,16 @@
 --
+
+--
+--
+function ElderScrollsOfAlts:ListOfPlayers()
+  	--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+      --d(ElderScrollsOfAlts.name .. " k " .. k)
+     -- table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
+    --end
+    return ElderScrollsOfAlts.altData.players
+end
+
+--
 --
 function ElderScrollsOfAlts:SetupGuiPage1(self)
 	ESOA_GUI_PAGE1_Dropdown.comboBox = ESOA_GUI_PAGE1_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI_PAGE1_Dropdown)
@@ -68,12 +80,12 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
 		local bio = ElderScrollsOfAlts.altData.players[k].bio
 		if bio ~=nil then
 			playerLines[k].gender = bio.gender
-			playerLines[k].msg = bio.gender
+      playerLines[k].level = bio.level
 			playerLines[k].race = bio.race
       playerLines[k].class = bio.class
     else 
       playerLines[k].gender = "gender"
-			playerLines[k].msg = "gender"
+			playerLines[k].level = "level"
 			playerLines[k].race = "race"
       playerLines[k].class = "class"
 		end
@@ -135,6 +147,8 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
     
 		--table.insert(playerLines, getColoredString(ITEM_QUALITY_TRASH, k ))
 	end
+  
+  table.sort(playerLines)
   --for i=1, #playerLines do
 	for k, v in pairs(playerLines) do
 		ElderScrollsOfAlts.debugMsg(" playerLines k " .. tostring(k)  )
@@ -147,7 +161,7 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
 	    --scroll_data[#scroll_data + 1] = ZO_ScrollList_CreateDataEntry(NOTE_TYPE, {validChoices[i], validChoices[i], "msg", "key22" })
 	    --table.insert( scroll_data, ZO_ScrollList_CreateDataEntry(TYPE_ID, validChoices[i]))
 	end
-
+  
 	ZO_ScrollList_Commit(ESOA_GUI_PAGE1_List, scroll_data)
 	ESOA_GUI_PAGE1_List:SetHidden(false)
 end
@@ -215,6 +229,7 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     row_control:GetNamedChild('Name'):SetText(row_data["name"])
     --row_control:GetNamedChild('Gender'):SetText(row_data["gender"])    
     row_control:GetNamedChild('Gender'):SetText(ElderScrollsOfAlts:GetGenderText(row_data["gender"]))    
+    row_control:GetNamedChild('Level'):SetText(row_data["level"])
     row_control:GetNamedChild('Class'):SetText(row_data["class"])
     row_control:GetNamedChild('Race'):SetText(row_data["race"])
 

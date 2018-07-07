@@ -18,9 +18,13 @@
 				<Dimensions x="100" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
-			<Label name="$(parent)Gender" font="ZoFontGame" verticalAlignment="CENTER" text="name">
+			<Label name="$(parent)Level" font="ZoFontGame" verticalAlignment="CENTER" text="name">
 				<Dimensions x="20" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Class" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+			<Label name="$(parent)Gender" font="ZoFontGame" verticalAlignment="CENTER" text="name">
+				<Dimensions x="20" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Level" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
 			<Label name="$(parent)Race" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
 				<Dimensions x="100" y="30" />
@@ -99,15 +103,14 @@
            <Control name="$(parent)Name" inherits="ZO_SortHeader" text="Name">
              <Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" offsetX="32" offsetY="0" />
               <Dimensions y="32" />
-              <OnInitialized>
-                        ZO_PlayerInventory_InitSortHeader(self, "Name", TEXT_ALIGN_LEFT, nil)
+              <OnInitialized>                       
                         ZO_SortHeader_SetTooltip(self, "sort on name")
               </OnInitialized>
               <OnMouseEnter></OnMouseEnter>
               <OnMouseExit> </OnMouseExit>
             </Control>
           <Label name="$(parent)_Label1" width="200" height="6" font="ZoFontWinH1" inheritAlpha="true" color="FF0000" scale="0.8"
-              wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Name      Class      Gen Race       Alc Smth Clth Ench JC Prov Wood">
+              wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Name      Class         Lvl G Race       Alc Smth Clth Ench JC Prov Wood">
             <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
           </Label>            
           </Controls>

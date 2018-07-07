@@ -31,7 +31,7 @@ function ElderScrollsOfAlts.LoadSettings()
             type = "dropdown",
             name = "My Dropdown",
             tooltip = "Dropdown's tooltip text.",
-            choices = {"table", "of", "choices"},
+            choices = ElderScrollsOfAlts:ListOfPlayers(),
             getFunc = function() return "of" end,
             setFunc = function(var) print(var) end,
             width = "half",	--or "half" (optional)

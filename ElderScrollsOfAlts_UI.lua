@@ -18,6 +18,8 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	--Returns: string name, number Gender gender, number level, number classId, number raceId, number Alliance alliance, string id, number locationId
 	local pGender = GetUnitGender("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.gender = pGender
+	local pLvl = GetUnitLevel("player")
+	ElderScrollsOfAlts.altData.players[pName].bio.level = pLvl
 	local pRace = GetUnitRace("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.race = pRace
 	--GetUnitRaceId(string unitTag)

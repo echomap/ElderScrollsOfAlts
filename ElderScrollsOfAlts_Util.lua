@@ -4,7 +4,11 @@ function ElderScrollsOfAlts.debugMsg(text)
 		d("(" .. ElderScrollsOfAlts.name .. ") " .. text);
 	end
 end
-
+function ElderScrollsOfAlts.debugMsg(self,text)
+	if ElderScrollsOfAlts.debug then
+		d("(" .. ElderScrollsOfAlts.name .. ") " .. text);
+	end
+end
 function ElderScrollsOfAlts:getColoredString(color, s)
 	local c = ZO_ColorDef:New(GetInterfaceColor(INTERFACE_COLOR_TYPE_ITEM_QUALITY_COLORS, color))
 	return c:Colorize(s)
