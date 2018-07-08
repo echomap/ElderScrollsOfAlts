@@ -52,20 +52,20 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 		ElderScrollsOfAlts.altData.players[pName].skills = {}
 	end
 
-	--SKILL_TYPE_ARMOR
+	--
+  local skillType = SKILL_TYPE_ARMOR
 	ElderScrollsOfAlts.altData.players[pName].skills.armor = {}
 	ElderScrollsOfAlts.altData.players[pName].skills.armor.typelist = {}
-	local skillType = SKILL_TYPE_ARMOR
+  local baseElem = ElderScrollsOfAlts.altData.players[pName].skills.armor.typelist
 	local numSkillLines = GetNumSkillLines(skillType)
   for ii = 1, numSkillLines do
-
 		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
 		--name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
 		if name == nil then
 			name = ii;
 		end
-		ElderScrollsOfAlts.altData.players[pName].skills.armor.typelist[name]	= {}
-		local baseElemTable = ElderScrollsOfAlts.altData.players[pName].skills.armor.typelist[name]
+		baseElem[name]	= {}
+		local baseElemTable = baseElem[name]
 		local numAbilities = GetNumSkillAbilities(skillType, ii)
 		baseElemTable.name = name
 		baseElemTable.idx = ii
@@ -74,6 +74,50 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 		baseElemTable.skillLineId = skillLineId
 		--ElderScrollsOfAlts.loadPlayerArmorDetails(skillType,skillLineId,ii,name,pName)
 	end
+  
+  --
+  skillType = SKILL_TYPE_WORLD 
+	ElderScrollsOfAlts.altData.players[pName].skills.world = {}
+	ElderScrollsOfAlts.altData.players[pName].skills.world.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[pName].skills.world.typelist
+  ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+  
+  --
+  skillType = SKILL_TYPE_CLASS 
+	ElderScrollsOfAlts.altData.players[pName].skills.class = {}
+	ElderScrollsOfAlts.altData.players[pName].skills.class.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[pName].skills.class.typelist
+  ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+  
+  --
+  skillType = SKILL_TYPE_GUILD  
+	ElderScrollsOfAlts.altData.players[pName].skills.guild = {}
+	ElderScrollsOfAlts.altData.players[pName].skills.guild.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[pName].skills.guild.typelist
+  ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+  
+  --
+  skillType = SKILL_TYPE_RACIAL  
+	ElderScrollsOfAlts.altData.players[pName].skills.racial = {}
+	ElderScrollsOfAlts.altData.players[pName].skills.racial.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[pName].skills.racial.typelist
+  ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+  
+  --
+  skillType = SKILL_TYPE_WEAPON  
+	ElderScrollsOfAlts.altData.players[pName].skills.weapon = {}
+	ElderScrollsOfAlts.altData.players[pName].skills.weapon.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[pName].skills.weapon.typelist
+  ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+    
+  --
+  skillType = SKILL_TYPE_AVA  
+	ElderScrollsOfAlts.altData.players[pName].skills.ava = {}
+	ElderScrollsOfAlts.altData.players[pName].skills.ava.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[pName].skills.ava.typelist
+  ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+    
+  --SKILL_TYPE_NONE
 
 	--SKILL_TYPE_TRADESKILL
 	ElderScrollsOfAlts.altData.players[pName].skills.trade = {}
@@ -106,6 +150,35 @@ function ElderScrollsOfAlts.loadPlayerData(self)
         }
 	--local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
 	--ElderScrollsOfAlts.altData
+end
+
+function ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
+  if skillType == nil then
+      ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: skillType is NIL")
+      return
+  end
+  ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: skillType="..skillType..".")
+	local numSkillLines = GetNumSkillLines(skillType)
+  for ii = 1, numSkillLines do
+		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
+		--name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
+		if name == nil then
+			name = ii;
+		end
+    if discovered == nil or discovered == false then
+      return
+    end
+    ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
+		baseElem[name]	= {}
+		local baseElemTable = baseElem[name]
+		local numAbilities = GetNumSkillAbilities(skillType, ii)
+		baseElemTable.name = name
+		baseElemTable.idx = ii
+		baseElemTable.numAbilities = numAbilities
+		baseElemTable.rank = rank
+		baseElemTable.skillLineId = skillLineId
+		--ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
+	end
 end
 
 -- dropdown

@@ -1,5 +1,5 @@
 
-function ElderScrollsOfAlts.debugMsg(text)
+function ElderScrollsOfAlts:debugMsg(text)
 	if ElderScrollsOfAlts.debug then
 		d("(" .. ElderScrollsOfAlts.name .. ") " .. text);
 	end
