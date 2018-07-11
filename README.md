@@ -5,3 +5,6 @@ Currently with a horrible looking UI, with no sorting or enough details, and don
 
 /esoa
 /ElderScrollsOfAlts
+
+![Image of my current bad UI, but at least you get what its going for](Screenshots/esoa_screenshot2.png?raw=true "Alpha UI/Display" )
+
