@@ -10,6 +10,11 @@ ElderScrollsOfAlts = {
     altData        = {},
 }
 
+function ElderScrollsOfAlts.loadSavedVariables(self)
+    if ElderScrollsOfAlts.savedVariables.debug ~= niil then
+        ElderScrollsOfAlts.debug = ElderScrollsOfAlts.savedVariables.debug
+    end
+end
 function ElderScrollsOfAlts.initData(self)
 	ElderScrollsOfAlts.SetupLMM()
 	ElderScrollsOfAlts.loadPlayerData()
@@ -31,7 +36,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	elseif #options == 0 or options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.debug
 		ElderScrollsOfAlts.debug = not dg
-		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
+		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.debug
 	elseif (#options == 0 or options[1] == "tab") and options[2] ~= nil then
 		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
@@ -54,6 +59,7 @@ function ElderScrollsOfAlts.Activated(e)
 
     -- Animate the xml UI center text, after a delay.
     --zo_callLater(ElderScrollsOfAlts.AnimateText, 3000)
+    ElderScrollsOfAlts:loadSavedVariables()
     ElderScrollsOfAlts.initData()
     ElderScrollsOfAlts:SetupGUI()
     --zo_callLater(ElderScrollsOfAlts.TryShowMainWindow, 3000)

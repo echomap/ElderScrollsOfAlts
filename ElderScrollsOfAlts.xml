@@ -110,7 +110,7 @@
               <OnMouseExit> </OnMouseExit>
             </Control>
           <Label name="$(parent)_Label1" width="200" height="6" font="ZoFontWinH1" inheritAlpha="true" color="FF0000" scale="0.8"
-              wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Name      Class         Lvl G Race       Alc Smth Clth Ench JC Prov Wood">
+              wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Name      Class         Lvl G Race       Alc  Smth  Clth  Ench  JC  Prov  Wood">
             <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
           </Label>            
           </Controls>

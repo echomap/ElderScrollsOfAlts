@@ -123,6 +123,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	ElderScrollsOfAlts.altData.players[pName].skills.trade = {}
 	local baseTableElem = ElderScrollsOfAlts.altData.players[pName].skills.trade
 	baseTableElem.typelist = {}
+  baseTableElem.skills   = {}
 	skillType = SKILL_TYPE_TRADESKILL
   numSkillLines = GetNumSkillLines(skillType)
   for ii = 1, numSkillLines do
@@ -139,17 +140,71 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 		selElemTable.numAbilities = numAbilities
 		selElemTable.rank = rank
 		selElemTable.skillLineId = skillLineId
-		--ElderScrollsOfAlts.loadPlayerTradeDetails(skillType,skillLineId,ii,name,baseTableElem,pName)
+		ElderScrollsOfAlts.loadPlayerTradeDetails( name, baseTableElem, selElemTable, skillType, ii, numAbilities ) --skillLineId,ii,name,baseTableElem,pName)
 	end
 
 	-- Fetch the saved variables
-	 --Default values for the SavedVariables
-        local defaults = {
-            pName      = pName,
-            fillUpAmount    = 0,
-        }
+  --Default values for the SavedVariables
+  local defaults = {
+      pName      = pName,
+      fillUpAmount    = 0,
+  }
 	--local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
 	--ElderScrollsOfAlts.altData
+end
+
+--Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
+local matchNameList = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Potency Improvement", "Recipe Quality", "Recipe Improvement", "Woodworking" }
+
+--
+function ElderScrollsOfAlts.loadPlayerTradeDetails(parentName, parentTableElem, tradeTableElem, skillType, ii, numAbilities )
+    --Find Abilities - search for main - Levelled one, ie: use iron/maple/greenrunes
+    parentTableElem.skills[parentName]	= {}
+    local selElemSubTable = parentTableElem.skills[parentName]
+    local skillIndex = ii
+    selElemSubTable.sunk    = 0
+    selElemSubTable.sinkmax = 0
+    for aj = 1, numAbilities do
+        local name, icon, earnedRank, passive, ultimate, purchased, progressionIndex = GetSkillAbilityInfo(skillType, ii, aj)
+        ElderScrollsOfAlts:debugMsg("TradeSkill Ability: name="..name.. " purchased="..tostring(purchased))
+        local currentUpgradeLevel, maxUpgradeLevel = GetSkillAbilityUpgradeInfo(skillType, skillIndex, aj)
+        local _, _, nextUpgradeEarnedRank = GetSkillAbilityNextUpgradeInfo(skillType, skillIndex, aj)
+        local plainName = zo_strformat(SI_ABILITY_NAME, name)
+        name = ZO_Skills_GenerateAbilityName(SI_ABILITY_NAME_AND_UPGRADE_LEVELS, name, currentUpgradeLevel, maxUpgradeLevel, progressionIndex)
+        --local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
+        --if not (currentUpgradeLevel and maxUpgradeLevel) and progressionIndex then
+        --    self.displayedAbilityProgressions[progressionIndex] = true
+        --end
+        --local isActive = (not passive and not ultimate)
+        --local isUltimate = (not passive and ultimate)
+        --ElderScrollsOfAlts:debugMsg("TradeSkill Ability: passive="..tostring(passive))
+        if purchased then          
+          selElemSubTable[plainName] = {}
+          local selL = selElemSubTable[plainName]
+          selL.plainName = plainName
+          selL.name = name
+          selL.earnedRank = earnedRank
+          selL.currentUpgradeLevel = currentUpgradeLevel
+          selL.maxUpgradeLevel = maxUpgradeLevel
+          selL.nextUpgradeEarnedRank = nextUpgradeEarnedRank
+          local match = ElderScrollsOfAlts:matchStringList(plainName,matchNameList)
+          if match then
+            selElemSubTable.sunk    = selElemSubTable.sunk    + currentUpgradeLevel - 1
+            selElemSubTable.sinkmax = selElemSubTable.sinkmax + maxUpgradeLevel - 1
+            tradeTableElem.sunk     = selElemSubTable.sunk
+            tradeTableElem.sinkmax  = selElemSubTable.sinkmax
+          end
+        end
+    end
+end
+
+function ElderScrollsOfAlts:matchStringList(str,itemlist)
+  for _, v in ipairs(itemlist) do
+      if v == str then
+          return true
+      end
+  end
+  return false;
 end
 
 function ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)

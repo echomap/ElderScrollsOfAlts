@@ -16,6 +16,9 @@ function ElderScrollsOfAlts.ToggleShowing()
     --elseif not ESOA_GUI:IsHidden() then
 	--ESOA_GUI:SetHidden(true)
     --end
+    
+    --Update Me
+    ElderScrollsOfAlts.loadPlayerData()
 
     -- Toggle
     LMM:ToggleCategory(ElderScrollsOfAlts.MENU_CATEGORY_ESOA)

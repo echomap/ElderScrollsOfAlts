@@ -93,47 +93,75 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
     if trade ~=nil then
       local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
       if trade ~=nil then
-        local alchemy = tradeL["Alchemy"]
-         if alchemy ~=nil then
-           playerLines[k].alchemy = alchemy.rank   
-         else
-           playerLines[k].alchemy = "0"
-         end
-         local blacksmithing = tradeL["Blacksmithing"] 
-         if blacksmithing ~=nil then
-           playerLines[k].blacksmithing = blacksmithing.rank   
-         else
-           playerLines[k].blacksmithing = "0"
-         end
-         local clothing = tradeL["Clothing"] 
-         if clothing ~=nil then
-           playerLines[k].clothing = clothing.rank   
-         else
+        local alchemy  = tradeL["Alchemy"]
+        if alchemy ~=nil then
+          playerLines[k].alchemy         = alchemy.rank
+          playerLines[k].alchemy_sunk    = alchemy.sunk
+          playerLines[k].alchemy_sinkmax = alchemy.sinkmax
+        else
+          playerLines[k].alchemy = "0"
+          playerLines[k].alchemy_sunk    = 0
+          playerLines[k].alchemy_sinkmax = 0          
+        end
+        local blacksmithing = tradeL["Blacksmithing"] 
+        if blacksmithing ~=nil then
+          playerLines[k].blacksmithing = blacksmithing.rank   
+          playerLines[k].blacksmithing_sunk    = blacksmithing.sunk
+          playerLines[k].blacksmithing_sinkmax = blacksmithing.sinkmax
+        else
+          playerLines[k].blacksmithing = "0"
+          playerLines[k].blacksmithing_sunk    = 0
+          playerLines[k].blacksmithing_sinkmax = 0   
+        end
+        local clothing = tradeL["Clothing"] 
+        if clothing ~=nil then
+          playerLines[k].clothing = clothing.rank   
+          playerLines[k].clothing_sunk    = clothing.sunk
+          playerLines[k].clothing_sinkmax = clothing.sinkmax
+        else
            playerLines[k].clothing = "0"
-         end
-         local enchanting = tradeL["Enchanting"] 
-         if enchanting ~=nil then
-           playerLines[k].enchanting = enchanting.rank   
-         else
-           playerLines[k].enchanting = "0"
-         end         
-         local jewelry = tradeL["Jewelry Crafting"] 
-         if jewelry ~=nil then
-           playerLines[k].jewelry = jewelry.rank   
-         else
-           playerLines[k].jewelry = "0"
-         end          
-         local provisioning = tradeL["Provisioning"]          
-         if provisioning ~=nil then
-           playerLines[k].provisioning = provisioning.rank   
-         else
-           playerLines[k].provisioning = "0"
+          playerLines[k].clothing_sunk    = 0
+          playerLines[k].clothing_sinkmax = 0   
+        end
+        local enchanting = tradeL["Enchanting"] 
+        if enchanting ~=nil then
+          playerLines[k].enchanting = enchanting.rank 
+          playerLines[k].enchanting_sunk    = enchanting.sunk
+          playerLines[k].enchanting_sinkmax = enchanting.sinkmax
+        else
+          playerLines[k].enchanting = "0"
+          playerLines[k].enchanting_sunk    = 0
+          playerLines[k].enchanting_sinkmax = 0             
+        end         
+        local jewelry = tradeL["Jewelry Crafting"] 
+        if jewelry ~=nil then
+          playerLines[k].jewelry = jewelry.rank   
+          playerLines[k].jewelry_sunk    = jewelry.sunk
+          playerLines[k].jewelry_sinkmax = jewelry.sinkmax
+        else
+          playerLines[k].jewelry = "0"
+          playerLines[k].jewelry_sunk    = 0
+          playerLines[k].jewelry_sinkmax = 0 
+        end          
+        local provisioning = tradeL["Provisioning"]          
+        if provisioning ~=nil then
+          playerLines[k].provisioning = provisioning.rank   
+          playerLines[k].provisioning_sunk    = provisioning.sunk
+          playerLines[k].provisioning_sinkmax = provisioning.sinkmax
+        else
+          playerLines[k].provisioning = "0"
+          playerLines[k].provisioning_sunk    = 0
+          playerLines[k].provisioning_sinkmax = 0              
          end              
          local woodworking = tradeL["Woodworking"] 
          if woodworking ~=nil then
-           playerLines[k].woodworking = woodworking.rank   
+          playerLines[k].woodworking = woodworking.rank   
+          playerLines[k].woodworking_sunk    = woodworking.sunk
+          playerLines[k].woodworking_sinkmax = woodworking.sinkmax
          else
-           playerLines[k].woodworking = "0"
+          playerLines[k].woodworking = "0"
+          playerLines[k].woodworking_sunk    = 0
+          playerLines[k].woodworking_sinkmax = 0              
          end
         end
     else
@@ -208,6 +236,23 @@ function ElderScrollsOfAlts:formatRowData(type,text)
   end
   return text;
 end
+
+function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, rowname, sunk)
+  if row_control == nil then
+    d("SetupRowControlSunk: row_control is nil!")
+    return
+  end
+  if row_data == nil then
+    d("SetupRowControlSunk: row_data is nil!")
+    return
+  end
+  --d("SetupRowControlSunk: uiname=".. tostring(uiname) .. " rowname=".. tostring(rowname) .. " sunk=".. tostring(sunk) )
+  if sunk ~=nil and sunk > 0 then
+      row_control:GetNamedChild(uiname):SetText(row_data[rowname].."("..sunk..")" )
+  else
+    row_control:GetNamedChild(uiname):SetText(row_data[rowname] .. "  ")
+  end
+end
 --
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
@@ -232,16 +277,23 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     row_control:GetNamedChild('Level'):SetText(row_data["level"])
     row_control:GetNamedChild('Class'):SetText(row_data["class"])
     row_control:GetNamedChild('Race'):SetText(row_data["race"])
-
-    row_control:GetNamedChild('Alchemy'):SetText(row_data["alchemy"])
-    row_control:GetNamedChild('Blacksmithing'):SetText(row_data["blacksmithing"])
     
-    row_control:GetNamedChild('Clothing'):SetText(row_data["clothing"])
-    row_control:GetNamedChild('Enchanting'):SetText(row_data["enchanting"])
-    row_control:GetNamedChild('Jewelry'):SetText(ElderScrollsOfAlts:formatRowData(1,row_data["Jewelry"]))
+
+    local sunk = row_data["alchemy_sunk"]
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Alchemy',"alchemy",sunk)
+    sunk = row_data["blacksmithing_sunk"]
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Blacksmithing',"blacksmithing",sunk)
+    sunk = row_data["clothing_sunk"]
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Clothing',"clothing",sunk)
+    sunk = row_data["enchanting_sunk"]
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk)
+    sunk = row_data["jewelry_sunk"]
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
+    sunk = row_data["provisioning_sunk"]    
     row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
-    row_control:GetNamedChild('Woodworking'):SetText(row_data["woodworking"])    
-        
+    sunk = row_data["woodworking_sunk"]        
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Woodworking',"woodworking",sunk)    
+       
     --row_control:GetNamedChild("Name"):SetText(GetMoneyName(data))
 
     --local sName = GetControl(control, "_Name")
