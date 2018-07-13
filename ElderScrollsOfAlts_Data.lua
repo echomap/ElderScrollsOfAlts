@@ -13,6 +13,7 @@ end
 --
 --
 function ElderScrollsOfAlts:SetupGuiPage1(self)
+  ElderScrollsOfAlts.debugMsg("SetupGuiPage1 Called!")
 	ESOA_GUI_PAGE1_Dropdown.comboBox = ESOA_GUI_PAGE1_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI_PAGE1_Dropdown)
 	local comboBox = ESOA_GUI_PAGE1_Dropdown.comboBox
 	comboBox:ClearItems()
@@ -74,15 +75,17 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
 	local playerLines =  {}
 	--table.insert(playerLines, "Select")
 	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+    if k == nil then return end
 		ElderScrollsOfAlts.debugMsg(" players " .. k)
 		playerLines[k] = {}
 		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
+    playerLines[k].rawname = k
 		local bio = ElderScrollsOfAlts.altData.players[k].bio
 		if bio ~=nil then
 			playerLines[k].gender = bio.gender
-      playerLines[k].level = bio.level
-			playerLines[k].race = bio.race
-      playerLines[k].class = bio.class
+      playerLines[k].level  = bio.level
+			playerLines[k].race   = bio.race
+      playerLines[k].class  = bio.class
     else 
       playerLines[k].gender = "gender"
 			playerLines[k].level = "level"

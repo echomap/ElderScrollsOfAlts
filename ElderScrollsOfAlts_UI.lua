@@ -27,7 +27,12 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	ElderScrollsOfAlts.altData.players[pName].bio.class = pClass
 	local pClassId = GetUnitClassId("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.classId = pClassId
-
+  
+  if pLvl == nil or pLvl < 1 then
+    ElderScrollsOfAlts.altData.players[pName]  = nil
+    return
+  end
+  
 	--local value = GetPlayerStat(self.statType, STAT_BONUS_OPTION_APPLY_BONUS)
 	if ElderScrollsOfAlts.altData.players[pName].stats == nil then
 		ElderScrollsOfAlts.altData.players[pName].stats = {}
@@ -166,7 +171,7 @@ function ElderScrollsOfAlts.loadPlayerTradeDetails(parentName, parentTableElem, 
     selElemSubTable.sinkmax = 0
     for aj = 1, numAbilities do
         local name, icon, earnedRank, passive, ultimate, purchased, progressionIndex = GetSkillAbilityInfo(skillType, ii, aj)
-        ElderScrollsOfAlts:debugMsg("TradeSkill Ability: name="..name.. " purchased="..tostring(purchased))
+        --ElderScrollsOfAlts:debugMsg("TradeSkill Ability: name="..name.. " purchased="..tostring(purchased))
         local currentUpgradeLevel, maxUpgradeLevel = GetSkillAbilityUpgradeInfo(skillType, skillIndex, aj)
         local _, _, nextUpgradeEarnedRank = GetSkillAbilityNextUpgradeInfo(skillType, skillIndex, aj)
         local plainName = zo_strformat(SI_ABILITY_NAME, name)
@@ -212,7 +217,7 @@ function ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
       ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: skillType is NIL")
       return
   end
-  ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: skillType="..skillType..".")
+  --ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: skillType="..skillType..".")
 	local numSkillLines = GetNumSkillLines(skillType)
   for ii = 1, numSkillLines do
 		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
@@ -223,7 +228,7 @@ function ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
     if discovered == nil or discovered == false then
       return
     end
-    ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
+    --ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
 		baseElem[name]	= {}
 		local baseElemTable = baseElem[name]
 		local numAbilities = GetNumSkillAbilities(skillType, ii)
@@ -316,3 +321,96 @@ function ElderScrollsOfAlts:TryShowMainWindow()
 		--ElderScrollsOfAlts.CreateMenu()
 	end
 end
+
+local serverSortKeys =
+  {
+    ["name"]          = { }, 
+    ["class"]         =  { tiebreaker = "name" },    
+    ["level"]         = { tiebreaker = "name" },    
+    ["gender"]        = { tiebreaker = "name" },    
+    ["race"]          = { tiebreaker = "name" },    
+    ["alchemy"]       = { tiebreaker = "name", isNumeric = true },    
+    ["blacksmithing"] = { tiebreaker = "name", isNumeric = true },    
+    ["clothing"]      = { tiebreaker = "name", isNumeric = true },    
+    ["enchanting"]    = { tiebreaker = "name", isNumeric = true },    
+    ["provisioning"]  = { tiebreaker = "name", isNumeric = true },    
+    ["jewelry"]       = { tiebreaker = "name", isNumeric = true },    
+    ["woodworking"]   = { tiebreaker = "name", isNumeric = true },    
+  }
+local currentSortKey = "name"
+local currentSortOrder = ZO_SORT_ORDER_UP --ZO_SORT_ORDER_DOWN
+  
+local function SortServers(a, b)
+  --d("SSortServers called")
+  --return ZO_TableOrderingFunction(server1.data, server2.data, currentSortKey, serverSortKeys, currentSortOrder)
+   --for key,value in pairs(a) do print(key,value) end
+   --for key,value in ipairs(a) do print(key,value) end
+   --for key,value in pairs(b) do print(key,value) end
+   --for key,value in ipairs(b) do print(key,value) end
+   
+  return ZO_TableOrderingFunction( a.data, b.data, currentSortKey, serverSortKeys, currentSortOrder)
+end
+
+--
+function ElderScrollsOfAlts:GuiSortBase(newKey)
+  local sameKey = false
+  if currentSortKey == newKey then
+    sameKey = true
+  end
+  
+  if sameKey then
+    if currentSortOrder == ZO_SORT_ORDER_UP then 
+      currentSortOrder = ZO_SORT_ORDER_DOWN 
+    else
+        currentSortOrder = ZO_SORT_ORDER_UP
+    end
+  else
+    currentSortKey = newKey
+    currentSortOrder = ZO_SORT_ORDER_UP
+  end
+  
+  local scroll_data = ZO_ScrollList_GetDataList(ESOA_GUI_PAGE1_List)  
+  local dataLines   = table.sort( scroll_data,  SortServers )   
+  ZO_ScrollList_Commit(ESOA_GUI_PAGE1_List, dataLines)
+  --ElderScrollsOfAlts:RefreshInventoryScroll()
+end
+
+function ElderScrollsOfAlts:GuiSort(keyname)
+  ElderScrollsOfAlts:GuiSortBase(keyname)
+end
+
+function ElderScrollsOfAlts:GuiSortName()
+  ElderScrollsOfAlts:GuiSortBase("name")
+end
+
+function ElderScrollsOfAlts:GuiSortClass()
+  ElderScrollsOfAlts:GuiSortBase("class")
+end
+
+function ElderScrollsOfAlts:GuiSortLevel()
+  ElderScrollsOfAlts:GuiSortBase("level")
+end
+function ElderScrollsOfAlts:GuiSortGender()
+  ElderScrollsOfAlts:GuiSortBase("gender")
+end
+function ElderScrollsOfAlts:GuiSortRace()
+  ElderScrollsOfAlts:GuiSortBase("race")
+end
+
+function ElderScrollsOfAlts:RefreshInventoryScroll()
+	ElderScrollsOfAlts:UpdateScrollDataLinesData()
+	ElderScrollsOfAlts:UpdateInventoryScroll()
+	-- even if the counts aren't visible, update them so they show properly if user turns them on
+	--IIFA_GUI_ListHolder_Counts_Items:SetText("Item Count: " .. totItems)
+	--IIFA_GUI_ListHolder_Counts_Slots:SetText("Appx. Slots Used: " .. #dataLines)
+end
+
+-- fill the shown item list with items that match current filter(s)
+function ElderScrollsOfAlts:UpdateScrollDataLinesData()
+  --ElderScrollsOfAlts:sort(ESOA_GUI_PAGE1_List.dataLines)
+end
+
+function ElderScrollsOfAlts:UpdateInventoryScroll()
+  --
+end
+

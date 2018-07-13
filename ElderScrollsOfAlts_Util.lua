@@ -15,11 +15,11 @@ function ElderScrollsOfAlts.debugMsg(self,text)
       d("(" .. ElderScrollsOfAlts.name .. ") " .. text);
     end
 end
+
 function ElderScrollsOfAlts:getColoredString(color, s)
 	local c = ZO_ColorDef:New(GetInterfaceColor(INTERFACE_COLOR_TYPE_ITEM_QUALITY_COLORS, color))
 	return c:Colorize(s)
 end
-
 
 function ElderScrollsOfAlts:GetGenderText(genderId)
   local genderName = "O"
@@ -31,3 +31,9 @@ function ElderScrollsOfAlts:GetGenderText(genderId)
     return genderName
 end
 
+
+function ElderScrollsOfAlts:tabletostring(t)
+  d("tabletostring called ")
+   for key,value in pairs(t) do print(key,value) end
+   for key,value in ipairs(t) do print(key,value) end
+end
