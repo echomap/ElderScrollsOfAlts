@@ -1,3 +1,4 @@
+-- Uses GUI Elements and Data
 --
 
 --
@@ -86,12 +87,25 @@ function ElderScrollsOfAlts:SetupGuiPage1(self)
       playerLines[k].level  = bio.level
 			playerLines[k].race   = bio.race
       playerLines[k].class  = bio.class
+      if bio.Werewolf then
+        playerLines[k].Werewolf = true
+      end
+      if bio.Vampire then
+        playerLines[k].Vampire = true
+      end
+    
     else 
       playerLines[k].gender = "gender"
-			playerLines[k].level = "level"
+			playerLines[k].level = -1
 			playerLines[k].race = "race"
       playerLines[k].class = "class"
+      playerLines[k].Werewolf = false
+      playerLines[k].Vampire = false
 		end
+    if playerLines[k].level == nil or playerLines[k].level < 1 then
+      ElderScrollsOfAlts.altData.players[k]  = nil
+      return
+    end
     local trade = ElderScrollsOfAlts.altData.players[k].skills.trade
     if trade ~=nil then
       local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
@@ -211,6 +225,10 @@ function ElderScrollsOfAlts:doCharacterSelected(choiceText, choice)
 		ElderScrollsOfAlts.debugMsg(" k " .. k)
 	end
 	local basePlayerElem = ElderScrollsOfAlts.altData.players[choiceText]
+  if basePlayerElem == nil then
+    ElderScrollsOfAlts.debugMsg("Can't find player data")
+    return
+  end  
 	ElderScrollsOfAlts.debugMsg(" basePlayerElem=" .. basePlayerElem)
 	--ElderScrollsOfAlts.altData.players[pName].skills
 	local b2 = basePlayerElem.skills
@@ -280,8 +298,7 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     row_control:GetNamedChild('Level'):SetText(row_data["level"])
     row_control:GetNamedChild('Class'):SetText(row_data["class"])
     row_control:GetNamedChild('Race'):SetText(row_data["race"])
-    
-
+ 
     local sunk = row_data["alchemy_sunk"]
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Alchemy',"alchemy",sunk)
     sunk = row_data["blacksmithing_sunk"]
@@ -296,7 +313,23 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
     sunk = row_data["woodworking_sunk"]        
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Woodworking',"woodworking",sunk)    
-       
+    --Werewolf / Vampire
+    local werewolf = row_data["Werewolf"]
+    local vampire  = row_data["Vampire"] 
+
+    if werewolf then
+      row_control:GetNamedChild("_Icon2"):SetHidden(false)
+      --row_control:GetNamedChild("_Icon2"):SetTextureFile("/esoui/art/icons/store_werewolfbite_01.dds")
+    else
+      row_control:GetNamedChild("_Icon2"):SetHidden(true)
+    end
+  
+    if vampire then
+      row_control:GetNamedChild("_Icon1"):SetHidden(false)
+    else
+      row_control:GetNamedChild("_Icon1"):SetHidden(true)
+    end
+    
     --row_control:GetNamedChild("Name"):SetText(GetMoneyName(data))
 
     --local sName = GetControl(control, "_Name")

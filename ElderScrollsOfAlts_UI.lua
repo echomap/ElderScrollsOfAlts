@@ -1,3 +1,4 @@
+-- Setups up GUI Elements and Data
 
 function ElderScrollsOfAlts:SetupGUI()
 
@@ -20,6 +21,11 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	ElderScrollsOfAlts.altData.players[pName].bio.gender = pGender
 	local pLvl = GetUnitLevel("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.level = pLvl
+  local canChampPts = CanUnitGainChampionPoints("player")
+  if canChampPts then
+    ElderScrollsOfAlts.altData.players[pName].bio.CanChampPts = canChampPts  
+  end  
+  
 	local pRace = GetUnitRace("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.race = pRace
 	--GetUnitRaceId(string unitTag)
@@ -27,16 +33,14 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	ElderScrollsOfAlts.altData.players[pName].bio.class = pClass
 	local pClassId = GetUnitClassId("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.classId = pClassId
-  
-  if pLvl == nil or pLvl < 1 then
-    ElderScrollsOfAlts.altData.players[pName]  = nil
-    return
-  end
-  
+   
 	--local value = GetPlayerStat(self.statType, STAT_BONUS_OPTION_APPLY_BONUS)
 	if ElderScrollsOfAlts.altData.players[pName].stats == nil then
 		ElderScrollsOfAlts.altData.players[pName].stats = {}
 	end
+  --Werewolf or Vampire
+  ElderScrollsOfAlts.altData.players[pName].bio.Werewolf = false
+  ElderScrollsOfAlts.altData.players[pName].bio.Vampire  = false
 
 	local current, max, effectiveMax = GetUnitPower("player", POWERTYPE_STAMINA)
 	ElderScrollsOfAlts.altData.players[pName].stats["stamina"] = max
@@ -148,6 +152,19 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 		ElderScrollsOfAlts.loadPlayerTradeDetails( name, baseTableElem, selElemTable, skillType, ii, numAbilities ) --skillLineId,ii,name,baseTableElem,pName)
 	end
 
+  --Check Specific Skilllines
+  --ElderScrollsOfAlts.altData.players[pName].skills.world.typelist = {}
+  --Werewolf or Vampire
+  for key,value in pairs(ElderScrollsOfAlts.altData.players[pName].skills.world.typelist) do
+    --print(key,value)
+    if key == "Werewolf" then
+      ElderScrollsOfAlts.altData.players[pName].bio.Werewolf = true
+    elseif key == "Vampire" then
+      ElderScrollsOfAlts.altData.players[pName].bio.Vampire = true
+    end
+  end  
+  --
+  
 	-- Fetch the saved variables
   --Default values for the SavedVariables
   local defaults = {
@@ -225,19 +242,20 @@ function ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
 		if name == nil then
 			name = ii;
 		end
-    if discovered == nil or discovered == false then
-      return
-    end
-    --ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
-		baseElem[name]	= {}
-		local baseElemTable = baseElem[name]
-		local numAbilities = GetNumSkillAbilities(skillType, ii)
-		baseElemTable.name = name
-		baseElemTable.idx = ii
-		baseElemTable.numAbilities = numAbilities
-		baseElemTable.rank = rank
-		baseElemTable.skillLineId = skillLineId
-		--ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
+    if discovered then
+      --ElderScrollsOfAlts:debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
+      baseElem[name]	= {}
+      local baseElemTable = baseElem[name]
+      local numAbilities = GetNumSkillAbilities(skillType, ii)
+      baseElemTable.name = name
+      baseElemTable.idx = ii
+      baseElemTable.numAbilities = numAbilities
+      baseElemTable.rank = rank
+      baseElemTable.skillLineId = skillLineId
+      --ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
+    else 
+      --d("loadPlayerDataPart: skillType="..skillType..". name=" ..name)
+    end      
 	end
 end
 
@@ -326,7 +344,7 @@ local serverSortKeys =
   {
     ["name"]          = { }, 
     ["class"]         =  { tiebreaker = "name" },    
-    ["level"]         = { tiebreaker = "name" },    
+    ["level"]         = { tiebreaker = "name", isNumeric = true },    
     ["gender"]        = { tiebreaker = "name" },    
     ["race"]          = { tiebreaker = "name" },    
     ["alchemy"]       = { tiebreaker = "name", isNumeric = true },    
@@ -341,13 +359,6 @@ local currentSortKey = "name"
 local currentSortOrder = ZO_SORT_ORDER_UP --ZO_SORT_ORDER_DOWN
   
 local function SortServers(a, b)
-  --d("SSortServers called")
-  --return ZO_TableOrderingFunction(server1.data, server2.data, currentSortKey, serverSortKeys, currentSortOrder)
-   --for key,value in pairs(a) do print(key,value) end
-   --for key,value in ipairs(a) do print(key,value) end
-   --for key,value in pairs(b) do print(key,value) end
-   --for key,value in ipairs(b) do print(key,value) end
-   
   return ZO_TableOrderingFunction( a.data, b.data, currentSortKey, serverSortKeys, currentSortOrder)
 end
 
@@ -377,24 +388,6 @@ end
 
 function ElderScrollsOfAlts:GuiSort(keyname)
   ElderScrollsOfAlts:GuiSortBase(keyname)
-end
-
-function ElderScrollsOfAlts:GuiSortName()
-  ElderScrollsOfAlts:GuiSortBase("name")
-end
-
-function ElderScrollsOfAlts:GuiSortClass()
-  ElderScrollsOfAlts:GuiSortBase("class")
-end
-
-function ElderScrollsOfAlts:GuiSortLevel()
-  ElderScrollsOfAlts:GuiSortBase("level")
-end
-function ElderScrollsOfAlts:GuiSortGender()
-  ElderScrollsOfAlts:GuiSortBase("gender")
-end
-function ElderScrollsOfAlts:GuiSortRace()
-  ElderScrollsOfAlts:GuiSortBase("race")
 end
 
 function ElderScrollsOfAlts:RefreshInventoryScroll()
