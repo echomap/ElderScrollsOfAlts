@@ -16,8 +16,8 @@ function ElderScrollsOfAlts.loadSavedVariables(self)
     end
 end
 function ElderScrollsOfAlts.initData(self)
-	ElderScrollsOfAlts.SetupLMM()
-	ElderScrollsOfAlts.loadPlayerData()
+	ElderScrollsOfAlts.SetupLMM()	
+  ElderScrollsOfAlts.loadPlayerData()
 end
 
 function ElderScrollsOfAlts.SlashCommandHandler(text)
@@ -30,14 +30,19 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		end
 	end
 
-	if #options == 0 or options[1] == "help" then
-		-- Display help
+	if #options == 0 then
     ElderScrollsOfAlts.ToggleShowing()
+	elseif #options == 0 or options[1] == "show2" then
+    ElderScrollsOfAlts.ShowGui2()
+	elseif #options == 0 or options[1] == "help" then
+		-- Display help  
 	elseif #options == 0 or options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.debug
 		ElderScrollsOfAlts.debug = not dg
 		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.debug
+  elseif #options == 0 or options[1] == "testdata" then
+    ElderScrollsOfAlts:LoadTestData1()
 	elseif (#options == 0 or options[1] == "tab") and options[2] ~= nil then
 		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
 		ElderScrollsOfAlts.tab = tonumber(options[2])
@@ -52,8 +57,7 @@ end
 function ElderScrollsOfAlts.Activated(e)
     EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED)
 
-    ElderScrollsOfAlts:debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Prints to chat.
-
+    ElderScrollsOfAlts:debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) 
     ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
         ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Top-right alert.
 

@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1
+## Version: 0.0.2
 ## APIVersion: 100023
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts description.
@@ -44,7 +44,8 @@ libs\LibCustomMenu\LibCustomMenu.lua
 ElderScrollsOfAlts_Preload.lua
 ElderScrollsOfAlts.lua
 ElderScrollsOfAlts_Util.lua
+ElderScrollsOfAlts_UI.lua
 ElderScrollsOfAlts_LMM.lua
 ElderScrollsOfAlts_Data.lua
-ElderScrollsOfAlts_UI.lua
+ElderScrollsOfAlts_TestData.lua
 Settings.lua

@@ -1,29 +1,28 @@
 <GuiXml>
 <Controls>
  
-	<Control name="ESOA_RowTemplate" virtual="true" mouseEnabled="true">
-		<OnMouseEnter>
-		</OnMouseEnter>
-		<OnMouseExit>
-		</OnMouseExit>
-		<Dimensions x="300" y="200" />
+	<Control name="ESOA_RowTemplate" virtual="true" mouseEnabled="true" resizeToFitDescendents="true">
+    <Dimensions y="10" x="800"/>
+		<OnMouseEnter></OnMouseEnter>
+		<OnMouseExit></OnMouseExit>
+		
 		<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
 		<Controls>
 			<Texture name="$(parent)_BG" inherits="ZO_ThinListBgStrip" />
 			<Label name="$(parent)Name" font="ZoFontGame" verticalAlignment="CENTER" text="ROW">
-				<Dimensions x="200" y="30" />
+				<Dimensions x="170" y="30" />
 				<Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
 			</Label>
-      <Texture name="$(parent)_Icon1" textureFile="/esoui/art/icons/store_vampirebite_01.dds">
-					<Dimensions x="10" y="24" />
+      <Texture name="$(parent)_Icon1" textureFile="/esoui/art/icons/store_vampirebite_01.dds" hidden="true">
+					<Dimensions x="15" y="24" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
       </Texture>      
-      <Texture name="$(parent)_Icon2" textureFile="/esoui/art/icons/store_werewolfbite_01.dds">
-					<Dimensions x="10" y="24" />
-					<Anchor point="TOPLEFT" relativeTo="$(parent)_Icon1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+      <Texture name="$(parent)_Icon2" textureFile="/esoui/art/icons/store_werewolfbite_01.dds" hidden="true">
+					<Dimensions x="15" y="24" />
+					<Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
       </Texture>      
 			<Label name="$(parent)Class" font="ZoFontGame" verticalAlignment="CENTER" text="key">
-				<Dimensions x="100" y="30" />
+				<Dimensions x="60" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)_Icon2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
 			<Label name="$(parent)Level" font="ZoFontGame" verticalAlignment="CENTER" text="name">
@@ -32,10 +31,10 @@
 			</Label>
 			<Label name="$(parent)Gender" font="ZoFontGame" verticalAlignment="CENTER" text="name">
 				<Dimensions x="20" y="30" />
-				<Anchor point="TOPLEFT" relativeTo="$(parent)Level" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Level" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
 			</Label>
 			<Label name="$(parent)Race" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
-				<Dimensions x="100" y="30" />
+				<Dimensions x="70" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Gender" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>        
       <Label name="$(parent)Alchemy" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
@@ -66,68 +65,182 @@
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Provisioning" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
+      <Label name="$(parent)BagSpace" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="RIGHT" text="msg">
+				<Dimensions x="40" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Woodworking" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
       
 		</Controls>
 	</Control>
 
-    <TopLevelControl name="ESOA_GUI" inherits="ZO_RightPanelFootPrint" hidden="true">
-        <OnInitialized>
+  <TopLevelControl name="ESOA_GUI" inherits="ZO_RightPanelFootPrint" hidden="true">
+        <OnInitialized></OnInitialized>
+    <Controls>
+        <Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+          wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="BASE!">
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+      </Label>
+    </Controls>
+  </TopLevelControl>
 
-        </OnInitialized>
-	<Controls>
-	<Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
-	    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="BASE!">
-	  <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
-	</Label>
-	</Controls>
-    </TopLevelControl>
-
-    <TopLevelControl name="ESOA_GUI_PAGE1" inherits="ZO_RightPanelFootPrint" hidden="true">
-        <OnInitialized>
-        </OnInitialized>
+  <TopLevelControl name="ESOA_GUI_PAGE1" inherits="ZO_RightPanelFootPrint" hidden="true">
+        <OnInitialized></OnInitialized>
         <OnShow>ElderScrollsOfAlts:SetupGuiPage1(self)</OnShow>
-	<Controls>
-		<Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
-		    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Select Character To Display:">
-		  <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
-		</Label>
+    <Controls>
+      <Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true"
+        color="FF0000" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Select Character To Display:">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+      </Label>
          
-		<Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH">
-			<Dimensions y="29" />
-			<Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="TOPRIGHT" offsetX="10" />
-			<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)_Label" relativePoint="BOTTOMRIGHT" offsetX="250" offsetY="5" />
-			<OnShow>ElderScrollsOfAlts:GuiSetupDropdown(self)</OnShow>
-		</Control>
+      <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH">
+        <Dimensions y="29" />
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="TOPRIGHT" offsetX="10" />
+        <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)_Label" relativePoint="BOTTOMRIGHT" offsetX="250" offsetY="5" />
+        <OnShow>ElderScrollsOfAlts:GuiSetupDropdown(self)</OnShow>
+      </Control>
 
-        <Texture name="$(parent)Divider" textureFile="EsoUI/Art/Miscellaneous/centerscreen_topDivider.dds">
-                  <Dimensions y="4" />
-                  <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="12" />
-        </Texture>
+      <Texture name="$(parent)Divider" textureFile="EsoUI/Art/Miscellaneous/centerscreen_topDivider.dds">
+        <Dimensions y="4" x="500" />
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="24" offsetY="12" />
+      </Texture>
 
-  <Control name="$(parent)_SortBar" mouseEnabled="true">
+    <Control name="$(parent)_SortBar" mouseEnabled="true">
           <Dimensions y="10"/>
           <Anchor point="TOPLEFT" relativeTo="$(parent)Divider" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="12" />
-					<Anchor point="TOPRIGHT" relativeTo="$(parent)Divider" relativePoint="BOTTOMRIGHT" offsetX="0"  offsetY="2" />
-          
+          <Anchor point="TOPRIGHT" relativeTo="$(parent)_Dropdown" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="5" />
           <Controls>
             <Control name="$(parent)_Sort" verticalAlignment="LEFT">
               <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" />
 							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="0" />
 									<Controls>
 										<Button name="$(parent)_SortName" text="Name" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="220" y="30"/>
+											<Dimensions x="190" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="0"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("name")</OnMouseUp>
 										</Button>                   
                     <Button name="$(parent)_SortSuper" text="X" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="25" y="30"/>
+											<Dimensions x="30" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortName" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp></OnMouseUp>
 										</Button>
                     <Button name="$(parent)_SortClass" text="Class" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="105" y="30"/>
+											<Dimensions x="60" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortSuper" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("class")</OnMouseUp>
+										</Button>                       
+                    <Button name="$(parent)_SortLevel" text="Lvl" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="50" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortClass" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("level")</OnMouseUp>
+										</Button>                      
+                    <Button name="$(parent)_SortGender" text="G" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="25" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortLevel" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("gender")</OnMouseUp>
+										</Button>                          
+                    <Button name="$(parent)_SortRace" text="Race" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="75" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortGender" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("race")</OnMouseUp>
+										</Button>  
+                  
+                    <Button name="$(parent)_SortAlc" text="Alc" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortRace" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("alchemy")</OnMouseUp>
+										</Button>  
+                    <Button name="$(parent)_SortSmth" text="Smth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortAlc" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("blacksmithing")</OnMouseUp>
+										</Button>  
+                    <Button name="$(parent)_SortClth" text="Clth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortSmth" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("clothing")</OnMouseUp>
+										</Button>  
+                    <Button name="$(parent)_SortEnch" text="Ench" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortClth" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("enchanting")</OnMouseUp>
+										</Button>  
+                    <Button name="$(parent)_SortJC" text="JC" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortEnch" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("jewelry")</OnMouseUp>
+										</Button>  
+                    <Button name="$(parent)_SortProv" text="Prov" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortJC" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("provisioning")</OnMouseUp>
+										</Button>  
+                    <Button name="$(parent)_SortWood" text="Wood" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="45" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortProv" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("woodworking")</OnMouseUp>
+										</Button>
+                    <Button name="$(parent)_SortBagSpace" text="Bags" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
+											<Dimensions x="40" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp></OnMouseUp>
+										</Button> 
+                  </Controls>
+            </Control>
+          </Controls>
+          
+    </Control>
+  
+    <Control name="$(parent)_List" inherits="ZO_ScrollList" mouseEnabled="true" tier="HIGH">
+      <Dimensions y="100" />
+      <Anchor point="TOPLEFT" relativeTo="$(parent)_SortBar" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="32" />
+      <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="200" />
+    </Control>
+    
+	</Controls>
+  </TopLevelControl>
+
+  <TopLevelControl name="ESOA_GUI_PAGE2" inherits="ZO_RightPanelFootPrint" hidden="true">
+        <OnInitialized> </OnInitialized>
+	<Controls>
+    <Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+        wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="TWO!">
+      <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+    </Label>
+	</Controls>
+  </TopLevelControl>
+
+
+	<Control name="ESOA_SortBar" virtual="true" mouseEnabled="true" >
+          <Dimensions y="10" />
+          <Controls>
+										<Button name="$(parent)_SortName" text="Name" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="180" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="0"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("name")</OnMouseUp>
+										</Button>                   
+                    <Button name="$(parent)_SortSuper" text="X" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="20" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortName" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp></OnMouseUp>
+										</Button>
+                    <Button name="$(parent)_SortClass" text="Class" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+											<Dimensions x="60" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortSuper" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("class")</OnMouseUp>
@@ -145,81 +258,167 @@
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("gender")</OnMouseUp>
 										</Button>                          
                     <Button name="$(parent)_SortRace" text="Race" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="100" y="30"/>
+											<Dimensions x="70" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortGender" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("race")</OnMouseUp>
 										</Button>  
                   
                     <Button name="$(parent)_SortAlc" text="Alc" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="50" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortRace" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("alchemy")</OnMouseUp>
 										</Button>  
                     <Button name="$(parent)_SortSmth" text="Smth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="50" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortAlc" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("blacksmithing")</OnMouseUp>
 										</Button>  
                     <Button name="$(parent)_SortClth" text="Clth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="40" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortSmth" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("clothing")</OnMouseUp>
 										</Button>  
                     <Button name="$(parent)_SortEnch" text="Ench" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="50" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortClth" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("enchanting")</OnMouseUp>
 										</Button>  
                     <Button name="$(parent)_SortJC" text="JC" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="40" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortEnch" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("jewelry")</OnMouseUp>
 										</Button>  
                     <Button name="$(parent)_SortProv" text="Prov" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="50" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortJC" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("provisioning")</OnMouseUp>
 										</Button>  
                     <Button name="$(parent)_SortWood" text="Wood" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-											<Dimensions x="50" y="30"/>
+											<Dimensions x="45" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortProv" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("woodworking")</OnMouseUp>
-										</Button>  
+										</Button>
+                    <Button name="$(parent)_SortBagSpace" text="Bags" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
+											<Dimensions x="40" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood" relativePoint="TOPRIGHT"/>
+                      <OnMouseEnter></OnMouseEnter>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSort("backpackSize")</OnMouseUp>
+										</Button>
                     
-                  </Controls>
-            </Control>
           </Controls>
-          
-  </Control>
-  
-		<Control name="$(parent)_List" inherits="ZO_ScrollList" mouseEnabled="true" tier="HIGH">
-			<Dimensions y="100" />
-			<Anchor point="TOPLEFT" relativeTo="$(parent)_SortBar" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="32" />
-			<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="200" />
-		</Control>
+    </Control>
     
-	</Controls>
-    </TopLevelControl>
+  <TopLevelControl name="ESOA_GUI2" clampedToScreen="true" mouseEnabled="true" moveable="true" movable="true"  hidden="true" resizeHandleSize="10">
+    <DimensionConstraints minX="800" minY="300" maxY="1400"/>
+    <Dimensions x="800" y="350" />
+    <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
 
-    <TopLevelControl name="ESOA_GUI_PAGE2" inherits="ZO_RightPanelFootPrint" hidden="true">
-        <OnInitialized>
+    <OnInitialized> </OnInitialized>
+    <OnShow>ElderScrollsOfAlts:SetupGui2(self)</OnShow>
 
-        </OnInitialized>
-	<Controls>
-	<Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
-	    wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="TWO!">
-	  <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
-	</Label>
-	</Controls>
-    </TopLevelControl>
+    <OnMoveStop>    ElderScrollsOfAlts:onMoveStop()  </OnMoveStop>
+    <OnResizeStart> ElderScrollsOfAlts:onResizeStart() </OnResizeStart>
+    <OnResizeStop>  ElderScrollsOfAlts:onResizeStop()  </OnResizeStop>
+
+    <Controls>
+      <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop" layer="0" level="0"> <AnchorFill/> </Backdrop>
+
+      <Control name="$(parent)_Header" hidden="false" resizeToFitDescendents="false" layer="1" level="1" >
+        <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  offsetX="10" offsetY="10" />
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="10" offsetY="10" />
+        <Dimensions y="26" />
+        <Controls>
+<!-- Lock/Unlock buttons -->
+          <Button name="$(parent)_Locked" hidden="true">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="5" offsetY="5"/>
+            <OnMouseEnter>  </OnMouseEnter>
+            <Dimensions x="24" y="24" />
+            <Textures normal="EsoUI/art/miscellaneous/locked_up.dds"
+                  pressed="EsoUI/art/miscellaneous/locked_down.dds"
+                 mouseOver="EsoUI/art/miscellaneous/locked_over.dds"
+            />
+          </Button>
+
+          <Button name="$(parent)_Unlocked" >
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPLEFT" offsetX="0" offsetY="0"/>
+            <OnMouseEnter> </OnMouseEnter>
+            <Dimensions x="24" y="24" />
+            <Textures normal="EsoUI/art/miscellaneous/unlocked_up.dds"
+                  pressed="EsoUI/art/miscellaneous/unlocked_down.dds"
+                 mouseOver="EsoUI/art/miscellaneous/unlocked_over.dds"
+            />
+          </Button>
+<!-- end of Lock/Unlock buttons -->
+
+          <Label name="$(parent)_Label" mouseEnabled="false" font="ZoFontBookPaper" text="-ESOA-" >
+            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0"/>
+          </Label>
+
+          <Button name="$(parent)_Hide">
+            <Anchor point="TOPRIGHT" relativeTo="ESOA_GUI2" relativePoint="TOPRIGHT" offsetX="-10" offsetY="13"/>
+						<OnMouseEnter> </OnMouseEnter>
+						<OnMouseExit> </OnMouseExit>
+            <OnMouseUp> ElderScrollsOfAlts:HideGui2() </OnMouseUp>            
+            <Dimensions x="25" y="25" />
+            <Textures normal="EsoUI/art/buttons/decline_up.dds"
+                  pressed="EsoUI/art/buttons/decline_down.dds"
+                  mouseOver="EsoUI/art/buttons/decline_over.dds"
+            />
+          </Button>
+
+          <Button name="$(parent)_Minimize" >
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_Hide" relativePoint="TOPLEFT" offsetX="-5" offsetY="2"/>
+            <OnMouseEnter> </OnMouseEnter>
+            <Dimensions x="20" y="20" />
+            <OnMouseUp> </OnMouseUp>
+            <Textures normal="EsoUI/art/buttons/minimize_normal.dds"
+                  pressed="EsoUI/art/buttons/minimize_mousedown.dds"
+                 mouseOver="EsoUI/art/buttons/minimize_mousedown.dds"
+            />
+          </Button>
+
+          <Button name="$(parent)_Maximize" hidden="true">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_Minimize" relativePoint="TOPLEFT" />
+            <OnMouseEnter> </OnMouseEnter>
+            <Dimensions x="20" y="20" />
+            <OnMouseUp> </OnMouseUp>
+            <Textures normal="EsoUI/art/buttons/maximize_normal.dds"
+                  pressed="EsoUI/art/buttons/maximize_down.dds"
+                 mouseOver="EsoUI/art/buttons/maximize_down.dds"
+            />
+          </Button>
+          
+          <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" layer="2" level="1" tier="HIGH">
+            <Dimensions y="29" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnShow> ElderScrollsOfAlts:GuiSetupDropdown(self) </OnShow>
+            <OnMouseEnter> </OnMouseEnter>
+            <OnMouseExit> </OnMouseExit>
+          </Control>
+          
+        </Controls>            
+      </Control>
+
+      <Control name="$(parent)_CharListHeader" inherits="ESOA_SortBar" mouseEnabled="true" layer="1" level="1" >
+        <Anchor point="TOPLEFT"  relativeTo="$(parent)_Header" relativePoint="BOTTOMLEFT"  offsetX="0" offsetY="0" />
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)_Header" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="0" />
+      </Control>
+      
+      <Control name="$(parent)_CharList" inherits="ZO_ScrollList" mouseEnabled="true" layer="1" level="1">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_CharListHeader" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="32" />
+        <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="200" />
+      </Control>
+      
+    </Controls>      
+  </TopLevelControl>
 
 </Controls>
 </GuiXml>
