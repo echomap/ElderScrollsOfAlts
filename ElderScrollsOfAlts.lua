@@ -6,15 +6,29 @@ ElderScrollsOfAlts = {
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
     debug           = false,
-    savedVariables = {},
-    altData        = {},
+    settings        = {},
+    -- Saved Settings
+    savedVariables  = {},
+    altData         = {},
 }
+
+function ElderScrollsOfAlts.SaveSettings()
+  if ElderScrollsOfAlts.settings.window ~= nil then
+    ElderScrollsOfAlts.savedVariables.window = {}
+    ElderScrollsOfAlts.savedVariables.window.top    = ElderScrollsOfAlts.settings.window.top
+    ElderScrollsOfAlts.savedVariables.window.left   = ElderScrollsOfAlts.settings.window.left
+    ElderScrollsOfAlts.savedVariables.window.width  = ElderScrollsOfAlts.settings.window.width
+    ElderScrollsOfAlts.savedVariables.window.height = ElderScrollsOfAlts.settings.window.height 
+  end
+end
 
 function ElderScrollsOfAlts.loadSavedVariables(self)
     if ElderScrollsOfAlts.savedVariables.debug ~= niil then
         ElderScrollsOfAlts.debug = ElderScrollsOfAlts.savedVariables.debug
     end
+    ElderScrollsOfAlts.settings.window = {}
 end
+
 function ElderScrollsOfAlts.initData(self)
 	ElderScrollsOfAlts.SetupLMM()	
   ElderScrollsOfAlts.loadPlayerData()
@@ -75,6 +89,7 @@ EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, 
 
 function ElderScrollsOfAlts.OnAddOnUnloaded(event)
   ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded called") -- Prints to chat.
+  ElderScrollsOfAlts.SaveSettings()
   ElderScrollsOfAlts.loadPlayerData()
   ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded done") -- Prints to chat.
 end

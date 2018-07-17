@@ -5,6 +5,49 @@ function ElderScrollsOfAlts:SetupGUI()
 end
 
 --
+function ElderScrollsOfAlts:onMoveStop()
+  --
+end
+
+function ElderScrollsOfAlts:onResizeStart() 
+  --
+end
+
+function ElderScrollsOfAlts:onResizeStop()
+  --XX:GuiResizeScroll()
+  --XX:UpdateInventoryScroll()
+  ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
+  ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
+  ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+  ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
+end
+
+function ElderScrollsOfAlts:GUI2Minimize(bMin)
+  ESOA_GUI2_CharListHeader:SetHidden(bMin)
+  ESOA_GUI2_CharList:SetHidden(bMin)
+  ESOA_GUI2_Header_Minimize:SetHidden(bMin)
+  ESOA_GUI2_Header_Maximize:SetHidden(not bMin)
+  if bMin then
+    ESOA_GUI2:SetHeight(50)
+  else
+    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.settings.window.height)
+  end
+    
+end
+
+function ElderScrollsOfAlts:GUI2Lock(bLock)
+  --d("GUI2Lock bLock: "..tostring(bLock) )
+	ESOA_GUI2_Header_Locked:SetHidden(not bLock)
+	ESOA_GUI2_Header_Unlocked:SetHidden(bLock)
+	ESOA_GUI2:SetMovable(not bLock)
+
+	if bLock then
+		ESOA_GUI2:SetResizeHandleSize(0)
+	else
+		ESOA_GUI2:SetResizeHandleSize(10)
+	end
+end
+
 function ElderScrollsOfAlts.HideGui2()
     ESOA_GUI2:SetHidden(true)
 end
@@ -17,6 +60,10 @@ function ElderScrollsOfAlts.ShowGui2()
   end
 	--local settings = IIfA:GetSceneSettings()
 	--settings.hidden = true
+  ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
+  ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
+  ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+  ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
 end
 
 function ElderScrollsOfAlts:SetupGui2(self)
@@ -29,18 +76,6 @@ function ElderScrollsOfAlts:SetupGui2(self)
   
   ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, ESOA_GUI2_Header_Dropdown)
   ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_CharList)
-end
-
-function ElderScrollsOfAlts:onMoveStop()
-  --
-end
-
-function ElderScrollsOfAlts:onResizeStart() 
-  --
-end
-
-function ElderScrollsOfAlts:onResizeStop() 
-  --
 end
 
 --

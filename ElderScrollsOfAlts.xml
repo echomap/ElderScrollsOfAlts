@@ -2,7 +2,7 @@
 <Controls>
  
 	<Control name="ESOA_RowTemplate" virtual="true" mouseEnabled="true" resizeToFitDescendents="true">
-    <Dimensions y="10" x="800"/>
+    <Dimensions y="10" x="850"/>
 		<OnMouseEnter></OnMouseEnter>
 		<OnMouseExit></OnMouseExit>
 		
@@ -66,7 +66,7 @@
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Provisioning" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
       <Label name="$(parent)BagSpace" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="RIGHT" text="msg">
-				<Dimensions x="40" y="30" />
+				<Dimensions x="50" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Woodworking" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
       
@@ -193,7 +193,7 @@
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("woodworking")</OnMouseUp>
 										</Button>
                     <Button name="$(parent)_SortBagSpace" text="Bags" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
-											<Dimensions x="40" y="30"/>
+											<Dimensions x="50" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp></OnMouseUp>
@@ -307,7 +307,7 @@
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("woodworking")</OnMouseUp>
 										</Button>
                     <Button name="$(parent)_SortBagSpace" text="Bags" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
-											<Dimensions x="40" y="30"/>
+											<Dimensions x="50" y="30"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
 											<OnMouseUp>ElderScrollsOfAlts:GuiSort("backpackSize")</OnMouseUp>
@@ -316,9 +316,9 @@
           </Controls>
     </Control>
     
-  <TopLevelControl name="ESOA_GUI2" clampedToScreen="true" mouseEnabled="true" moveable="true" movable="true"  hidden="true" resizeHandleSize="10">
-    <DimensionConstraints minX="800" minY="300" maxY="1400"/>
-    <Dimensions x="800" y="350" />
+  <TopLevelControl name="ESOA_GUI2" clampedToScreen="true" mouseEnabled="true" movable="true"  hidden="true" resizeHandleSize="10" >
+    <DimensionConstraints minX="820" minY="30" maxY="1400"/>
+    <Dimensions x="810" y="350" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
 
     <OnInitialized> </OnInitialized>
@@ -340,6 +340,7 @@
           <Button name="$(parent)_Locked" hidden="true">
             <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="5" offsetY="5"/>
             <OnMouseEnter>  </OnMouseEnter>
+            <OnMouseUp> ElderScrollsOfAlts:GUI2Lock(false) </OnMouseUp>
             <Dimensions x="24" y="24" />
             <Textures normal="EsoUI/art/miscellaneous/locked_up.dds"
                   pressed="EsoUI/art/miscellaneous/locked_down.dds"
@@ -350,6 +351,7 @@
           <Button name="$(parent)_Unlocked" >
             <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPLEFT" offsetX="0" offsetY="0"/>
             <OnMouseEnter> </OnMouseEnter>
+            <OnMouseUp> ElderScrollsOfAlts:GUI2Lock(true) </OnMouseUp>
             <Dimensions x="24" y="24" />
             <Textures normal="EsoUI/art/miscellaneous/unlocked_up.dds"
                   pressed="EsoUI/art/miscellaneous/unlocked_down.dds"
@@ -378,7 +380,7 @@
             <Anchor point="TOPRIGHT" relativeTo="$(parent)_Hide" relativePoint="TOPLEFT" offsetX="-5" offsetY="2"/>
             <OnMouseEnter> </OnMouseEnter>
             <Dimensions x="20" y="20" />
-            <OnMouseUp> </OnMouseUp>
+            <OnMouseUp>ElderScrollsOfAlts:GUI2Minimize(true)</OnMouseUp>
             <Textures normal="EsoUI/art/buttons/minimize_normal.dds"
                   pressed="EsoUI/art/buttons/minimize_mousedown.dds"
                  mouseOver="EsoUI/art/buttons/minimize_mousedown.dds"
@@ -389,7 +391,7 @@
             <Anchor point="TOPLEFT" relativeTo="$(parent)_Minimize" relativePoint="TOPLEFT" />
             <OnMouseEnter> </OnMouseEnter>
             <Dimensions x="20" y="20" />
-            <OnMouseUp> </OnMouseUp>
+            <OnMouseUp>ElderScrollsOfAlts:GUI2Minimize(false)</OnMouseUp>
             <Textures normal="EsoUI/art/buttons/maximize_normal.dds"
                   pressed="EsoUI/art/buttons/maximize_down.dds"
                  mouseOver="EsoUI/art/buttons/maximize_down.dds"
