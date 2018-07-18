@@ -41,3 +41,4 @@ luac.out
 
 /_backup
 /*.cmd
+/excludedfileslist.txt

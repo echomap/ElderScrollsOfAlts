@@ -45,6 +45,7 @@ ElderScrollsOfAlts_Preload.lua
 ElderScrollsOfAlts.lua
 ElderScrollsOfAlts_Util.lua
 ElderScrollsOfAlts_UI.lua
+ElderScrollsOfAlts_UI_Sub.lua
 ElderScrollsOfAlts_LMM.lua
 ElderScrollsOfAlts_Data.lua
 ElderScrollsOfAlts_TestData.lua

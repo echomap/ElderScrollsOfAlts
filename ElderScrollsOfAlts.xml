@@ -459,5 +459,60 @@
     </Controls>      
   </TopLevelControl>
 
+ 
+  <TopLevelControl name="ESOA_GUI2_EQUIP" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
+    <DimensionConstraints minX="40" minY="40" maxY="400"/>
+    <Dimensions x="100" y="100" />
+    <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
+
+    <OnInitialized> </OnInitialized>
+    <OnShow> ElderScrollsOfAlts:SetupGui3(self) </OnShow>
+
+    <OnMoveStop>    ElderScrollsOfAlts:onMoveStop3()    </OnMoveStop>
+    <OnResizeStart> ElderScrollsOfAlts:onResizeStart3() </OnResizeStart>
+    <OnResizeStop>  ElderScrollsOfAlts:onResizeStop3()  </OnResizeStop>
+
+    <Controls>
+      <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop" layer="0" level="0"> <AnchorFill/> </Backdrop>
+            
+      <Control name="$(parent)_Header" hidden="false" resizeToFitDescendents="false" layer="1" level="1" >
+        <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  offsetX="10" offsetY="10" />
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="10" offsetY="10" />
+        <Dimensions y="26" />
+        <Controls>        
+
+          <Label name="$(parent)_Label" mouseEnabled="false" font="ZoFontBookPaper" text="-ESOA Character-" >
+            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0"/>
+          </Label>
+
+          <Button name="$(parent)_Hide">
+            <Anchor point="TOPRIGHT" relativeTo="ESOA_GUI2_EQUIP" relativePoint="TOPRIGHT" offsetX="-10" offsetY="13"/>
+						<OnMouseEnter> </OnMouseEnter>
+						<OnMouseExit> </OnMouseExit>
+            <OnMouseUp> ElderScrollsOfAlts:HideGui3() </OnMouseUp>            
+            <Dimensions x="25" y="25" />
+            <Textures normal="EsoUI/art/buttons/decline_up.dds"
+                  pressed="EsoUI/art/buttons/decline_down.dds"
+                  mouseOver="EsoUI/art/buttons/decline_over.dds"
+            />
+          </Button>
+          
+          <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" layer="2" level="1" tier="HIGH">
+            <Dimensions y="29" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_Hide" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnShow> ElderScrollsOfAlts:GuiSetupDropdown3(self) </OnShow>
+            <OnMouseEnter> </OnMouseEnter>
+            <OnMouseExit> </OnMouseExit>
+          </Control>
+          
+        </Controls>            
+      </Control>
+      
+      <Label name="$(parent)_Label" mouseEnabled="false" font="ZoFontBookPaper" text="-ESOA data here-" >
+            <Anchor point="TOP" relativeTo="$(parent)_Header" relativePoint="TOP" offsetX="0" offsetY="0"/>
+      </Label>
+    </Controls>
+  </TopLevelControl>
+
 </Controls>
 </GuiXml>

@@ -257,9 +257,197 @@ end
 
 --
 function ElderScrollsOfAlts:ListOfPlayers()
-  	--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-      --d(ElderScrollsOfAlts.name .. " k " .. k)
-     -- table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
-    --end
-    return ElderScrollsOfAlts.altData.players
+  --for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+    --d(ElderScrollsOfAlts.name .. " k " .. k)
+   -- table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
+  --end
+  --[[
+  for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+     if k == nil then return end
+     d(" players " .. k)
+  end
+  ]]
+  
+  local validChoices =  {}
+	table.insert(validChoices, "Select")
+	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+		--d(ElderScrollsOfAlts.name .. " k " .. k)
+		table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
+	end
+  return validChoices
+  
+  --return ElderScrollsOfAlts.altData.players    
 end
+
+
+function ElderScrollsOfAlts:SetupGuiPlayerLines()
+	local playerLines =  {}
+	--table.insert(playerLines, "Select")
+	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+    if k == nil then return end
+		ElderScrollsOfAlts.debugMsg(" players " .. k)
+		playerLines[k] = {}
+		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
+    playerLines[k].rawname = k
+		local bio = ElderScrollsOfAlts.altData.players[k].bio
+		if bio ~=nil then
+			playerLines[k].gender = bio.gender
+      playerLines[k].level  = bio.level
+			playerLines[k].race   = bio.race
+      playerLines[k].class  = bio.class
+      if bio.Werewolf then
+        playerLines[k].Werewolf = true
+      end
+      if bio.Vampire then
+        playerLines[k].Vampire = true
+      end
+    else 
+      playerLines[k].gender = -1
+			playerLines[k].level = -1
+			playerLines[k].race = "Unk"
+      playerLines[k].class = "Unk"
+      playerLines[k].Werewolf = false
+      playerLines[k].Vampire = false
+		end
+    if playerLines[k].level == nil or playerLines[k].level < 1 then
+      ElderScrollsOfAlts.altData.players[k]  = nil
+      return
+    end
+    --
+    if bio.CanChampPts then
+      playerLines[k].champion = bio.champion
+    else 
+      playerLines[k].champion = nil
+    end
+
+    --
+    local misc = ElderScrollsOfAlts.altData.players[k].misc
+    if misc ~=nil then
+      playerLines[k].backpackSize = misc.backpackSize
+      playerLines[k].backpackUsed = misc.backpackUsed
+    else
+      playerLines[k].backpackSize = 0
+      playerLines[k].backpackUsed = 0
+    end
+    --
+    local trade = ElderScrollsOfAlts.altData.players[k].skills.trade
+    if trade ~=nil then
+      local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
+      if trade ~=nil then
+        local alchemy  = tradeL["Alchemy"]
+        if alchemy ~=nil then
+          playerLines[k].alchemy         = alchemy.rank
+          playerLines[k].alchemy_sunk    = alchemy.sunk
+          playerLines[k].alchemy_sinkmax = alchemy.sinkmax
+        else
+          playerLines[k].alchemy = 0
+          playerLines[k].alchemy_sunk    = 0
+          playerLines[k].alchemy_sinkmax = 0          
+        end
+        local blacksmithing = tradeL["Blacksmithing"] 
+        if blacksmithing ~=nil then
+          playerLines[k].blacksmithing = blacksmithing.rank   
+          playerLines[k].blacksmithing_sunk    = blacksmithing.sunk
+          playerLines[k].blacksmithing_sinkmax = blacksmithing.sinkmax
+        else
+          playerLines[k].blacksmithing = 0
+          playerLines[k].blacksmithing_sunk    = 0
+          playerLines[k].blacksmithing_sinkmax = 0   
+        end
+        local clothing = tradeL["Clothing"] 
+        if clothing ~=nil then
+          playerLines[k].clothing = clothing.rank   
+          playerLines[k].clothing_sunk    = clothing.sunk
+          playerLines[k].clothing_sinkmax = clothing.sinkmax
+        else
+           playerLines[k].clothing = 0
+          playerLines[k].clothing_sunk    = 0
+          playerLines[k].clothing_sinkmax = 0   
+        end
+        local enchanting = tradeL["Enchanting"] 
+        if enchanting ~=nil then
+          playerLines[k].enchanting = enchanting.rank 
+          playerLines[k].enchanting_sunk    = enchanting.sunk
+          playerLines[k].enchanting_sinkmax = enchanting.sinkmax
+        else
+          playerLines[k].enchanting = 0
+          playerLines[k].enchanting_sunk    = 0
+          playerLines[k].enchanting_sinkmax = 0             
+        end         
+        local jewelry = tradeL["Jewelry Crafting"] 
+        if jewelry ~=nil then
+          playerLines[k].jewelry = jewelry.rank   
+          playerLines[k].jewelry_sunk    = jewelry.sunk
+          playerLines[k].jewelry_sinkmax = jewelry.sinkmax
+        else
+          playerLines[k].jewelry = 0
+          playerLines[k].jewelry_sunk    = 0
+          playerLines[k].jewelry_sinkmax = 0 
+        end          
+        local provisioning = tradeL["Provisioning"]          
+        if provisioning ~=nil then
+          playerLines[k].provisioning = provisioning.rank   
+          playerLines[k].provisioning_sunk    = provisioning.sunk
+          playerLines[k].provisioning_sinkmax = provisioning.sinkmax
+        else
+          playerLines[k].provisioning = 0
+          playerLines[k].provisioning_sunk    = 0
+          playerLines[k].provisioning_sinkmax = 0              
+         end              
+         local woodworking = tradeL["Woodworking"] 
+         if woodworking ~=nil then
+          playerLines[k].woodworking = woodworking.rank   
+          playerLines[k].woodworking_sunk    = woodworking.sunk
+          playerLines[k].woodworking_sinkmax = woodworking.sinkmax
+         else
+          playerLines[k].woodworking = 0
+          playerLines[k].woodworking_sunk    = 0
+          playerLines[k].woodworking_sinkmax = 0              
+         end
+        end
+    else
+      --
+    end
+  end
+
+  -- PlayerLines to table
+  table.sort(playerLines)  
+  return playerLines
+end
+
+--
+function ElderScrollsOfAlts:loadPlayerEquipment()
+	--local pName = GetUnitName("player")
+  --string icon, boolean slotHasItem, number sellPrice, boolean isHeldSlot, boolean isHeldNow, boolean locked 
+  --GetEquippedItemInfo(number EquipSlot equipSlot)
+  --GetEquippedItemInfo(number EquipSlot equipSlot)
+  --GetEquippedItemInfo(number EquipSlot equipSlot)
+  --GetEquippedItemInfo(number EquipSlot equipSlot)
+  --GetEquippedItemInfo(number EquipSlot equipSlot)
+  local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)
+  --[[
+  EQUIP_SLOT_BACKUP_OFF
+    EQUIP_SLOT_BACKUP_POISON
+    EQUIP_SLOT_CHEST
+    EQUIP_SLOT_CLASS1
+    EQUIP_SLOT_CLASS2
+    EQUIP_SLOT_CLASS3
+    EQUIP_SLOT_COSTUME
+    EQUIP_SLOT_FEET
+    EQUIP_SLOT_HAND
+    EQUIP_SLOT_HEAD
+    EQUIP_SLOT_LEGS
+    EQUIP_SLOT_MAIN_HAND
+    EQUIP_SLOT_NECK
+    EQUIP_SLOT_NONE
+    EQUIP_SLOT_OFF_HAND
+    EQUIP_SLOT_POISON
+    EQUIP_SLOT_RANGED
+    EQUIP_SLOT_RING1
+    EQUIP_SLOT_RING2
+    EQUIP_SLOT_SHOULDERS
+    EQUIP_SLOT_WAIST
+    EQUIP_SLOT_WRIST 
+    ]]
+end
+

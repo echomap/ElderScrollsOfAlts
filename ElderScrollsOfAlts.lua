@@ -7,6 +7,8 @@ ElderScrollsOfAlts = {
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
     debug           = false,
     settings        = {},
+    -- Defaults
+    --settings.ui     = "LMM",
     -- Saved Settings
     savedVariables  = {},
     altData         = {},
@@ -16,32 +18,58 @@ function ElderScrollsOfAlts.SaveSettings()
   --if ElderScrollsOfAlts.settings.window == nil then
     --return
   --end
+  if ElderScrollsOfAlts.savedVariables.window == nil then
+    ElderScrollsOfAlts.savedVariables.window = {}
+  end  
   if not ElderScrollsOfAlts.settings.window.iconify then
-    ElderScrollsOfAlts.savedVariables.window.top    = ElderScrollsOfAlts.settings.window.top
-    ElderScrollsOfAlts.savedVariables.window.left   = ElderScrollsOfAlts.settings.window.left
-    if not ElderScrollsOfAlts.settings.window.minimized then
+    if ElderScrollsOfAlts.settings.window.top ~= nil then
+      ElderScrollsOfAlts.savedVariables.window.top      = ElderScrollsOfAlts.settings.window.top
+      ElderScrollsOfAlts.savedVariables.window.left     = ElderScrollsOfAlts.settings.window.left
+    end
+    if not ElderScrollsOfAlts.settings.window.minimized and ElderScrollsOfAlts.settings.window.width ~= nil then
       ElderScrollsOfAlts.savedVariables.window.width  = ElderScrollsOfAlts.settings.window.width
       ElderScrollsOfAlts.savedVariables.window.height = ElderScrollsOfAlts.settings.window.height 
     end
   end
+  ElderScrollsOfAlts.savedVariables.uimode = ElderScrollsOfAlts.GetUIMode()
 end
 
 function ElderScrollsOfAlts.loadSavedVariables(self)
     if ElderScrollsOfAlts.savedVariables.debug ~= nil then
         ElderScrollsOfAlts.debug = ElderScrollsOfAlts.savedVariables.debug
     end
+    --if ElderScrollsOfAlts.savedVariables.uimode ~= nil then
+    --  ElderScrollsOfAlts.settings.ui = ElderScrollsOfAlts.savedVariables.uimode      
+    --else
+    --  ElderScrollsOfAlts.settings.ui = "LMM"
+    --end
     ElderScrollsOfAlts.settings.window = {}
-    ElderScrollsOfAlts.settings.window.top    = ElderScrollsOfAlts.savedVariables.window.top 
-    ElderScrollsOfAlts.settings.window.left   = ElderScrollsOfAlts.savedVariables.window.left 
-    ElderScrollsOfAlts.settings.window.width  = ElderScrollsOfAlts.savedVariables.window.width 
-    ElderScrollsOfAlts.settings.window.height = ElderScrollsOfAlts.savedVariables.window.height      
+    if ElderScrollsOfAlts.savedVariables.window ~=nil and ElderScrollsOfAlts.savedVariables.window.top ~= nil then
+      ElderScrollsOfAlts.settings.window.top    = ElderScrollsOfAlts.savedVariables.window.top 
+      ElderScrollsOfAlts.settings.window.left   = ElderScrollsOfAlts.savedVariables.window.left 
+      ElderScrollsOfAlts.settings.window.width  = ElderScrollsOfAlts.savedVariables.window.width 
+      ElderScrollsOfAlts.settings.window.height = ElderScrollsOfAlts.savedVariables.window.height      
+    end
     --if ElderScrollsOfAlts.settings.window.width < xx then
       --ElderScrollsOfAlts.settings.window = {}
 end
 
+function ElderScrollsOfAlts.GetUIMode()
+  if ElderScrollsOfAlts.settings.uimode == nil then
+    ElderScrollsOfAlts.settings.uimode = "LMM"
+  end
+  return ElderScrollsOfAlts.settings.uimode
+end
+
+function ElderScrollsOfAlts.SetUIMode(self,var)
+  ElderScrollsOfAlts.debugMsg("SetUIMode: var="..var)
+  ElderScrollsOfAlts.settings.uimode = var
+end
+
+
 function ElderScrollsOfAlts.initData(self)
-  --ElderScrollsOfAlts:loadSavedVariables()
-	ElderScrollsOfAlts.SetupLMM()	
+  ElderScrollsOfAlts:loadSavedVariables()
+	ElderScrollsOfAlts.SetupLMM()
   ElderScrollsOfAlts.loadPlayerData()
 end
 
@@ -56,7 +84,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	end
 
 	if #options == 0 then
-    ElderScrollsOfAlts.ToggleShowing()
+    ElderScrollsOfAlts.ShowGuiByChoice()
 	elseif #options == 0 or options[1] == "show2" then
     ElderScrollsOfAlts.ShowGui2()
 	elseif #options == 0 or options[1] == "help" then
@@ -90,9 +118,9 @@ function ElderScrollsOfAlts.Activated(e)
 
     -- Animate the xml UI center text, after a delay.
     --zo_callLater(ElderScrollsOfAlts.AnimateText, 3000)    
-    ElderScrollsOfAlts:loadSavedVariables()
+    --ElderScrollsOfAlts:loadSavedVariables()
     ElderScrollsOfAlts.initData()
-    ElderScrollsOfAlts:SetupGUI()
+    ElderScrollsOfAlts:SetupGui()
     --zo_callLater(ElderScrollsOfAlts.TryShowMainWindow, 3000)
     --zo_callLater(ElderScrollsOfAlts.TryShowMainWindow, 3000)
 end
