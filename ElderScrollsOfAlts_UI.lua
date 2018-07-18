@@ -5,8 +5,15 @@ function ElderScrollsOfAlts:SetupGUI()
 end
 
 --
-function ElderScrollsOfAlts:onMoveStop()
-  --
+function ElderScrollsOfAlts:onMoveStop()  
+  ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
+  ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
+  ElderScrollsOfAlts:debugMsg("Saved top and left")
+  if not ElderScrollsOfAlts.settings.window.minimized and not ElderScrollsOfAlts.settings.window.iconify then
+    ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+    ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()  
+    ElderScrollsOfAlts:debugMsg("Saved width and height")
+  end
 end
 
 function ElderScrollsOfAlts:onResizeStart() 
@@ -16,23 +23,75 @@ end
 function ElderScrollsOfAlts:onResizeStop()
   --XX:GuiResizeScroll()
   --XX:UpdateInventoryScroll()
-  ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
-  ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
-  ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
-  ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
+  if not ElderScrollsOfAlts.settings.window.minimized and not ElderScrollsOfAlts.settings.window.iconify then
+    ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
+    ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
+    ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+    ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
+    ElderScrollsOfAlts:debugMsg("Saved width and height, top and left")
+  end
+end
+
+function ElderScrollsOfAlts:GUI2Iconify(bIconify)
+  ElderScrollsOfAlts.settings.window.iconify = bIconify
+
+  if bIconify then    
+    ElderScrollsOfAlts:GUI2Minimize(false)    
+    
+    ESOA_GUI2_IconifyHeader:SetHidden(false)        
+    
+    ESOA_GUI2_BG:SetHidden(true)
+    ESOA_GUI2_Header:SetHidden(true)
+    ESOA_GUI2_CharListHeader:SetHidden(true)
+    ESOA_GUI2_CharList:SetHidden(true)    
+    if not ElderScrollsOfAlts.settings.window.minimized then
+      ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
+      ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+    end
+    ESOA_GUI2:SetHeight(40)
+    ESOA_GUI2:SetWidth(70)
+    
+    ESOA_GUI2_IconifyHeader:ClearAnchors()
+    ESOA_GUI2_IconifyHeader:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)    
+
+    ESOA_GUI2_IconifyHeader_BG:ClearAnchors()
+    ESOA_GUI2_IconifyHeader_BG:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)    
+    ESOA_GUI2_IconifyHeader_BG:SetHeight(40)
+    ESOA_GUI2_IconifyHeader_BG:SetWidth(70)
+    
+    --ESOA_GUI2_IconifyUn:SetHidden(false)
+    --ESOA_GUI2_IconifyUn_Label:SetHidden(false)
+		--ESOA_GUI2:SetResizeHandleSize(0) 
+    --ESOA_GUI2:SetMovable(false)
+  else    
+    ESOA_GUI2_IconifyHeader:SetHidden(true)
+    
+    ESOA_GUI2_BG:SetHidden(false)
+    ESOA_GUI2_Header:SetHidden(false)
+    ESOA_GUI2_CharListHeader:SetHidden(false)
+    ESOA_GUI2_CharList:SetHidden(false)    
+    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.settings.window.height)
+    ESOA_GUI2:SetWidth(ElderScrollsOfAlts.settings.window.width)
+    
+    --ESOA_GUI2:SetResizeHandleSize(10)
+    --ESOA_GUI2:SetMovable(true)
+  end  
+  
 end
 
 function ElderScrollsOfAlts:GUI2Minimize(bMin)
+  ElderScrollsOfAlts.settings.window.minimized = bMin
   ESOA_GUI2_CharListHeader:SetHidden(bMin)
   ESOA_GUI2_CharList:SetHidden(bMin)
   ESOA_GUI2_Header_Minimize:SetHidden(bMin)
   ESOA_GUI2_Header_Maximize:SetHidden(not bMin)
   if bMin then
-    ESOA_GUI2:SetHeight(50)
+    ESOA_GUI2:SetHeight(40)
   else
     ESOA_GUI2:SetHeight(ElderScrollsOfAlts.settings.window.height)
-  end
-    
+  end  
 end
 
 function ElderScrollsOfAlts:GUI2Lock(bLock)
@@ -60,10 +119,20 @@ function ElderScrollsOfAlts.ShowGui2()
   end
 	--local settings = IIfA:GetSceneSettings()
 	--settings.hidden = true
-  ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
-  ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
-  ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
-  ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
+  if ElderScrollsOfAlts.settings.window.top ~= nil then
+    local left = ElderScrollsOfAlts.settings.window.left
+    local top = ElderScrollsOfAlts.settings.window.top
+    ESOA_GUI2:ClearAnchors()
+    ESOA_GUI2:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
+    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.settings.window.height)
+    ESOA_GUI2:SetWidth( ElderScrollsOfAlts.settings.window.width )
+  else 
+    ElderScrollsOfAlts.settings.window.iconify = false
+    ElderScrollsOfAlts.settings.window.top    = ESOA_GUI2:GetTop()
+    ElderScrollsOfAlts.settings.window.left   = ESOA_GUI2:GetLeft()
+    ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+    ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
+  end
 end
 
 function ElderScrollsOfAlts:SetupGui2(self)

@@ -13,23 +13,34 @@ ElderScrollsOfAlts = {
 }
 
 function ElderScrollsOfAlts.SaveSettings()
-  if ElderScrollsOfAlts.settings.window ~= nil then
-    ElderScrollsOfAlts.savedVariables.window = {}
+  --if ElderScrollsOfAlts.settings.window == nil then
+    --return
+  --end
+  if not ElderScrollsOfAlts.settings.window.iconify then
     ElderScrollsOfAlts.savedVariables.window.top    = ElderScrollsOfAlts.settings.window.top
     ElderScrollsOfAlts.savedVariables.window.left   = ElderScrollsOfAlts.settings.window.left
-    ElderScrollsOfAlts.savedVariables.window.width  = ElderScrollsOfAlts.settings.window.width
-    ElderScrollsOfAlts.savedVariables.window.height = ElderScrollsOfAlts.settings.window.height 
+    if not ElderScrollsOfAlts.settings.window.minimized then
+      ElderScrollsOfAlts.savedVariables.window.width  = ElderScrollsOfAlts.settings.window.width
+      ElderScrollsOfAlts.savedVariables.window.height = ElderScrollsOfAlts.settings.window.height 
+    end
   end
 end
 
 function ElderScrollsOfAlts.loadSavedVariables(self)
-    if ElderScrollsOfAlts.savedVariables.debug ~= niil then
+    if ElderScrollsOfAlts.savedVariables.debug ~= nil then
         ElderScrollsOfAlts.debug = ElderScrollsOfAlts.savedVariables.debug
     end
     ElderScrollsOfAlts.settings.window = {}
+    ElderScrollsOfAlts.settings.window.top    = ElderScrollsOfAlts.savedVariables.window.top 
+    ElderScrollsOfAlts.settings.window.left   = ElderScrollsOfAlts.savedVariables.window.left 
+    ElderScrollsOfAlts.settings.window.width  = ElderScrollsOfAlts.savedVariables.window.width 
+    ElderScrollsOfAlts.settings.window.height = ElderScrollsOfAlts.savedVariables.window.height      
+    --if ElderScrollsOfAlts.settings.window.width < xx then
+      --ElderScrollsOfAlts.settings.window = {}
 end
 
 function ElderScrollsOfAlts.initData(self)
+  --ElderScrollsOfAlts:loadSavedVariables()
 	ElderScrollsOfAlts.SetupLMM()	
   ElderScrollsOfAlts.loadPlayerData()
 end
@@ -57,6 +68,8 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.debug
   elseif #options == 0 or options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
+  elseif #options == 0 or options[1] == "deltestdata" then
+    ElderScrollsOfAlts:DelTestData1()    
 	elseif (#options == 0 or options[1] == "tab") and options[2] ~= nil then
 		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
 		ElderScrollsOfAlts.tab = tonumber(options[2])
@@ -76,7 +89,7 @@ function ElderScrollsOfAlts.Activated(e)
         ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Top-right alert.
 
     -- Animate the xml UI center text, after a delay.
-    --zo_callLater(ElderScrollsOfAlts.AnimateText, 3000)
+    --zo_callLater(ElderScrollsOfAlts.AnimateText, 3000)    
     ElderScrollsOfAlts:loadSavedVariables()
     ElderScrollsOfAlts.initData()
     ElderScrollsOfAlts:SetupGUI()
@@ -88,9 +101,9 @@ end
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, ElderScrollsOfAlts.Activated)
 
 function ElderScrollsOfAlts.OnAddOnUnloaded(event)
-  ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded called") -- Prints to chat.
-  ElderScrollsOfAlts.SaveSettings()
+  ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded called") -- Prints to chat.  
   ElderScrollsOfAlts.loadPlayerData()
+  ElderScrollsOfAlts.SaveSettings()
   ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded done") -- Prints to chat.
 end
 

@@ -1,20 +1,26 @@
 --TEST TEST TEST TEST
+function ElderScrollsOfAlts:DelTestData1()
+ local pName1 = "Test1 McTesty1"
+  ElderScrollsOfAlts.altData.players[pName1] = {}
+  local pName = "Perpugilliam Brown"
+  ElderScrollsOfAlts.altData.players[pName].bio = {}
+end
 
 function ElderScrollsOfAlts:LoadTestData1()
-  local pName1 = "Test1 McTesty1"
+   local pName1 = "Test1 McTesty1"
   ElderScrollsOfAlts.altData.players[pName1] = {}
   ElderScrollsOfAlts.altData.players[pName1].bio = {}
   ElderScrollsOfAlts.altData.players[pName1].bio.gender = 0
 	ElderScrollsOfAlts.altData.players[pName1].bio.level = 0
   local pName = "Perpugilliam Brown"
-  ElderScrollsOfAlts.altData.players[pName] = {}
   ElderScrollsOfAlts.altData.players[pName].bio = {}
   ElderScrollsOfAlts.altData.players[pName].bio.gender = 0
-	ElderScrollsOfAlts.altData.players[pName].bio.level = 1000
+	ElderScrollsOfAlts.altData.players[pName].bio.level = 50
   ElderScrollsOfAlts.altData.players[pName].bio.CanChampPts = true
 	ElderScrollsOfAlts.altData.players[pName].bio.race = "Wood Elf"
 	ElderScrollsOfAlts.altData.players[pName].bio.class = "Dragonknight"
 	ElderScrollsOfAlts.altData.players[pName].bio.classId = 1
+  ElderScrollsOfAlts.altData.players[pName].bio.champion = 50
 	ElderScrollsOfAlts.altData.players[pName].stats = {}
   ElderScrollsOfAlts.altData.players[pName].skills= {}
   ElderScrollsOfAlts.altData.players[pName].skills.armor = {}
