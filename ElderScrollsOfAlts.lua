@@ -38,11 +38,11 @@ function ElderScrollsOfAlts.loadSavedVariables(self)
     if ElderScrollsOfAlts.savedVariables.debug ~= nil then
         ElderScrollsOfAlts.debug = ElderScrollsOfAlts.savedVariables.debug
     end
-    --if ElderScrollsOfAlts.savedVariables.uimode ~= nil then
-    --  ElderScrollsOfAlts.settings.ui = ElderScrollsOfAlts.savedVariables.uimode      
-    --else
-    --  ElderScrollsOfAlts.settings.ui = "LMM"
-    --end
+    if ElderScrollsOfAlts.savedVariables.uimode ~= nil then
+      ElderScrollsOfAlts.settings.uimode = ElderScrollsOfAlts.savedVariables.uimode      
+    else
+      ElderScrollsOfAlts.settings.uimode = "LMM"
+    end
     ElderScrollsOfAlts.settings.window = {}
     if ElderScrollsOfAlts.savedVariables.window ~=nil and ElderScrollsOfAlts.savedVariables.window.top ~= nil then
       ElderScrollsOfAlts.settings.window.top    = ElderScrollsOfAlts.savedVariables.window.top 
