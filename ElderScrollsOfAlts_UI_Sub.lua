@@ -18,6 +18,7 @@ function ElderScrollsOfAlts:SetupGui3(selectedData)
       ElderScrollsOfAlts:HideGui3()
     else    
       ESOA_GUI2_SUB_Body_Label:SetText( selectedData.name )
+      --TODO ESOA_GUI2_SUB_Body_BackupMain:SetTexture( ElderScrollsOfAlts.items.backupmainicon )      
     end
     --ESOA_GUI2_SUB_Header_Label:SetText( selectedData.name )
   end

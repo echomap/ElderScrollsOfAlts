@@ -1,9 +1,11 @@
 -- GUI Elements
 
+--
 function ElderScrollsOfAlts:SetupGui()
 
 end
 
+--Shared
 function ElderScrollsOfAlts:ShowGuiByChoice()
   local sMode = ElderScrollsOfAlts.GetUIMode()
    --Update Me
@@ -39,6 +41,15 @@ function ElderScrollsOfAlts:onMoveStop()
     ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()  
     ElderScrollsOfAlts:debugMsg("Saved width and height")
   end
+  if ElderScrollsOfAlts.settings.window.iconify then
+    ESOA_GUI2_IconifyHeader:ClearAnchors()
+    ESOA_GUI2_IconifyHeader:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)
+
+    ESOA_GUI2_IconifyHeader_BG:ClearAnchors()
+    ESOA_GUI2_IconifyHeader_BG:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)      
+  end  
 end
 
 --Gui2
@@ -60,65 +71,82 @@ function ElderScrollsOfAlts:onResizeStop()
 end
 
 --Gui2
-function ElderScrollsOfAlts:GUI2Iconify(bIconify)
+function ElderScrollsOfAlts:GUI2Iconify(bIconify) 
   ElderScrollsOfAlts.settings.window.iconify = bIconify
 
-  if bIconify then    
-    ElderScrollsOfAlts:GUI2Minimize(false)    
-    
-    ESOA_GUI2_IconifyHeader:SetHidden(false)        
-    
-    ESOA_GUI2_BG:SetHidden(true)
-    ESOA_GUI2_Header:SetHidden(true)
-    ESOA_GUI2_CharListHeader:SetHidden(true)
-    ESOA_GUI2_CharList:SetHidden(true)    
+  if bIconify then
+    -- Hide Normal Body
     if not ElderScrollsOfAlts.settings.window.minimized then
-      ElderScrollsOfAlts.settings.window.height = ESOA_GUI2:GetHeight()
-      ElderScrollsOfAlts.settings.window.width  = ESOA_GUI2:GetWidth()
+      ElderScrollsOfAlts:GUI2Minimize(true)
     end
-    ESOA_GUI2:SetHeight(40)
-    ESOA_GUI2:SetWidth(70)
+        
+    -- Hide Normal header    
+    ESOA_GUI2_Header:SetHidden(true)
+    ESOA_GUI2_BG:SetHidden(true)
+
+    --Show New header
+    ESOA_GUI2_IconifyHeader:SetHidden(false)
     
+    -- Size    
+    ESOA_GUI2:SetHeight( 30 )
+    ESOA_GUI2:SetWidth(  80 )
+    
+    -- Position
     ESOA_GUI2_IconifyHeader:ClearAnchors()
     ESOA_GUI2_IconifyHeader:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
-      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)    
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)
 
     ESOA_GUI2_IconifyHeader_BG:ClearAnchors()
     ESOA_GUI2_IconifyHeader_BG:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
-      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)    
-    ESOA_GUI2_IconifyHeader_BG:SetHeight(40)
-    ESOA_GUI2_IconifyHeader_BG:SetWidth(70)
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)  
     
-    --ESOA_GUI2_IconifyUn:SetHidden(false)
-    --ESOA_GUI2_IconifyUn_Label:SetHidden(false)
-		--ESOA_GUI2:SetResizeHandleSize(0) 
-    --ESOA_GUI2:SetMovable(false)
+    -- Resize/Move
+    ESOA_GUI2:SetResizeHandleSize(0)
   else    
+    -- Hide New header
     ESOA_GUI2_IconifyHeader:SetHidden(true)
-    
-    ESOA_GUI2_BG:SetHidden(false)
-    ESOA_GUI2_Header:SetHidden(false)
-    ESOA_GUI2_CharListHeader:SetHidden(false)
-    ESOA_GUI2_CharList:SetHidden(false)    
-    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.settings.window.height)
-    ESOA_GUI2:SetWidth(ElderScrollsOfAlts.settings.window.width)
-    
-    --ESOA_GUI2:SetResizeHandleSize(10)
-    --ESOA_GUI2:SetMovable(true)
-  end  
   
+    -- Show Normal header    
+    ESOA_GUI2_Header:SetHidden(false)
+    ESOA_GUI2_BG:SetHidden(false)
+    
+    -- Show Normal Body
+    ElderScrollsOfAlts:GUI2Minimize(false)
+      
+      -- Size
+    ESOA_GUI2:SetHeight( ElderScrollsOfAlts.settings.window.height )
+    ESOA_GUI2:SetWidth(  ElderScrollsOfAlts.settings.window.width  )
+    
+    -- Position
+    ESOA_GUI2:ClearAnchors()
+    ESOA_GUI2:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+      ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top)   
+    
+    -- Resize/Move
+    ESOA_GUI2:SetResizeHandleSize(10)
+    --ESOA_GUI2:SetMovable(true)
+  end
 end
 
 --Gui2
 function ElderScrollsOfAlts:GUI2Minimize(bMin)
   ElderScrollsOfAlts.settings.window.minimized = bMin
-  ESOA_GUI2_CharListHeader:SetHidden(bMin)
-  ESOA_GUI2_CharList:SetHidden(bMin)
+  --Header
   ESOA_GUI2_Header_Minimize:SetHidden(bMin)
-  ESOA_GUI2_Header_Maximize:SetHidden(not bMin)
+  ESOA_GUI2_Header_Maximize:SetHidden(not bMin)  
+  --Body
+  ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
+  ESOA_GUI2_Body_Divider:SetHidden(bMin)
+  ESOA_GUI2_Body_CharList:SetHidden(bMin)
+  --Sizing
   if bMin then
-    ESOA_GUI2:SetHeight(40)
+    --ElderScrollsOfAlts.settings.window.restoreheight = ESOA_GUI2:GetHeight()
+    ESOA_GUI2:SetHeight(20)
   else
+    --local rHt = ElderScrollsOfAlts.settings.window.restoreheight
+    --if rHt == nil then
+    --  rHt = ElderScrollsOfAlts.settings.window.height
+    --end    
     ESOA_GUI2:SetHeight(ElderScrollsOfAlts.settings.window.height)
   end  
 end
@@ -152,7 +180,7 @@ function ElderScrollsOfAlts.ShowGui2()
       ElderScrollsOfAlts:GUI2Minimize(false)  
     end  
     if ElderScrollsOfAlts.settings.window.iconify then
-      --todo
+      ElderScrollsOfAlts:GUI2Iconify(false)
     end    
   end
 	--local settings = IIfA:GetSceneSettings()
@@ -183,7 +211,7 @@ function ElderScrollsOfAlts:SetupGui2(self)
 	--ESOA_GUI_PAGE1_Dropdown:SetHidden(false)  
   
   ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, ESOA_GUI2_Header_Dropdown)
-  ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_CharList)
+  ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
 end
 
 --Sort
@@ -235,9 +263,9 @@ function ElderScrollsOfAlts:GuiSortBase(newKey)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
   
   --
-  local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_CharList)  
+  local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_Body_CharList)  
   local dataLines2   = table.sort( scroll_data2,  SortServers )   
-  ZO_ScrollList_Commit(ESOA_GUI2_CharList, dataLines2)
+  ZO_ScrollList_Commit(ESOA_GUI2_Body_CharList, dataLines2)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
 end
 
@@ -281,7 +309,7 @@ function ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, dropDown)
 end
 
 --Shared Gui
-function ElderScrollsOfAlts:SetupGuiCharListing(dataListing, dataListing)
+function ElderScrollsOfAlts:SetupGuiCharListing(self, dataListing)
 	local NOTE_TYPE = 1
 	--local indexContainer = window:GetNamedChild("ESOA_GUI_PAGE1_List")
 	local scroll_data = ZO_ScrollList_GetDataList(dataListing)
@@ -430,10 +458,10 @@ end
 function ElderScrollsOfAlts:SelectCharacterRow(self)
   --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
-  ZO_ScrollList_SelectData(ESOA_GUI2_CharList, data, self)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_CharList, data, self)
   
   --Get the selected row's data
-  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_CharList)
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_CharList)
   if selectedData ~= nil then
     ElderScrollsOfAlts.debugMsg("SelectCharacterRow: Name=" .. tostring(selectedData.name))
     ElderScrollsOfAlts:ShowGui3(selectedData)

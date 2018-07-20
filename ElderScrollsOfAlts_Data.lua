@@ -13,7 +13,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	end
 
 	--GetCharacterInfo(number index)  What is index?
-	--Returns: string name, number Gender gender, number level, number classId, number raceId, number Alliance alliance, string id, number locationId
+	--Returns: name, num Gender gender, num level, num classId, num raceId, num Alliance alliance, str id, num locationId
 	local pGender = GetUnitGender("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.gender = pGender
 	local pLvl = GetUnitLevel("player")
@@ -169,6 +169,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   ElderScrollsOfAlts.altData.players[pName].misc.backpackSize = bagSize
   ElderScrollsOfAlts.altData.players[pName].misc.backpackUsed = bagUsed
   --
+  ElderScrollsOfAlts:loadPlayerEquipment()
   
 	-- Fetch the saved variables
   --Default values for the SavedVariables
@@ -417,14 +418,37 @@ end
 
 --
 function ElderScrollsOfAlts:loadPlayerEquipment()
-	--local pName = GetUnitName("player")
-  --string icon, boolean slotHasItem, number sellPrice, boolean isHeldSlot, boolean isHeldNow, boolean locked 
-  --GetEquippedItemInfo(number EquipSlot equipSlot)
-  --GetEquippedItemInfo(number EquipSlot equipSlot)
-  --GetEquippedItemInfo(number EquipSlot equipSlot)
-  --GetEquippedItemInfo(number EquipSlot equipSlot)
-  --GetEquippedItemInfo(number EquipSlot equipSlot)
-  local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)
+  
+  local slotIndex = ZO_GetNextBagSlotIndex(BAG_WORN)
+  while slotIndex do
+    --self:AddInventoryItem(inventoryType, slotIndex)
+    local link = GetItemLink(BAG_WORN, slotIndex)--,LINK_STYLE_BRACKETS)--, number LinkStyle linkStyle)
+    if link ~= nil then
+      --d("itemlink= ".. link)
+    end
+    --GetItemId: id = tonumber((tostring(itemLink):match("|H%d:item:(%d+)") or -1)
+    slotIndex = ZO_GetNextBagSlotIndex(BAG_WORN, slotIndex)
+  end
+  
+  --str icon, bool slotHasItem, num sellPrice, bool isHeldSlot, bool isHeldNow, bool locked
+  local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)  
+  --TODO not like this
+  ElderScrollsOfAlts.items = {}
+  ElderScrollsOfAlts.items.backupmainicon = icon
+
+  
+  --GetBagSize(number Bag bagId) 
+  --local pName = GetUnitName("player")
+  --str icon, bool slotHasItem, num sellPrice, bool isHeldSlot, bool isHeldNow, bool locked = GetEquippedItemInfo(num EquipSlot equipSlot)
+  --local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)  
+  --local slotIndex = ???
+  --textureName icon, num stack, num sellPrice, boolean meetsUsageRequirement, bool locked, num EquipType equipType, num itemStyleId, num ItemQuality quality 
+  --local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, ItemQuality quality = GetItemInfo(BAG_WORN, slotIndex)
+  --local itemId = GetItemId(BAG_WORN, slotIndex) 
+  --boolean hasItemInSlot = HasItemInSlot(number Bag bagId, number slotIndex)
+  --local string link = GetItemLink(number Bag bagId, number slotIndex, number LinkStyle linkStyle)
+
+  --d("eq: ")
   --[[
   EQUIP_SLOT_BACKUP_OFF
     EQUIP_SLOT_BACKUP_POISON
