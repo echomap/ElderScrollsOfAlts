@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    -- version         = "1.0",			-- A nuisance to match to the Manifest.
+    version         = "0.1.5",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -71,6 +71,7 @@ function ElderScrollsOfAlts.initData(self)
   ElderScrollsOfAlts:loadSavedVariables()
 	ElderScrollsOfAlts.SetupLMM()
   ElderScrollsOfAlts.loadPlayerData()
+  ElderScrollsOfAlts:RestoreIconfify()
 end
 
 function ElderScrollsOfAlts.SlashCommandHandler(text)
@@ -152,8 +153,7 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     --local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
 
     -- Settings menu in Settings.lua.
-    ElderScrollsOfAlts.LoadSettings()
-    --ElderScrollsOfAlts:RestorePosition()
+    ElderScrollsOfAlts.LoadSettings()    
     --ElderScrollsOfAlts:SetupGUI()
 
     -- Slash commands must be lowercase. Set to nil to disable.

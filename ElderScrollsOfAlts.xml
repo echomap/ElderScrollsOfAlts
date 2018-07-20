@@ -336,7 +336,7 @@
     </Control>
     
   <TopLevelControl name="ESOA_GUI2" clampedToScreen="true" mouseEnabled="true" movable="true"  hidden="true" resizeHandleSize="10" >
-    <DimensionConstraints minX="820" minY="50" maxY="1400"/>
+    <DimensionConstraints minX="700" minY="50" maxY="1400"/>
     <Dimensions x="810" y="325" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
 

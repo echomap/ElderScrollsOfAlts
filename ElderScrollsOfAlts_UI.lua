@@ -1,6 +1,16 @@
 -- GUI Elements
 
 --
+function ElderScrollsOfAlts:RestoreIconfify()
+  local sMode = ElderScrollsOfAlts.GetUIMode()
+  if sMode == "Show2" or sMode == "show2" then
+    ElderScrollsOfAlts.loadPlayerData()
+    ElderScrollsOfAlts:ShowGui2()
+    ElderScrollsOfAlts:GUI2Iconify(true) 
+  end  
+end
+
+--
 function ElderScrollsOfAlts:SetupGui()
 
 end

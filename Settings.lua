@@ -7,7 +7,7 @@ function ElderScrollsOfAlts.LoadSettings()
         name = ElderScrollsOfAlts.name,
         displayName = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.menuName),
         author = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.author, "AAF0BB"),
-        -- version = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.version, "AA00FF"),
+        version = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.version, "AA00FF"),
         slashCommand = "/ElderScrollsOfAlts",
         registerForRefresh = true,
         registerForDefaults = true,
