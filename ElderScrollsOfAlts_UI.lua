@@ -281,7 +281,7 @@ function ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, dropDown)
 end
 
 --Shared Gui
-function ElderScrollsOfAlts:SetupGuiCharListing(self, dataListing)
+function ElderScrollsOfAlts:SetupGuiCharListing(dataListing, dataListing)
 	local NOTE_TYPE = 1
 	--local indexContainer = window:GetNamedChild("ESOA_GUI_PAGE1_List")
 	local scroll_data = ZO_ScrollList_GetDataList(dataListing)
@@ -294,6 +294,14 @@ function ElderScrollsOfAlts:SetupGuiCharListing(self, dataListing)
 	)
 	ZO_ScrollList_AddCategory(dataListing, 1, nil)
 	ZO_ScrollList_AddResizeOnScreenResize(dataListing)
+  
+  ZO_ScrollList_EnableSelection(dataListing, "ESOA_RowTemplate_Highlight")
+  --ElderScrollsOfAlts.SelectCharacterRowCallback )  
+  ZO_ScrollList_EnableHighlight(dataListing, "ESOA_RowTemplate_Highlight")
+  --ZO_ScrollList_SetTypeSelectable(dataListing, NOTE_TYPE, true)
+  --ZO_ScrollList_SetAutoSelect(dataListing, true)
+  ZO_ScrollList_SetDeselectOnReselect(dataListing, true)
+  
 	--IIfA:GuiResizeScroll()
 	--IIfA:RefreshInventoryScroll()
 	--local TYPE_ID = NOTE_TYPE
@@ -416,4 +424,20 @@ function ElderScrollsOfAlts:doCharacterSelected(choiceText, choice)
 	ElderScrollsOfAlts.debugMsg(" choiceText=" .. choiceText .. " choice=" .. tostring(choice) )  
   --ElderScrollsOfAlts:SetupGui3()
   ElderScrollsOfAlts.ShowGui3()
+end
+
+--Gui2
+function ElderScrollsOfAlts:SelectCharacterRow(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_CharList, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_CharList)
+  if selectedData ~= nil then
+    ElderScrollsOfAlts.debugMsg("SelectCharacterRow: Name=" .. tostring(selectedData.name))
+    ElderScrollsOfAlts:ShowGui3(selectedData)
+  else
+    ElderScrollsOfAlts.debugMsg("SelectCharacterRow: selectedData= nil")
+  end  
 end

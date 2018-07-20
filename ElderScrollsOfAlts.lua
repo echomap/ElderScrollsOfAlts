@@ -85,10 +85,12 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 
 	if #options == 0 then
     ElderScrollsOfAlts.ShowGuiByChoice()
+	elseif #options == 0 or options[1] == "help" then
+		-- TODO Display help  
 	elseif #options == 0 or options[1] == "show2" then
     ElderScrollsOfAlts.ShowGui2()
-	elseif #options == 0 or options[1] == "help" then
-		-- Display help  
+	elseif #options == 0 or options[1] == "lmm" then
+    ElderScrollsOfAlts:ToggleShowing()
 	elseif #options == 0 or options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.debug
 		ElderScrollsOfAlts.debug = not dg
