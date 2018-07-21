@@ -82,6 +82,7 @@ end
 
 --Gui2
 function ElderScrollsOfAlts:GUI2Iconify(bIconify) 
+  ElderScrollsOfAlts.loadPlayerData()
   ElderScrollsOfAlts.settings.window.iconify = bIconify
 
   if bIconify then
@@ -140,7 +141,24 @@ end
 
 --Gui2
 function ElderScrollsOfAlts:GUI2Minimize(bMin)
+  ElderScrollsOfAlts.loadPlayerData()
   ElderScrollsOfAlts.settings.window.minimized = bMin
+  
+  if ElderScrollsOfAlts.settings.window.minlevel == nil then
+    ElderScrollsOfAlts.settings.window.minlevel = 0
+  end
+  
+  if bMin then
+    ElderScrollsOfAlts.settings.window.minlevel = ElderScrollsOfAlts.settings.window.minlevel + 1
+  else
+    ElderScrollsOfAlts.settings.window.minlevel = ElderScrollsOfAlts.settings.window.minlevel - 1
+  end
+  --d("MinLevel=" .. tostring(ElderScrollsOfAlts.settings.window.minlevel) )
+  
+  if ElderScrollsOfAlts.settings.window.minlevel == nil or ElderScrollsOfAlts.settings.window.minlevel == 0 then
+  else
+  end  
+  
   --Header
   ESOA_GUI2_Header_Minimize:SetHidden(bMin)
   ESOA_GUI2_Header_Maximize:SetHidden(not bMin)  

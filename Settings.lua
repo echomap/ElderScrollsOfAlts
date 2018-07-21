@@ -34,7 +34,7 @@ function ElderScrollsOfAlts.LoadSettings()
             controls = {
                 [1] = {
                     type = "dropdown",
-                    name = "UI Style",
+                    name = "Character",
                     tooltip = "Select Character.",
                     choices = ElderScrollsOfAlts:ListOfPlayers(),
                     getFunc = function() return "Select" end,
