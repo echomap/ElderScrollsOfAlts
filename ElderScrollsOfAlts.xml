@@ -335,7 +335,7 @@
           </Controls>
     </Control>
     
-  <TopLevelControl name="ESOA_GUI2" clampedToScreen="true" mouseEnabled="true" movable="true"  hidden="true" resizeHandleSize="10" >
+  <TopLevelControl name="ESOA_GUI2" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
     <DimensionConstraints minX="700" minY="50" maxY="1400"/>
     <Dimensions x="810" y="325" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
@@ -348,14 +348,14 @@
     <OnResizeStop>  ElderScrollsOfAlts:onResizeStop()  </OnResizeStop>
 
     <Controls>
-      <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop" layer="0" level="0"> <AnchorFill/> </Backdrop>
+      <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"> <AnchorFill/> </Backdrop>
     
-      <Control name="$(parent)_IconifyHeader" resizeToFitDescendents="false" layer="1" level="1" hidden="true" >
+      <Control name="$(parent)_IconifyHeader" resizeToFitDescendents="false" hidden="true" >
         <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  offsetX="0" offsetY="0" />
         <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="60" offsetY="0" />
         <Dimensions y="20" />
         <Controls>      
-          <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop" layer="0" level="0">
+          <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
             <Dimensions x="80" y="30" /> 
           </Backdrop>
           <Button name="$(parent)_IconifyUn" >
@@ -376,7 +376,7 @@
         </Controls>      
       </Control>
 
-      <Control name="$(parent)_Header" hidden="false" resizeToFitDescendents="false" layer="1" level="1" >
+      <Control name="$(parent)_Header" hidden="false" resizeToFitDescendents="false">
         <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  offsetX="10" offsetY="10" />
         <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="10" offsetY="10" />
         <Dimensions y="24" />
@@ -454,7 +454,7 @@
             />
           </Button>
           
-          <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" layer="2" level="1" tier="HIGH">
+          <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH">
             <Dimensions y="25" />
             <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnShow> ElderScrollsOfAlts:GuiSetupDropdown(self) </OnShow>
@@ -465,22 +465,22 @@
         </Controls>            
       </Control>
      
-      <Control name="$(parent)_Body" hidden="false" resizeToFitDescendents="true" layer="1" level="1" >
+      <Control name="$(parent)_Body" hidden="false" resizeToFitDescendents="true"  >
         <Anchor point="TOPLEFT"     relativeTo="$(parent)_Header" relativePoint="BOTTOMLEFT" />
         <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
         <Dimensions y="26" />
         <Controls>
-          <Control name="$(parent)_CharListHeader" inherits="ESOA_SortBar" mouseEnabled="true" layer="1" level="1" >
+          <Control name="$(parent)_CharListHeader" inherits="ESOA_SortBar" mouseEnabled="true" >
             <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  />
             <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" />            
           </Control>
           <Texture name="$(parent)_Divider" textureFile="EsoUI/Art/Miscellaneous/centerscreen_topDivider.dds" 
-              alpha="1" layer="1" level="1" >        
+              alpha="1" >
             <Anchor point="TOPLEFT"     relativeTo="$(parent)_CharListHeader" relativePoint="TOPLEFT" offsetY="20" />
             <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)_CharListHeader" relativePoint="BOTTOMRIGHT" offsetY="0"/>
             <TextureCoords top="0" bottom=".625" left="0" right=".925"/>
           </Texture>
-          <Control name="$(parent)_CharList" inherits="ZO_ScrollList" mouseEnabled="true" layer="1" level="1">
+          <Control name="$(parent)_CharList" inherits="ZO_ScrollList" mouseEnabled="true" >
             <Anchor point="TOPLEFT" relativeTo="$(parent)_CharListHeader" relativePoint="BOTTOMLEFT"
               offsetX="0" offsetY="15" />
             <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" 

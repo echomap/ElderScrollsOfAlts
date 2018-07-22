@@ -1,6 +1,7 @@
 -- Uses GUI Elements and Data
 --
 
+-- Read all data from the game Player Object into this Addon
 function ElderScrollsOfAlts.loadPlayerData(self)
 	local pName = GetUnitName("player")
 	if ElderScrollsOfAlts.altData.players == nil then

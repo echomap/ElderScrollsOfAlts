@@ -1,11 +1,13 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "0.1.5",			-- A nuisance to match to the Manifest.
+    version         = "0.1.6",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
     debug           = false,
+    currentSortKey  = "name",
+    currentSortOrder = ZO_SORT_ORDER_UP, --ZO_SORT_ORDER_DOWN      
     settings        = {},
     -- Defaults
     --settings.ui     = "LMM",
@@ -32,6 +34,9 @@ function ElderScrollsOfAlts.SaveSettings()
     end
   end
   ElderScrollsOfAlts.savedVariables.uimode = ElderScrollsOfAlts.GetUIMode()
+  ElderScrollsOfAlts.savedVariables.currentSortKey   = ElderScrollsOfAlts.currentSortKey
+  ElderScrollsOfAlts.savedVariables.currentSortOrder = ElderScrollsOfAlts.currentSortOrder
+  
 end
 
 function ElderScrollsOfAlts.loadSavedVariables(self)
@@ -43,6 +48,13 @@ function ElderScrollsOfAlts.loadSavedVariables(self)
     else
       ElderScrollsOfAlts.settings.uimode = "LMM"
     end
+    if ElderScrollsOfAlts.savedVariables.currentSortKey ~= nil then
+      ElderScrollsOfAlts.currentSortKey = ElderScrollsOfAlts.savedVariables.currentSortKey
+    end
+    if ElderScrollsOfAlts.savedVariables.currentSortOrder ~= nil then
+      ElderScrollsOfAlts.currentSortOrder = ElderScrollsOfAlts.savedVariables.currentSortOrder
+    end
+  
     ElderScrollsOfAlts.settings.window = {}
     if ElderScrollsOfAlts.savedVariables.window ~=nil and ElderScrollsOfAlts.savedVariables.window.top ~= nil then
       ElderScrollsOfAlts.settings.window.top    = ElderScrollsOfAlts.savedVariables.window.top 
@@ -86,20 +98,20 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 
 	if #options == 0 then
     ElderScrollsOfAlts.ShowGuiByChoice()
-	elseif #options == 0 or options[1] == "help" then
+	elseif options[1] == "help" then
 		-- TODO Display help  
-	elseif #options == 0 or options[1] == "show2" then
+	elseif options[1] == "show2" then
     ElderScrollsOfAlts.ShowGui2()
-	elseif #options == 0 or options[1] == "lmm" then
+	elseif options[1] == "lmm" then
     ElderScrollsOfAlts:ToggleShowing()
-	elseif #options == 0 or options[1] == "debug" then
+	elseif options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.debug
 		ElderScrollsOfAlts.debug = not dg
 		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.debug
-  elseif #options == 0 or options[1] == "testdata" then
+  elseif options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
-  elseif #options == 0 or options[1] == "deltestdata" then
+  elseif options[1] == "deltestdata" then
     ElderScrollsOfAlts:DelTestData1()    
 	elseif (#options == 0 or options[1] == "tab") and options[2] ~= nil then
 		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
