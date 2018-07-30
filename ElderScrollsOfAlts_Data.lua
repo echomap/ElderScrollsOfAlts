@@ -9,12 +9,11 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	end
 	ElderScrollsOfAlts.altData.players[pName] = {}
 
+  -- BIO section
 	if ElderScrollsOfAlts.altData.players[pName].bio == nil then
 		ElderScrollsOfAlts.altData.players[pName].bio = {}
 	end
-
-	--GetCharacterInfo(number index)  What is index?
-	--Returns: name, num Gender gender, num level, num classId, num raceId, num Alliance alliance, str id, num locationId
+	
 	local pGender = GetUnitGender("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.gender = pGender
 	local pLvl = GetUnitLevel("player")
@@ -24,8 +23,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   if canChampPts then
     ElderScrollsOfAlts.altData.players[pName].bio.level    = GetUnitEffectiveLevel("player") 
     ElderScrollsOfAlts.altData.players[pName].bio.champion = GetUnitChampionPoints("player")   
-  end
-  
+  end  
 	local pRace = GetUnitRace("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.race = pRace
 	--GetUnitRaceId(string unitTag)
@@ -33,7 +31,9 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	ElderScrollsOfAlts.altData.players[pName].bio.class = pClass
 	local pClassId = GetUnitClassId("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.classId = pClassId
-   
+  local pAlliance = GetUnitAlliance("player")
+  ElderScrollsOfAlts.altData.players[pName].bio.alliance = pAlliance
+
 	--local value = GetPlayerStat(self.statType, STAT_BONUS_OPTION_APPLY_BONUS)
 	if ElderScrollsOfAlts.altData.players[pName].stats == nil then
 		ElderScrollsOfAlts.altData.players[pName].stats = {}
@@ -269,19 +269,19 @@ function ElderScrollsOfAlts:ListOfPlayers()
      d(" players " .. k)
   end
   ]]
-  
-  local validChoices =  {}
+  local validChoices =  {}  
 	table.insert(validChoices, "Select")
-	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-		--d(ElderScrollsOfAlts.name .. " k " .. k)
-		table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
-	end
+  if ElderScrollsOfAlts.altData.player ~= nil then
+    for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+      --d(ElderScrollsOfAlts.name .. " k " .. k)
+      table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
+    end
+  end
   return validChoices
-  
   --return ElderScrollsOfAlts.altData.players    
 end
 
-
+--
 function ElderScrollsOfAlts:SetupGuiPlayerLines()
 	local playerLines =  {}
 	--table.insert(playerLines, "Select")
@@ -293,15 +293,19 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].rawname = k
 		local bio = ElderScrollsOfAlts.altData.players[k].bio
 		if bio ~=nil then
-			playerLines[k].gender = bio.gender
-      playerLines[k].level  = bio.level
-			playerLines[k].race   = bio.race
-      playerLines[k].class  = bio.class
+			playerLines[k].gender   = bio.gender
+      playerLines[k].level    = bio.level
+			playerLines[k].race     = bio.race
+      playerLines[k].class    = bio.class
+      playerLines[k].alliance = bio.alliance
+      playerLines[k].super    = 0
       if bio.Werewolf then
         playerLines[k].Werewolf = true
+        playerLines[k].super    = 1
       end
       if bio.Vampire then
         playerLines[k].Vampire = true
+        playerLines[k].super    = 2
       end
     else 
       playerLines[k].gender = -1
@@ -310,6 +314,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].class = "Unk"
       playerLines[k].Werewolf = false
       playerLines[k].Vampire = false
+      playerLines[k].super    = 0
 		end
     if playerLines[k].level == nil or playerLines[k].level < 1 then
       ElderScrollsOfAlts.altData.players[k]  = nil
@@ -322,7 +327,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].champion = nil
     end
 
-    --
+    -- MISC
     local misc = ElderScrollsOfAlts.altData.players[k].misc
     if misc ~=nil then
       playerLines[k].backpackSize = misc.backpackSize

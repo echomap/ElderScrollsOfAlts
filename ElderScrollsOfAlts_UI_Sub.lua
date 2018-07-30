@@ -4,14 +4,14 @@
 function ElderScrollsOfAlts:SetupGui3(selectedData)
 	--local settings = IIfA:GetSceneSettings()
 	--settings.hidden = true
-  if ElderScrollsOfAlts.settings.window.top ~= nil then
+  if ElderScrollsOfAlts.savedVariables.window.top ~= nil then
     local left = 40
     local top  = 100
     ESOA_GUI2_SUB:ClearAnchors()
     ESOA_GUI2_SUB:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
-        ElderScrollsOfAlts.settings.window.left, ElderScrollsOfAlts.settings.window.top+300 )
-    --ESOA_GUI2_SUB:SetHeight( 100 ) --ElderScrollsOfAlts.settings.window.height)
-    --ESOA_GUI2_SUB:SetWidth(  100 ) --ElderScrollsOfAlts.settings.window.width )
+        ElderScrollsOfAlts.savedVariables.window.left, ElderScrollsOfAlts.savedVariables.window.top+300 )
+    --ESOA_GUI2_SUB:SetHeight( 100 ) --ElderScrollsOfAlts.savedVariables.window.height)
+    --ESOA_GUI2_SUB:SetWidth(  100 ) --ElderScrollsOfAlts.savedVariables.window.width )
   end  
   if selectedData then 
     if selectedData == ESOA_GUI2_SUB.selectedData then

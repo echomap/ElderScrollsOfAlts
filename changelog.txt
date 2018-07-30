@@ -1,0 +1,31 @@
+0.1.7 Save settings updated, removed LMM menu, New UI Button
+  UI button to move/click to show/hide /eso still works
+  LMM menu removed
+  Settings save on QUIT as well
+  UI hide on Champion screen, any other needed?
+  Alliance shown/sortable
+  Were/Vamp sortable
+  Removed Iconify mode
+0.1.6 sort updates
+    load current player data when restored/unminimized
+    sort order and direction saved and restored
+    Less loading of player data
+0.1.5 Show2 Gui updates, size, selecting row, starting details storing
+    Icon will be restored if style is "show2"
+    Minor GUI updates
+    highlight selected row
+0.1.4 Gui updates and WHOOPs fix
+    Settings added Mode select
+    Started gui3 -> which is the character viewer, etc
+0.1.3 "/esoa show2" gui update, save position/minimize
+    saving window position
+    ability to 'iconify' the window
+0.1.2 window moving/min/max/lock
+0.1.1 gui updates
+    Added slashcommand for trial new gui /esoa show2
+    Updated 'mainmenu' gui
+    Code updates
+    Bag space shown now
+    Beginnings of VAMP vs WERE icons showing
+    Fixed Sorting
+0.1 Initial

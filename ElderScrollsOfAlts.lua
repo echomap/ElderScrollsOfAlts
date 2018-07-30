@@ -1,89 +1,53 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "0.1.6",			-- A nuisance to match to the Manifest.
+    version         = "0.1.7",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
-    debug           = false,
-    currentSortKey  = "name",
-    currentSortOrder = ZO_SORT_ORDER_UP, --ZO_SORT_ORDER_DOWN      
-    settings        = {},
-    -- Defaults
-    --settings.ui     = "LMM",
     -- Saved Settings
     savedVariables  = {},
     altData         = {},
 }
 
-function ElderScrollsOfAlts.SaveSettings()
-  --if ElderScrollsOfAlts.settings.window == nil then
-    --return
-  --end
-  if ElderScrollsOfAlts.savedVariables.window == nil then
-    ElderScrollsOfAlts.savedVariables.window = {}
-  end  
-  if not ElderScrollsOfAlts.settings.window.iconify then
-    if ElderScrollsOfAlts.settings.window.top ~= nil then
-      ElderScrollsOfAlts.savedVariables.window.top      = ElderScrollsOfAlts.settings.window.top
-      ElderScrollsOfAlts.savedVariables.window.left     = ElderScrollsOfAlts.settings.window.left
-    end
-    if not ElderScrollsOfAlts.settings.window.minimized and ElderScrollsOfAlts.settings.window.width ~= nil then
-      ElderScrollsOfAlts.savedVariables.window.width  = ElderScrollsOfAlts.settings.window.width
-      ElderScrollsOfAlts.savedVariables.window.height = ElderScrollsOfAlts.settings.window.height 
-    end
-  end
-  ElderScrollsOfAlts.savedVariables.uimode = ElderScrollsOfAlts.GetUIMode()
-  ElderScrollsOfAlts.savedVariables.currentSortKey   = ElderScrollsOfAlts.currentSortKey
-  ElderScrollsOfAlts.savedVariables.currentSortOrder = ElderScrollsOfAlts.currentSortOrder
-  
-end
+--ZO_SORT_ORDER_UP, --ZO_SORT_ORDER_DOWN
+local defaultSettings = {   
+  sversion   = ElderScrollsOfAlts.version,
+  uimode     = "Show2",
+  currentSortKey   = "name",
+  currentSortOrder = true,
+  window     = {
+      ["minimized"] = false,
+      ["shown"]   = false,
+      ["top"]     = 100,
+      ["left"]    = 100,
+      ["width"]   = 830,
+      ["height"]  = 325,
+  },
+  uibutton    = {
+    ["shown"] = true,
+    ["top"] = 200,
+    ["left"] = 200,
+  },
+  selected = {
+    ["charactername"] = nil,
+  },
+}
 
-function ElderScrollsOfAlts.loadSavedVariables(self)
-    if ElderScrollsOfAlts.savedVariables.debug ~= nil then
-        ElderScrollsOfAlts.debug = ElderScrollsOfAlts.savedVariables.debug
-    end
-    if ElderScrollsOfAlts.savedVariables.uimode ~= nil then
-      ElderScrollsOfAlts.settings.uimode = ElderScrollsOfAlts.savedVariables.uimode      
-    else
-      ElderScrollsOfAlts.settings.uimode = "LMM"
-    end
-    if ElderScrollsOfAlts.savedVariables.currentSortKey ~= nil then
-      ElderScrollsOfAlts.currentSortKey = ElderScrollsOfAlts.savedVariables.currentSortKey
-    end
-    if ElderScrollsOfAlts.savedVariables.currentSortOrder ~= nil then
-      ElderScrollsOfAlts.currentSortOrder = ElderScrollsOfAlts.savedVariables.currentSortOrder
-    end
-  
-    ElderScrollsOfAlts.settings.window = {}
-    if ElderScrollsOfAlts.savedVariables.window ~=nil and ElderScrollsOfAlts.savedVariables.window.top ~= nil then
-      ElderScrollsOfAlts.settings.window.top    = ElderScrollsOfAlts.savedVariables.window.top 
-      ElderScrollsOfAlts.settings.window.left   = ElderScrollsOfAlts.savedVariables.window.left 
-      ElderScrollsOfAlts.settings.window.width  = ElderScrollsOfAlts.savedVariables.window.width 
-      ElderScrollsOfAlts.settings.window.height = ElderScrollsOfAlts.savedVariables.window.height      
-    end
-    --if ElderScrollsOfAlts.settings.window.width < xx then
-      --ElderScrollsOfAlts.settings.window = {}
-end
+local defaultSettingsGlobal = {
+  debug      = false,
+}
 
-function ElderScrollsOfAlts.GetUIMode()
-  if ElderScrollsOfAlts.settings.uimode == nil then
-    ElderScrollsOfAlts.settings.uimode = "LMM"
-  end
-  return ElderScrollsOfAlts.settings.uimode
-end
-
+--
 function ElderScrollsOfAlts.SetUIMode(self,var)
   ElderScrollsOfAlts.debugMsg("SetUIMode: var="..var)
-  ElderScrollsOfAlts.settings.uimode = var
+  ElderScrollsOfAlts.savedVariables.uimode = var
 end
 
-
+--
 function ElderScrollsOfAlts.initData(self)
-  ElderScrollsOfAlts:loadSavedVariables()
-	ElderScrollsOfAlts.SetupLMM()
-  ElderScrollsOfAlts.loadPlayerData()
-  ElderScrollsOfAlts:RestoreIconfify()
+  --ElderScrollsOfAlts:loadSavedVariables()
+  ElderScrollsOfAlts:RestoreUI()
 end
 
 function ElderScrollsOfAlts.SlashCommandHandler(text)
@@ -100,15 +64,11 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts.ShowGuiByChoice()
 	elseif options[1] == "help" then
 		-- TODO Display help  
-	elseif options[1] == "show2" then
-    ElderScrollsOfAlts.ShowGui2()
-	elseif options[1] == "lmm" then
-    ElderScrollsOfAlts:ToggleShowing()
 	elseif options[1] == "debug" then
-		local dg = ElderScrollsOfAlts.debug
-		ElderScrollsOfAlts.debug = not dg
-		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.debug) )
-		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.debug
+		local dg = ElderScrollsOfAlts.altData.debug
+		ElderScrollsOfAlts.altData.debug = not dg
+		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.altData.debug) )
+		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.altData.debug
   elseif options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
   elseif options[1] == "deltestdata" then
@@ -124,43 +84,49 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	end
 end
 
+function ElderScrollsOfAlts.OnChampionPerksSceneStateChange(oldState,newState)
+    if newState == SCENE_SHOWING then
+      ElderScrollsOfAlts.HideAll()--ESOA_ButtonFrame
+      CraftStoreFixed_ButtonFrame:SetHidden(true)
+    elseif newState == SCENE_HIDDEN then
+      --TODO check user wants to re-show
+      --if CS.Account.option[1] then CraftStoreFixed_ButtonFrame:SetHidden(false) end
+      ElderScrollsOfAlts.ShowUIButton()--ESOA_ButtonFrame
+      ElderScrollsOfAlts.RestoreGui2()--ESOA_ButtonFrame
+    end
+end
+
 function ElderScrollsOfAlts.Activated(e)
     EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED)
 
-    ElderScrollsOfAlts:debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) 
+    ElderScrollsOfAlts:debugMsg(ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) 
     ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
-        ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE)) -- Top-right alert.
+        ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
 
-    -- Animate the xml UI center text, after a delay.
-    --zo_callLater(ElderScrollsOfAlts.AnimateText, 3000)    
-    --ElderScrollsOfAlts:loadSavedVariables()
     ElderScrollsOfAlts.initData()
-    ElderScrollsOfAlts:SetupGui()
-    --zo_callLater(ElderScrollsOfAlts.TryShowMainWindow, 3000)
-    --zo_callLater(ElderScrollsOfAlts.TryShowMainWindow, 3000)
+
+    CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksSceneStateChange)
 end
 
 -- When player is ready, after everything has been loaded. (after addon loaded)
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, ElderScrollsOfAlts.Activated)
 
+--TODO When is this called? NOT On quit!!
 function ElderScrollsOfAlts.OnAddOnUnloaded(event)
   ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded called") -- Prints to chat.  
   ElderScrollsOfAlts.loadPlayerData()
-  ElderScrollsOfAlts.SaveSettings()
+  --ElderScrollsOfAlts.SaveSettings()
   ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded done") -- Prints to chat.
 end
 
 function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     if addonName ~= ElderScrollsOfAlts.name then return end
     EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED)
+    CHAMPION_PERKS_SCENE:UnregisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksSceneStateChange)
 
-    ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", 1, nil, ElderScrollsOfAlts.savedVariables)
-
-    local defaults = {
-      pName      = pName,
-      fillAmt    = 0,
-    }
-    ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", 1, nil, defaults)
+    ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", 1, nil, defaultSettings)
+    ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", 1, nil, defaultSettingsGlobal)
+    
     --ESOA_AltData
     --local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
 
@@ -173,10 +139,10 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     SLASH_COMMANDS["/esoa"] = ElderScrollsOfAlts.SlashCommandHandler
     -- Reset autocomplete cache to update it.
     SLASH_COMMAND_AUTO_COMPLETE:InvalidateSlashCommandCache()
-    d(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
+    --d(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
 end
 
 -- When any addon is loaded, but before UI (Chat) is loaded.
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED, ElderScrollsOfAlts.OnAddOnLoaded)
-
+--
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_DEACTIVATED, ElderScrollsOfAlts.OnAddOnUnloaded)

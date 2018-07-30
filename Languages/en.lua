@@ -1,9 +1,8 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
-    SI_NEW_ADDON_MESSAGE  = " player is loaded",
-    SI_NEW_ADDON_MESSAGE2 = " addon is loaded",
+    SI_ESOA_MESSAGE  = " addon is loaded",
     -- Keybindings.
-    SI_BINDING_NAME_NEWADDON_DISPLAY = "Display the NewAddon",
+    SI_BINDING_NAME_ESOA_DISPLAY = "Display ESOA",
 }
 
 for stringId, stringValue in pairs(localization_strings) do

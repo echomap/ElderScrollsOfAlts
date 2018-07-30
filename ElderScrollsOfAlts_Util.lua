@@ -3,7 +3,7 @@ function ElderScrollsOfAlts:debugMsg(text)
     if text == nil then
       return
     end  
-	if ElderScrollsOfAlts.debug then
+	if ElderScrollsOfAlts.altData.debug then
 		d("(" .. ElderScrollsOfAlts.name .. ") " .. text);
 	end
 end
@@ -11,7 +11,7 @@ function ElderScrollsOfAlts.debugMsg(self,text)
     if text == nil then
       return
     end
-    if ElderScrollsOfAlts.debug then
+    if ElderScrollsOfAlts.altData.debug then
       d("(" .. ElderScrollsOfAlts.name .. ") " .. text);
     end
 end
@@ -84,6 +84,19 @@ function ElderScrollsOfAlts:GetRaceText2(raceName)
       raceX ="Red"      
     end
     return raceX
+end
+
+--art/icons/heraldrycrests_alliance_aldmeri_01.dds
+--art/icons/heraldrycrests_alliance_aldmeri_02.dds
+--art/icons/heraldrycrests_alliance_daggerfall_01.dds
+--art/icons/heraldrycrests_alliance_daggerfall_02.dds
+--art/icons/heraldrycrests_alliance_ebonheart_01.dds
+--art/icons/heraldrycrests_alliance_ebonheart_02.dds
+function ElderScrollsOfAlts:GetAllianceIcon(alliance)
+  --if( alliance == 1 ) then
+  --else if XXX then
+  --end
+  return ZO_GetAllianceIcon(alliance)
 end
 
 -- Wraps text with a color.

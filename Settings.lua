@@ -24,10 +24,18 @@ function ElderScrollsOfAlts.LoadSettings()
             type = "description",
             --title = "My Title",	--(optional)
             title = nil,	--(optional)
-            text = "My description text to display.",
+            text = "ESOA - Options and Configuration.",
             width = "full",	--or "half" (optional)
         },
         [3] = {
+            type = "checkbox",
+            name = "Show Button",
+            tooltip = "On or off.",
+            getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
+            setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(true)  end,
+            width = "half",	--or "half" (optional)
+        },     
+        [4] = {
             type = "submenu",
             name = "Character Maintanance",
             tooltip = "Character Maintanance Utils",	--(optional)
@@ -38,28 +46,27 @@ function ElderScrollsOfAlts.LoadSettings()
                     tooltip = "Select Character.",
                     choices = ElderScrollsOfAlts:ListOfPlayers(),
                     getFunc = function() return "Select" end,
-                    setFunc = function(var) print(var) end,
+                    setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
                     width = "half",	--or "half" (optional)
                 },
                 [2] = {
+                    type = "Commands",
+                    --title = "My Title",	--(optional)
+                    title = nil,	--(optional)
+                    text = "ESOA - Options and Configuration.",
+                    width = "full",	--or "half" (optional)
+                },
+                [3] = {
                     type = "button",
                     name = "Delete",
                     tooltip = "Delete selected Character's Data!",
-                    func = function() d("button pressed!") end,
+                    func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
                     width = "half",	--or "half" (optional)
                     warning = "Will need to reload the UI.",	--(optional)
                 },
             },
         },
-        [4] = {
-            type = "dropdown",
-            name = "UI Style",
-            tooltip = "Select what UI to use via /esoa.",
-            choices = {"LMM", "Show2", "Testing"},
-            getFunc = function() return ElderScrollsOfAlts:GetUIMode() end,
-            setFunc = function(var) ElderScrollsOfAlts:SetUIMode(var) end,
-            width = "half",	--or "half" (optional)
-        },
+        
     }
     LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end
