@@ -50,6 +50,7 @@ function ElderScrollsOfAlts.LoadSettings()
                     width = "half",	--or "half" (optional)
                 },
                 [2] = {
+                    name = "Character_Commands",
                     type = "Commands",
                     --title = "My Title",	--(optional)
                     title = nil,	--(optional)

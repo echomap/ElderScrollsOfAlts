@@ -610,22 +610,22 @@
   </TopLevelControl>
 
   <TopLevelControl name="ESOA_ButtonFrame" topmost="true" hidden="false" mouseEnabled="true" movable="true" >
-      <Dimensions x="65" y="35" />
+      <Dimensions x="65" y="25" />
       <Anchor point="TOPLEFT" relativeTo="GUI_ROOT" relativePoint="TOPLEFT" offsetX="400" offsetY="400" />
-      <OnInitialized> </OnInitialized>
+      <OnInitialized> </OnInitialized>d
       <OnShow> </OnShow>
       <OnMoveStop> ElderScrollsOfAlts:ButtonFrameOnMoveStop() </OnMoveStop>
       <Controls>
         <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"> <AnchorFill/> </Backdrop>
         <Button name="$(parent)Button" topmost="true" hidden="false">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="4" offsetX="4"/>
-          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="4" offsetX="4"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="0" offsetX="0"/>
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="0" offsetX="0"/>
           <OnMouseEnter> </OnMouseEnter>
           <OnMouseUp> ElderScrollsOfAlts:DoUiButtonClicked() </OnMouseUp>          
           <Controls>
            <Label name="$(parent)_Button_Label" mouseEnabled="false" 
-                font="ZoFontGame" text="-ESOA-"
-                verticalAlignment="CENTER" horizontalAlignment="LEFT" >
+                font="ZoFontWinH5" text="-ESOA-"
+                verticalAlignment="CENTER" horizontalAlignment="CENTER" >
               <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="2" offsetX="2"/>
               <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="2" offsetX="2"/>
             </Label>        
