@@ -2,11 +2,7 @@
   <Layer name="SI_KEYBINDINGS_CATEGORY_GENERAL">
     <Category name="ElderScrollsOfAlts">
       <Action name="ESOA_DISPLAY">
-		    <Up>ElderScrollsOfAlts.AnimateText()</Up>
-      </Action>
-      <Action name="ESOA_SHOW_PANEL">
-		<Down></Down>
-		<Up>ElderScrollsOfAlts.menu:Toggle()</Up>
+		    <Up>ElderScrollsOfAlts.ShowGuiByChoice()</Up>
       </Action>
     </Category>
   </Layer>

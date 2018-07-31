@@ -36,36 +36,35 @@ function ElderScrollsOfAlts.LoadSettings()
             width = "half",	--or "half" (optional)
         },     
         [4] = {
-            type = "submenu",
+            type = "header",
             name = "Character Maintanance",
+            text = "Character Maintanance",
             tooltip = "Character Maintanance Utils",	--(optional)
-            controls = {
-                [1] = {
-                    type = "dropdown",
-                    name = "Character",
-                    tooltip = "Select Character.",
-                    choices = ElderScrollsOfAlts:ListOfPlayers(),
-                    getFunc = function() return "Select" end,
-                    setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
-                    width = "half",	--or "half" (optional)
-                },
-                [2] = {
-                    name = "Character_Commands",
-                    type = "Commands",
-                    --title = "My Title",	--(optional)
-                    title = nil,	--(optional)
-                    text = "ESOA - Options and Configuration.",
-                    width = "full",	--or "half" (optional)
-                },
-                [3] = {
-                    type = "button",
-                    name = "Delete",
-                    tooltip = "Delete selected Character's Data!",
-                    func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
-                    width = "half",	--or "half" (optional)
-                    warning = "Will need to reload the UI.",	--(optional)
-                },
-            },
+        },
+        [5] = {
+            type = "dropdown",
+            name = "Character",
+            tooltip = "Select Character.",
+            choices = ElderScrollsOfAlts:ListOfPlayers(),
+            getFunc = function() return "Select" end,
+            setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
+            width = "half",	--or "half" (optional)
+        },
+        [6] = {
+            name = "Commands",
+            type = "description",
+            --title = "My Title",	--(optional)
+            title = nil,	--(optional)
+            text = "ESOA - Options and Configuration.",
+            width = "full",	--or "half" (optional)
+        },
+        [7] = {
+            type = "button",
+            name = "Delete",
+            tooltip = "Delete selected Character's Data!",
+            func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
+            width = "half",	--or "half" (optional)
+            warning = "Will need to reload the UI.",	--(optional)
         },
         
     }

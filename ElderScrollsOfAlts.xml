@@ -20,7 +20,7 @@
         ZO_ScrollList_MouseExit(ESOA_GUI2_Body_CharList, self)
     </OnMouseExit>
     <OnMouseUp>
-        if(upInside) then
+        if(upInside and button==2) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
             ElderScrollsOfAlts:SelectCharacterRow(self)
         end
@@ -430,7 +430,7 @@
             />
           </Button>
           
-          <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH">
+          <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH" hidden="true">
             <Dimensions y="25" />
             <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnShow> ElderScrollsOfAlts:GuiSetupDropdown(self) </OnShow>
@@ -612,24 +612,22 @@
   <TopLevelControl name="ESOA_ButtonFrame" topmost="true" hidden="false" mouseEnabled="true" movable="true" >
       <Dimensions x="65" y="25" />
       <Anchor point="TOPLEFT" relativeTo="GUI_ROOT" relativePoint="TOPLEFT" offsetX="400" offsetY="400" />
-      <OnInitialized> </OnInitialized>d
+      <OnInitialized> </OnInitialized>
       <OnShow> </OnShow>
       <OnMoveStop> ElderScrollsOfAlts:ButtonFrameOnMoveStop() </OnMoveStop>
       <Controls>
-        <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"> <AnchorFill/> </Backdrop>
-        <Button name="$(parent)Button" topmost="true" hidden="false">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="0" offsetX="0"/>
-          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="0" offsetX="0"/>
-          <OnMouseEnter> </OnMouseEnter>
+        <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
+          <AnchorFill/> 
+          <OnMouseEnter>WINDOW_MANAGER:SetMouseCursor(12);self:SetAlpha(1)</OnMouseEnter>
+          <OnMouseExit>WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(0)</OnMouseExit>
+        </Backdrop>
+        <Button name="$(parent)Button" topmost="true" hidden="false" font="ZoFontWinH5" text="-ESOA-">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="6" offsetX="4"/>
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="4" offsetX="4"/>
+          <OnMouseEnter>WINDOW_MANAGER:SetMouseCursor(12);self:SetAlpha(0.8)</OnMouseEnter>
+          <OnMouseExit>WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(1)</OnMouseExit>
           <OnMouseUp> ElderScrollsOfAlts:DoUiButtonClicked() </OnMouseUp>          
-          <Controls>
-           <Label name="$(parent)_Button_Label" mouseEnabled="false" 
-                font="ZoFontWinH5" text="-ESOA-"
-                verticalAlignment="CENTER" horizontalAlignment="CENTER" >
-              <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="2" offsetX="2"/>
-              <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="2" offsetX="2"/>
-            </Label>        
-          </Controls>
+          
         </Button>
       </Controls>
   </TopLevelControl>

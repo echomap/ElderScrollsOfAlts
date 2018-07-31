@@ -430,14 +430,14 @@ end
 function ElderScrollsOfAlts:SelectCharacterFromDropdown(dropdown)  
   local charname = dropdown.comboBox:GetSelectedItem()
   ElderScrollsOfAlts:debugMsg(" charname=" .. tostring(charname))
-  ElderScrollsOfAlts.selected.charactername = charname
+  ElderScrollsOfAlts.savedVariables.selected.charactername = charname
 end
 
 --Shared Gui
 function ElderScrollsOfAlts:doCharacterSelected(choiceText, choice)
 	ElderScrollsOfAlts:debugMsg(" choiceText=" .. choiceText .. " choice=" .. tostring(choice) )  
   --ElderScrollsOfAlts:SetupGui3()
-  ElderScrollsOfAlts.selected.charactername = choiceText -- or choice??
+  ElderScrollsOfAlts.savedVariables.selected.charactername = choiceText -- or choice??
   ElderScrollsOfAlts.ShowGui3()
 end
 
@@ -459,7 +459,7 @@ end
 
 --For use by Settings dropdown
 function ElderScrollsOfAlts:SelectCharacterName(choiceText)
-  ElderScrollsOfAlts.selected.charactername = choiceText
+  ElderScrollsOfAlts.savedVariables.selected.charactername = choiceText
 end
 
 --

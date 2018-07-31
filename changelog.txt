@@ -1,3 +1,7 @@
+0.1.8
+    updates to button
+    select character details on rightclick of row, removing dropdown
+    removed submenu in settings
 0.1.7 Save settings updated, removed LMM menu, New UI Button
   UI button to move/click to show/hide /eso still works
   LMM menu removed
@@ -29,3 +33,9 @@
     Beginnings of VAMP vs WERE icons showing
     Fixed Sorting
 0.1 Initial
+
+TODO
+Keybind/hotkey??
+UI3
+  equip
+  
