@@ -422,8 +422,41 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
   return playerLines
 end
 
+local SLOT_TYPE= {
+  ["HEAD"]  = EQUIP_SLOT_HEAD,
+  ["NECK"]  = EQUIP_SLOT_NECK,
+  ["SHOULDERS"] = EQUIP_SLOT_SHOULDERS,  
+  ["CHEST"] = EQUIP_SLOT_CHEST,
+  ["WAIST"] = EQUIP_SLOT_WAIST,
+  ["WRIST"] = EQUIP_SLOT_WRIST,  
+  ["FEET"]  = EQUIP_SLOT_FEET,
+  ["HAND"]  = EQUIP_SLOT_HAND,
+  ["LEGS"]  = EQUIP_SLOT_LEGS,
+  
+  ["WRIST"] = EQUIP_SLOT_BACKUP_MAIN,
+  ["WRIST"] = EQUIP_SLOT_BACKUP_OFF,
+  ["WRIST"] = EQUIP_SLOT_BACKUP_POISON,
+  ["OFF_HAND"] = EQUIP_SLOT_OFF_HAND,
+  ["POISON"] = EQUIP_SLOT_POISON,
+  ["MAIN_HAND"] = EQUIP_SLOT_MAIN_HAND,
+  ["RANGED"] = EQUIP_SLOT_RANGED, 
+  
+  ["CLASS1"] = EQUIP_SLOT_CLASS1,
+  ["CLASS2"] = EQUIP_SLOT_CLASS2,
+  ["CLASS3"] = EQUIP_SLOT_CLASS3,
+  ["COSTUME"] = EQUIP_SLOT_COSTUME,
+  
+  ["RING1"] = EQUIP_SLOT_RING1,
+  ["RING2"] = EQUIP_SLOT_RING2,
+  
+  ["NONE"] = EQUIP_SLOT_NONE,  
+}
+
 --
 function ElderScrollsOfAlts:loadPlayerEquipment()
+  local pName = GetUnitName("player")
+  ElderScrollsOfAlts.altData.players[pName].items = {}
+  ElderScrollsOfAlts.altData.players[pName].equip = {}
   
   local slotIndex = ZO_GetNextBagSlotIndex(BAG_WORN)
   while slotIndex do
@@ -439,17 +472,35 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
   --str icon, bool slotHasItem, num sellPrice, bool isHeldSlot, bool isHeldNow, bool locked
   local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)  
   --TODO not like this
-  ElderScrollsOfAlts.items = {}
-  ElderScrollsOfAlts.items.backupmainicon = icon
-
+  ElderScrollsOfAlts.altData.players[pName].equip.backupmain = {}
+  ElderScrollsOfAlts.altData.players[pName].equip.backupmain.icon = icon
   
+  ElderScrollsOfAlts.altData.players[pName].equip.slots = {}
+  local elemH = ElderScrollsOfAlts.altData.players[pName].equip.slots
+  for slotId = 0, GetBagSize(BAG_WORN) do    
+  	local itemName = GetItemName(BAG_WORN, slotId)
+    local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
+    local itemId = GetItemInstanceId(BAG_WORN, slotId)
+    elemH[slotId] = {}
+    elemH[slotId].itemId = itemId
+    elemH[slotId].itemName = itemName
+    elemH[slotId].icon = icon
+    elemH[slotId].equipType = equipType
+    
+	end
+      
+  --number:nilable id = GetItemInstanceId(number Bag bagId, number slotIndex)
+  --GetItemLinkInfo(string itemLink)
+  --Returns: string icon, num sellPrice, bool meetsUsageRequirement, num EquipType equipType, num itemStyleId 
   --GetBagSize(number Bag bagId) 
   --local pName = GetUnitName("player")
-  --str icon, bool slotHasItem, num sellPrice, bool isHeldSlot, bool isHeldNow, bool locked = GetEquippedItemInfo(num EquipSlot equipSlot)
-  --local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)  
-  --local slotIndex = ???
-  --textureName icon, num stack, num sellPrice, boolean meetsUsageRequirement, bool locked, num EquipType equipType, num itemStyleId, num ItemQuality quality 
-  --local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, ItemQuality quality = GetItemInfo(BAG_WORN, slotIndex)
+  --str icon, bool slotHasItem, num sellPrice, bool isHeldSlot, bool isHeldNow, bool locked = 
+  --  GetEquippedItemInfo(num EquipSlot equipSlot)
+  --local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = 
+  --  GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)
+  --textureName icon, num stack, num sellPrice, boolean meetsUsageRequirement, bool locked, num EquipType equipType, num itemStyleId, num ItemQuality quality   
+  --local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, ItemQuality quality = 
+  --  GetItemInfo(BAG_WORN, slotIndex)
   --local itemId = GetItemId(BAG_WORN, slotIndex) 
   --boolean hasItemInSlot = HasItemInSlot(number Bag bagId, number slotIndex)
   --local string link = GetItemLink(number Bag bagId, number slotIndex, number LinkStyle linkStyle)

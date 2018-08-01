@@ -1,3 +1,8 @@
+0.1.X
+	fix ui button not hiding/showing properly
+	some prework on equipment
+0.1.8b
+	fixed UI Button not hiding
 0.1.8
     updates to button
     select character details on rightclick of row, removing dropdown

@@ -32,7 +32,7 @@ function ElderScrollsOfAlts.LoadSettings()
             name = "Show Button",
             tooltip = "On or off.",
             getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
-            setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(true)  end,
+            setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(value)  end,
             width = "half",	--or "half" (optional)
         },     
         [4] = {

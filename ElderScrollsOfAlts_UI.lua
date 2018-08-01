@@ -4,6 +4,8 @@
 function ElderScrollsOfAlts.RestoreUI()
   if ElderScrollsOfAlts.savedVariables.uibutton.shown then
     ElderScrollsOfAlts.ShowUIButton()
+  else
+    ElderScrollsOfAlts.HideUIButton()
   end
 end
 
@@ -44,6 +46,11 @@ end
 --UIButton
 function ElderScrollsOfAlts.SetUIButtonShown(value)
   ElderScrollsOfAlts.savedVariables.uibutton.shown = value
+  if not value then
+    ElderScrollsOfAlts.HideUIButton()
+  else
+    ElderScrollsOfAlts.ShowUIButton()
+  end  
 end
 --UIButton
 function ElderScrollsOfAlts:ButtonFrameOnMoveStop()
