@@ -13,7 +13,7 @@ end
 function ElderScrollsOfAlts.DoUiButtonClicked()
   local isShown = ElderScrollsOfAlts.GetUIShown()
   if not isShown then
-    ElderScrollsOfAlts:ShowGuiByChoice()
+    ElderScrollsOfAlts:ShowGuiByChoice()    
   else
     ElderScrollsOfAlts:HideGuiByChoice()
   end  
@@ -76,8 +76,9 @@ end
 --Shared
 function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
-  ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data   
+  ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
   ElderScrollsOfAlts:ShowGui2()       -- Display GUI    
+  ElderScrollsOfAlts:Gui2SortRefresh()
 end
 
 --Shared

@@ -422,28 +422,28 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
   return playerLines
 end
 
-local SLOT_TYPE= {
+local SLOT_TYPE = {
   ["HEAD"]  = EQUIP_SLOT_HEAD,
   ["NECK"]  = EQUIP_SLOT_NECK,
   ["SHOULDERS"] = EQUIP_SLOT_SHOULDERS,  
   ["CHEST"] = EQUIP_SLOT_CHEST,
   ["WAIST"] = EQUIP_SLOT_WAIST,
   ["WRIST"] = EQUIP_SLOT_WRIST,  
-  ["FEET"]  = EQUIP_SLOT_FEET,
+  ["FEET"]  = EQUIP_SLOT_FEET, --9
   ["HAND"]  = EQUIP_SLOT_HAND,
   ["LEGS"]  = EQUIP_SLOT_LEGS,
   
-  ["WRIST"] = EQUIP_SLOT_BACKUP_MAIN,
-  ["WRIST"] = EQUIP_SLOT_BACKUP_OFF,
-  ["WRIST"] = EQUIP_SLOT_BACKUP_POISON,
-  ["OFF_HAND"] = EQUIP_SLOT_OFF_HAND,
-  ["POISON"] = EQUIP_SLOT_POISON,
-  ["MAIN_HAND"] = EQUIP_SLOT_MAIN_HAND,
-  ["RANGED"] = EQUIP_SLOT_RANGED, 
+  ["BACKUPMAIN"]   = EQUIP_SLOT_BACKUP_MAIN,
+  ["BACKUPOFF"]    = EQUIP_SLOT_BACKUP_OFF,
+  ["BACKUPPOISON"] = EQUIP_SLOT_BACKUP_POISON,
+  ["OFF_HAND"]     = EQUIP_SLOT_OFF_HAND,
+  ["POISON"]       = EQUIP_SLOT_POISON,
+  ["MAIN_HAND"]    = EQUIP_SLOT_MAIN_HAND,
+  ["RANGED"]       = EQUIP_SLOT_RANGED, 
   
-  ["CLASS1"] = EQUIP_SLOT_CLASS1,
-  ["CLASS2"] = EQUIP_SLOT_CLASS2,
-  ["CLASS3"] = EQUIP_SLOT_CLASS3,
+  ["CLASS1"]  = EQUIP_SLOT_CLASS1,
+  ["CLASS2"]  = EQUIP_SLOT_CLASS2,
+  ["CLASS3"]  = EQUIP_SLOT_CLASS3,
   ["COSTUME"] = EQUIP_SLOT_COSTUME,
   
   ["RING1"] = EQUIP_SLOT_RING1,
@@ -452,6 +452,35 @@ local SLOT_TYPE= {
   ["NONE"] = EQUIP_SLOT_NONE,  
 }
 
+local SLOT_TYPE_REV = {
+  EQUIP_SLOT_HEAD      = "Head",
+  EQUIP_SLOT_NECK      = "Neck",
+  EQUIP_SLOT_SHOULDERS = "Shoulders",
+  EQUIP_SLOT_CHEST     = "Chest",
+  EQUIP_SLOT_WAIST     = "Waist",
+  EQUIP_SLOT_WRIST     = "Wrist",
+  EQUIP_SLOT_FEET      = "Feet", --9
+  EQUIP_SLOT_HAND      = "Hand",
+  EQUIP_SLOT_LEGS      = "Legs",
+  
+  EQUIP_SLOT_BACKUP_MAIN   = "ScndMain",
+  EQUIP_SLOT_BACKUP_OFF    = "ScndOff",
+  EQUIP_SLOT_BACKUP_POISON = "ScndPoison",
+  EQUIP_SLOT_OFF_HAND      = "OffHand",
+  EQUIP_SLOT_POISON        = "MainPoison",
+  EQUIP_SLOT_MAIN_HAND     = "MainHand",
+  EQUIP_SLOT_RANGED        = "Ranged",
+  
+  EQUIP_SLOT_CLASS1  = "Class1",
+  EQUIP_SLOT_CLASS2  = "Class2",
+  EQUIP_SLOT_CLASS3  = "Class3",
+  EQUIP_SLOT_COSTUME = "Costume",
+  
+  EQUIP_SLOT_RING1 = "Ring1",
+  EQUIP_SLOT_RING2 = "Ring2",
+  
+  EQUIP_SLOT_NONE = "None",
+}
 --
 function ElderScrollsOfAlts:loadPlayerEquipment()
   local pName = GetUnitName("player")
@@ -481,12 +510,13 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
   	local itemName = GetItemName(BAG_WORN, slotId)
     local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
     local itemId = GetItemInstanceId(BAG_WORN, slotId)
+    --TODO check itemname not nil, and EquipType > 0
     elemH[slotId] = {}
     elemH[slotId].itemId = itemId
     elemH[slotId].itemName = itemName
     elemH[slotId].icon = icon
     elemH[slotId].equipType = equipType
-    
+    elemH[slotId].equipLoc = SLOT_TYPE_REV[slotId]
 	end
       
   --number:nilable id = GetItemInstanceId(number Bag bagId, number slotIndex)
