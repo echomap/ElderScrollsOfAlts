@@ -91,3 +91,25 @@ end
 function ElderScrollsOfAlts:HideGuiByChoice()
   ElderScrollsOfAlts:HideGui2() 
 end
+
+--Shared, call from Bindings
+function ElderScrollsOfAlts:ShowGuiEquip()
+  ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
+  ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
+  ElderScrollsOfAlts:ShowGui2()       -- Display GUI
+  ElderScrollsOfAlts:Gui2SortRefresh()
+  
+  ElderScrollsOfAlts.savedVariables.currentView = "Equip"
+  ElderScrollsOfAlts:GUIShowViewEquip()
+end
+
+--Shared, call from Bindings
+function ElderScrollsOfAlts:ShowGuiHome()
+  ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
+  ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
+  ElderScrollsOfAlts:ShowGui2()       -- Display GUI
+  ElderScrollsOfAlts:Gui2SortRefresh()
+  
+  ElderScrollsOfAlts.savedVariables.currentView = "Home"
+  ElderScrollsOfAlts:GUIShowViewHome()
+end

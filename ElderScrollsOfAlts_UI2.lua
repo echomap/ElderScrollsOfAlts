@@ -187,6 +187,9 @@ local charSortKeys =
     ["jewelry"]       = { tiebreaker = "name", isNumeric = true },    
     ["woodworking"]   = { tiebreaker = "name", isNumeric = true },    
     ["backpackSize"]  = { tiebreaker = "name", isNumeric = true },        
+    
+    ["head"]         = { tiebreaker = "name", isNumeric = true }, 
+    
     ["heavy"]         = { tiebreaker = "name", isNumeric = true },    
     ["medium"]        = { tiebreaker = "name", isNumeric = true },    
     ["light"]         = { tiebreaker = "name", isNumeric = true },    
@@ -198,7 +201,9 @@ local charSortKeys =
 function ElderScrollsOfAlts.SortCharData(a, b)
   return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.savedVariables.currentSortKey, charSortKeys, ElderScrollsOfAlts.savedVariables.currentSortOrder)
 end
-
+function ElderScrollsOfAlts.SortEquipData(a, b)
+  return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.savedVariables.currentEquipSortKey, charSortKeys, ElderScrollsOfAlts.savedVariables.currentEquipSortOrder)
+end
 --Sort
 function ElderScrollsOfAlts:Gui2SortRefresh()
   ElderScrollsOfAlts:GuiSortBase(ElderScrollsOfAlts.savedVariables.currentSortKey,true)
@@ -210,17 +215,20 @@ function ElderScrollsOfAlts:GuiSortEquip(newKey,refreshOnly)
   local currentSortKey   = ElderScrollsOfAlts.savedVariables.currentEquipSortKey
   local currentSortOrder = ElderScrollsOfAlts.savedVariables.currentEquipSortOrder
   local dataList         = ESOA_GUI2_Body_List_EQUIP
-  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
-  ElderScrollsOfAlts:debugMsg("GuiSortShared newKey=" ..tostring(newKey)
+  ElderScrollsOfAlts:debugMsg("GuiSortEquip newKey=" ..tostring(newKey)
     .." currentSortKey="..tostring(currentSortKey)
     .." currentSortOrder="..tostring(currentSortOrder)
   )
+  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
+  ElderScrollsOfAlts:debugMsg("GuiSortEquip Key=" ..tostring(newKey)
+    .." newSortKey="..tostring(currentSortKey)
+    .." newSortOrder="..tostring(currentSortOrder)
+  )
   ElderScrollsOfAlts.savedVariables.currentEquipSortKey   = currentSortKey
   ElderScrollsOfAlts.savedVariables.currentEquipSortOrder = currentSortOrder
-  
+  --
 end
 
-  
 --Sort Generalized
 --Returns: newSortKey, newSortOrder
 function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
@@ -256,7 +264,7 @@ function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder
     )
   --
   local scroll_data2 = ZO_ScrollList_GetDataList(dataList)  
-  local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortCharData )   
+  local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortEquipData )   
   ZO_ScrollList_Commit(dataList, dataLines2)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
   return currentSortKey, currentSortOrder

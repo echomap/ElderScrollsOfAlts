@@ -1,5 +1,6 @@
 -- GUI Elements
 
+--Switch to Home VIEW
 function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_CharListHeader:SetHidden(false)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
@@ -7,6 +8,7 @@ function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
   ElderScrollsOfAlts.savedVariables.currentView = "Home"
 end
+--Switch to Equip VIEW
 function ElderScrollsOfAlts:GUIShowViewEquip()
   ESOATooltip:SetParent(PopupTooltipTopLevel)
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)

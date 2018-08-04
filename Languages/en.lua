@@ -2,7 +2,9 @@
 local localization_strings = {
     SI_ESOA_MESSAGE  = " addon is loaded",
     -- Keybindings.
-    SI_BINDING_NAME_ESOA_DISPLAY = "Display ESOA",
+    SI_BINDING_NAME_ESOA_DISPLAY  = "Display ESOA",
+    SI_BINDING_NAME_ESOA_DISPLAY2 = "Show Home",
+    SI_BINDING_NAME_ESOA_DISPLAY3 = "Show Equip",
 }
 
 for stringId, stringValue in pairs(localization_strings) do

@@ -4,6 +4,12 @@
       <Action name="ESOA_DISPLAY">
 		    <Up>ElderScrollsOfAlts.ShowGuiByChoice()</Up>
       </Action>
+      <Action name="SI_BINDING_NAME_ESOA_DISPLAY2">
+		    <Up>ElderScrollsOfAlts.ShowGuiHome()</Up>
+      </Action>
+      <Action name="SI_BINDING_NAME_ESOA_DISPLAY3">
+		    <Up>ElderScrollsOfAlts.ShowGuiEquip()</Up>
+      </Action>
     </Category>
   </Layer>
 </Bindings>
