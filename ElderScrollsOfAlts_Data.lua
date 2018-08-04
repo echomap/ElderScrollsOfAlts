@@ -20,8 +20,9 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	ElderScrollsOfAlts.altData.players[pName].bio.level = pLvl
   local canChampPts = CanUnitGainChampionPoints("player")
   ElderScrollsOfAlts.altData.players[pName].bio.CanChampPts = canChampPts  
-  if canChampPts then
-    ElderScrollsOfAlts.altData.players[pName].bio.level    = GetUnitEffectiveLevel("player") 
+  if CanChampPts then
+    --TODO Not sure what this means
+    --ElderScrollsOfAlts.altData.players[pName].bio.level    = GetUnitEffectiveLevel("player") 
     ElderScrollsOfAlts.altData.players[pName].bio.champion = GetUnitChampionPoints("player")   
   end  
 	local pRace = GetUnitRace("player")
@@ -170,6 +171,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   ElderScrollsOfAlts.altData.players[pName].misc.backpackSize = bagSize
   ElderScrollsOfAlts.altData.players[pName].misc.backpackUsed = bagUsed
   --
+  --TODO
   ElderScrollsOfAlts:loadPlayerEquipment()
   
 	-- Fetch the saved variables
@@ -279,6 +281,103 @@ function ElderScrollsOfAlts:ListOfPlayers()
   end
   return validChoices
   --return ElderScrollsOfAlts.altData.players    
+end
+
+--
+function ElderScrollsOfAlts:SetupGuiEquipPlayerLines()
+  local playerLines =  {}
+	--table.insert(playerLines, "Select")
+	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+    if k == nil then return end
+		ElderScrollsOfAlts.debugMsg(" players " .. k)
+		playerLines[k] = {}
+		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
+    playerLines[k].rawname = k
+    
+    playerLines[k].heavy  = 0
+    playerLines[k].medium = 0
+    playerLines[k].light  = 0
+
+    local elemT = ElderScrollsOfAlts.altData.players[k].equip
+    if( elemT ~= nil and elemT.slots ~= nil ) then
+      local equip = elemT.slots
+      for ek, ev in pairs(equip) do
+        
+        if ek == nil then return end
+        ElderScrollsOfAlts.debugMsg(" equip " .. ek)
+        local lLine = ""
+        if ev.armorType ~=nil then
+          if( ev.armorType == ARMORTYPE_HEAVY ) then
+            lLine = "H"
+            playerLines[k].heavy = playerLines[k].heavy +1
+          elseif( ev.armorType == ARMORTYPE_MEDIUM ) then
+            playerLines[k].medium = playerLines[k].medium +1
+            lLine = "M"
+          elseif( ev.armorType == ARMORTYPE_LIGHT ) then
+            playerLines[k].light = playerLines[k].light +1
+            lLine = "L"
+          end
+        end
+        if ev.equipType == EQUIP_TYPE_HEAD then
+          playerLines[k].Head  = lLine
+        elseif ev.equipType == EQUIP_TYPE_CHEST then
+          playerLines[k].Chest  = lLine
+        elseif ev.equipType == EQUIP_TYPE_HEAD then
+          playerLines[k].Head  = lLine
+        elseif ev.equipType == EQUIP_TYPE_FEET then
+          playerLines[k].Feet  = lLine
+        elseif ev.equipType == EQUIP_TYPE_HAND then
+          playerLines[k].Hands  = lLine
+        elseif ev.equipType == EQUIP_TYPE_LEGS then
+          playerLines[k].Legs  = lLine
+        elseif ev.equipType == EQUIP_TYPE_NECK then
+          playerLines[k].Nevk  = lLine
+        elseif ev.equipType == EQUIP_TYPE_SHOULDERS then
+          playerLines[k].Shoulders  = lLine
+        elseif ev.equipType == EQUIP_TYPE_WAIST then
+          playerLines[k].Waist  = lLine
+        elseif ev.equipType == EQUIP_TYPE_NECK then
+          playerLines[k].Neck  = "O"
+        elseif ev.equipType == EQUIP_TYPE_RING then
+          if( ev.slotId == EQUIP_SLOT_RING1) then
+            playerLines[k].Ring2  = "O"
+          elseif( ev.slotId == EQUIP_SLOT_RING2) then
+            playerLines[k].Ring1  = "O"
+          end
+        elseif ev.equipType == EQUIP_TYPE_MAIN_HAND then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+            playerLines[k].O1  = "O"
+          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
+            playerLines[k].M1  = "O"
+          end
+        elseif ev.equipType == EQUIP_TYPE_OFF_HAND then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then
+            playerLines[k].O2  = "O"
+          elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then
+            playerLines[k].M2  = "O"
+          end
+        elseif ev.equipType == EQUIP_TYPE_POISON then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_POISON) then
+            playerLines[k].Op  = "O"
+          elseif( ev.slotId == EQUIP_SLOT_POISON) then
+            playerLines[k].Mp  = "O"
+          end
+        elseif ev.equipType == EQUIP_TYPE_TWO_HAND then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+            playerLines[k].O1  = "O"
+          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
+            playerLines[k].M1  = "O"
+          end
+        --
+        end
+      end
+    else
+      ElderScrollsOfAlts.debugMsg("equip is NIL!")
+    end
+  end --for
+  -- PlayerLines to table
+  table.sort(playerLines)  
+  return playerLines
 end
 
 --
@@ -481,6 +580,33 @@ local SLOT_TYPE_REV = {
   
   EQUIP_SLOT_NONE = "None",
 }
+
+local EQUIPSLOTS = {
+    EQUIP_SLOT_BACKUP_MAIN,
+    EQUIP_SLOT_BACKUP_OFF,
+    EQUIP_SLOT_BACKUP_POISON,
+    EQUIP_SLOT_CHEST,
+    EQUIP_SLOT_CLASS1,
+    EQUIP_SLOT_CLASS2,
+    EQUIP_SLOT_CLASS3,
+    EQUIP_SLOT_COSTUME,
+    EQUIP_SLOT_FEET,
+    EQUIP_SLOT_HAND,
+    EQUIP_SLOT_HEAD,
+    EQUIP_SLOT_LEGS,
+    EQUIP_SLOT_MAIN_HAND,
+    EQUIP_SLOT_NECK,
+    EQUIP_SLOT_NONE,
+    EQUIP_SLOT_OFF_HAND,
+    EQUIP_SLOT_POISON,
+    EQUIP_SLOT_RANGED,
+    EQUIP_SLOT_RING1,
+    EQUIP_SLOT_RING2,
+    EQUIP_SLOT_SHOULDERS,
+    EQUIP_SLOT_WAIST,
+    EQUIP_SLOT_WRIST ,
+}
+
 --
 function ElderScrollsOfAlts:loadPlayerEquipment()
   local pName = GetUnitName("player")
@@ -504,19 +630,57 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
   ElderScrollsOfAlts.altData.players[pName].equip.backupmain = {}
   ElderScrollsOfAlts.altData.players[pName].equip.backupmain.icon = icon
   
+  --
+  ElderScrollsOfAlts.altData.players[pName].equip.equippedItems = {}
+  --local numES = table.getn(EQUIPSLOTS)
+  --for ii = 1, numES do
+  for i,v in ipairs(EQUIPSLOTS) do
+    local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(i)
+    ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i] = {}
+    ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i].icon = icon
+    ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i].slotHasItem = slotHasItem
+    ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i].isHeldSlot = isHeldSlot
+    ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i].isHeldNow = isHeldNow
+  end
+  
   ElderScrollsOfAlts.altData.players[pName].equip.slots = {}
   local elemH = ElderScrollsOfAlts.altData.players[pName].equip.slots
   for slotId = 0, GetBagSize(BAG_WORN) do    
   	local itemName = GetItemName(BAG_WORN, slotId)
     local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
     local itemId = GetItemInstanceId(BAG_WORN, slotId)
-    --TODO check itemname not nil, and EquipType > 0
-    elemH[slotId] = {}
-    elemH[slotId].itemId = itemId
-    elemH[slotId].itemName = itemName
-    elemH[slotId].icon = icon
-    elemH[slotId].equipType = equipType
-    elemH[slotId].equipLoc = SLOT_TYPE_REV[slotId]
+    local itemLink = GetItemLink(BAG_WORN, slotId)--, number LinkStyle linkStyle) 
+    if( equipType == nil or equipType == 0) then
+    else    
+      --TODO check itemname not nil, and EquipType > 0
+      elemH[slotId] = {}
+      elemH[slotId].itemId = itemId
+      elemH[slotId].itemName = itemName
+      elemH[slotId].itemLink = itemLink
+      elemH[slotId].icon = icon
+      elemH[slotId].slotId = slotId
+      elemH[slotId].equipType = equipType
+      elemH[slotId].equipLoc = SLOT_TYPE_REV[slotId]
+      --equipslot
+      
+      local itemType, specializedItemType = GetItemLinkItemType(itemLink)
+      --Returns: number ItemType itemType, number SpecializedItemType specializedItemType 
+      elemH[slotId].itemType = itemType
+      elemH[slotId].specializedItemType = specializedItemType
+      elemH[slotId].armorType = nil
+      elemH[slotId].weaponType = nil
+
+      if( itemType == ITEMTYPE_ARMOR ) then
+        local armorType = GetItemLinkArmorType(itemLink)
+        --Returns: number ArmorType armorType 
+        elemH[slotId].armorType = armorType
+      end
+      if( itemType == ITEMTYPE_WEAPON ) then
+        local weaponType = GetItemLinkWeaponType(itemLink)
+        --Returns: number WeaponType weaponType 
+        elemH[slotId].weaponType = weaponType
+      end
+    end
 	end
       
   --number:nilable id = GetItemInstanceId(number Bag bagId, number slotIndex)

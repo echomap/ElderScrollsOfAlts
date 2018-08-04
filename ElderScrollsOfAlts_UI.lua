@@ -77,8 +77,14 @@ end
 function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
   ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
-  ElderScrollsOfAlts:ShowGui2()       -- Display GUI    
+  ElderScrollsOfAlts:ShowGui2()       -- Display GUI
   ElderScrollsOfAlts:Gui2SortRefresh()
+  
+  if(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
+    ElderScrollsOfAlts:GUIShowViewEquip()
+  else
+    ElderScrollsOfAlts:GUIShowViewHome()
+  end
 end
 
 --Shared

@@ -1,5 +1,51 @@
 -- GUI Elements
 
+function ElderScrollsOfAlts:GUIShowViewHome()
+  ESOA_GUI2_Body_CharListHeader:SetHidden(false)
+  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
+  ESOA_GUI2_Body_CharList:SetHidden(false)
+  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
+  ElderScrollsOfAlts.savedVariables.currentView = "Home"
+end
+function ElderScrollsOfAlts:GUIShowViewEquip()
+  ESOATooltip:SetParent(PopupTooltipTopLevel)
+  ESOA_GUI2_Body_CharListHeader:SetHidden(true)
+  ESOA_GUI2_Body_EquipListHeader:SetHidden(false)
+  ESOA_GUI2_Body_CharList:SetHidden(true)
+  ESOA_GUI2_Body_List_EQUIP:SetHidden(false)
+  ElderScrollsOfAlts.savedVariables.currentView = "Equip"
+end
+
+-- Tooltip handler
+function ElderScrollsOfAlts:TraitTipEnter(sender,key)
+  --InitializeTooltip(InformationTooltip, resultButton, TOPRIGHT, 0, 0, BOTTOMLEFT)
+  InitializeTooltip(ESOATooltip, sender, TOPLEFT, 5, -56, TOPRIGHT)
+  --InitializeTooltip(ESOATooltip, sender, TOPLEFT, -10, -10, BOTTOMLEFT)
+  ElderScrollsOfAlts:TraitTipLookupDesc(ESOATooltip,key)
+  ElderScrollsOfAlts:TraitTipLookupName(ESOATooltip,key)
+  --SetTooltipText(ESOATooltip, "Test123" ZO_NORMAL_TEXT)
+end
+function ElderScrollsOfAlts:TraitTipExit(sender)
+  --ClearTooltip(InformationTooltip)
+  ClearTooltip(ESOATooltip)
+end
+function ElderScrollsOfAlts:TraitTipLookupDesc(lTooltip,key)  
+  --lTooltip:AddVerticalPadding(14)
+  local ttld = {
+    --["name"] = "Name",
+    --["head"] = "Head",
+  }
+  if( ttld[key] ~= nil) then
+    lTooltip:AddHeaderLine(ttld[key], "ZoFontGameLarge", 1, TOOLTIP_HEADER_SIDE_LEFT, ZO_TOOLTIP_DEFAULT_COLOR:UnpackRGB())  
+    --AddLineTitle(lTooltip, "test line 134", ZO_NORMAL_TEXT)
+    --lTooltip:AddVerticalPadding(-9)
+  end
+end
+function ElderScrollsOfAlts:TraitTipLookupName(lTooltip,key)
+  lTooltip:AddLine(key, "ZoFontHeader3")
+end
+
+
 --Gui3 (called from XML)
 function ElderScrollsOfAlts:SetupGui3(selectedData)
 	--local settings = IIfA:GetSceneSettings()

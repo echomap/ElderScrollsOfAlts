@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.7
+## Version: 0.1.9
 ## APIVersion: 100023
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
@@ -16,6 +16,8 @@ Languages\en.lua
 Languages\$(language).lua
 
 Bindings.xml
+
+ElderScrollsOfAlts_Equip.xml
 ElderScrollsOfAlts.xml
 
 libs\LibStub\LibStub.lua

@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "0.1.7",			-- A nuisance to match to the Manifest.
+    version         = "0.1.9",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -16,6 +16,7 @@ local defaultSettings = {
   uimode     = "Show2",
   currentSortKey   = "name",
   currentSortOrder = true,
+  currentView      = "Home",
   window     = {
       ["minimized"] = false,
       ["shown"]   = false,
@@ -36,6 +37,7 @@ local defaultSettings = {
 
 local defaultSettingsGlobal = {
   debug      = false,
+  beta       = false,
 }
 
 --
@@ -69,6 +71,11 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		ElderScrollsOfAlts.altData.debug = not dg
 		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.altData.debug) )
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.altData.debug
+	elseif options[1] == "beta" then
+		local dg = ElderScrollsOfAlts.altData.beta
+		ElderScrollsOfAlts.altData.beta = not dg
+		d("ElderScrollsOfAlts: Beta = " .. tostring(ElderScrollsOfAlts.altData.beta) )
+		--ElderScrollsOfAlts.savedVariables.beta = ElderScrollsOfAlts.altData.beta
   elseif options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
   elseif options[1] == "deltestdata" then

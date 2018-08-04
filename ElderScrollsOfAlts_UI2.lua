@@ -1,17 +1,5 @@
 -- GUI Elements (Setup and View Data)
 
---Gui1
-function ElderScrollsOfAlts:SetupGuiPage1(self)
-  ElderScrollsOfAlts:debugMsg("SetupGuiPage1 Called!")
-	ESOA_GUI_PAGE1_Dropdown.comboBox = ESOA_GUI_PAGE1_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI_PAGE1_Dropdown)
-	local comboBox = ESOA_GUI_PAGE1_Dropdown.comboBox
-	comboBox:ClearItems()
-	comboBox:SetSortsItems(false)
-	--ESOA_GUI_PAGE1_Dropdown:SetHidden(false)  
-  
-  ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, ESOA_GUI_PAGE1_Dropdown)
-  ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI_PAGE1_List)
-end
 
 --Gui2
 function ElderScrollsOfAlts:onMoveStop()  
@@ -158,20 +146,27 @@ function ElderScrollsOfAlts.ShowGui2()
     ElderScrollsOfAlts.savedVariables.window.width  = ESOA_GUI2:GetWidth()
     ElderScrollsOfAlts.savedVariables.window.height = ESOA_GUI2:GetHeight()
   end
+  
+  --TODO view
+  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
+  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
+  --ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
+  --ESOA_GUI2_Body_CharList:SetHidden(bMin)
 end
 
 --Gui2
 -- Setup Display of addon data 
 function ElderScrollsOfAlts:SetupGui2(self)
   ElderScrollsOfAlts:debugMsg("SetupGui2 Called!")
-	ESOA_GUI2_Header_Dropdown.comboBox = ESOA_GUI2_Header_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown)
-	local comboBox = ESOA_GUI2_Header_Dropdown.comboBox
-	comboBox:ClearItems()
-	comboBox:SetSortsItems(false)
-	--ESOA_GUI_PAGE1_Dropdown:SetHidden(false)  
-  
-  ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, ESOA_GUI2_Header_Dropdown)
+  --if( ElderScrollsOfAlts.altData.beta) then
+  --  ESOA_GUI2_Header_Dropdown.comboBox = ESOA_GUI2_Header_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown)
+  --  local comboBox = ESOA_GUI2_Header_Dropdown.comboBox
+  --  comboBox:ClearItems()
+  --  comboBox:SetSortsItems(false)
+  --  ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, ESOA_GUI2_Header_Dropdown)
+  --end
   ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
+  ElderScrollsOfAlts:SetupGuiEquipListing(self, ESOA_GUI2_Body_List_EQUIP)
 end
 
 --Sort
@@ -192,6 +187,9 @@ local charSortKeys =
     ["jewelry"]       = { tiebreaker = "name", isNumeric = true },    
     ["woodworking"]   = { tiebreaker = "name", isNumeric = true },    
     ["backpackSize"]  = { tiebreaker = "name", isNumeric = true },        
+    ["heavy"]         = { tiebreaker = "name", isNumeric = true },    
+    ["medium"]        = { tiebreaker = "name", isNumeric = true },    
+    ["light"]         = { tiebreaker = "name", isNumeric = true },    
   }
 --local currentSortKey = "name"
 --local currentSortOrder = ZO_SORT_ORDER_UP --ZO_SORT_ORDER_DOWN
@@ -204,6 +202,64 @@ end
 --Sort
 function ElderScrollsOfAlts:Gui2SortRefresh()
   ElderScrollsOfAlts:GuiSortBase(ElderScrollsOfAlts.savedVariables.currentSortKey,true)
+end
+
+
+--Sort Generalized
+function ElderScrollsOfAlts:GuiSortEquip(newKey,refreshOnly)
+  local currentSortKey   = ElderScrollsOfAlts.savedVariables.currentEquipSortKey
+  local currentSortOrder = ElderScrollsOfAlts.savedVariables.currentEquipSortOrder
+  local dataList         = ESOA_GUI2_Body_List_EQUIP
+  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
+  ElderScrollsOfAlts:debugMsg("GuiSortShared newKey=" ..tostring(newKey)
+    .." currentSortKey="..tostring(currentSortKey)
+    .." currentSortOrder="..tostring(currentSortOrder)
+  )
+  ElderScrollsOfAlts.savedVariables.currentEquipSortKey   = currentSortKey
+  ElderScrollsOfAlts.savedVariables.currentEquipSortOrder = currentSortOrder
+  
+end
+
+  
+--Sort Generalized
+--Returns: newSortKey, newSortOrder
+function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
+  ElderScrollsOfAlts:debugMsg("GuiSortShared newKey=" ..tostring(newKey)
+    .." currentSortKey="..tostring(currentSortKey)
+    .." currentSortOrder="..tostring(currentSortOrder)
+    .." refreshOnly="..tostring(refreshOnly)
+    )
+  local sameKey = false  
+  if currentSortKey == newKey then
+    sameKey = true
+  end
+  if refreshOnly == nil then
+    refreshOnly = false
+  end
+  --ElderScrollsOfAlts:debugMsg("GuiSortShared refreshOnly="..tostring(refreshOnly) )
+  
+  if not refreshOnly then
+    if sameKey then
+      if currentSortOrder==nil or currentSortOrder == ZO_SORT_ORDER_UP then 
+        currentSortOrder   = ZO_SORT_ORDER_DOWN 
+      else
+        currentSortOrder = ZO_SORT_ORDER_UP
+      end
+    else
+      currentSortKey   = newKey
+      currentSortOrder = ZO_SORT_ORDER_UP
+    end
+  end  
+  ElderScrollsOfAlts:debugMsg("GuiSortShared"
+      .." key="..tostring(currentSortKey) 
+      .." order="..tostring(currentSortOrder) 
+    )
+  --
+  local scroll_data2 = ZO_ScrollList_GetDataList(dataList)  
+  local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortCharData )   
+  ZO_ScrollList_Commit(dataList, dataLines2)
+  --ElderScrollsOfAlts:RefreshCharacterScroll()
+  return currentSortKey, currentSortOrder
 end
 
 --Sort
@@ -233,9 +289,9 @@ function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly)
   ElderScrollsOfAlts:debugMsg("GuiSortBase key  ="..tostring(ElderScrollsOfAlts.savedVariables.currentSortKey) )
   ElderScrollsOfAlts:debugMsg("GuiSortBase order="..tostring(ElderScrollsOfAlts.savedVariables.currentSortOrder) )
   
-  local scroll_data = ZO_ScrollList_GetDataList(ESOA_GUI_PAGE1_List)  
-  local dataLines   = table.sort( scroll_data,  ElderScrollsOfAlts.SortCharData )   
-  ZO_ScrollList_Commit(ESOA_GUI_PAGE1_List, dataLines)
+  --G1 local scroll_data = ZO_ScrollList_GetDataList(ESOA_GUI_PAGE1_List)  
+  --G1 local dataLines   = table.sort( scroll_data,  ElderScrollsOfAlts.SortCharData )   
+  --G1 ZO_ScrollList_Commit(ESOA_GUI_PAGE1_List, dataLines)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
   
   --
@@ -282,6 +338,38 @@ function ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, dropDown)
 	end
 	comboBox:SetSelectedItem("Select")
 	dropDown:SetHidden(false)
+end
+
+function ElderScrollsOfAlts:SetupGuiEquipListing(self, dataListing)
+  local NOTE_TYPE = 2
+  local scroll_data = ZO_ScrollList_GetDataList(dataListing)
+	ZO_ScrollList_Clear(dataListing) --#scroll_data)
+	--ZO_ClearNumericallyIndexedTable(scroll_data)
+	ZO_ScrollList_AddDataType(dataListing, NOTE_TYPE, "ESOA_RowTemplate_EQUIP", 20,
+		function(control, data)
+			ElderScrollsOfAlts:SetupRowControlEquip(control, data)
+		end
+	)
+	ZO_ScrollList_AddCategory(dataListing, 1, nil)
+	ZO_ScrollList_AddResizeOnScreenResize(dataListing)
+  
+  ZO_ScrollList_EnableSelection(dataListing, "ESOA_RowTemplate_Highlight")
+  --ElderScrollsOfAlts.SelectCharacterRowCallback )  
+  ZO_ScrollList_EnableHighlight(dataListing, "ESOA_RowTemplate_Highlight")
+  --ZO_ScrollList_SetTypeSelectable(dataListing, NOTE_TYPE, true)
+  --ZO_ScrollList_SetAutoSelect(dataListing, true)
+  ZO_ScrollList_SetDeselectOnReselect(dataListing, true)
+  
+	local playerLines = ElderScrollsOfAlts:SetupGuiEquipPlayerLines()
+  
+	for k, v in pairs(playerLines) do
+		--ElderScrollsOfAlts:debugMsg(" playerLines k " .. tostring(k)  )
+		--ElderScrollsOfAlts:debugMsg(" playerLines v " .. tostring(v)  )	
+    scroll_data[#scroll_data + 1] = ZO_ScrollList_CreateDataEntry(NOTE_TYPE, v )
+	end
+  
+	ZO_ScrollList_Commit(dataListing, scroll_data)
+	dataListing:SetHidden(false)
 end
 
 --Shared Gui
@@ -343,6 +431,37 @@ function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, r
   end
 end
 
+
+--Shared Gui
+--For each row in the SCROLLLIST
+function ElderScrollsOfAlts:SetupRowControlEquip(row_control, row_data, scrollList)    
+  row_control:GetNamedChild('Name'):SetText(row_data["name"])
+  
+  row_control:GetNamedChild('Head'):SetText(row_data["Head"])
+  row_control:GetNamedChild('Shoulders'):SetText(row_data["Shoulders"])
+  row_control:GetNamedChild('Chest'):SetText(row_data["Chest"])
+  row_control:GetNamedChild('Waist'):SetText(row_data["Waist"])
+  row_control:GetNamedChild('Legs'):SetText(row_data["Legs"])
+  row_control:GetNamedChild('Hands'):SetText(row_data["Hands"])
+  row_control:GetNamedChild('Feet'):SetText(row_data["Feet"])
+  
+  row_control:GetNamedChild('Neck'):SetText(row_data["Neck"])
+  row_control:GetNamedChild('Ring1'):SetText(row_data["Ring1"])
+  row_control:GetNamedChild('Ring2'):SetText(row_data["Ring2"])
+  
+  row_control:GetNamedChild('M1'):SetText(row_data["M1"])
+  row_control:GetNamedChild('M2'):SetText(row_data["M2"])
+  row_control:GetNamedChild('Mp'):SetText(row_data["Mp"])
+  
+  row_control:GetNamedChild('O1'):SetText(row_data["O1"])
+  row_control:GetNamedChild('O2'):SetText(row_data["O1"])
+  row_control:GetNamedChild('Op'):SetText(row_data["Op"])
+  
+  row_control:GetNamedChild('Heavy' ):SetText(row_data["heavy"])
+  row_control:GetNamedChild('Medium'):SetText(row_data["medium"])
+  row_control:GetNamedChild('Light' ):SetText(row_data["light"])
+end
+
 --Shared Gui
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
@@ -362,13 +481,13 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     --d("process row data...")
 
     row_control:GetNamedChild('Name'):SetText(row_data["name"])
-    --row_control:GetNamedChild('Gender'):SetText(row_data["gender"])    
     row_control:GetNamedChild('Gender'):SetText(ElderScrollsOfAlts:GetGenderText(row_data["gender"]))    
     if row_data["champion"] == nil then
       row_control:GetNamedChild('Level'):SetText(row_data["level"])
     else
       row_control:GetNamedChild('Level'):SetText( row_data["level"] .."("..row_data["champion"]..")" )      
     end
+    
     row_control:GetNamedChild('Class'):SetText( ElderScrollsOfAlts:GetClassText(row_data["class"]) )
     row_control:GetNamedChild('Race'):SetText(  ElderScrollsOfAlts:GetRaceText1(row_data["race"]) )
           ElderScrollsOfAlts:GetAllianceIcon(alliance)
