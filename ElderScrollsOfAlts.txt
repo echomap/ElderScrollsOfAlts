@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.9
+## Version: 0.1.10
 ## APIVersion: 100023
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
@@ -45,6 +45,7 @@ libs\LibCustomMenu\LibCustomMenu.lua
 
 ElderScrollsOfAlts_Preload.lua
 ElderScrollsOfAlts.lua
+ESOA_Charts.lua
 ElderScrollsOfAlts_Util.lua
 ElderScrollsOfAlts_UI.lua
 ElderScrollsOfAlts_UI2.lua

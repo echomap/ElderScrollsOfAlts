@@ -1,6 +1,23 @@
 -- GUI Elements (Setup and View Data)
 
 
+--Switch to Home VIEW
+function ElderScrollsOfAlts:GUIShowViewHome()
+  ESOA_GUI2_Body_CharListHeader:SetHidden(false)
+  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
+  ESOA_GUI2_Body_CharList:SetHidden(false)
+  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
+  ElderScrollsOfAlts.savedVariables.currentView = "Home"
+end
+--Switch to Equip VIEW
+function ElderScrollsOfAlts:GUIShowViewEquip()  
+  ESOA_GUI2_Body_CharListHeader:SetHidden(true)
+  ESOA_GUI2_Body_EquipListHeader:SetHidden(false)
+  ESOA_GUI2_Body_CharList:SetHidden(true)
+  ESOA_GUI2_Body_List_EQUIP:SetHidden(false)
+  ElderScrollsOfAlts.savedVariables.currentView = "Equip"
+end
+
 --Gui2
 function ElderScrollsOfAlts:onMoveStop()  
   ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
@@ -158,6 +175,10 @@ end
 -- Setup Display of addon data 
 function ElderScrollsOfAlts:SetupGui2(self)
   ElderScrollsOfAlts:debugMsg("SetupGui2 Called!")
+  
+  ESOATooltip:SetParent(PopupTooltipTopLevel)
+  ESOACraftTooltip:SetParent(PopupTooltipTopLevel)
+  ESOAEquipTooltip:SetParent(PopupTooltipTopLevel)
   --if( ElderScrollsOfAlts.altData.beta) then
   --  ESOA_GUI2_Header_Dropdown.comboBox = ESOA_GUI2_Header_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown)
   --  local comboBox = ESOA_GUI2_Header_Dropdown.comboBox
@@ -209,6 +230,10 @@ function ElderScrollsOfAlts:Gui2SortRefresh()
   ElderScrollsOfAlts:GuiSortBase(ElderScrollsOfAlts.savedVariables.currentSortKey,true)
 end
 
+--Sort
+function ElderScrollsOfAlts:GuiEquipSortRefresh()
+  ElderScrollsOfAlts:GuiSortEquip(ElderScrollsOfAlts.savedVariables.currentEquipSortKey,true)
+end
 
 --Sort Generalized
 function ElderScrollsOfAlts:GuiSortEquip(newKey,refreshOnly)
@@ -219,7 +244,7 @@ function ElderScrollsOfAlts:GuiSortEquip(newKey,refreshOnly)
     .." currentSortKey="..tostring(currentSortKey)
     .." currentSortOrder="..tostring(currentSortOrder)
   )
-  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
+  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
   ElderScrollsOfAlts:debugMsg("GuiSortEquip Key=" ..tostring(newKey)
     .." newSortKey="..tostring(currentSortKey)
     .." newSortOrder="..tostring(currentSortOrder)
@@ -227,12 +252,15 @@ function ElderScrollsOfAlts:GuiSortEquip(newKey,refreshOnly)
   ElderScrollsOfAlts.savedVariables.currentEquipSortKey   = currentSortKey
   ElderScrollsOfAlts.savedVariables.currentEquipSortOrder = currentSortOrder
   --
+  local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_Body_List_EQUIP)  
+  local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortEquipData )   
+  ZO_ScrollList_Commit(ESOA_GUI2_Body_List_EQUIP, dataLines2)
 end
 
 --Sort Generalized
 --Returns: newSortKey, newSortOrder
-function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
-  ElderScrollsOfAlts:debugMsg("GuiSortShared newKey=" ..tostring(newKey)
+function ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
+  ElderScrollsOfAlts:debugMsg("GuiSortEquipBase newKey=" ..tostring(newKey)
     .." currentSortKey="..tostring(currentSortKey)
     .." currentSortOrder="..tostring(currentSortOrder)
     .." refreshOnly="..tostring(refreshOnly)
@@ -244,7 +272,7 @@ function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder
   if refreshOnly == nil then
     refreshOnly = false
   end
-  --ElderScrollsOfAlts:debugMsg("GuiSortShared refreshOnly="..tostring(refreshOnly) )
+  --ElderScrollsOfAlts:debugMsg("GuiSortEquipBase refreshOnly="..tostring(refreshOnly) )
   
   if not refreshOnly then
     if sameKey then
@@ -258,7 +286,7 @@ function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder
       currentSortOrder = ZO_SORT_ORDER_UP
     end
   end  
-  ElderScrollsOfAlts:debugMsg("GuiSortShared"
+  ElderScrollsOfAlts:debugMsg("GuiSortEquipBase"
       .." key="..tostring(currentSortKey) 
       .." order="..tostring(currentSortOrder) 
     )
@@ -267,11 +295,13 @@ function ElderScrollsOfAlts:GuiSortShared(newKey,currentSortKey,currentSortOrder
   local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortEquipData )   
   ZO_ScrollList_Commit(dataList, dataLines2)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
+  --Arrows (TODO)
+  --
   return currentSortKey, currentSortOrder
 end
 
 --Sort
-function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly)
+function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly,sender)
   ElderScrollsOfAlts:debugMsg("GuiSortBase newKey="..tostring(newKey) )
   local sameKey = false
   if ElderScrollsOfAlts.savedVariables.currentSortKey == newKey then
@@ -307,8 +337,37 @@ function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly)
   local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortCharData )   
   ZO_ScrollList_Commit(ESOA_GUI2_Body_CharList, dataLines2)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
+  
+  --Arrows (TODO)
+  if(ElderScrollsOfAlts.lastSortIcon ~= nil) then
+    ElderScrollsOfAlts.lastSortIcon:SetHidden(true)
+  end  
+  if( sender ~= nil) then
+    local lUp = sender:GetNamedChild('_SortUp')
+    local lDown = sender:GetNamedChild('_SortDown')
+    if(lUp~=nil and lDown~=nil) then
+      if ElderScrollsOfAlts.savedVariables.currentSortOrder == ZO_SORT_ORDER_UP then 
+        lUp:SetHidden(true)
+        lDown:SetHidden(false)
+        ElderScrollsOfAlts.lastSortIcon = lUp
+      else
+        lUp:SetHidden(false)
+        lDown:SetHidden(true)
+        ElderScrollsOfAlts.lastSortIcon = lDown
+      end
+    end
+    --local fObj = sender:GetFont()
+    --fObj:SetTextColor(1,0,0,1.0)
+    --sender.font.color = (1,0,0,0)
+    --sender:SetColor(1,0,0,0)
+    --ElderScrollsOfAlts.lastSortIcon = 
+  end
 end
 
+--Sort
+function ElderScrollsOfAlts:GuiSortChar(sender,keyname)
+  ElderScrollsOfAlts:GuiSortBase(keyname,false,sender)
+end
 --Sort
 function ElderScrollsOfAlts:GuiSort(keyname)
   ElderScrollsOfAlts:GuiSortBase(keyname)
@@ -432,8 +491,10 @@ function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, r
     return
   end
   --d("SetupRowControlSunk: uiname=".. tostring(uiname) .. " rowname=".. tostring(rowname) .. " sunk=".. tostring(sunk) )
+  row_control:GetNamedChild(uiname).data_val = row_data[rowname]
+  row_control:GetNamedChild(uiname).data_sunk = sunk  
   if sunk ~=nil and sunk > 0 then
-      row_control:GetNamedChild(uiname):SetText(row_data[rowname].."("..sunk..")" )
+      row_control:GetNamedChild(uiname):SetText(row_data[rowname].."("..sunk..")" )      
   else
     row_control:GetNamedChild(uiname):SetText(row_data[rowname] .. "  ")
   end
@@ -446,24 +507,40 @@ function ElderScrollsOfAlts:SetupRowControlEquip(row_control, row_data, scrollLi
   row_control:GetNamedChild('Name'):SetText(row_data["name"])
   
   row_control:GetNamedChild('Head'):SetText(row_data["Head"])
+  row_control:GetNamedChild('Head').itemlink = row_data["Head_Link"]
   row_control:GetNamedChild('Shoulders'):SetText(row_data["Shoulders"])
+  row_control:GetNamedChild('Shoulders').itemlink = row_data["Shoulders_Link"]  
   row_control:GetNamedChild('Chest'):SetText(row_data["Chest"])
+  row_control:GetNamedChild('Chest').itemlink = row_data["Chest_Link"]
   row_control:GetNamedChild('Waist'):SetText(row_data["Waist"])
+  row_control:GetNamedChild('Waist').itemlink = row_data["Waist_Link"]
   row_control:GetNamedChild('Legs'):SetText(row_data["Legs"])
+  row_control:GetNamedChild('Legs').itemlink = row_data["Legs_Link"]
   row_control:GetNamedChild('Hands'):SetText(row_data["Hands"])
+  row_control:GetNamedChild('Hands').itemlink = row_data["Hands_Link"]
   row_control:GetNamedChild('Feet'):SetText(row_data["Feet"])
+  row_control:GetNamedChild('Feet').itemlink = row_data["Feet_Link"]
   
   row_control:GetNamedChild('Neck'):SetText(row_data["Neck"])
+  row_control:GetNamedChild('Neck').itemlink = row_data["Neck_Link"]
   row_control:GetNamedChild('Ring1'):SetText(row_data["Ring1"])
+  row_control:GetNamedChild('Ring1').itemlink = row_data["Ring1_Link"]
   row_control:GetNamedChild('Ring2'):SetText(row_data["Ring2"])
+  row_control:GetNamedChild('Ring2').itemlink = row_data["Ring2_Link"]
   
   row_control:GetNamedChild('M1'):SetText(row_data["M1"])
+  row_control:GetNamedChild('M1').itemlink = row_data["M1_Link"]
   row_control:GetNamedChild('M2'):SetText(row_data["M2"])
+  row_control:GetNamedChild('M2').itemlink = row_data["M2_Link"]
   row_control:GetNamedChild('Mp'):SetText(row_data["Mp"])
+  row_control:GetNamedChild('Mp').itemlink = row_data["Mp_Link"]
   
   row_control:GetNamedChild('O1'):SetText(row_data["O1"])
-  row_control:GetNamedChild('O2'):SetText(row_data["O1"])
+  row_control:GetNamedChild('O1').itemlink = row_data["O1_Link"]
+  row_control:GetNamedChild('O2'):SetText(row_data["O2"])
+  row_control:GetNamedChild('O2').itemlink = row_data["O2_Link"]
   row_control:GetNamedChild('Op'):SetText(row_data["Op"])
+  row_control:GetNamedChild('Op').itemlink = row_data["Op_Link"]
   
   row_control:GetNamedChild('Heavy' ):SetText(row_data["heavy"])
   row_control:GetNamedChild('Medium'):SetText(row_data["medium"])
@@ -520,7 +597,8 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     sunk = row_data["jewelry_sunk"]
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
     sunk = row_data["provisioning_sunk"]    
-    row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
+    --row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Provisioning',"provisioning",sunk)
     sunk = row_data["woodworking_sunk"]        
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Woodworking',"woodworking",sunk)    
     --Werewolf / Vampire
@@ -554,6 +632,115 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     --ZO_SortFilterList.SetupRow(self, control, data)
 end
 
+--ESOACraftTooltip CRAFT Tooltip
+function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)  
+  if( craftName == nil ) then return end 
+  local nVal = tonumber(myLabel.data_sunk)
+  local tDesc = "Unknown"
+  local tCraft = ElderScrollsOfAlts.Sunk_Tooltip[craftName]
+  if(tCraft ~= nil) then
+    tDesc = tCraft[nVal]
+  end
+  if( nVal == nil ) then return end 
+  --ElderScrollsOfAlts.debugMsg("tVal=" .. tostring(tVal) .." craftName=" .. tostring(craftName))  
+  local hdrStr = string.format("%s (%s)", craftName, nVal)
+  InitializeTooltip(ESOATooltip, myLabel, TOPLEFT, 5, -66, TOPRIGHT)
+  
+  ESOATooltip:AddLine(hdrStr, "ZoFontGameBold")
+  ESOATooltip:AddLine(tDesc, "ZoFontGame")
+end
+function ElderScrollsOfAlts:CraftTipExit(myLabel)  
+  ClearTooltip(ESOATooltip)
+end
+
+function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
+  local itemLink = myLabel.itemlink
+  if(itemLink~=nil) then
+    d("EquipShowTip itemLink is set")
+    ZO_PopupTooltip_SetLink(itemLink)
+  else
+    d("EquipShowTip itemLink is nil")
+  end
+  --[[
+  --Sends a link to chat
+  --ZO_LinkHandler_InsertLink(zo_strformat(SI_TOOLTIP_ITEM_NAME, itemLink)) 
+  ]]
+end
+
+--ESOACraftTooltip EQUIP Tooltip
+function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)    
+  local itemLink = myLabel.itemlink
+  if(itemLink==nil) then
+    return
+  end
+  --d("nVal=" .. tostring(nVal) .." equipName=" .. tostring(craftName))  
+  local traitType, traitDescription = GetItemLinkTraitInfo(itemLink)
+  local requiredLevel = GetItemLinkRequiredLevel(itemLink)
+  local requiredCp = GetItemLinkRequiredChampionPoints(itemLink)
+  local hasCharges, enchantHeader, enchantDescription = GetItemLinkEnchantInfo(itemLink)
+  --hasAbility, abilityHeader, abilityDescription, cooldown, hasScaling, minLevel, maxLevel, isChampionPoints, remainingCooldown = GetItemLinkOnUseAbilityInfo(string itemLink)
+  --hasAbility, abilityDescription, cooldown, hasScaling, minLevel, maxLevel, isChampionPoints  = GetItemLinkTraitOnUseAbilityInfo(string itemLink, number index)
+  local hasSet, setName, numBonuses, numEquipped, maxEquipped, setId = GetItemLinkSetInfo(itemLink, true)
+  --boolean hasSet, string setName, number numBonuses, number numEquipped, number maxEquipped, number setId  
+  local flavorText  = GetItemLinkFlavorText(itemLink)
+
+  InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
+  if( equipName ~= nil ) then
+    InformationTooltip:AddLine(string.format("(%s)",equipName), "ZoFontGame")
+  end
+  InformationTooltip:AddLine(eLink, "ZoFontGame")
+  if( traitType ~= nil) then
+    local traitName = GetString("SI_ITEMTRAITTYPE", traitType)
+    InformationTooltip:AddLine(itemLink, "ZoFontGame")    
+    if(requiredCp>0) then
+      InformationTooltip:AddLine(string.format("Level: %s CP:%s",requiredLevel,requiredCp), "ZoFontGame")
+    else
+      InformationTooltip:AddLine(string.format("Requires: %s",requiredLevel,requiredCp), "ZoFontGame")
+    end
+    if(enchantHeader ~= nil and enchantDescription ~= nil) then
+      InformationTooltip:AddLine(enchantHeader, "ZoFontGame")
+      InformationTooltip:AddLine(enchantDescription, "ZoFontGameSmall")
+    end
+    InformationTooltip:AddLine(traitName, "ZoFontGame")
+    InformationTooltip:AddLine(traitDescription, "ZoFontGame")
+    InformationTooltip:AddLine(flavorText, "ZoFontGameSmall")
+    if(hasSet) then
+      InformationTooltip:AddLine(string.format("Part of the: %s set (%s/%s items)",setName,numEquipped,maxEquipped), "ZoFontGame")
+    end    
+  end
+  --InformationTooltip:AddItemTags(itemLink)
+end
+function ElderScrollsOfAlts:EquipTipExit(myLabel)  
+  ClearTooltip(InformationTooltip)
+end
+
+--ESOATooltip EQUIP HEADER Tooltip
+function ElderScrollsOfAlts:EquipHeaderTipEnter(sender,key)
+  --InitializeTooltip(InformationTooltip, resultButton, TOPRIGHT, 0, 0, BOTTOMLEFT)
+  InitializeTooltip(ESOATooltip, sender, TOPLEFT, 5, -56, TOPRIGHT)
+  --InitializeTooltip(ESOATooltip, sender, TOPLEFT, -10, -10, BOTTOMLEFT)
+  ElderScrollsOfAlts:TraitTipLookupDesc(ESOATooltip,key)
+  ESOATooltip:AddLine(key, "ZoFontHeader3")
+  --SetTooltipText(ESOATooltip, "Test123" ZO_NORMAL_TEXT)
+end
+function ElderScrollsOfAlts:EquipHeaderTipExit(sender)
+  --ClearTooltip(InformationTooltip)
+  ClearTooltip(ESOATooltip)
+end
+function ElderScrollsOfAlts:TraitTipLookupDesc(lTooltip,key)  
+  --lTooltip:AddVerticalPadding(14)
+  local ttld = {
+    --["name"] = "Name",
+    --["head"] = "Head",
+  }
+  if( ttld[key] ~= nil) then
+    lTooltip:AddHeaderLine(ttld[key], "ZoFontGameLarge", 1, TOOLTIP_HEADER_SIDE_LEFT, ZO_TOOLTIP_DEFAULT_COLOR:UnpackRGB())  
+    --AddLineTitle(lTooltip, "test line 134", ZO_NORMAL_TEXT)
+    --lTooltip:AddVerticalPadding(-9)
+  end
+end
+
+--
 function ElderScrollsOfAlts:SelectCharacterFromDropdown(dropdown)  
   local charname = dropdown.comboBox:GetSelectedItem()
   ElderScrollsOfAlts:debugMsg(" charname=" .. tostring(charname))
@@ -581,6 +768,22 @@ function ElderScrollsOfAlts:SelectCharacterRow(self)
     ElderScrollsOfAlts:ShowGui3(selectedData)
   else
     ElderScrollsOfAlts:debugMsg("SelectCharacterRow: selectedData= nil")
+  end  
+end
+
+--Gui2
+function ElderScrollsOfAlts:SelectEquipRow(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_EQUIP, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_EQUIP)
+  if selectedData ~= nil then
+    ElderScrollsOfAlts:debugMsg("SelectEquipRow: Name=" .. tostring(selectedData.name))
+    ElderScrollsOfAlts:ShowGui3(selectedData)
+  else
+    ElderScrollsOfAlts:debugMsg("SelectEquipRow: selectedData= nil")
   end  
 end
 

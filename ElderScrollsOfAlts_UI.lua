@@ -79,6 +79,7 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
   ElderScrollsOfAlts:ShowGui2()       -- Display GUI
   ElderScrollsOfAlts:Gui2SortRefresh()
+  ElderScrollsOfAlts:GuiEquipSortRefresh()
   
   if(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
     ElderScrollsOfAlts:GUIShowViewEquip()

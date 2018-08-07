@@ -318,55 +318,100 @@ function ElderScrollsOfAlts:SetupGuiEquipPlayerLines()
             lLine = "L"
           end
         end
+        --d("itemLink: "..ev.itemLink)
         if ev.equipType == EQUIP_TYPE_HEAD then
-          playerLines[k].Head  = lLine
+          playerLines[k].Head       = lLine
+          playerLines[k].Head_Link  = ev.itemLink          
         elseif ev.equipType == EQUIP_TYPE_CHEST then
           playerLines[k].Chest  = lLine
-        elseif ev.equipType == EQUIP_TYPE_HEAD then
-          playerLines[k].Head  = lLine
-        elseif ev.equipType == EQUIP_TYPE_FEET then
+          playerLines[k].Chest_Link  = ev.itemLink
+        elseif ev.equipType == EQUIP_TYPE_FEET then --10
           playerLines[k].Feet  = lLine
+          playerLines[k].Feet_Link  = ev.itemLink          
         elseif ev.equipType == EQUIP_TYPE_HAND then
           playerLines[k].Hands  = lLine
+          playerLines[k].Hands_Link  = ev.itemLink          
         elseif ev.equipType == EQUIP_TYPE_LEGS then
           playerLines[k].Legs  = lLine
-        elseif ev.equipType == EQUIP_TYPE_NECK then
-          playerLines[k].Nevk  = lLine
+          playerLines[k].Legs_Link  = ev.itemLink          
         elseif ev.equipType == EQUIP_TYPE_SHOULDERS then
           playerLines[k].Shoulders  = lLine
+          playerLines[k].Shoulders_Link  = ev.itemLink
         elseif ev.equipType == EQUIP_TYPE_WAIST then
           playerLines[k].Waist  = lLine
+          playerLines[k].Waist_Link  = ev.itemLink          
         elseif ev.equipType == EQUIP_TYPE_NECK then
-          playerLines[k].Neck  = "O"
+          playerLines[k].Neck  = "O" --TODO lLine
+          playerLines[k].Neck_Link  = ev.itemLink          
         elseif ev.equipType == EQUIP_TYPE_RING then
           if( ev.slotId == EQUIP_SLOT_RING1) then
             playerLines[k].Ring2  = "O"
+            playerLines[k].Ring2_Link  = ev.itemLink  
           elseif( ev.slotId == EQUIP_SLOT_RING2) then
             playerLines[k].Ring1  = "O"
+            playerLines[k].Ring1_Link  = ev.itemLink  
           end
-        elseif ev.equipType == EQUIP_TYPE_MAIN_HAND then
+        -- Weapons
+        --sword:eq=5(EQUIP_TYPE_ONE_HAND),slot=4(EQUIP_SLOT_MAIN_HAND)
+        --shield:eq=7(EQUIP_TYPE_OFF_HAND),slot=5(EQUIP_SLOT_OFF_HAND)
+        --staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=20(EQUIP_SLOT_BACKUP_MAIN)
+        --staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=4 (EQUIP_SLOT_MAIN_HAND)
+        elseif ev.equipType == EQUIP_TYPE_ONE_HAND then
+          --d("1h1 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
           if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+            --d("Set O1 to "..ev.itemName)
             playerLines[k].O1  = "O"
+            playerLines[k].O1_Link  = ev.itemLink  
           elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
             playerLines[k].M1  = "O"
+            playerLines[k].M1_Link  = ev.itemLink  
           end
         elseif ev.equipType == EQUIP_TYPE_OFF_HAND then
+          --d("1h2 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
           if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then
-            playerLines[k].O2  = "O"
+            --d("Set O2 to "..ev.itemName)
+            playerLines[k].O2  = "O2"
+            playerLines[k].O2_Link  = ev.itemLink  
           elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then
             playerLines[k].M2  = "O"
+            playerLines[k].M2_Link  = ev.itemLink  
+          end 
+        elseif ev.equipType == EQUIP_TYPE_TWO_HAND then 
+          --d("2h itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+            --d("Set O1(b) to "..ev.itemName)
+            playerLines[k].O1  = "O"
+            playerLines[k].O1_Link  = ev.itemLink  
+          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
+            playerLines[k].M1  = "O"
+            playerLines[k].M1_Link  = ev.itemLink  
           end
+        --[[          
+        elseif ev.equipType == EQUIP_TYPE_MAIN_HAND then 
+          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+            playerLines[k].O1  = "O"
+            playerLines[k].O1_Link  = ev.itemLink  
+          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
+            playerLines[k].M1  = "O"
+            playerLines[k].M1_Link  = ev.itemLink  
+          end
+        elseif ev.slotId == EQUIP_TYPE_OFF_HAND then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then
+            playerLines[k].O2  = "O"
+            playerLines[k].O2_Link  = ev.itemLink  
+          elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then
+            playerLines[k].M2  = "O"
+            playerLines[k].M2_Link  = ev.itemLink  
+          end
+          ]]
+        --
         elseif ev.equipType == EQUIP_TYPE_POISON then
           if( ev.slotId == EQUIP_SLOT_BACKUP_POISON) then
             playerLines[k].Op  = "O"
+            playerLines[k].Op_Link  = ev.itemLink  
           elseif( ev.slotId == EQUIP_SLOT_POISON) then
             playerLines[k].Mp  = "O"
-          end
-        elseif ev.equipType == EQUIP_TYPE_TWO_HAND then
-          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
-            playerLines[k].O1  = "O"
-          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
-            playerLines[k].M1  = "O"
+            playerLines[k].Mp_Link  = ev.itemLink  
           end
         --
         end
@@ -650,8 +695,7 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
     local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
     local itemId = GetItemInstanceId(BAG_WORN, slotId)
     local itemLink = GetItemLink(BAG_WORN, slotId)--, number LinkStyle linkStyle) 
-    if( equipType == nil or equipType == 0) then
-    else    
+    if( equipType ~= nil and equipType > EQUIP_TYPE_MIN_VALUE ) then
       --TODO check itemname not nil, and EquipType > 0
       elemH[slotId] = {}
       elemH[slotId].itemId = itemId

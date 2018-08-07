@@ -1,6 +1,8 @@
 EOSA
 0.1.X
-  
+0.1.10
+  Updated Equipment display
+  Hover over and clickable links
 0.1.9 - showing off where I'm going with Equip UI
 	fix ui button not hiding/showing properly
 	some prework on equipment
