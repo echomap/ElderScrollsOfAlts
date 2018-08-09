@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "0.1.10",			-- A nuisance to match to the Manifest.
+    version         = "0.1.10b",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -95,7 +95,7 @@ end
 function ElderScrollsOfAlts.OnChampionPerksSceneStateChange(oldState,newState)
     if newState == SCENE_SHOWING then
       ElderScrollsOfAlts.HideAll()--ESOA_ButtonFrame
-      CraftStoreFixed_ButtonFrame:SetHidden(true)
+      ESOA_ButtonFrame:SetHidden(true)
     elseif newState == SCENE_HIDDEN then
       --TODO check user wants to re-show
       --if CS.Account.option[1] then CraftStoreFixed_ButtonFrame:SetHidden(false) end

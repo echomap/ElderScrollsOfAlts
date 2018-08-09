@@ -658,6 +658,7 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
   ElderScrollsOfAlts.altData.players[pName].items = {}
   ElderScrollsOfAlts.altData.players[pName].equip = {}
   
+  --[[
   local slotIndex = ZO_GetNextBagSlotIndex(BAG_WORN)
   while slotIndex do
     --self:AddInventoryItem(inventoryType, slotIndex)
@@ -668,14 +669,14 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
     --GetItemId: id = tonumber((tostring(itemLink):match("|H%d:item:(%d+)") or -1)
     slotIndex = ZO_GetNextBagSlotIndex(BAG_WORN, slotIndex)
   end
-  
+  ]]
   --str icon, bool slotHasItem, num sellPrice, bool isHeldSlot, bool isHeldNow, bool locked
-  local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)  
+  --local icon, slotHasItem, sellPrice, isHeldSlot, isHeldNow, locked = GetEquippedItemInfo(EQUIP_SLOT_BACKUP_MAIN)  
   --TODO not like this
-  ElderScrollsOfAlts.altData.players[pName].equip.backupmain = {}
-  ElderScrollsOfAlts.altData.players[pName].equip.backupmain.icon = icon
+  --ElderScrollsOfAlts.altData.players[pName].equip.backupmain = {}
+  --ElderScrollsOfAlts.altData.players[pName].equip.backupmain.icon = icon
   
-  --
+  --[[
   ElderScrollsOfAlts.altData.players[pName].equip.equippedItems = {}
   --local numES = table.getn(EQUIPSLOTS)
   --for ii = 1, numES do
@@ -687,6 +688,7 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
     ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i].isHeldSlot = isHeldSlot
     ElderScrollsOfAlts.altData.players[pName].equip.equippedItems[i].isHeldNow = isHeldNow
   end
+  ]]
   
   ElderScrollsOfAlts.altData.players[pName].equip.slots = {}
   local elemH = ElderScrollsOfAlts.altData.players[pName].equip.slots
