@@ -5,6 +5,7 @@ ElderScrollsOfAlts = {
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
+    view            = {},
     -- Saved Settings
     savedVariables  = {},
     altData         = {},

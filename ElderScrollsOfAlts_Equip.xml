@@ -157,9 +157,13 @@
         ZO_ScrollList_MouseExit(ESOA_GUI2_Body_List_EQUIP, self)
     </OnMouseExit>
     <OnMouseUp>
-        if(upInside and button==2) then
+        if(upInside and button==1) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_List_EQUIP)
             ElderScrollsOfAlts:SelectEquipRow(self)
+        end
+        if(upInside and button==2) then
+            ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
+            ElderScrollsOfAlts:SelectCharacterNote2(self)
         end
     </OnMouseUp>
     

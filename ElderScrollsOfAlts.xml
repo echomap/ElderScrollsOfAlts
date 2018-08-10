@@ -44,13 +44,13 @@
 											<Dimensions x="20" y="20"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortName" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
-											<OnMouseUp>ElderScrollsOfAlts:GuiSort("super")</OnMouseUp>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSortChar(self,"super")</OnMouseUp>
 										</Button>
                     <Button name="$(parent)_SortAlliance" text="Aly" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
 											<Dimensions x="30" y="20"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortSuper" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
-											<OnMouseUp>ElderScrollsOfAlts:GuiSort("alliance")</OnMouseUp>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSortChar(self,"alliance")</OnMouseUp>
 										</Button>
                     <Button name="$(parent)_SortClass" text="Class" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
 											<Dimensions x="60" y="20"/>
@@ -72,7 +72,7 @@
 											<Dimensions x="65" y="20"/>
 											<Anchor point="TOPLEFT" relativeTo="$(parent)_SortClass" relativePoint="TOPRIGHT"/>
                       <OnMouseEnter></OnMouseEnter>
-											<OnMouseUp>ElderScrollsOfAlts:GuiSort("level")</OnMouseUp>
+											<OnMouseUp>ElderScrollsOfAlts:GuiSortChar(self,"level")</OnMouseUp>
 										</Button>                      
                     <Button name="$(parent)_SortGender" text="G" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
 											<Dimensions x="25" y="20"/>
@@ -148,9 +148,13 @@
         ZO_ScrollList_MouseExit(ESOA_GUI2_Body_CharList, self)
     </OnMouseExit>
     <OnMouseUp>
-        if(upInside and button==2) then
+        if(upInside and button==1) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
             ElderScrollsOfAlts:SelectCharacterRow(self)
+        end
+        if(upInside and button==2) then
+            ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
+            ElderScrollsOfAlts:SelectCharacterNote1(self)
         end
     </OnMouseUp>
     
@@ -322,6 +326,26 @@
                  mouseOver="EsoUI/art/buttons/maximize_down.dds"
             />
           </Button>
+
+         <Texture name="$(parent)_SortUp" textureFile="/esoui/art/tooltips/arrow_up.dds" hidden="true">
+            <Dimensions x="20" y="20" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_Minimize" relativePoint="TOPLEFT" offsetX="-15" offsetY="0" />
+          </Texture>
+          <Texture name="$(parent)_SortDown" textureFile="/esoui/art/tooltips/arrow_down.dds" hidden="true">
+            <Dimensions x="20" y="20" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_Minimize" relativePoint="TOPLEFT" offsetX="-15" offsetY="0" />
+          </Texture>   
+          
+          <Label name="$(parent)_SortBy_Value" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
+            text="None" >
+            <Dimensions x="80" y="24" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortUp" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
+          </Label>
+          <Label name="$(parent)_SortBy_Label" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
+            text="Sort By:" >
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Value" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
+          </Label>
+        
           
           <Control name="$(parent)_Dropdown" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH" hidden="true">
             <Dimensions y="25" />
@@ -574,6 +598,33 @@
     <ResizeToFitPadding   width="80" height="85"/>
     <DimensionConstraints minX="50" maxX="250" />
   </Tooltip>
+
   
+  <TopLevelControl name="ESOA_GUI2_Notes" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
+    <DimensionConstraints minX="700" minY="50" maxY="1400"/>
+    <Dimensions x="200" y="120" />
+    <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
+
+    <OnInitialized> </OnInitialized>
+    <OnShow> </OnShow>
+
+    <Controls>
+      <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"> <AnchorFill/> </Backdrop>
+      <Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+          wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="NOTE UI">
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+      </Label>
+      <Button name="$(parent)_Save">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="5" />
+        <Dimensions x="25" y="25" />
+      </Button>
+      <Button name="$(parent)_Cancel">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Save" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="15"/>
+        <Dimensions x="25" y="25" />
+      </Button>   
+    </Controls>
+  </TopLevelControl>
+
+
 </Controls>
 </GuiXml>

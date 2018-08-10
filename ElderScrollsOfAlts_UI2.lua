@@ -338,6 +338,17 @@ function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly,sender)
   ZO_ScrollList_Commit(ESOA_GUI2_Body_CharList, dataLines2)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
   
+  --Sort Label
+  local sVal = zo_strformat("<<C:1>>", ElderScrollsOfAlts.savedVariables.currentSortKey )
+  ESOA_GUI2_Header_SortBy_Value:SetText( sVal )
+  if( not ElderScrollsOfAlts.savedVariables.currentSortOrder ) then
+    ESOA_GUI2_Header_SortUp:SetHidden(false)
+    ESOA_GUI2_Header_SortDown:SetHidden(true)
+  else
+    ESOA_GUI2_Header_SortUp:SetHidden(true)
+    ESOA_GUI2_Header_SortDown:SetHidden(false)
+  end
+  
   --Arrows (TODO)
   if(ElderScrollsOfAlts.lastSortIcon ~= nil) then
     ElderScrollsOfAlts.lastSortIcon:SetHidden(true)
@@ -755,6 +766,69 @@ function ElderScrollsOfAlts:doCharacterSelected(choiceText, choice)
   ElderScrollsOfAlts.ShowGui3()
 end
 
+-----------
+-- NOTES --
+-----------
+function ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+  ESOA_GUI2_Notes:SetHidden(false)
+  ESOA_GUI2_Notes:ClearAnchors()
+  ESOA_GUI2_Notes:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+    self:GetLeft(), self:GetTop()+100
+    --ElderScrollsOfAlts.savedVariables.uibutton.left, 
+    --ElderScrollsOfAlts.savedVariables.uibutton.top )
+    )
+end
+
+function ElderScrollsOfAlts:HideGuiCharacterNote(self,selectedData)
+  ESOA_GUI2_Notes:SetHidden(true)
+end
+--NOTES
+
+----------
+-- GUI2 --
+----------
+--Gui2
+function ElderScrollsOfAlts:SelectCharacterNote1(self)
+    --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_CharList, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_CharList)  
+  if selectedData ~= nil then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: Name=" .. tostring(selectedData.name))
+    --Toggle off if selected is the same
+    if( ElderScrollsOfAlts.view.SelectedDataNode==nil or ElderScrollsOfAlts.view.SelectedDataNode == selectedData ) then
+      ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+    else
+      ElderScrollsOfAlts:HideGuiCharacterNote(self)
+    end    
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
+  else
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: selectedData is nil")
+  end
+end
+
+function ElderScrollsOfAlts:SelectCharacterNote2(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_EQUIP, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_EQUIP)  
+  if selectedData2 ~= nil then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: Name=" .. tostring(selectedData.name))
+    --Toggle off if selected is the same
+    if( ElderScrollsOfAlts.view.SelectedDataNode==nil or ElderScrollsOfAlts.view.SelectedDataNode == selectedData ) then
+      ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+    else
+      ElderScrollsOfAlts:HideGuiCharacterNote(self)
+    end  
+  else
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: selectedData2 is nil")
+  end  
+end
+
 --Gui2
 function ElderScrollsOfAlts:SelectCharacterRow(self)
   --Select the Row
@@ -762,13 +836,13 @@ function ElderScrollsOfAlts:SelectCharacterRow(self)
   ZO_ScrollList_SelectData(ESOA_GUI2_Body_CharList, data, self)
   
   --Get the selected row's data
-  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_CharList)
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_CharList)  
   if selectedData ~= nil then
     ElderScrollsOfAlts:debugMsg("SelectCharacterRow: Name=" .. tostring(selectedData.name))
     ElderScrollsOfAlts:ShowGui3(selectedData)
   else
-    ElderScrollsOfAlts:debugMsg("SelectCharacterRow: selectedData= nil")
-  end  
+    ElderScrollsOfAlts:debugMsg("SelectCharacterRow: selectedData is nil")
+  end
 end
 
 --Gui2

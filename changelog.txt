@@ -1,5 +1,9 @@
 EOSA
 0.1.X
+  Sort direction and column mentioned in header
+  bug fixes
+  left click select row for hightlight
+  starting character note
 0.1.10
   Updated Equipment display
   Hover over and clickable links
