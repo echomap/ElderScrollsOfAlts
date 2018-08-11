@@ -667,10 +667,10 @@ end
 function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   local itemLink = myLabel.itemlink
   if(itemLink~=nil) then
-    d("EquipShowTip itemLink is set")
+    --d("EquipShowTip itemLink is set")
     ZO_PopupTooltip_SetLink(itemLink)
   else
-    d("EquipShowTip itemLink is nil")
+    --d("EquipShowTip itemLink is nil")
   end
   --[[
   --Sends a link to chat
