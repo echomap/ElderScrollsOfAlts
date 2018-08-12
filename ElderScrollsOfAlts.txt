@@ -17,8 +17,9 @@ Languages\$(language).lua
 
 Bindings.xml
 
+ElderScrollsOfAlts_Misc1.xml
 ElderScrollsOfAlts_Equip.xml
-ElderScrollsOfAlts.xml
+ElderScrollsOfAlts_Main.xml
 
 libs\LibStub\LibStub.lua
 

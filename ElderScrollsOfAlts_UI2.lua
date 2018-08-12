@@ -5,19 +5,32 @@
 function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_CharListHeader:SetHidden(false)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
+  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(true)
   ESOA_GUI2_Body_CharList:SetHidden(false)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
+  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
   ElderScrollsOfAlts.savedVariables.currentView = "Home"
 end
 --Switch to Equip VIEW
 function ElderScrollsOfAlts:GUIShowViewEquip()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(false)
+  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(true)
   ESOA_GUI2_Body_CharList:SetHidden(true)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(false)
+  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
   ElderScrollsOfAlts.savedVariables.currentView = "Equip"
 end
-
+--Switch to Equip VIEW
+function ElderScrollsOfAlts:GUIShowViewMisc()  
+  ESOA_GUI2_Body_CharListHeader:SetHidden(true)
+  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
+  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(false)
+  ESOA_GUI2_Body_CharList:SetHidden(true)
+  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
+  ESOA_GUI2_Body_List_Misc1:SetHidden(false)
+  ElderScrollsOfAlts.savedVariables.currentView = "Misc1"
+end
 --Gui2
 function ElderScrollsOfAlts:onMoveStop()  
   ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
