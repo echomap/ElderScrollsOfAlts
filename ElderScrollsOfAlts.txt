@@ -1,6 +1,6 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.10b
-## APIVersion: 100023
+## Version: 0.1.13
+## APIVersion: 100023, 100024
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData

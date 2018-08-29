@@ -165,6 +165,7 @@
 				<Dimensions x="170" y="30" />
 				<Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
 			</Label>
+      
         <Texture name="$(parent)_Icon1" textureFile="/esoui/art/icons/store_vampirebite_01.dds" hidden="true">
             <Dimensions x="15" y="24" />
             <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
@@ -177,6 +178,8 @@
       <Texture name="$(parent)Alliance" textureFile="/esoui/art/icons/heraldrybg_onion_01.dds">
 				<Dimensions x="25" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)_Icon2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"Alliance") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self)  </OnMouseExit>        
 			</Texture>
                 
 			<Label name="$(parent)Class" font="ZoFontGame" verticalAlignment="CENTER" text="key">
@@ -396,6 +399,11 @@
                     />
           </Button>
 <!-- VIEW buttons -->
+          <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
+            text="WhoAmI?" >
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Misc" relativePoint="TOPRIGHT" offsetX="24" offsetY="0" />
+          </Label>
+
 
         </Controls>            
       </Control>

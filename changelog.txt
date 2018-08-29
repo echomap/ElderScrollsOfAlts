@@ -1,6 +1,12 @@
 EOSA
-0.1.X
+0.x.xx
+  update tooltip info for Blacksmithing
+  show current player name on gui
+0.1.12
+	update info on tooltip for Provisioning and Enchanting having 2 skills that effect what you can make.
+0.1.11
 [list]
+[*]  game version update
 [*]  Sort direction and column mentioned in header
 [*]  bug fixes
 [*]  left click select row for hightlight
@@ -54,28 +60,22 @@ EOSA
     Fixed Sorting
 0.1 Initial
 
-TODO
-Keybind/hotkey??
-UI3
-  equip
-
-Equipment
-Name <head>
-XXXX value
-
-Type=None/Cloth/L/M/H
-Level compare
-Quality
-
-Hover = details
-Color
-Value/Value
-1    2     3          4  5      6      7     8      9    10       11  12  13         14 15 16
-Head Neck Shoulders Chest Waist Wrist Hands Feet  /Ring1 Ring2/ Main Off Poison / Backup BOff BPoison  / COUNTS
+-=-=-=TODO=-=-=-=-
+auto select my line
+Finish EQUIP screen
+-icons?
+-more details?
+-level compare?
+-quality
+-Costume
+-Class1-3?
+-Ranged ??
+1    2    3      4     5     6     7     8      9    10       11  12  13         14 15 16
+Head Neck Should Chest Waist Wrist Hands Feet  /Ring1 Ring2/ Main Off Poison / Backup BOff BPoison  / COUNTS
 NAME  H  S  C  W  H  F   N  R1  R2  M1  M2  Mp  B1  B2  Bp  H M L
 Name  GL [] BH BH BH BH  [] []  []  []  []  []  []  []  []  3 1 2  
 Name  GL [] BH BH BH BH  [] []  []  []  []  []  []  []  []  3 1 2  
 
-Ranged ??
-Class1 Class2 Class3  ???
-Costume
+Misc Screen?
+Bank space?
+Notes?

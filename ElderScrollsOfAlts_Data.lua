@@ -185,7 +185,8 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 end
 
 --Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
-local matchNameList = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Potency Improvement", "Recipe Quality", "Recipe Improvement", "Woodworking" }
+local matchNameList1 = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Recipe Quality", "Woodworking" }
+local matchNameList2 = {"Potency Improvement", "Recipe Improvement", }
 
 --
 function ElderScrollsOfAlts.loadPlayerTradeDetails(parentName, parentTableElem, tradeTableElem, skillType, ii, numAbilities )
@@ -193,8 +194,10 @@ function ElderScrollsOfAlts.loadPlayerTradeDetails(parentName, parentTableElem, 
     parentTableElem.skills[parentName]	= {}
     local selElemSubTable = parentTableElem.skills[parentName]
     local skillIndex = ii
-    selElemSubTable.sunk    = 0
-    selElemSubTable.sinkmax = 0
+    selElemSubTable.sunk     = 0
+    selElemSubTable.sinkmax  = 0
+    selElemSubTable.sunk2    = 0
+    selElemSubTable.sinkmax2 = 0
     for aj = 1, numAbilities do
         local name, icon, earnedRank, passive, ultimate, purchased, progressionIndex = GetSkillAbilityInfo(skillType, ii, aj)
         --ElderScrollsOfAlts:debugMsg("TradeSkill Ability: name="..name.. " purchased="..tostring(purchased))
@@ -218,12 +221,19 @@ function ElderScrollsOfAlts.loadPlayerTradeDetails(parentName, parentTableElem, 
           selL.currentUpgradeLevel = currentUpgradeLevel
           selL.maxUpgradeLevel = maxUpgradeLevel
           selL.nextUpgradeEarnedRank = nextUpgradeEarnedRank
-          local match = ElderScrollsOfAlts:matchStringList(plainName,matchNameList)
-          if match then
-            selElemSubTable.sunk    = selElemSubTable.sunk    + currentUpgradeLevel - 1
-            selElemSubTable.sinkmax = selElemSubTable.sinkmax + maxUpgradeLevel - 1
+          local match1 = ElderScrollsOfAlts:matchStringList(plainName,matchNameList1)
+          if match1 then
+            selElemSubTable.sunk    = selElemSubTable.sunk    + (currentUpgradeLevel - 1)
+            selElemSubTable.sinkmax = selElemSubTable.sinkmax + (maxUpgradeLevel - 1)
             tradeTableElem.sunk     = selElemSubTable.sunk
             tradeTableElem.sinkmax  = selElemSubTable.sinkmax
+          end
+          local match2 = ElderScrollsOfAlts:matchStringList(plainName,matchNameList2)
+          if match2 then
+            selElemSubTable.sunk2    = selElemSubTable.sunk2    + (currentUpgradeLevel - 1)
+            selElemSubTable.sinkmax2 = selElemSubTable.sinkmax2 + (maxUpgradeLevel - 1)
+            tradeTableElem.sunk2     = selElemSubTable.sunk2
+            tradeTableElem.sinkmax2  = selElemSubTable.sinkmax2
           end
         end
     end
@@ -281,6 +291,21 @@ function ElderScrollsOfAlts:ListOfPlayers()
   end
   return validChoices
   --return ElderScrollsOfAlts.altData.players    
+end
+
+function ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
+  local playerLines =  {}
+	--table.insert(playerLines, "Select")
+	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+    if k == nil then return end
+		ElderScrollsOfAlts.debugMsg(" players " .. k)
+		playerLines[k] = {}
+		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
+    playerLines[k].rawname = k
+  end --for
+  -- PlayerLines to table
+  table.sort(playerLines)  
+  return playerLines 
 end
 
 --
@@ -518,12 +543,16 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
         local enchanting = tradeL["Enchanting"] 
         if enchanting ~=nil then
           playerLines[k].enchanting = enchanting.rank 
-          playerLines[k].enchanting_sunk    = enchanting.sunk
-          playerLines[k].enchanting_sinkmax = enchanting.sinkmax
+          playerLines[k].enchanting_sunk     = enchanting.sunk
+          playerLines[k].enchanting_sinkmax  = enchanting.sinkmax
+          playerLines[k].enchanting_sunk2    = enchanting.sunk2
+          playerLines[k].enchanting_sinkmax2 = enchanting.sinkmax2
         else
           playerLines[k].enchanting = 0
-          playerLines[k].enchanting_sunk    = 0
-          playerLines[k].enchanting_sinkmax = 0             
+          playerLines[k].enchanting_sunk     = 0
+          playerLines[k].enchanting_sinkmax  = 0 
+          playerLines[k].enchanting_sunk2    = 0
+          playerLines[k].enchanting_sinkmax2 = 0             
         end         
         local jewelry = tradeL["Jewelry Crafting"] 
         if jewelry ~=nil then
@@ -540,10 +569,14 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
           playerLines[k].provisioning = provisioning.rank   
           playerLines[k].provisioning_sunk    = provisioning.sunk
           playerLines[k].provisioning_sinkmax = provisioning.sinkmax
+          playerLines[k].provisioning_sunk2    = provisioning.sunk2
+          playerLines[k].provisioning_sinkmax2 = provisioning.sinkmax2
         else
           playerLines[k].provisioning = 0
-          playerLines[k].provisioning_sunk    = 0
-          playerLines[k].provisioning_sinkmax = 0              
+          playerLines[k].provisioning_sunk     = 0
+          playerLines[k].provisioning_sinkmax  = 0              
+          playerLines[k].provisioning_sunk2    = 0
+          playerLines[k].provisioning_sinkmax2 = 0              
          end              
          local woodworking = tradeL["Woodworking"] 
          if woodworking ~=nil then

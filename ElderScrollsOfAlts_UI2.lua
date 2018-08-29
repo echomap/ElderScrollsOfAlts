@@ -192,6 +192,11 @@ function ElderScrollsOfAlts:SetupGui2(self)
   ESOATooltip:SetParent(PopupTooltipTopLevel)
   ESOACraftTooltip:SetParent(PopupTooltipTopLevel)
   ESOAEquipTooltip:SetParent(PopupTooltipTopLevel)
+  
+  local pName = GetUnitName("player")
+  local sVal = zo_strformat("(<<C:1>>)", pName )
+  ESOA_GUI2_Header_WhoAmI:SetText(sVal)
+
   --if( ElderScrollsOfAlts.altData.beta) then
   --  ESOA_GUI2_Header_Dropdown.comboBox = ESOA_GUI2_Header_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown)
   --  local comboBox = ESOA_GUI2_Header_Dropdown.comboBox
@@ -201,6 +206,7 @@ function ElderScrollsOfAlts:SetupGui2(self)
   --end
   ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
   ElderScrollsOfAlts:SetupGuiEquipListing(self, ESOA_GUI2_Body_List_EQUIP)
+  ElderScrollsOfAlts:SetupGuiMisc1Listing(self, ESOA_GUI2_Body_List_Misc1)
 end
 
 --Sort
@@ -431,6 +437,38 @@ function ElderScrollsOfAlts:SetupGuiCharDropDown(self, comboBox, dropDown)
 	dropDown:SetHidden(false)
 end
 
+function ElderScrollsOfAlts:SetupGuiMisc1Listing(self, dataListing)
+  local NOTE_TYPE = 3
+  local scroll_data = ZO_ScrollList_GetDataList(dataListing)
+	ZO_ScrollList_Clear(dataListing) --#scroll_data)
+	--ZO_ClearNumericallyIndexedTable(scroll_data)
+	ZO_ScrollList_AddDataType(dataListing, NOTE_TYPE, "ESOA_RowTemplate_Misc1", 20,
+		function(control, data)
+			ElderScrollsOfAlts:SetupRowControlMisc1(control, data)
+		end
+	)
+	ZO_ScrollList_AddCategory(dataListing, 1, nil)
+	ZO_ScrollList_AddResizeOnScreenResize(dataListing)
+  
+  ZO_ScrollList_EnableSelection(dataListing, "ESOA_RowTemplate_Highlight")
+  --ElderScrollsOfAlts.SelectCharacterRowCallback )  
+  ZO_ScrollList_EnableHighlight(dataListing, "ESOA_RowTemplate_Highlight")
+  --ZO_ScrollList_SetTypeSelectable(dataListing, NOTE_TYPE, true)
+  --ZO_ScrollList_SetAutoSelect(dataListing, true)
+  ZO_ScrollList_SetDeselectOnReselect(dataListing, true)
+  
+	local playerLines = ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
+  
+	for k, v in pairs(playerLines) do
+		--ElderScrollsOfAlts:debugMsg(" playerLines k " .. tostring(k)  )
+		--ElderScrollsOfAlts:debugMsg(" playerLines v " .. tostring(v)  )	
+    scroll_data[#scroll_data + 1] = ZO_ScrollList_CreateDataEntry(NOTE_TYPE, v )
+	end
+  
+	ZO_ScrollList_Commit(dataListing, scroll_data)
+	dataListing:SetHidden(false)
+end
+
 function ElderScrollsOfAlts:SetupGuiEquipListing(self, dataListing)
   local NOTE_TYPE = 2
   local scroll_data = ZO_ScrollList_GetDataList(dataListing)
@@ -505,7 +543,7 @@ function ElderScrollsOfAlts:SetupGuiCharListing(self, dataListing)
 end
 
 --Shared Gui
-function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, rowname, sunk)
+function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, rowname, sunk, sunk2)
   if row_control == nil then
     d("SetupRowControlSunk: row_control is nil!")
     return
@@ -517,6 +555,7 @@ function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, r
   --d("SetupRowControlSunk: uiname=".. tostring(uiname) .. " rowname=".. tostring(rowname) .. " sunk=".. tostring(sunk) )
   row_control:GetNamedChild(uiname).data_val = row_data[rowname]
   row_control:GetNamedChild(uiname).data_sunk = sunk  
+  row_control:GetNamedChild(uiname).data_sunk2 = sunk2
   if sunk ~=nil and sunk > 0 then
       row_control:GetNamedChild(uiname):SetText(row_data[rowname].."("..sunk..")" )      
   else
@@ -526,6 +565,12 @@ end
 
 
 --Shared Gui
+
+--For each row in the SCROLLLIST
+function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollList)    
+  row_control:GetNamedChild('Name'):SetText(row_data["name"])
+end
+
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControlEquip(row_control, row_data, scrollList)    
   row_control:GetNamedChild('Name'):SetText(row_data["name"])
@@ -603,6 +648,7 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     --local pAlliance = GetUnitAlliance("player")
     --ElderScrollsOfAlts.altData.players[pName].bio.allianceId = pAlliance    
     local pAlliance = row_data["alliance"]
+    row_control:GetNamedChild('Alliance').alliance = pAlliance
     if pAlliance == nil then
       --
     else 
@@ -610,6 +656,7 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
       row_control:GetNamedChild('Alliance'):SetTexture(pAllIcon)      
     end
  
+    local sunk2 = nil
     local sunk = row_data["alchemy_sunk"]
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Alchemy',"alchemy",sunk)
     sunk = row_data["blacksmithing_sunk"]
@@ -617,7 +664,8 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     sunk = row_data["clothing_sunk"]
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Clothing',"clothing",sunk)
     sunk = row_data["enchanting_sunk"]
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk)
+    sunk2 = row_data["enchanting_sunk2"]
+    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk,sunk2)
     sunk = row_data["jewelry_sunk"]
     ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
     sunk = row_data["provisioning_sunk"]    
@@ -656,22 +704,68 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     --ZO_SortFilterList.SetupRow(self, control, data)
 end
 
+--ESOACraftTooltip MAIN Tooltip
+function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)  
+  if( tooltipName == nil ) then return end 
+  local tooltipDesc  = nil
+  local tooltipTitle = nil
+  if(tooltipName=="Alliance") then
+    local nAliance = tonumber(myLabel.alliance)
+    if( nAliance == nil ) then return end
+    local aName = GetAllianceName(nAliance)
+    tooltipDesc  = aName
+    --tooltipTitle = ""
+    --local hdrStr = string.format("%s (%s)", craftName, nVal)
+  else
+    --tooltipDesc = ""
+    --tooltipTitle = ""
+  end
+  if( tooltipDesc == nil and tooltipTitle == nil) then return end 
+  InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -66, TOPRIGHT)
+  if tooltipTitle ~= nil then
+    ESOATooltip:AddLine(tooltipTitle, "ZoFontGameBold")
+  end
+  ESOATooltip:AddLine(tooltipDesc, "ZoFontGame")
+end
+
+function ElderScrollsOfAlts:TooltipExit(myLabel,craftName)  
+  ClearTooltip(ESOATooltip)
+end
 --ESOACraftTooltip CRAFT Tooltip
 function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)  
   if( craftName == nil ) then return end 
   local nVal = tonumber(myLabel.data_sunk)
+  if( nVal == nil ) then return end 
+  local nVal2 = nil  
+  if( myLabel.data_sunk ~= nil ) then
+    nVal2 = tonumber(myLabel.data_sunk2)
+  end
+  
   local tDesc = "Unknown"
   local tCraft = ElderScrollsOfAlts.Sunk_Tooltip[craftName]
   if(tCraft ~= nil) then
     tDesc = tCraft[nVal]
   end
-  if( nVal == nil ) then return end 
+  local tDesc2 = nil
+  local craftName2 = string.format("%s%s",craftName,"2")
+  local tCraft2 = ElderScrollsOfAlts.Sunk_Tooltip[craftName2]
+  if(tCraft2 ~= nil) then
+    tDesc2 = tCraft2[nVal]
+  end
+
   --ElderScrollsOfAlts.debugMsg("tVal=" .. tostring(tVal) .." craftName=" .. tostring(craftName))  
   local hdrStr = string.format("%s (%s)", craftName, nVal)
+  if( nVal2 ~= nil ) then
+    hdrStr = string.format("%s (%s,%s)", craftName, nVal, nVal2)
+  end
+  
   InitializeTooltip(ESOATooltip, myLabel, TOPLEFT, 5, -66, TOPRIGHT)
   
   ESOATooltip:AddLine(hdrStr, "ZoFontGameBold")
   ESOATooltip:AddLine(tDesc, "ZoFontGame")
+  if( tDesc2 ~= nil ) then
+    ESOATooltip:AddLine(tDesc2, "ZoFontGame")
+  end
 end
 function ElderScrollsOfAlts:CraftTipExit(myLabel)  
   ClearTooltip(ESOATooltip)
