@@ -643,15 +643,13 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     end
     
     row_control:GetNamedChild('Class'):SetText( ElderScrollsOfAlts:GetClassText(row_data["class"]) )
-    row_control:GetNamedChild('Race'):SetText(  ElderScrollsOfAlts:GetRaceText1(row_data["race"]) )
-          ElderScrollsOfAlts:GetAllianceIcon(alliance)
+    row_control:GetNamedChild('Race'):SetText(  ElderScrollsOfAlts:GetRaceText1(row_data["race"]) )    
+    --ElderScrollsOfAlts:GetAllianceIcon(alliance)
     --local pAlliance = GetUnitAlliance("player")
     --ElderScrollsOfAlts.altData.players[pName].bio.allianceId = pAlliance    
     local pAlliance = row_data["alliance"]
     row_control:GetNamedChild('Alliance').alliance = pAlliance
-    if pAlliance == nil then
-      --
-    else 
+    if pAlliance ~= nil then
       local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
       row_control:GetNamedChild('Alliance'):SetTexture(pAllIcon)      
     end
@@ -676,17 +674,23 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     --Werewolf / Vampire
     local werewolf = row_data["Werewolf"]
     local vampire  = row_data["Vampire"] 
+    row_control:GetNamedChild("_Icon1").super = 0
+    row_control:GetNamedChild("_Icon2").super = 0
     if werewolf then
       row_control:GetNamedChild("_Icon2"):SetHidden(false)
-      --row_control:GetNamedChild("_Icon2"):SetTextureFile(
+      row_control:GetNamedChild("_Icon2").super = 1
+      --row_control:GetNamedChild("_Icon2"):SetTexture(
       --"/esoui/art/icons/store_werewolfbite_01.dds")
     else
       row_control:GetNamedChild("_Icon2"):SetHidden(true)
+      row_control:GetNamedChild("_Icon2").super = 0
     end
     if vampire then
       row_control:GetNamedChild("_Icon1"):SetHidden(false)
+      row_control:GetNamedChild("_Icon1").super = 2
     else
       row_control:GetNamedChild("_Icon1"):SetHidden(true)
+      row_control:GetNamedChild("_Icon1").super = 0
     end
     
     --Misc
@@ -706,20 +710,28 @@ end
 
 --ESOACraftTooltip MAIN Tooltip
 function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)  
+  ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipName='"..tostring(tooltipName).."'")
   if( tooltipName == nil ) then return end 
   local tooltipDesc  = nil
   local tooltipTitle = nil
   if(tooltipName=="Alliance") then
-    local nAliance = tonumber(myLabel.alliance)
+    local nAliance = tonumber(mySelf.alliance)
     if( nAliance == nil ) then return end
     local aName = GetAllianceName(nAliance)
     tooltipDesc  = aName
     --tooltipTitle = ""
     --local hdrStr = string.format("%s (%s)", craftName, nVal)
-  else
-    --tooltipDesc = ""
-    --tooltipTitle = ""
+  elseif(tooltipName=="Super") then
+    local nSuper = tonumber(mySelf.super)
+    d("TooltipEnter: nSuper='"..tostring(nSuper).."'")
+    if( nSuper == nil or nSuper == 0 ) then return end
+    if( nSuper == 1 ) then
+      tooltipDesc  = "Werewolf"  
+    elseif( nSuper == 2 ) then
+      tooltipDesc  = "Vampire"
+    end
   end
+  ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipDesc='"..tostring(tooltipDesc).."' tooltipTitle='"..tostring(tooltipTitle).."'")
   if( tooltipDesc == nil and tooltipTitle == nil) then return end 
   InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -66, TOPRIGHT)
   if tooltipTitle ~= nil then

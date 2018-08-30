@@ -2,6 +2,7 @@ EOSA
 0.x.xx
   update tooltip info for Blacksmithing
   show current player name on gui
+  update note hide/show
 0.1.12
 	update info on tooltip for Provisioning and Enchanting having 2 skills that effect what you can make.
 0.1.11
