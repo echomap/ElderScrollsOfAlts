@@ -531,7 +531,7 @@ function ElderScrollsOfAlts:SetupGuiCharListing(self, dataListing)
 	--    scrollData[#scrollData + 1] = ZO_ScrollList_CreateDataEntry(NOTE_TYPE, {key = entries[i]})
 	--end
 	local playerLines = ElderScrollsOfAlts:SetupGuiPlayerLines()
-  
+  --local mylinenum = 0 TODO just auto select my line
 	for k, v in pairs(playerLines) do
 		--ElderScrollsOfAlts:debugMsg(" playerLines k " .. tostring(k)  )
 		--ElderScrollsOfAlts:debugMsg(" playerLines v " .. tostring(v)  )	
@@ -894,7 +894,7 @@ end
 ----------
 -- GUI2 --
 ----------
---Gui2
+--Gui2 - via row mouse event on Main GUI
 function ElderScrollsOfAlts:SelectCharacterNote1(self)
     --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
@@ -902,20 +902,29 @@ function ElderScrollsOfAlts:SelectCharacterNote1(self)
   
   --Get the selected row's data
   local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_CharList)  
-  if selectedData ~= nil then
-    ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: Name=" .. tostring(selectedData.name))
-    --Toggle off if selected is the same
-    if( ElderScrollsOfAlts.view.SelectedDataNode==nil or ElderScrollsOfAlts.view.SelectedDataNode == selectedData ) then
-      ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
-    else
-      ElderScrollsOfAlts:HideGuiCharacterNote(self)
-    end    
-    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
-  else
+  local previousSelected = ElderScrollsOfAlts.view.SelectedDataNode
+  if selectedData == nil then
     ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: selectedData is nil")
+    return
+  end    
+  ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: Req  Name="..tostring(selectedData.name))
+  if(previousSelected==nil) then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: Prev Name= is nil")
+  else
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote1: Prev Name="..tostring(previousSelected.name))
   end
+  
+  --Toggle off, if selected is the same  
+  if( previousSelected ~= nil and previousSelected.name == selectedData.name ) then
+    ElderScrollsOfAlts:HideGuiCharacterNote(self)    
+    ElderScrollsOfAlts.view.SelectedDataNode = nil
+  else
+    ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
+  end      
 end
 
+--Gui2 - via row mouse event on Equip GUI
 function ElderScrollsOfAlts:SelectCharacterNote2(self)
   --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
@@ -923,16 +932,25 @@ function ElderScrollsOfAlts:SelectCharacterNote2(self)
   
   --Get the selected row's data
   local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_EQUIP)  
-  if selectedData2 ~= nil then
-    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: Name=" .. tostring(selectedData.name))
-    --Toggle off if selected is the same
-    if( ElderScrollsOfAlts.view.SelectedDataNode==nil or ElderScrollsOfAlts.view.SelectedDataNode == selectedData ) then
-      ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
-    else
-      ElderScrollsOfAlts:HideGuiCharacterNote(self)
-    end  
+  local previousSelected = ElderScrollsOfAlts.view.SelectedDataNode
+  if selectedData == nil then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: selectedData is nil")
+    return
+  end    
+  ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: Req  Name="..tostring(selectedData.name))
+  if(previousSelected==nil) then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: Prev Name= is nil")
   else
-    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: selectedData2 is nil")
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: Prev Name="..tostring(previousSelected.name))
+  end
+  
+  --Toggle off, if selected is the same  
+  if( previousSelected ~= nil and previousSelected.name == selectedData.name ) then
+    ElderScrollsOfAlts:HideGuiCharacterNote(self)    
+    ElderScrollsOfAlts.view.SelectedDataNode = nil
+  else
+    ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
   end  
 end
 
