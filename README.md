@@ -2,7 +2,7 @@
 Addon/mod for Elder Scrolls Online - to keep general track of alts
 
 http://www.esoui.com/downloads/info2070-ElderScrollsOfAlts.html
-Addon/mod for Elder Scrolls Online - to keep general track of alts
+
 
 Currently with a moderately looking UI, basic sorting, and at least some of the details I want to store/show.
 This addon only knows about characters it has been loaded with
