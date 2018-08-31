@@ -5,9 +5,9 @@ http://www.esoui.com/downloads/info2070-ElderScrollsOfAlts.html
 
 
 Currently with a moderately looking UI, basic sorting, and at least some of the details I want to store/show.
-This addon only knows about characters it has been loaded with
-It will probably not hook into changes in realtime, and just update on start, Gui showing and hopefully shutdown.
-All things/buttons etc may not work, but I hope to not have errors
+* This addon only knows about characters it has been loaded with
+* It will probably not hook into changes in realtime, and just update on start, Gui showing and hopefully shutdown.
+* All things/buttons etc may not work, but I hope to not have errors
 
 Slashcommand:
 /esoa
