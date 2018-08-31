@@ -10,8 +10,10 @@ Currently with a moderately looking UI, basic sorting, and at least some of the 
 * All things/buttons etc may not work, but I hope to not have errors
 
 Slashcommand:
-/esoa
-/ElderScrollsOfAlts
+* /esoa
+* /ElderScrollsOfAlts
+
+![Image of my current UI](Screenshots/esoa_screenshot5.png?raw=true "UI/Display" )
 
 ![Image of my current bad UI, but at least you get what its going for](Screenshots/esoa_screenshot2.png?raw=true "Alpha UI/Display" )
 
