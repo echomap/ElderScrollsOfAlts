@@ -1,9 +1,13 @@
 --TEST TEST TEST TEST
 function ElderScrollsOfAlts:DelTestData1()
- local pName1 = "Test1 McTesty1"
+  local pName1 = "Test1 McTesty1"
   ElderScrollsOfAlts.altData.players[pName1] = {}
   local pName = "Perpugilliam Brown"
-  ElderScrollsOfAlts.altData.players[pName].bio = {}
+  if(ElderScrollsOfAlts.altData.players[pName] ~= nil) then
+    ElderScrollsOfAlts.altData.players[pName].bio = {}
+  end
+  pName = "Kyralyra^Fx"
+  ElderScrollsOfAlts.altData.players[pName] = {}
 end
 
 function ElderScrollsOfAlts:LoadTestData1()

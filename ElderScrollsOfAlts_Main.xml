@@ -3,7 +3,7 @@
 
    <Texture name="ESOA_RowTemplate_Highlight" textureFile="EsoUI/Art/Contacts/social_list_bgStrip_highlight.dds"
         alpha="0" level="1" virtual="true">
-      <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="4" />
+      <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="8" />
       <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="-4"/>
       <TextureCoords top="0" bottom=".625" left="0" right=".625"/>
       <OnInitialized>
@@ -166,22 +166,16 @@
 				<Anchor point="TOPLEFT" offsetX="5" offsetY="5" />
 			</Label>
       
-      <Texture name="$(parent)_Icon1" textureFile="/esoui/art/icons/store_vampirebite_01.dds" hidden="true" mouseEnabled="true">
+      <Texture name="$(parent)_Super" textureFile="" hidden="true" mouseEnabled="true">
             <Dimensions x="15" y="24" />
             <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"Super") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self)  </OnMouseExit>            
-      </Texture>      
-      <Texture name="$(parent)_Icon2" textureFile="/esoui/art/icons/store_werewolfbite_01.dds" hidden="true" mouseEnabled="true">
-            <Dimensions x="15" y="24" />
-            <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
-        <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"Super") </OnMouseEnter>
-        <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self)  </OnMouseExit>         
       </Texture>
         
       <Texture name="$(parent)Alliance" textureFile="/esoui/art/icons/heraldrybg_onion_01.dds" mouseEnabled="true" >
 				<Dimensions x="25" y="30" />
-				<Anchor point="TOPLEFT" relativeTo="$(parent)_Icon2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)_Super" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"Alliance") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self)  </OnMouseExit>        
 			</Texture>
@@ -345,8 +339,8 @@
           
           <Label name="$(parent)_SortBy_Value" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
             text="None" >
-            <Dimensions x="80" y="24" />
-            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortUp" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
+            <Dimensions x="95" y="24" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortUp" relativePoint="TOPLEFT" offsetX="-15" offsetY="0" />
           </Label>
           <Label name="$(parent)_SortBy_Label" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
             text="Sort By:" >
@@ -615,8 +609,7 @@
           <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="4" offsetX="4"/>
           <OnMouseEnter>WINDOW_MANAGER:SetMouseCursor(12);self:SetAlpha(0.8)</OnMouseEnter>
           <OnMouseExit>WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(1)</OnMouseExit>
-          <OnMouseUp> ElderScrollsOfAlts:DoUiButtonClicked() </OnMouseUp>          
-          
+          <OnMouseUp> ElderScrollsOfAlts:DoUiButtonClicked() </OnMouseUp>
         </Button>
       </Controls>
   </TopLevelControl>
@@ -635,9 +628,8 @@
   </Tooltip>
 
   
-  <TopLevelControl name="ESOA_GUI2_Notes" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
-    <DimensionConstraints minX="700" minY="50" maxY="1400"/>
-    <Dimensions x="200" y="120" />
+  <TopLevelControl name="ESOA_GUI2_Notes" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
+    <Dimensions x="100" y="150" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
 
     <OnInitialized> </OnInitialized>
@@ -645,18 +637,83 @@
 
     <Controls>
       <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"> <AnchorFill/> </Backdrop>
-      <Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
-          wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="NOTE UI">
-        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+      
+      <Label name="$(parent)_Label" width="200" height="25" font="ZoFontWinH2" inheritAlpha="true"
+          color="FF0000" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER"
+          text="NOTE UI" >
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"  offsetX="4" offsetY="4" />
       </Label>
-      <Button name="$(parent)_Save">
-        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="5" />
-        <Dimensions x="25" y="25" />
+      <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
+        text="WhoAmI?" >
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="4"/>
+      </Label>
+      <Button name="$(parent)_Save" text="Save" font="ZoFontGameLargeBold" 
+          verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" 
+          inherits="ZO_ButtonBehaviorClickSound" >
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_WhoAmI" relativePoint="TOPRIGHT" offsetX="12"/>
+        <Dimensions x="45" y="25" />
+        <Textures
+          normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+          pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"
+          mouseOver="EsoUI/Art/ActionBar/actionBar_mouseOver.dds"
+          disabled="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+        />
+        <OnMouseEnter></OnMouseEnter>
+        <OnMouseUp>ElderScrollsOfAlts:SaveNote(self)</OnMouseUp>
       </Button>
-      <Button name="$(parent)_Cancel">
-        <Anchor point="TOPLEFT" relativeTo="$(parent)_Save" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="15"/>
-        <Dimensions x="25" y="25" />
-      </Button>   
+      <Button name="$(parent)_Cancel" text="Cancel" font="ZoFontGameLargeBold" 
+          verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" 
+          inherits="ZO_ButtonBehaviorClickSound">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Save" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+        <Dimensions x="60" y="25" />
+        <Textures
+          normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+          pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"
+          mouseOver="EsoUI/Art/ActionBar/actionBar_mouseOver.dds"
+          disabled="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+        />
+        <OnMouseEnter></OnMouseEnter>
+        <OnMouseUp>ElderScrollsOfAlts:ResetNote(self)</OnMouseUp>
+      </Button>
+            <Button name="$(parent)_Close" text="Close" font="ZoFontGameLargeBold" 
+          verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" 
+          inherits="ZO_ButtonBehaviorClickSound">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Cancel" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+        <Dimensions x="60" y="25" />
+        <Textures
+          normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+          pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"
+          mouseOver="EsoUI/Art/ActionBar/actionBar_mouseOver.dds"
+          disabled="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+        />
+        <OnMouseEnter></OnMouseEnter>
+        <OnMouseUp>ElderScrollsOfAlts:CloseNote(self)</OnMouseUp>
+      </Button>
+      
+      <Control name="$(parent)_Index" inherits="ZO_ScrollList">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="60"/>
+        <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="0" />
+        <Controls>
+          <EditBox	name="$(parent)_Note" font="ZoFontChat"
+                horizontalAlignment="LEFT" verticalAlignment="CENTER" text="NOTE NOTE NOTE" 
+                editEnabled="true" maxInputCharacters="1000" multiLine="true" newLineEnabled="true" 
+                inherits="ZO_DefaultEditForBackdrop">        
+              <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="0"/>
+              <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="0" />
+              <OnTextChanged>
+                self:TakeFocus()
+              </OnTextChanged>
+              <OnInitialized>
+                self:TakeFocus()
+              </OnInitialized>
+          </EditBox>
+          <Backdrop	name="$(parent)_EditBoxBg" inherits="ZO_EditBackdrop" alpha="1"  >
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="00"/>
+            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="0" />
+          </Backdrop>  
+        </Controls>
+      </Control>
+
     </Controls>
   </TopLevelControl>
 

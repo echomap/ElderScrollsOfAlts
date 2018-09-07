@@ -145,6 +145,7 @@ end
 --Gui2
 function ElderScrollsOfAlts.HideGui2()
     ESOA_GUI2:SetHidden(true)
+    ESOA_GUI2_Notes:SetHidden(true)
 end
 
 --Gui2
@@ -568,13 +569,27 @@ end
 
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollList)    
+  local pName = GetUnitName("player")
+  local rName = row_data["name"]
   row_control:GetNamedChild('Name'):SetText(row_data["name"])
+  if(pName==rName) then
+    row_control:GetNamedChild('Name').isMe = true
+  else
+    row_control:GetNamedChild('Name').isMe = false
+  end
 end
 
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControlEquip(row_control, row_data, scrollList)    
+  local pName = GetUnitName("player")
+  local rName = row_data["name"]
   row_control:GetNamedChild('Name'):SetText(row_data["name"])
-  
+  if(pName==rName) then
+    row_control:GetNamedChild('Name').isMe = true
+  else
+    row_control:GetNamedChild('Name').isMe = false
+  end
+    
   row_control:GetNamedChild('Head'):SetText(row_data["Head"])
   row_control:GetNamedChild('Head').itemlink = row_data["Head_Link"]
   row_control:GetNamedChild('Shoulders'):SetText(row_data["Shoulders"])
@@ -619,93 +634,80 @@ end
 --Shared Gui
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
-  --ElderScrollsOfAlts:debugMsg(" SetupRowControl=" .. tostring(row_control) .. " row_data=" .. tostring(row_data) )
-  --for k, v in pairs(row_data) do
-    --ElderScrollsOfAlts:debugMsg(" key= " .. k)
-    ----d(ElderScrollsOfAlts.name .. " v1_ " .. tostring(v["_Name"]))
-    ----d(ElderScrollsOfAlts.name .. " v1  " .. tostring(v["Name"]))
-  --end
-    --d(ElderScrollsOfAlts.name .. " tbl: " ..ElderScrollsOfAlts:dump(row_data) )
-    --row_control.row_data = row_data
-
-    --if (row_data[1] == nil) then
-    --    d("just starting up so just bail out")
-    --    return
-    --end
-    --d("process row data...")
-
-    row_control:GetNamedChild('Name'):SetText(row_data["name"])
-    row_control:GetNamedChild('Gender'):SetText(ElderScrollsOfAlts:GetGenderText(row_data["gender"]))    
-    if row_data["champion"] == nil then
-      row_control:GetNamedChild('Level'):SetText(row_data["level"])
-    else
-      row_control:GetNamedChild('Level'):SetText( row_data["level"] .."("..row_data["champion"]..")" )      
-    end
-    
-    row_control:GetNamedChild('Class'):SetText( ElderScrollsOfAlts:GetClassText(row_data["class"]) )
-    row_control:GetNamedChild('Race'):SetText(  ElderScrollsOfAlts:GetRaceText1(row_data["race"]) )    
-    --ElderScrollsOfAlts:GetAllianceIcon(alliance)
-    --local pAlliance = GetUnitAlliance("player")
-    --ElderScrollsOfAlts.altData.players[pName].bio.allianceId = pAlliance    
-    local pAlliance = row_data["alliance"]
-    row_control:GetNamedChild('Alliance').alliance = pAlliance
-    if pAlliance ~= nil then
-      local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
-      row_control:GetNamedChild('Alliance'):SetTexture(pAllIcon)      
-    end
+  local pName = GetUnitName("player")
+  local rName = row_data["name"]
+  row_control:GetNamedChild('Name'):SetText(row_data["name"])
+  if(pName==rName) then
+    row_control:GetNamedChild('Name').isMe = true
+  else
+    row_control:GetNamedChild('Name').isMe = false
+  end
+  
+  row_control:GetNamedChild('Gender'):SetText(ElderScrollsOfAlts:GetGenderText(row_data["gender"]))    
+  if row_data["champion"] == nil then
+    row_control:GetNamedChild('Level'):SetText(row_data["level"])
+  else
+    row_control:GetNamedChild('Level'):SetText( row_data["level"] .."("..row_data["champion"]..")" )      
+  end
+  
+  row_control:GetNamedChild('Class'):SetText( ElderScrollsOfAlts:GetClassText(row_data["class"]) )
+  row_control:GetNamedChild('Race'):SetText(  ElderScrollsOfAlts:GetRaceText1(row_data["race"]) )    
+  --ElderScrollsOfAlts:GetAllianceIcon(alliance)
+  --local pAlliance = GetUnitAlliance("player")
+  --ElderScrollsOfAlts.altData.players[pName].bio.allianceId = pAlliance    
+  local pAlliance = row_data["alliance"]
+  row_control:GetNamedChild('Alliance').alliance = pAlliance
+  if pAlliance ~= nil then
+    local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
+    row_control:GetNamedChild('Alliance'):SetTexture(pAllIcon)      
+  end
  
-    local sunk2 = nil
-    local sunk = row_data["alchemy_sunk"]
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Alchemy',"alchemy",sunk)
-    sunk = row_data["blacksmithing_sunk"]
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Blacksmithing',"blacksmithing",sunk)
-    sunk = row_data["clothing_sunk"]
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Clothing',"clothing",sunk)
-    sunk = row_data["enchanting_sunk"]
-    sunk2 = row_data["enchanting_sunk2"]
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk,sunk2)
-    sunk = row_data["jewelry_sunk"]
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
-    sunk = row_data["provisioning_sunk"]    
-    --row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Provisioning',"provisioning",sunk)
-    sunk = row_data["woodworking_sunk"]        
-    ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Woodworking',"woodworking",sunk)    
-    --Werewolf / Vampire
-    local werewolf = row_data["Werewolf"]
-    local vampire  = row_data["Vampire"] 
-    row_control:GetNamedChild("_Icon1").super = 0
-    row_control:GetNamedChild("_Icon2").super = 0
-    if werewolf then
-      row_control:GetNamedChild("_Icon2"):SetHidden(false)
-      row_control:GetNamedChild("_Icon2").super = 1
-      --row_control:GetNamedChild("_Icon2"):SetTexture(
-      --"/esoui/art/icons/store_werewolfbite_01.dds")
-    else
-      row_control:GetNamedChild("_Icon2"):SetHidden(true)
-      row_control:GetNamedChild("_Icon2").super = 0
-    end
-    if vampire then
-      row_control:GetNamedChild("_Icon1"):SetHidden(false)
-      row_control:GetNamedChild("_Icon1").super = 2
-    else
-      row_control:GetNamedChild("_Icon1"):SetHidden(true)
-      row_control:GetNamedChild("_Icon1").super = 0
-    end
+  local sunk2 = nil
+  local sunk = row_data["alchemy_sunk"]
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Alchemy',"alchemy",sunk)
+  sunk = row_data["blacksmithing_sunk"]
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Blacksmithing',"blacksmithing",sunk)
+  sunk = row_data["clothing_sunk"]
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Clothing',"clothing",sunk)
+  sunk = row_data["enchanting_sunk"]
+  sunk2 = row_data["enchanting_sunk2"]
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk,sunk2)
+  sunk = row_data["jewelry_sunk"]
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
+  sunk = row_data["provisioning_sunk"]    
+  --row_control:GetNamedChild('Provisioning'):SetText(row_data["provisioning"])
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Provisioning',"provisioning",sunk)
+  sunk = row_data["woodworking_sunk"]        
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Woodworking',"woodworking",sunk)    
+  --Werewolf / Vampire
+  local werewolf = row_data["Werewolf"]
+  local vampire  = row_data["Vampire"] 
+  row_control:GetNamedChild("_Super").super = 0
+  row_control:GetNamedChild("_Super"):SetHidden(true)
+  if werewolf then
+    row_control:GetNamedChild("_Super"):SetHidden(false)
+    row_control:GetNamedChild("_Super").super = 1
+    row_control:GetNamedChild("_Super"):SetTexture("/esoui/art/icons/store_werewolfbite_01.dds")
+  end
+  if vampire then
+    row_control:GetNamedChild("_Super"):SetHidden(false)
+    row_control:GetNamedChild("_Super"):SetTexture("/esoui/art/icons/store_vampirebite_01.dds")
+    row_control:GetNamedChild("_Super").super = 2
+  end
     
-    --Misc
-    local bu = row_data["backpackUsed"] 
-    local bs = row_data["backpackSize"] 
-    if bs == nil then bs = "---" end
-    local bagText = bu .."/".. bs
-    row_control:GetNamedChild('BagSpace'):SetText(bagText)
-    --playerLines[k].backpackSize = 0
-    --playerLines[k].backpackUsed = 0
-      
-    --row_control:GetNamedChild("Name"):SetText(GetMoneyName(data))
-    --local fieldColor = STATUS_COLORS[data.key] or defaultColor
-    --sKey:SetColor(fieldColor:UnpackRGBA())
-    --ZO_SortFilterList.SetupRow(self, control, data)
+  --Misc
+  local bu = row_data["backpackUsed"] 
+  local bs = row_data["backpackSize"] 
+  if bs == nil then bs = "---" end
+  local bagText = bu .."/".. bs
+  row_control:GetNamedChild('BagSpace'):SetText(bagText)
+  --playerLines[k].backpackSize = 0
+  --playerLines[k].backpackUsed = 0
+    
+  --row_control:GetNamedChild("Name"):SetText(GetMoneyName(data))
+  --local fieldColor = STATUS_COLORS[data.key] or defaultColor
+  --sKey:SetColor(fieldColor:UnpackRGBA())
+  --ZO_SortFilterList.SetupRow(self, control, data)
 end
 
 --ESOACraftTooltip MAIN Tooltip
@@ -723,7 +725,7 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
     --local hdrStr = string.format("%s (%s)", craftName, nVal)
   elseif(tooltipName=="Super") then
     local nSuper = tonumber(mySelf.super)
-    d("TooltipEnter: nSuper='"..tostring(nSuper).."'")
+    --d("TooltipEnter: nSuper='"..tostring(nSuper).."'")
     if( nSuper == nil or nSuper == 0 ) then return end
     if( nSuper == 1 ) then
       tooltipDesc  = "Werewolf"  
@@ -888,17 +890,78 @@ end
 -----------
 -- NOTES --
 -----------
-function ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+function ElderScrollsOfAlts:ShowGuiCharacterNote(self, selectedData)
   ESOA_GUI2_Notes:SetHidden(false)
   ESOA_GUI2_Notes:ClearAnchors()
   ESOA_GUI2_Notes:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
     self:GetLeft(), self:GetTop()+100
     --ElderScrollsOfAlts.savedVariables.uibutton.left, 
     --ElderScrollsOfAlts.savedVariables.uibutton.top )
-    )
+  )  
+  ESOA_GUI2_Notes:SetHeight( 150 )
+  ESOA_GUI2_Notes:SetWidth(  300 )
+  
+  --d("selectedData="..tostring(selectedData))
+  if( ElderScrollsOfAlts.view.SelectedDataNode == nil ) then
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
+  end
+  local sVal = zo_strformat("(<<C:1>>)", ElderScrollsOfAlts.view.SelectedDataNode.name )
+  ESOA_GUI2_Header_WhoAmI:SetText(sVal)
+  ESOA_GUI2_Notes_WhoAmI:SetText(sVal)
+  ESOA_GUI2_Notes_Index_Note:SetText("")
+  ElderScrollsOfAlts:ResetNote()
+end
+
+function ElderScrollsOfAlts:CloseNote(self)
+  ElderScrollsOfAlts.view.SelectedDataNode = nil
+  ESOA_GUI2_Notes_Index_Note:SetText("")
+  ESOA_GUI2_Notes:SetHidden(true)
+end
+ 
+function ElderScrollsOfAlts:ResetNote()
+  local splayer = ElderScrollsOfAlts.view.SelectedDataNode
+  if( splayer == nil ) then
+    d("ESOA, failed to get selected character for note")
+    return
+  end
+  ESOA_GUI2_Notes_Index_Note:SetText("")
+  local tplayer = ElderScrollsOfAlts.altData.players[splayer.rawname] --not name as is display
+  if( tplayer == nil ) then
+    d("ESOA, failed to get character for note")
+    return
+  end  
+  if( tplayer ~= nil ) then
+    local note = tplayer.note
+    if( note ~= nil ) then
+      ESOA_GUI2_Notes_Index_Note:SetText(note)
+    end
+  end
+end
+
+function ElderScrollsOfAlts:SaveNote()
+  local splayer = ElderScrollsOfAlts.view.SelectedDataNode
+  --d("SaveNote: splayer="..tostring(splayer) )
+  if( splayer == nil ) then
+    d("ESOA, failed to get selected character to save note")
+    return
+  end
+  --d("SaveNote: splayer.name="..tostring(splayer.name) )
+  local tplayer = ElderScrollsOfAlts.altData.players[splayer.rawname] --not name as is display
+  --d("SaveNote: splayer="..tostring(splayer) )
+  if( tplayer == nil ) then
+    d("ESOA, failed to get character to save note")
+    return
+  end
+  tplayer.note = ESOA_GUI2_Notes_Index_Note:GetText()
+  local pName = GetUnitName("player")
+  if(pName==splayer.rawname) then
+    ElderScrollsOfAlts.view.currentnote = tplayer.note
+  end
+  d("ESOA, saved note")
 end
 
 function ElderScrollsOfAlts:HideGuiCharacterNote(self,selectedData)
+  ESOA_GUI2_Notes_Index_Note:SetText("")
   ESOA_GUI2_Notes:SetHidden(true)
 end
 --NOTES
@@ -928,11 +991,13 @@ function ElderScrollsOfAlts:SelectCharacterNote1(self)
   
   --Toggle off, if selected is the same  
   if( previousSelected ~= nil and previousSelected.name == selectedData.name ) then
-    ElderScrollsOfAlts:HideGuiCharacterNote(self)    
     ElderScrollsOfAlts.view.SelectedDataNode = nil
+    ElderScrollsOfAlts:HideGuiCharacterNote(self)
+    --TODO ElderScrollsOfAlts.savedVariables.selected.charactername = nil
   else
-    ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
-    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData        
+    ElderScrollsOfAlts:ShowGuiCharacterNote(self, selectedData)
+    --TODO ElderScrollsOfAlts.savedVariables.selected.charactername = selectedData.name
   end      
 end
 
@@ -961,7 +1026,7 @@ function ElderScrollsOfAlts:SelectCharacterNote2(self)
     ElderScrollsOfAlts:HideGuiCharacterNote(self)    
     ElderScrollsOfAlts.view.SelectedDataNode = nil
   else
-    ElderScrollsOfAlts:ShowGuiCharacterNote(self,selectedData)
+    ElderScrollsOfAlts:ShowGuiCharacterNote(self, selectedData)
     ElderScrollsOfAlts.view.SelectedDataNode = selectedData
   end  
 end

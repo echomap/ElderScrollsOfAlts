@@ -4,16 +4,27 @@
 -- Read all data from the game Player Object into this Addon
 function ElderScrollsOfAlts.loadPlayerData(self)
 	local pName = GetUnitName("player")
+  local rName = GetRawUnitName("player")    
+  --Protect note data if not saved to disk in this session
+  if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
+      ElderScrollsOfAlts.altData.players[pName].note ~= nil ) then
+    ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[pName].note
+    ElderScrollsOfAlts.debug("ESOA, saved current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
+  end
+
+  --d("pName='"..tostring(pName).."'" )
 	if ElderScrollsOfAlts.altData.players == nil then
 		ElderScrollsOfAlts.altData.players = {}
 	end
-	ElderScrollsOfAlts.altData.players[pName] = {}
+  --Resets all my data to current data
+	ElderScrollsOfAlts.altData.players[pName] = {}  
 
   -- BIO section
 	if ElderScrollsOfAlts.altData.players[pName].bio == nil then
 		ElderScrollsOfAlts.altData.players[pName].bio = {}
-	end
-	
+	end  
+  ElderScrollsOfAlts.altData.players[pName].bio.name    = pName
+  ElderScrollsOfAlts.altData.players[pName].bio.rawname = rName  
 	local pGender = GetUnitGender("player")
 	ElderScrollsOfAlts.altData.players[pName].bio.gender = pGender
 	local pLvl = GetUnitLevel("player")
@@ -164,15 +175,31 @@ function ElderScrollsOfAlts.loadPlayerData(self)
       ElderScrollsOfAlts.altData.players[pName].bio.Vampire = true
     end
   end  
-  --
+  -- Bags
   local bagSize = GetBagSize(BAG_BACKPACK) 
   local bagUsed = GetNumBagUsedSlots(BAG_BACKPACK)
   ElderScrollsOfAlts.altData.players[pName].misc = {}
   ElderScrollsOfAlts.altData.players[pName].misc.backpackSize = bagSize
   ElderScrollsOfAlts.altData.players[pName].misc.backpackUsed = bagUsed
   --
-  --TODO
+  -- Equipment
   ElderScrollsOfAlts:loadPlayerEquipment()
+  
+  --
+  ElderScrollsOfAlts.altData.data = {}
+  local bagSizeB = GetBagSize(BAG_BACKPACK) 
+  local bagUsedB = GetNumBagUsedSlots(BAG_BACKPACK)
+  ElderScrollsOfAlts.altData.data.bankSize = bagSize
+  ElderScrollsOfAlts.altData.data.bankUsed = bagUsed
+  
+  -- Reload Note if not saved properly
+  if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
+    ElderScrollsOfAlts.altData.players[pName].note = ElderScrollsOfAlts.view.currentnote
+    ElderScrollsOfAlts.debug("ESOA, restored current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
+  end
+  
+  --TODO more?
+  
   
 	-- Fetch the saved variables
   --Default values for the SavedVariables
@@ -381,23 +408,26 @@ function ElderScrollsOfAlts:SetupGuiEquipPlayerLines()
         --shield:eq=7(EQUIP_TYPE_OFF_HAND),slot=5(EQUIP_SLOT_OFF_HAND)
         --staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=20(EQUIP_SLOT_BACKUP_MAIN)
         --staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=4 (EQUIP_SLOT_MAIN_HAND)
-        elseif ev.equipType == EQUIP_TYPE_ONE_HAND then
+        elseif ev.equipType == EQUIP_TYPE_ONE_HAND then --5
           --d("1h1 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
-          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then --20
             --d("Set O1 to "..ev.itemName)
             playerLines[k].O1  = "O"
             playerLines[k].O1_Link  = ev.itemLink  
-          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
+          elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then --4
             playerLines[k].M1  = "O"
             playerLines[k].M1_Link  = ev.itemLink  
+          elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then --5
+            playerLines[k].M2  = "O"
+            playerLines[k].M2_Link  = ev.itemLink              
           end
-        elseif ev.equipType == EQUIP_TYPE_OFF_HAND then
+        elseif ev.equipType == EQUIP_TYPE_OFF_HAND then --7
           --d("1h2 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
-          if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then
+          if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then --21
             --d("Set O2 to "..ev.itemName)
             playerLines[k].O2  = "O2"
             playerLines[k].O2_Link  = ev.itemLink  
-          elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then
+          elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then --5
             playerLines[k].M2  = "O"
             playerLines[k].M2_Link  = ev.itemLink  
           end 
