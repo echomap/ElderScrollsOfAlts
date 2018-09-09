@@ -9,7 +9,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
       ElderScrollsOfAlts.altData.players[pName].note ~= nil ) then
     ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[pName].note
-    ElderScrollsOfAlts.debug("ESOA, saved current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
+    ElderScrollsOfAlts:debugMsg("ESOA, saved current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
   end
 
   --d("pName='"..tostring(pName).."'" )
@@ -195,7 +195,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   -- Reload Note if not saved properly
   if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
     ElderScrollsOfAlts.altData.players[pName].note = ElderScrollsOfAlts.view.currentnote
-    ElderScrollsOfAlts.debug("ESOA, restored current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
+    ElderScrollsOfAlts:debugMsg("ESOA, restored current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
   end
   
   --TODO more?

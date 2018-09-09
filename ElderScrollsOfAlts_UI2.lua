@@ -198,6 +198,10 @@ function ElderScrollsOfAlts:SetupGui2(self)
   local sVal = zo_strformat("(<<C:1>>)", pName )
   ESOA_GUI2_Header_WhoAmI:SetText(sVal)
 
+  if( not ElderScrollsOfAlts.altData.beta ) then 
+    ESOA_GUI2_Header_View_Misc:SetHidden(true)
+  end
+  
   --if( ElderScrollsOfAlts.altData.beta) then
   --  ESOA_GUI2_Header_Dropdown.comboBox = ESOA_GUI2_Header_Dropdown.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown)
   --  local comboBox = ESOA_GUI2_Header_Dropdown.comboBox
@@ -820,7 +824,7 @@ function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)
   if( equipName ~= nil ) then
     InformationTooltip:AddLine(string.format("(%s)",equipName), "ZoFontGame")
   end
-  InformationTooltip:AddLine(eLink, "ZoFontGame")
+  --as equipName is the same in this context InformationTooltip:AddLine(itemLink, "ZoFontGame")
   if( traitType ~= nil) then
     local traitName = GetString("SI_ITEMTRAITTYPE", traitType)
     InformationTooltip:AddLine(itemLink, "ZoFontGame")    

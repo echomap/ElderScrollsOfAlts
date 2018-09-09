@@ -2,6 +2,7 @@
 -=-=-=-=-=-=-=-
 0.x.xx
   x
+  x possible nil setting text/fix for per colorfuleso's author
 0.1.14
 [list]
 [*] Note UI and save/restore
@@ -76,6 +77,7 @@
 -=-=-=TODO=-=-=-
 auto select my line
 show skill points unspent?
+quest log?
 Notes UI, GUI/logic
 Finish EQUIP screen
   - better icons
@@ -83,12 +85,10 @@ Finish EQUIP screen
   - level compare?
   - quality
 Costume
-
-TODO
+implement actual erasure of old character data
 daily crafting quest
 horse training
 pledges
 random dungeon
-
 bank space
 -=-=-=-=-=-=-=-
