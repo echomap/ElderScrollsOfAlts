@@ -6,6 +6,7 @@
 [list]
 [*] nil check/fix found per issue with colorfuleso
 [*] update alchemy hints
+[/list]
 0.1.14
 [list]
 [*] Note UI and save/restore
