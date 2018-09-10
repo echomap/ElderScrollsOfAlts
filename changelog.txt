@@ -1,8 +1,11 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 0.x.xx
-  x
-  x possible nil setting text/fix for per colorfuleso's author
+  x  
+0.1.14c
+[list]
+[*] nil check/fix found per issue with colorfuleso
+[*] update alchemy hints
 0.1.14
 [list]
 [*] Note UI and save/restore
