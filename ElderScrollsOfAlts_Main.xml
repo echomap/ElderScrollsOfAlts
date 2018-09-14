@@ -291,7 +291,7 @@
 <!-- end of Lock/Unlock buttons -->
 
           <Label name="$(parent)_Label" mouseEnabled="false" font="ZoFontBookPaper" text="-ESOA-" >
-            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0"/>
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPRIGHT" offsetX="5" offsetY="0"/>
           </Label>
 
           <Button name="$(parent)_Hide">
@@ -359,7 +359,7 @@
           
 <!-- VIEW buttons -->
           <Button name="$(parent)_View_Home" hidden="false" text="Home" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)_Locked" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewHome() </OnMouseUp>
             <Dimensions x="45" y="24" />            
@@ -384,11 +384,11 @@
                     />
           </Button>
           
-          <Button name="$(parent)_View_Misc" hidden="false" text="Misc" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
+          <Button name="$(parent)_View_Misc" hidden="false" text="Research" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Equip" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewMisc() </OnMouseUp>
-            <Dimensions x="45" y="24" />            
+            <Dimensions x="70" y="24" />            
             <Textures
                 normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
                 pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"
@@ -419,7 +419,7 @@
             <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  />
             <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" />            
           </Control>
-          <Control name="$(parent)_Misc1ListHeader" inherits="ESOA_SortBar_EQUIP" mouseEnabled="true" visible="false">
+          <Control name="$(parent)_Misc1ListHeader" inherits="ESOA_SortBar_Misc1" mouseEnabled="true" visible="false">
             <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  />
             <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" />            
           </Control>          

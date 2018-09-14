@@ -1,190 +1,5 @@
 -- GUI Elements (Setup and View Data)
 
-
---Switch to Home VIEW
-function ElderScrollsOfAlts:GUIShowViewHome()
-  ESOA_GUI2_Body_CharListHeader:SetHidden(false)
-  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(true)
-  ESOA_GUI2_Body_CharList:SetHidden(false)
-  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
-  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
-  ElderScrollsOfAlts.savedVariables.currentView = "Home"
-end
---Switch to Equip VIEW
-function ElderScrollsOfAlts:GUIShowViewEquip()  
-  ESOA_GUI2_Body_CharListHeader:SetHidden(true)
-  ESOA_GUI2_Body_EquipListHeader:SetHidden(false)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(true)
-  ESOA_GUI2_Body_CharList:SetHidden(true)
-  ESOA_GUI2_Body_List_EQUIP:SetHidden(false)
-  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
-  ElderScrollsOfAlts.savedVariables.currentView = "Equip"
-end
---Switch to Equip VIEW
-function ElderScrollsOfAlts:GUIShowViewMisc()  
-  ESOA_GUI2_Body_CharListHeader:SetHidden(true)
-  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(false)
-  ESOA_GUI2_Body_CharList:SetHidden(true)
-  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
-  ESOA_GUI2_Body_List_Misc1:SetHidden(false)
-  ElderScrollsOfAlts.savedVariables.currentView = "Misc1"
-end
---Gui2
-function ElderScrollsOfAlts:onMoveStop()  
-  ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
-  ElderScrollsOfAlts.savedVariables.window.left   = ESOA_GUI2:GetLeft()
-  ElderScrollsOfAlts:debugMsg("Saved top and left")
-  if not ElderScrollsOfAlts.savedVariables.window.minimized and not ElderScrollsOfAlts.savedVariables.window.justone then
-    ElderScrollsOfAlts.savedVariables.window.width  = ESOA_GUI2:GetWidth()
-    ElderScrollsOfAlts.savedVariables.window.height = ESOA_GUI2:GetHeight()  
-    ElderScrollsOfAlts:debugMsg("Saved width and height")
-  end
-end
-
---Gui2
-function ElderScrollsOfAlts:onResizeStart() 
-  --
-end
-
---Gui2
-function ElderScrollsOfAlts:onResizeStop()
-  --d("Resize start")
-  --XX:GuiResizeScroll()
-  --XX:UpdateInventoryScroll()
-  if not ElderScrollsOfAlts.savedVariables.window.minimized and not ElderScrollsOfAlts.savedVariables.window.justone then
-    ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
-    ElderScrollsOfAlts.savedVariables.window.left   = ESOA_GUI2:GetLeft()
-    ElderScrollsOfAlts.savedVariables.window.width  = ESOA_GUI2:GetWidth()
-    ElderScrollsOfAlts.savedVariables.window.height = ESOA_GUI2:GetHeight()
-    ElderScrollsOfAlts:debugMsg("Saved width and height, top and left")
-    --
-    --update scroll height/width (has to be done manually?)
-    --ESOA_GUI2_Body
-    --<Anchor point="TOPLEFT"     relativeTo="$(parent)_Header" relativePoint="BOTTOMLEFT" />
-    --<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
-    --TODO ESOA_GUI2_Body:ClearAnchors()
-    --ESOA_GUI2_Body:SetAnchor(TOPLEFT, "ESOA_GUI2_Header", TOPLEFT, 
-    --  ElderScrollsOfAlts.savedVariables.window.left, ElderScrollsOfAlts.savedVariables.window.top)
-    --TODO ESOA_GUI2_Body:SetAnchor(BOTTOMRIGHT, "ESOA_GUI2", BOTTOMRIGHT)    
-    --ESOA_GUI2_Body_CharList
-    
-    -- Test2
-    --ESOA_GUI2_Body:SetAnchor(BOTTOMRIGHT, "$(parent)", BOTTOMRIGHT)    
-    --ESOA_GUI2_Body_CharList:SetAnchor(BOTTOMRIGHT, "$(parent)", 0,200 )    
-    -- Test3
-    ESOA_GUI2_Header:SetWidth( ESOA_GUI2:GetWidth() )
-    ZO_ScrollList_SetHeight(ESOA_GUI2_Body_CharList, ESOA_GUI2_Body:GetHeight())
-    ZO_ScrollList_UpdateScroll(ESOA_GUI2_Body_CharList)
-    ZO_ScrollList_Commit(ESOA_GUI2_Body_CharList)  
-    --d("Resize done")
-  end
-end
-
---Gui2
-function ElderScrollsOfAlts:GUI2Minimize(bMin)
-  ElderScrollsOfAlts:debugMsg("GUI2Minimize Called, bMin="..tostring(bMin) )
-  ElderScrollsOfAlts.savedVariables.window.minimized = bMin
-  
-  if ElderScrollsOfAlts.savedVariables.window.minlevel == nil then
-    ElderScrollsOfAlts.savedVariables.window.minlevel = 0
-  end
-  
-  if bMin then
-    ElderScrollsOfAlts.savedVariables.window.minlevel = ElderScrollsOfAlts.savedVariables.window.minlevel + 1
-  else
-    ElderScrollsOfAlts.savedVariables.window.minlevel = ElderScrollsOfAlts.savedVariables.window.minlevel - 1
-  end
-  --d("MinLevel=" .. tostring(ElderScrollsOfAlts.savedVariables.window.minlevel) )
-  
-  if ElderScrollsOfAlts.savedVariables.window.minlevel == nil or ElderScrollsOfAlts.savedVariables.window.minlevel == 0 then
-    --
-  else
-    --
-  end  
-  
-  --Header
-  ESOA_GUI2_Header_Minimize:SetHidden(bMin)
-  ESOA_GUI2_Header_Maximize:SetHidden(not bMin)  
-  --Body
-  ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
-  ESOA_GUI2_Body_Divider:SetHidden(bMin)
-  ESOA_GUI2_Body_CharList:SetHidden(bMin)
-  --Sizing
-  if bMin then
-    --ElderScrollsOfAlts.savedVariables.window.restoreheight = ESOA_GUI2:GetHeight()
-    ESOA_GUI2:SetHeight(20)
-  else
-    ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
-    ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data   
-    ElderScrollsOfAlts:Gui2SortRefresh()
-
-    --local rHt = ElderScrollsOfAlts.savedVariables.window.restoreheight
-    --if rHt == nil then
-    --  rHt = ElderScrollsOfAlts.savedVariables.window.height
-    --end    
-    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.savedVariables.window.height)
-  end  
-end
-
---Gui2
-function ElderScrollsOfAlts:GUI2Lock(bLock)
-  --d("GUI2Lock bLock: "..tostring(bLock) )
-	ESOA_GUI2_Header_Locked:SetHidden(not bLock)
-	ESOA_GUI2_Header_Unlocked:SetHidden(bLock)
-	ESOA_GUI2:SetMovable(not bLock)
-
-	if bLock then
-		ESOA_GUI2:SetResizeHandleSize(0)
-	else
-		ESOA_GUI2:SetResizeHandleSize(10)
-	end
-end
-
---Gui2
-function ElderScrollsOfAlts.HideGui2()
-    ESOA_GUI2:SetHidden(true)
-    ESOA_GUI2_Notes:SetHidden(true)
-end
-
---Gui2
-function ElderScrollsOfAlts.ShowGui2()
-  if not ESOA_GUI2:IsHidden() then 
-    ESOA_GUI2:SetHidden(true)
-  else
-    ESOA_GUI2:SetHidden(false)
-    if ElderScrollsOfAlts.savedVariables.window.minimized then
-      ElderScrollsOfAlts:GUI2Minimize(false)  
-    end  
-    if ElderScrollsOfAlts.savedVariables.window.justone then
-      --ElderScrollsOfAlts:GUI2Iconify(false)
-    end    
-  end
-	--local settings = IIfA:GetSceneSettings()
-	--settings.hidden = true
-  if ElderScrollsOfAlts.savedVariables.window.top ~= nil then
-    local left = ElderScrollsOfAlts.savedVariables.window.left
-    local top = ElderScrollsOfAlts.savedVariables.window.top
-    ESOA_GUI2:ClearAnchors()
-    ESOA_GUI2:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
-    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.savedVariables.window.height)
-    ESOA_GUI2:SetWidth( ElderScrollsOfAlts.savedVariables.window.width )
-  else 
-    ElderScrollsOfAlts.savedVariables.window.justone = false  
-    ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
-    ElderScrollsOfAlts.savedVariables.window.left   = ESOA_GUI2:GetLeft()
-    ElderScrollsOfAlts.savedVariables.window.width  = ESOA_GUI2:GetWidth()
-    ElderScrollsOfAlts.savedVariables.window.height = ESOA_GUI2:GetHeight()
-  end
-  
-  --TODO view
-  ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
-  --ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
-  --ESOA_GUI2_Body_CharList:SetHidden(bMin)
-end
-
 --Gui2
 -- Setup Display of addon data 
 function ElderScrollsOfAlts:SetupGui2(self)
@@ -257,6 +72,10 @@ end
 --Sort
 function ElderScrollsOfAlts:GuiEquipSortRefresh()
   ElderScrollsOfAlts:GuiSortEquip(ElderScrollsOfAlts.savedVariables.currentEquipSortKey,true)
+end
+
+function ElderScrollsOfAlts:GuiSortResearch(newKey,refreshOnly)
+  
 end
 
 --Sort Generalized
@@ -471,7 +290,7 @@ function ElderScrollsOfAlts:SetupGuiMisc1Listing(self, dataListing)
 	end
   
 	ZO_ScrollList_Commit(dataListing, scroll_data)
-	dataListing:SetHidden(false)
+	--dataListing:SetHidden(false)
 end
 
 function ElderScrollsOfAlts:SetupGuiEquipListing(self, dataListing)
@@ -503,7 +322,7 @@ function ElderScrollsOfAlts:SetupGuiEquipListing(self, dataListing)
 	end
   
 	ZO_ScrollList_Commit(dataListing, scroll_data)
-	dataListing:SetHidden(false)
+	--dataListing:SetHidden(false)
 end
 
 --Shared Gui
@@ -544,7 +363,7 @@ function ElderScrollsOfAlts:SetupGuiCharListing(self, dataListing)
 	end
   
 	ZO_ScrollList_Commit(dataListing, scroll_data)
-	dataListing:SetHidden(false)
+	--dataListing:SetHidden(false)
 end
 
 --Shared Gui
@@ -568,9 +387,6 @@ function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, r
   end
 end
 
-
---Shared Gui
-
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollList)    
   local pName = GetUnitName("player")
@@ -581,6 +397,55 @@ function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollLi
   else
     row_control:GetNamedChild('Name').isMe = false
   end
+  
+  local rTypes = {
+    ["Cloth"] = "clothier",
+    ["Wood"] = "woodworking",
+    ["Smith"] = "blacksmithing",
+  }
+  --for rtK,rtV in pairs(rTypes) do
+  local mKye2 = ""
+  local mKye1 = ""
+  mKye1 = "r".."clothier".."1".."time"
+  mKye2 = "r".."clothier".."1".."name"
+  row_control:GetNamedChild('Cloth1'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Cloth1').name = row_data[mKye2]
+  mKye1 = "r".."clothier".."2".."time"
+  mKye2 = "r".."clothier".."2".."name"
+  row_control:GetNamedChild('Cloth2'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Cloth2').name = row_data[mKye2]
+  mKye1 = "r".."clothier".."3".."time"
+  mKye2 = "r".."clothier".."3".."name"
+  row_control:GetNamedChild('Cloth3'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Cloth3').name = row_data[mKye2]
+  
+  mKye1 = "r".."woodworking".."1".."time"
+  mKye2 = "r".."woodworking".."1".."name"
+  row_control:GetNamedChild('Wood1'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Wood1').name = row_data[mKye2]
+  mKye1 = "r".."woodworking".."2".."time"
+  mKye2 = "r".."woodworking".."2".."name"
+  row_control:GetNamedChild('Wood2'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Wood2').name = row_data[mKye2]
+  mKye1 = "r".."woodworking".."3".."time"
+  mKye2 = "r".."woodworking".."3".."name"
+  row_control:GetNamedChild('Wood3'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Wood3').name = row_data[mKye2]
+
+  mKye1 = "r".."blacksmithing".."1".."time"
+  mKye2 = "r".."blacksmithing".."1".."name"
+  row_control:GetNamedChild('Smith1'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Smith1').name = row_data[mKye2]
+  mKye1 = "r".."blacksmithing".."2".."time"
+  mKye2 = "r".."blacksmithing".."2".."name"
+  row_control:GetNamedChild('Smith2'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Smith2').name = row_data[mKye2]
+  mKye1 = "r".."blacksmithing".."3".."time"
+  mKye2 = "r".."blacksmithing".."3".."name"
+  row_control:GetNamedChild('Smith3'):SetText(row_data[mKye1])
+  row_control:GetNamedChild('Smith3').name = row_data[mKye2]
+  --end
+  
 end
 
 --For each row in the SCROLLLIST
@@ -803,6 +668,24 @@ function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   ]]
 end
 
+function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
+  local itemLink = myLabel.name
+  if(itemLink==nil) then
+    return
+  end
+  InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
+  InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
+end
+
+function ElderScrollsOfAlts:ResearchTipExit(myLabel)  
+  ClearTooltip(InformationTooltip)
+end
+
+
+function ElderScrollsOfAlts:ResearchShowTip(myLabel,equipName)
+end
+
+
 --ESOACraftTooltip EQUIP Tooltip
 function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)    
   local itemLink = myLabel.itemlink
@@ -863,6 +746,20 @@ function ElderScrollsOfAlts:EquipHeaderTipExit(sender)
   --ClearTooltip(InformationTooltip)
   ClearTooltip(ESOATooltip)
 end
+
+function ElderScrollsOfAlts:ResearchHeaderTipEnter(sender,key)
+  InitializeTooltip(ESOATooltip, sender, TOPLEFT, 5, -56, TOPRIGHT)
+  --InitializeTooltip(ESOATooltip, sender, TOPLEFT, -10, -10, BOTTOMLEFT)
+  --ElderScrollsOfAlts:TraitTipLookupDesc(ESOATooltip,key)
+  ESOATooltip:AddLine(key, "ZoFontHeader3")
+  --SetTooltipText(ESOATooltip, "Test123" ZO_NORMAL_TEXT)
+end
+function ElderScrollsOfAlts:ResearchHeaderTipExit(sender)
+  --ClearTooltip(InformationTooltip)
+  ClearTooltip(ESOATooltip)
+end
+
+
 function ElderScrollsOfAlts:TraitTipLookupDesc(lTooltip,key)  
   --lTooltip:AddVerticalPadding(14)
   local ttld = {

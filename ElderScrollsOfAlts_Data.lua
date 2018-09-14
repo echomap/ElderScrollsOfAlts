@@ -185,7 +185,18 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   -- Equipment
   ElderScrollsOfAlts:loadPlayerEquipment()
   
-  --
+  --Research
+  ElderScrollsOfAlts.altData.players[pName].research = {}  
+  ElderScrollsOfAlts.altData.players[pName].research.now = GetFrameTimeSeconds()
+  ElderScrollsOfAlts:collectResearchData(CRAFTING_TYPE_BLACKSMITHING, "blacksmithing",
+        ElderScrollsOfAlts.altData.players[pName].research)
+  ElderScrollsOfAlts:collectResearchData(CRAFTING_TYPE_CLOTHIER, "clothier", 
+        ElderScrollsOfAlts.altData.players[pName].research)
+  ElderScrollsOfAlts:collectResearchData(CRAFTING_TYPE_WOODWORKING, "woodworking",
+        ElderScrollsOfAlts.altData.players[pName].research)
+  --TODO //JC?
+  
+  --Bags
   ElderScrollsOfAlts.altData.data = {}
   local bagSizeB = GetBagSize(BAG_BACKPACK) 
   local bagUsedB = GetNumBagUsedSlots(BAG_BACKPACK)
@@ -200,7 +211,6 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   
   --TODO more?
   
-  
 	-- Fetch the saved variables
   --Default values for the SavedVariables
   local defaults = {
@@ -210,6 +220,35 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 	--local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
 	--ElderScrollsOfAlts.altData
 end
+
+function ElderScrollsOfAlts:collectResearchData(tradeSkillType, keyProfName, dataResearchElem)
+  dataResearchElem[keyProfName] = {}
+  local researchMS       = GetMaxSimultaneousSmithingResearch(tradeSkillType)
+  local researchNumlines = GetNumSmithingResearchLines(tradeSkillType)
+  dataResearchElem[keyProfName].ongoing = {}
+  for researchLineIndex = 1, researchNumlines do
+    local name, icon, numTraits, timeRequiredForNextResearchSecs = GetSmithingResearchLineInfo(tradeSkillType, researchLineIndex)
+    --
+    dataResearchElem[keyProfName].numTraits = numTraits
+    dataResearchElem[keyProfName].researchMS = researchMS
+    dataResearchElem[keyProfName].researchNumlines = researchNumlines
+    dataResearchElem[keyProfName].timeRequiredForNextResearchSecs = timeRequiredForNextResearchSecs
+    --    
+    for traitIndex = 1, numTraits do
+      --local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType, researchLineIndex, traitIndex)
+      local durationSecs, timeRemainingSecs = GetSmithingResearchLineTraitTimes(tradeSkillType, researchLineIndex, traitIndex)
+      if(durationSecs~=nil) then
+        dataResearchElem[keyProfName].ongoing[name] = {}
+        dataResearchElem[keyProfName].ongoing[name].name              = name
+        dataResearchElem[keyProfName].ongoing[name].durationSecs      = durationSecs
+        dataResearchElem[keyProfName].ongoing[name].timeRemainingSecs = timeRemainingSecs
+        dataResearchElem[keyProfName].ongoing[name].traitIndex        = traitIndex
+        dataResearchElem[keyProfName].ongoing[name].researchLineIndex = researchLineIndex
+      end        
+    end
+  end    
+end
+
 
 --Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
 local matchNameList1 = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Recipe Quality", "Woodworking" }
@@ -329,6 +368,60 @@ function ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
 		playerLines[k] = {}
 		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
     playerLines[k].rawname = k
+    
+    --xxx
+    local elemT = ElderScrollsOfAlts.altData.players[k].research
+    local rTypes = {"clothier","woodworking","blacksmithing"}
+    -- Check if player even has this research slot
+    if( elemT ~= nil ) then 
+      for rtK,rtV in pairs(rTypes) do
+        ElderScrollsOfAlts.debugMsg("research for "..k.." as="..rtK.." rtV="..tostring(rtV))
+        if(elemT[rtV]~=nil)then
+          local researchMS = elemT[rtV].researchMS
+          for kkiT = 1, 3 do
+            local mKye = "r"..rtV..kkiT
+            if(researchMS==nil) then
+              playerLines[k][mKye.."time"] = ""
+            elseif(kkiT<=researchMS) then
+              playerLines[k][mKye.."time"] = "[avail]"
+            else
+              playerLines[k][mKye.."time"] = "--------"
+            end
+          end
+        end
+      end
+      -- Colate data for this research slot
+      for rtK,rtV in pairs(rTypes) do
+        if(elemT[rtV]~=nil) then
+          local kki = 1
+          for kk, vv in pairs( elemT[rtV].ongoing ) do
+            if kk == nil then return end
+            ElderScrollsOfAlts.debugMsg("research kk=" .. kk.. " v="..tostring(vv) )
+            --Get/Fix Time
+            local nowDiff = GetFrameTimeSeconds() - ElderScrollsOfAlts.altData.players[k].research.now
+            local timeS = vv.timeRemainingSecs - nowDiff
+            local timeM = math.floor(timeS/60)
+            local timeH = math.floor(timeM/60)
+            local timeD = math.floor(timeH/24)
+            if(timeH>0) then
+              timeM = timeM - (timeH*60)
+            end
+            if(timeD>0) then
+              timeH = timeH - (timeD*24)
+            end
+            local mKye = "r"..rtV..kki
+            local timeDisp = timeD.."d" ..timeH.."h" ..timeM.."m"
+            playerLines[k][mKye.."name"] = vv.name
+            playerLines[k][mKye.."time"] = timeDisp
+            playerLines[k][mKye.."D"] = timeD
+            playerLines[k][mKye.."H"] = timeH
+            --d("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
+            kki = kki+1
+          end 
+        end
+      end
+
+    end
   end --for
   -- PlayerLines to table
   table.sort(playerLines)  

@@ -1,7 +1,9 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 0.x.xx
-  x  
+[*]
+0.1.15
+[*] adding research timers (not JC, per no dlc to test it, sorry)
 0.1.14c
 [list]
 [*] nil check/fix found per issue with colorfuleso
