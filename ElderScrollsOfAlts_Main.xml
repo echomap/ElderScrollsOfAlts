@@ -396,10 +396,24 @@
                 disabled="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
                     />
           </Button>
+          
+          <Button name="$(parent)_View_Misc2" hidden="false" text="Other" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Misc" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnMouseEnter> </OnMouseEnter>
+            <OnMouseUp> ElderScrollsOfAlts:GUIShowViewMisc2() </OnMouseUp>
+            <Dimensions x="60" y="24" />            
+            <Textures
+                normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+                pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"
+                mouseOver="EsoUI/Art/ActionBar/actionBar_mouseOver.dds"
+                disabled="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+                    />
+          </Button>
+          
 <!-- VIEW buttons -->
           <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
             text="WhoAmI?" >
-            <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Misc" relativePoint="TOPRIGHT" offsetX="24" offsetY="0" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Misc2" relativePoint="TOPRIGHT" offsetX="24" offsetY="0" />
           </Label>
 
 
@@ -422,7 +436,12 @@
           <Control name="$(parent)_Misc1ListHeader" inherits="ESOA_SortBar_Misc1" mouseEnabled="true" visible="false">
             <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  />
             <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" />            
-          </Control>          
+          </Control>
+          <Control name="$(parent)_Misc2ListHeader" inherits="ESOA_SortBar_Misc2" mouseEnabled="true" visible="false">
+            <Anchor point="TOPLEFT"  relativeTo="$(parent)" relativePoint="TOPLEFT"  />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" />            
+          </Control>
+          
           <Texture name="$(parent)_Divider" textureFile="EsoUI/Art/Miscellaneous/centerscreen_topDivider.dds" 
               alpha="1" >
             <Anchor point="TOPLEFT"     relativeTo="$(parent)_CharListHeader" relativePoint="TOPLEFT" offsetY="20" />
@@ -447,6 +466,13 @@
             <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" 
               offsetX="0" offsetY="200" />
           </Control>
+          <Control name="$(parent)_List_Misc2" inherits="ZO_ScrollList" mouseEnabled="true" visible="false">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_EquipListHeader" relativePoint="BOTTOMLEFT"
+              offsetX="0" offsetY="15" />
+            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" 
+              offsetX="0" offsetY="200" />
+          </Control>
+          
         </Controls>
       </Control>
 

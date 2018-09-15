@@ -238,12 +238,17 @@ function ElderScrollsOfAlts:collectResearchData(tradeSkillType, keyProfName, dat
       --local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType, researchLineIndex, traitIndex)
       local durationSecs, timeRemainingSecs = GetSmithingResearchLineTraitTimes(tradeSkillType, researchLineIndex, traitIndex)
       if(durationSecs~=nil) then
+        local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType,  researchLineIndex, traitIndex)
+
         dataResearchElem[keyProfName].ongoing[name] = {}
         dataResearchElem[keyProfName].ongoing[name].name              = name
         dataResearchElem[keyProfName].ongoing[name].durationSecs      = durationSecs
         dataResearchElem[keyProfName].ongoing[name].timeRemainingSecs = timeRemainingSecs
         dataResearchElem[keyProfName].ongoing[name].traitIndex        = traitIndex
         dataResearchElem[keyProfName].ongoing[name].researchLineIndex = researchLineIndex
+        dataResearchElem[keyProfName].ongoing[name].traitType         = traitType
+        dataResearchElem[keyProfName].ongoing[name].traitDescription  = traitDescription
+        dataResearchElem[keyProfName].ongoing[name].known             = known
       end        
     end
   end    
@@ -359,6 +364,7 @@ function ElderScrollsOfAlts:ListOfPlayers()
   --return ElderScrollsOfAlts.altData.players    
 end
 
+--
 function ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
   local playerLines =  {}
 	--table.insert(playerLines, "Select")
@@ -416,6 +422,10 @@ function ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
             playerLines[k][mKye.."D"] = timeD
             playerLines[k][mKye.."H"] = timeH
             --d("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
+            playerLines[k][mKye.."TraitType"] = vv.traitType
+            playerLines[k][mKye.."TraitDesc"] = vv.traitDescription
+            playerLines[k][mKye.."Traitknown"] = vv.known
+            --        
             kki = kki+1
           end 
         end
@@ -426,6 +436,21 @@ function ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
   -- PlayerLines to table
   table.sort(playerLines)  
   return playerLines 
+end
+
+function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
+    local playerLines =  {}
+	--table.insert(playerLines, "Select")
+	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+    if k == nil then return end
+		ElderScrollsOfAlts.debugMsg(" players " .. k)
+		playerLines[k] = {}
+		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
+    playerLines[k].rawname = k
+  end--for
+  -- PlayerLines to table
+  table.sort(playerLines)  
+  return playerLines
 end
 
 --

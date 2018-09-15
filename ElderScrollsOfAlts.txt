@@ -17,6 +17,7 @@ Languages\$(language).lua
 
 Bindings.xml
 
+ElderScrollsOfAlts_Misc2.xml
 ElderScrollsOfAlts_Misc1.xml
 ElderScrollsOfAlts_Equip.xml
 ElderScrollsOfAlts_Main.xml

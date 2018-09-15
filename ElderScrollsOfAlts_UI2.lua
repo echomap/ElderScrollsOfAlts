@@ -15,6 +15,7 @@ function ElderScrollsOfAlts:SetupGui2(self)
 
   if( not ElderScrollsOfAlts.altData.beta ) then 
     ESOA_GUI2_Header_View_Misc:SetHidden(true)
+    ESOA_GUI2_Header_View_Misc2:SetHidden(true)
   end
   
   --if( ElderScrollsOfAlts.altData.beta) then
@@ -27,6 +28,7 @@ function ElderScrollsOfAlts:SetupGui2(self)
   ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
   ElderScrollsOfAlts:SetupGuiEquipListing(self, ESOA_GUI2_Body_List_EQUIP)
   ElderScrollsOfAlts:SetupGuiMisc1Listing(self, ESOA_GUI2_Body_List_Misc1)
+  ElderScrollsOfAlts:SetupGuiMisc2Listing(self, ESOA_GUI2_Body_List_Misc2)
 end
 
 --Sort
@@ -293,6 +295,38 @@ function ElderScrollsOfAlts:SetupGuiMisc1Listing(self, dataListing)
 	--dataListing:SetHidden(false)
 end
 
+function ElderScrollsOfAlts:SetupGuiMisc2Listing(self, dataListing)
+  local NOTE_TYPE = 4
+  local scroll_data = ZO_ScrollList_GetDataList(dataListing)
+	ZO_ScrollList_Clear(dataListing) --#scroll_data)
+	--ZO_ClearNumericallyIndexedTable(scroll_data)
+	ZO_ScrollList_AddDataType(dataListing, NOTE_TYPE, "ESOA_RowTemplate_Misc2", 20,
+		function(control, data)
+			ElderScrollsOfAlts:SetupRowControlMisc2(control, data)
+		end
+	)
+	ZO_ScrollList_AddCategory(dataListing, 1, nil)
+	ZO_ScrollList_AddResizeOnScreenResize(dataListing)
+  
+  ZO_ScrollList_EnableSelection(dataListing, "ESOA_RowTemplate_Highlight")
+  --ElderScrollsOfAlts.SelectCharacterRowCallback )  
+  ZO_ScrollList_EnableHighlight(dataListing, "ESOA_RowTemplate_Highlight")
+  --ZO_ScrollList_SetTypeSelectable(dataListing, NOTE_TYPE, true)
+  --ZO_ScrollList_SetAutoSelect(dataListing, true)
+  ZO_ScrollList_SetDeselectOnReselect(dataListing, true)
+  
+	local playerLines = ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
+  
+	for k, v in pairs(playerLines) do
+		--ElderScrollsOfAlts:debugMsg(" playerLines k " .. tostring(k)  )
+		--ElderScrollsOfAlts:debugMsg(" playerLines v " .. tostring(v)  )	
+    scroll_data[#scroll_data + 1] = ZO_ScrollList_CreateDataEntry(NOTE_TYPE, v )
+	end
+  
+	ZO_ScrollList_Commit(dataListing, scroll_data)
+	--dataListing:SetHidden(false)
+end
+
 function ElderScrollsOfAlts:SetupGuiEquipListing(self, dataListing)
   local NOTE_TYPE = 2
   local scroll_data = ZO_ScrollList_GetDataList(dataListing)
@@ -403,11 +437,26 @@ function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollLi
     ["Wood"] = "woodworking",
     ["Smith"] = "blacksmithing",
   }
-  --for rtK,rtV in pairs(rTypes) do
-  local mKye2 = ""
-  local mKye1 = ""
-  mKye1 = "r".."clothier".."1".."time"
-  mKye2 = "r".."clothier".."1".."name"
+  for rtK,rtV in pairs(rTypes) do
+    local mKint = 1
+    for mKint = 1, 3 do
+      local mKye0 = string.format("%s%s",rtK,mKint)
+      local mKye1 = string.format("%s%s%s%s","r",rtV,mKint,"time")
+      local mKye2 = string.format("%s%s%s%s","r",rtV,mKint,"name")
+      local mKye3 = string.format("%s%s%s%s","r",rtV,mKint,"TraitType")
+      local mKye4 = string.format("%s%s%s%s","r",rtV,mKint,"TraitDesc")
+      local mKye5 = string.format("%s%s%s%s","r",rtV,mKint,"Traitknown")
+      row_control:GetNamedChild(mKye0):SetText(row_data[mKye1])
+      row_control:GetNamedChild(mKye0).name       = row_data[mKye2]
+      row_control:GetNamedChild(mKye0).traitType  = row_data[mKye3]
+      row_control:GetNamedChild(mKye0).traitDesc  = row_data[mKye4]
+      row_control:GetNamedChild(mKye0).traitknown = row_data[mKye5]
+    end
+  end
+  
+  --[[
+  mKye1 = string.format("%s%s%s%s","r",rtV,mKint,"time")
+  mKye2 = string.format("%s%s%s%s","r","clothier","1","name")
   row_control:GetNamedChild('Cloth1'):SetText(row_data[mKye1])
   row_control:GetNamedChild('Cloth1').name = row_data[mKye2]
   mKye1 = "r".."clothier".."2".."time"
@@ -418,7 +467,6 @@ function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollLi
   mKye2 = "r".."clothier".."3".."name"
   row_control:GetNamedChild('Cloth3'):SetText(row_data[mKye1])
   row_control:GetNamedChild('Cloth3').name = row_data[mKye2]
-  
   mKye1 = "r".."woodworking".."1".."time"
   mKye2 = "r".."woodworking".."1".."name"
   row_control:GetNamedChild('Wood1'):SetText(row_data[mKye1])
@@ -444,7 +492,13 @@ function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollLi
   mKye2 = "r".."blacksmithing".."3".."name"
   row_control:GetNamedChild('Smith3'):SetText(row_data[mKye1])
   row_control:GetNamedChild('Smith3').name = row_data[mKye2]
-  --end
+  --]]
+  
+end
+
+
+--For each row in the SCROLLLIST
+function ElderScrollsOfAlts:SetupRowControlMisc2(row_control, row_data, scrollList)  
   
 end
 
@@ -675,6 +729,12 @@ function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
   end
   InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
   InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
+  
+  if(myLabel.traitType~=nil) then
+    InformationTooltip:AddLine(string.format("(%s)"     , myLabel.traitType), "ZoFontGame")
+    InformationTooltip:AddLine(string.format("Trait: %s", myLabel.traitDesc), "ZoFontGame")
+    InformationTooltip:AddLine(string.format("(Known? %s)"     , tostring(myLabel.traitknown)), "ZoFontGame")
+  end
 end
 
 function ElderScrollsOfAlts:ResearchTipExit(myLabel)  
@@ -932,6 +992,52 @@ function ElderScrollsOfAlts:SelectCharacterNote2(self)
   end  
 end
 
+--Gui2 - via row mouse event on Misc1/Research GUI
+function ElderScrollsOfAlts:SelectCharacterNote3(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc1, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc1)  
+  local previousSelected = ElderScrollsOfAlts.view.SelectedDataNode
+  if selectedData == nil then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: selectedData is nil")
+    return
+  end
+  --Toggle off, if selected is the same  
+  if( previousSelected ~= nil and previousSelected.name == selectedData.name ) then
+    ElderScrollsOfAlts:HideGuiCharacterNote(self)    
+    ElderScrollsOfAlts.view.SelectedDataNode = nil
+  else
+    ElderScrollsOfAlts:ShowGuiCharacterNote(self, selectedData)
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
+  end  
+end
+
+--Gui2 - via row mouse event on Other1 GUI
+function ElderScrollsOfAlts:SelectCharacterNote4(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc2, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc2)  
+  local previousSelected = ElderScrollsOfAlts.view.SelectedDataNode
+  if selectedData == nil then
+    ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: selectedData is nil")
+    return
+  end
+  --Toggle off, if selected is the same  
+  if( previousSelected ~= nil and previousSelected.name == selectedData.name ) then
+    ElderScrollsOfAlts:HideGuiCharacterNote(self)    
+    ElderScrollsOfAlts.view.SelectedDataNode = nil
+  else
+    ElderScrollsOfAlts:ShowGuiCharacterNote(self, selectedData)
+    ElderScrollsOfAlts.view.SelectedDataNode = selectedData
+  end  
+end
+
 --Gui2
 function ElderScrollsOfAlts:SelectCharacterRow(self)
   --Select the Row
@@ -961,6 +1067,36 @@ function ElderScrollsOfAlts:SelectEquipRow(self)
     ElderScrollsOfAlts:ShowGui3(selectedData)
   else
     ElderScrollsOfAlts:debugMsg("SelectEquipRow: selectedData= nil")
+  end  
+end
+
+function ElderScrollsOfAlts:SelectResearchRow(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc1, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc1)
+  if selectedData ~= nil then
+    ElderScrollsOfAlts:debugMsg("SelectResearchRow: Name=" .. tostring(selectedData.name))
+    ElderScrollsOfAlts:ShowGui3(selectedData)
+  else
+    ElderScrollsOfAlts:debugMsg("SelectResearchRow: selectedData= nil")
+  end  
+end
+
+function ElderScrollsOfAlts:SelectOtherRow(self)
+  --Select the Row
+  local data = ZO_ScrollList_GetData(self) --rowControl)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc1, data, self)
+  
+  --Get the selected row's data
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc1)
+  if selectedData ~= nil then
+    ElderScrollsOfAlts:debugMsg("SelectResearchRow: Name=" .. tostring(selectedData.name))
+    ElderScrollsOfAlts:ShowGui3(selectedData)
+  else
+    ElderScrollsOfAlts:debugMsg("SelectResearchRow: selectedData= nil")
   end  
 end
 

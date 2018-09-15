@@ -1,7 +1,7 @@
 <GuiXml>
 <Controls>
 
-	<Control name="ESOA_SortBar_Misc1" virtual="true" mouseEnabled="true" >
+	<Control name="ESOA_SortBar_Misc2" virtual="true" mouseEnabled="true" >
     <Controls>
       <Button name="$(parent)_SortName" text="Name" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="180" y="20"/>
@@ -77,7 +77,7 @@
     </Controls>
   </Control>
 
-	<Control name="ESOA_RowTemplate_Misc1" virtual="true" mouseEnabled="true" resizeToFitDescendents="true">
+	<Control name="ESOA_RowTemplate_Misc2" virtual="true" mouseEnabled="true" resizeToFitDescendents="true">
     <Dimensions y="30" x="870"/>
     <OnMouseEnter>
         ZO_ScrollList_MouseEnter(ESOA_GUI2_Body_List_Misc1, self)
@@ -88,11 +88,11 @@
     <OnMouseUp>
         if(upInside and button==1) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_List_Misc1)
-            ElderScrollsOfAlts:SelectResearchRow(self)
+            ElderScrollsOfAlts:SelectOtherRow(self)
         end
         if(upInside and button==2) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
-            ElderScrollsOfAlts:SelectCharacterNote3(self)
+            ElderScrollsOfAlts:SelectCharacterNote4(self)
         end
     </OnMouseUp>
     
