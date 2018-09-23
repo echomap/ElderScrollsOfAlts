@@ -1,6 +1,6 @@
 -- GUI Elements (Control/Show/Hide/View)
 
---On Load, what to restore
+--On Load, restore or hide button
 function ElderScrollsOfAlts.RestoreUI()
   if ElderScrollsOfAlts.savedVariables.uibutton.shown then
     ElderScrollsOfAlts.ShowUIButton()
@@ -19,7 +19,7 @@ function ElderScrollsOfAlts.DoUiButtonClicked()
   end  
 end
 
---
+-- HIDE All
 function ElderScrollsOfAlts.HideAll()
   ESOA_ButtonFrame:SetHidden(true)
   --ElderScrollsOfAlts:HideGui1()
@@ -39,10 +39,12 @@ end
 function ElderScrollsOfAlts.HideUIButton()
   ESOA_ButtonFrame:SetHidden(true)
 end
+
 --UIButton
 function ElderScrollsOfAlts.GetUIButtonShown()
   return ElderScrollsOfAlts.savedVariables.uibutton.shown
 end
+
 --UIButton
 function ElderScrollsOfAlts.SetUIButtonShown(value)
   ElderScrollsOfAlts.savedVariables.uibutton.shown = value
@@ -52,6 +54,7 @@ function ElderScrollsOfAlts.SetUIButtonShown(value)
     ElderScrollsOfAlts.ShowUIButton()
   end  
 end
+
 --UIButton
 function ElderScrollsOfAlts:ButtonFrameOnMoveStop()
   ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrame:GetTop()
@@ -59,21 +62,12 @@ function ElderScrollsOfAlts:ButtonFrameOnMoveStop()
   --d("ButtonFrameOnMoveStop called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
 end
 
---Gui2
-function ElderScrollsOfAlts.RestoreGui2()
-  --Check that wants to show, and min or not?
-  --if ElderScrollsOfAlts.savedVariables.window.hiddenonpurpose then
-  --ElderScrollsOfAlts:RestoreIconfify()
-  --ElderScrollsOfAlts.savedVariables.uibutton.shown
-  --end
-end
-
 --Shared
 function ElderScrollsOfAlts.GetUIShown()
   return not ESOA_GUI2:IsHidden()
 end
 
---Shared
+--Show the View previously shown
 function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
   ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
@@ -92,12 +86,12 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   end
 end
 
---Shared
+--Hide GUI
 function ElderScrollsOfAlts:HideGuiByChoice()
   ElderScrollsOfAlts:HideGui2() 
 end
 
---Shared, call from Bindings
+--View, Setup and Show
 function ElderScrollsOfAlts:ShowGuiEquip()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
   ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
@@ -108,7 +102,7 @@ function ElderScrollsOfAlts:ShowGuiEquip()
   ElderScrollsOfAlts:GUIShowViewEquip()
 end
 
---Shared, call from Bindings
+--View, Setup and Show
 function ElderScrollsOfAlts:ShowGuiHome()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
   ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
@@ -120,7 +114,7 @@ function ElderScrollsOfAlts:ShowGuiHome()
 end
 
 
---Switch to Home VIEW
+--View, switch (not setup, just switched to if UI already shown)
 function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_CharListHeader:SetHidden(false)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
@@ -132,7 +126,8 @@ function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts.savedVariables.currentView = "Home"
 end
---Switch to Equip VIEW
+
+--View, switch (not setup, just switched to if UI already shown)
 function ElderScrollsOfAlts:GUIShowViewEquip()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(false)
@@ -145,7 +140,7 @@ function ElderScrollsOfAlts:GUIShowViewEquip()
   ElderScrollsOfAlts.savedVariables.currentView = "Equip"
 end
 
---Research View
+--View, switch (not setup, just switched to if UI already shown)
 function ElderScrollsOfAlts:GUIShowViewMisc()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
@@ -158,7 +153,7 @@ function ElderScrollsOfAlts:GUIShowViewMisc()
   ElderScrollsOfAlts.savedVariables.currentView = "Research"
 end
 
---TODO view
+--View, switch (not setup, just switched to if UI already shown)
 function ElderScrollsOfAlts:GUIShowViewMisc2()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
@@ -171,7 +166,7 @@ function ElderScrollsOfAlts:GUIShowViewMisc2()
   ElderScrollsOfAlts.savedVariables.currentView = "Research"
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts:onMoveStop()  
   ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
   ElderScrollsOfAlts.savedVariables.window.left   = ESOA_GUI2:GetLeft()
@@ -183,16 +178,16 @@ function ElderScrollsOfAlts:onMoveStop()
   end
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts:onResizeStart() 
   --
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts:onResizeStop()
   --d("Resize start")
-  --XX:GuiResizeScroll()
-  --XX:UpdateInventoryScroll()
+  --TODO XX:GuiResizeScroll()
+  --TODO XX:UpdateInventoryScroll()
   if not ElderScrollsOfAlts.savedVariables.window.minimized and not ElderScrollsOfAlts.savedVariables.window.justone then
     ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
     ElderScrollsOfAlts.savedVariables.window.left   = ESOA_GUI2:GetLeft()
@@ -222,7 +217,7 @@ function ElderScrollsOfAlts:onResizeStop()
   end
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts:GUI2Minimize(bMin)
   ElderScrollsOfAlts:debugMsg("GUI2Minimize Called, bMin="..tostring(bMin) )
   ElderScrollsOfAlts.savedVariables.window.minimized = bMin
@@ -293,7 +288,7 @@ function ElderScrollsOfAlts:GUI2Minimize(bMin)
   end  
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts:GUI2Lock(bLock)
   --d("GUI2Lock bLock: "..tostring(bLock) )
 	ESOA_GUI2_Header_Locked:SetHidden(not bLock)
@@ -307,13 +302,13 @@ function ElderScrollsOfAlts:GUI2Lock(bLock)
 	end
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts.HideGui2()
     ESOA_GUI2:SetHidden(true)
     ESOA_GUI2_Notes:SetHidden(true)
 end
 
---Gui2
+--ESOA_GUI2
 function ElderScrollsOfAlts.ShowGui2()
   if not ESOA_GUI2:IsHidden() then 
     ESOA_GUI2:SetHidden(true)
@@ -349,3 +344,32 @@ function ElderScrollsOfAlts.ShowGui2()
   --ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
   --ESOA_GUI2_Body_CharList:SetHidden(bMin)
 end
+
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:SelectCharacterName(choiceText)
+  ElderScrollsOfAlts.savedVariables.selected.charactername = choiceText
+end
+
+--SETTINGS selects this category
+function ElderScrollsOfAlts:SelectCategory(choiceText)
+  ElderScrollsOfAlts.savedVariables.selected.category = choiceText  
+end
+
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:DoCategoryForSelectedCharacter()
+  local charname = ElderScrollsOfAlts.savedVariables.selected.charactername
+  ElderScrollsOfAlts:debugMsg("DoCategoryForSelectedCharacter: Name=" .. tostring(charname)) 
+
+  local categoryS = ElderScrollsOfAlts.savedVariables.selected.category
+  ElderScrollsOfAlts:debugMsg("DoCategoryForSelectedCharacter: Category=" .. tostring(categoryS))  
+ 
+  ElderScrollsOfAlts.altData.players[charname].category = categoryS
+end
+
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
+  local charname = ElderScrollsOfAlts.savedVariables.selected.charactername
+  ElderScrollsOfAlts:debugMsg("DoDeleteSelectedCharacter: Name=" .. tostring(charname))
+  ElderScrollsOfAlts.altData.players[charname] = nil
+end
+

@@ -1,7 +1,21 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 0.x.xx
-[*]
+[list]
+[*] 
+[/list]
+0.1.16/b/c
+[list]
+[*] bugs: removed debug code, fix list
+[/list]
+0.1.16
+[list]
+[*] Added View/category for separation of US/EU, or whatever the user wants - per Summerset event and ppl going to the other server, and may not want to have those characters displayed normally, and perhaps don't want to delete them, as they might have found nice people there too  ( Change a character's category in the NOTEUI, via rightclicking on the character's row) - The Button which should say "ALL" is clickable 
+[*] removed old/dead code
+[*] Added ability to delete Character in settings page
+[*] bag empty count after bag size in parens
+[*] enabled research timers
+[/list]
 0.1.15
 [*] adding research timers (not JC, per no dlc to test it, sorry)
 0.1.14c

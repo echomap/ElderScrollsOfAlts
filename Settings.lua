@@ -45,7 +45,7 @@ function ElderScrollsOfAlts.LoadSettings()
             type = "dropdown",
             name = "Character",
             tooltip = "Select Character.",
-            choices = ElderScrollsOfAlts:ListOfPlayers(),
+            choices = ElderScrollsOfAlts:ListOfCharacterNames(),
             getFunc = function() return "Select" end,
             setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
             width = "half",	--or "half" (optional)
@@ -63,8 +63,8 @@ function ElderScrollsOfAlts.LoadSettings()
             name = "Delete",
             tooltip = "Delete selected Character's Data!",
             func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
-            width = "half",	--or "half" (optional)
-            warning = "Will need to reload the UI.",	--(optional)
+            width = "full",	--or "half" (optional)
+            warning = "No confirmation if you do this!",	--(optional)
         },
         
     }

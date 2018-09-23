@@ -86,12 +86,7 @@ function ElderScrollsOfAlts:GetRaceText2(raceName)
     return raceX
 end
 
---art/icons/heraldrycrests_alliance_aldmeri_01.dds
---art/icons/heraldrycrests_alliance_aldmeri_02.dds
---art/icons/heraldrycrests_alliance_daggerfall_01.dds
---art/icons/heraldrycrests_alliance_daggerfall_02.dds
---art/icons/heraldrycrests_alliance_ebonheart_01.dds
---art/icons/heraldrycrests_alliance_ebonheart_02.dds
+--
 function ElderScrollsOfAlts:GetAllianceIcon(alliance)
   --if( alliance == 1 ) then
   --else if XXX then
@@ -107,12 +102,23 @@ function ElderScrollsOfAlts.Colorize(text, color)
     return text
 end
 
+--[[
 function ElderScrollsOfAlts:tabletostring(t)
   d("tabletostring called ")
    for key,value in pairs(t) do print(key,value) end
    for key,value in ipairs(t) do print(key,value) end
 end
+]]--
 
+function ElderScrollsOfAlts:has_value (tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
 function ElderScrollsOfAlts:matchStringList(str,itemlist)
   for _, v in ipairs(itemlist) do
       if v == str then

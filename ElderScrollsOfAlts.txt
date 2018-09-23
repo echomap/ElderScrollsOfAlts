@@ -1,6 +1,6 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.15
-## APIVersion: 100023, 100024
+## Version: 0.1.16c
+## APIVersion: 100023, 100024, 100025
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData
@@ -45,13 +45,14 @@ libs\LibAddonMenu-2.0\controls\divider.lua
 libs\LibMainMenu\LibMainMenu.lua
 libs\LibCustomMenu\LibCustomMenu.lua
 
-ElderScrollsOfAlts_Preload.lua
+--ElderScrollsOfAlts_Preload.lua
 ElderScrollsOfAlts.lua
 ESOA_Charts.lua
 ElderScrollsOfAlts_Util.lua
 ElderScrollsOfAlts_UI.lua
 ElderScrollsOfAlts_UI2.lua
-ElderScrollsOfAlts_UI_Sub.lua
+ElderScrollsOfAlts_Sort.lua
+ElderScrollsOfAlts_Notes.lua
 ElderScrollsOfAlts_Data.lua
 ElderScrollsOfAlts_TestData.lua
 Settings.lua

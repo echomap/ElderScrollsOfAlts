@@ -9,7 +9,13 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
       ElderScrollsOfAlts.altData.players[pName].note ~= nil ) then
     ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[pName].note
-    ElderScrollsOfAlts:debugMsg("ESOA, saved current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
+    ElderScrollsOfAlts:debugMsg("ESOA, saved current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")    
+  end
+  
+  if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
+      ElderScrollsOfAlts.altData.players[pName].category~=nil ) then
+    ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[pName].category
+    ElderScrollsOfAlts:debugMsg("ESOA, saved current category, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].category) .."'")    
   end
 
   --d("pName='"..tostring(pName).."'" )
@@ -17,7 +23,8 @@ function ElderScrollsOfAlts.loadPlayerData(self)
 		ElderScrollsOfAlts.altData.players = {}
 	end
   --Resets all my data to current data
-	ElderScrollsOfAlts.altData.players[pName] = {}  
+	ElderScrollsOfAlts.altData.players[pName] = {}
+  ElderScrollsOfAlts.altData.players[pName].category = "A"
 
   -- BIO section
 	if ElderScrollsOfAlts.altData.players[pName].bio == nil then
@@ -194,6 +201,9 @@ function ElderScrollsOfAlts.loadPlayerData(self)
         ElderScrollsOfAlts.altData.players[pName].research)
   ElderScrollsOfAlts:collectResearchData(CRAFTING_TYPE_WOODWORKING, "woodworking",
         ElderScrollsOfAlts.altData.players[pName].research)
+  --7 d("CRAFTING_TYPE_JEWELRYCRAFTING="..tostring(CRAFTING_TYPE_JEWELRYCRAFTING) )
+  ElderScrollsOfAlts:collectResearchData(CRAFTING_TYPE_JEWELRYCRAFTING, "jewelcrafting",
+        ElderScrollsOfAlts.altData.players[pName].research)
   --TODO //JC?
   
   --Bags
@@ -207,6 +217,10 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
     ElderScrollsOfAlts.altData.players[pName].note = ElderScrollsOfAlts.view.currentnote
     ElderScrollsOfAlts:debugMsg("ESOA, restored current note, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].note) .."'")
+  end
+  if( ElderScrollsOfAlts.view.currentcategory ~= nil) then    
+    ElderScrollsOfAlts.altData.players[pName].category = ElderScrollsOfAlts.view.currentcategory
+    ElderScrollsOfAlts:debugMsg("ESOA, restored current category, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].category) .."'")
   end
   
   --TODO more?
@@ -256,7 +270,7 @@ end
 
 
 --Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
-local matchNameList1 = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Recipe Quality", "Woodworking" }
+local matchNameList1 = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Recipe Quality", "Woodworking", "Engraver" }
 local matchNameList2 = {"Potency Improvement", "Recipe Improvement", }
 
 --
@@ -340,28 +354,17 @@ function ElderScrollsOfAlts:loadPlayerDataPart(skillType,baseElem)
 	end
 end
 
---
-function ElderScrollsOfAlts:ListOfPlayers()
-  --for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-    --d(ElderScrollsOfAlts.name .. " k " .. k)
-   -- table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
-  --end
-  --[[
-  for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-     if k == nil then return end
-     d(" players " .. k)
-  end
-  ]]
+--Returns a list of character names
+function ElderScrollsOfAlts:ListOfCharacterNames()
   local validChoices =  {}  
 	table.insert(validChoices, "Select")
-  if ElderScrollsOfAlts.altData.player ~= nil then
+  if ElderScrollsOfAlts.altData.players ~= nil then
     for k, v in pairs(ElderScrollsOfAlts.altData.players) do
       --d(ElderScrollsOfAlts.name .. " k " .. k)
-      table.insert(validChoices, ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k ))
+      table.insert(validChoices, v.bio.name )
     end
   end
-  return validChoices
-  --return ElderScrollsOfAlts.altData.players    
+  return validChoices 
 end
 
 --
@@ -374,10 +377,14 @@ function ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
 		playerLines[k] = {}
 		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
     playerLines[k].rawname = k
-    
+    playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
+    if(playerLines[k].category==nil)then
+      playerLines[k].category = "A"
+    end
+
     --xxx
     local elemT = ElderScrollsOfAlts.altData.players[k].research
-    local rTypes = {"clothier","woodworking","blacksmithing"}
+    local rTypes = {"clothier","woodworking","blacksmithing","jewelcrafting"}
     -- Check if player even has this research slot
     if( elemT ~= nil ) then 
       for rtK,rtV in pairs(rTypes) do
@@ -447,6 +454,11 @@ function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
 		playerLines[k] = {}
 		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
     playerLines[k].rawname = k
+    playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
+    if(playerLines[k].category==nil)then
+      playerLines[k].category = "A"
+    end
+
   end--for
   -- PlayerLines to table
   table.sort(playerLines)  
@@ -463,6 +475,10 @@ function ElderScrollsOfAlts:SetupGuiEquipPlayerLines()
 		playerLines[k] = {}
 		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
     playerLines[k].rawname = k
+    playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
+    if(playerLines[k].category==nil)then
+      playerLines[k].category = "A"
+    end
     
     playerLines[k].heavy  = 0
     playerLines[k].medium = 0
@@ -608,6 +624,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
 		playerLines[k] = {}
 		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
     playerLines[k].rawname = k
+    playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
+    if(playerLines[k].category==nil)then
+      playerLines[k].category = "A"
+    end
 		local bio = ElderScrollsOfAlts.altData.players[k].bio
 		if bio ~=nil then
 			playerLines[k].gender   = bio.gender
@@ -634,7 +654,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].super    = 0
 		end
     if playerLines[k].level == nil or playerLines[k].level < 1 then
-      ElderScrollsOfAlts.altData.players[k]  = nil
+      ElderScrollsOfAlts.altData.players[k]  = nil --TODO this working as intended?
       return
     end
     --
@@ -654,6 +674,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].backpackUsed = 0
     end
     --
+    local skills = ElderScrollsOfAlts.altData.players[k].skills
+    if skills ~=nil then
     local trade = ElderScrollsOfAlts.altData.players[k].skills.trade
     if trade ~=nil then
       local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
@@ -739,6 +761,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
         end
     else
       --
+    end
     end
   end
 
