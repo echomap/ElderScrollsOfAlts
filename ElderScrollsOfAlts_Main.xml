@@ -235,7 +235,7 @@
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>
 			</Label>
       <Label name="$(parent)BagSpace" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="RIGHT" text="msg">
-				<Dimensions x="75" y="30" />
+				<Dimensions x="80" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Woodworking" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
 		</Controls>

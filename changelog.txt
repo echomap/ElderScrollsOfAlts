@@ -96,6 +96,9 @@
 -=-=-=-=-=-=-=-
 -=-=-=TODO=-=-=-
 auto select my line
+skills: guild/DarkBrotherhood/FighersGuild/MagesGuild/PsijicOrder/ThievesGuild/Undaunted
+World:Legerdemain/SoulMagic/Vampire/Werewolf
+Alliance: Assault/Support
 show skill points unspent?
 quest log?
 Notes UI, GUI/logic

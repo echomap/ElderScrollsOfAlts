@@ -5,6 +5,7 @@ ElderScrollsOfAlts = {
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
+    SV_VERSION_NAME = 1,
     view            = {},
     -- Saved Settings
     savedVariables  = {},
@@ -121,10 +122,11 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     if addonName ~= ElderScrollsOfAlts.name then return end
     EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED)
     CHAMPION_PERKS_SCENE:UnregisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksSceneStateChange)
-    --
-    ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", 1, nil, defaultSettings)
+    --(savedVariableTable, version, namespace, defaults, profile, displayName, characterName)
+    ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettings)
     --local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
-    ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", 1, nil, defaultSettingsGlobal)
+    --(savedVariableTable, version, namespace, defaults, profile, displayName)
+    ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
 
     -- LMM Settings menu in Settings.lua.
     ElderScrollsOfAlts.LoadSettings()    
