@@ -141,19 +141,19 @@ function ElderScrollsOfAlts:SetupGui2(self)
   
   ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
   ElderScrollsOfAlts:SetupGuiEquipListing(self, ESOA_GUI2_Body_List_EQUIP)
-  ElderScrollsOfAlts:SetupGuiMisc1Listing(self, ESOA_GUI2_Body_List_Misc1)
+  ElderScrollsOfAlts:SetupGuiResearchListing(self, ESOA_GUI2_Body_List_Research)
   ElderScrollsOfAlts:SetupGuiMisc2Listing(self, ESOA_GUI2_Body_List_Misc2)
 end
 
 --SetupGui2
-function ElderScrollsOfAlts:SetupGuiMisc1Listing(self, dataListing)
+function ElderScrollsOfAlts:SetupGuiResearchListing(self, dataListing)
   local NOTE_TYPE = 3
   local scroll_data = ZO_ScrollList_GetDataList(dataListing)
 	ZO_ScrollList_Clear(dataListing) --#scroll_data)
 	--ZO_ClearNumericallyIndexedTable(scroll_data)
-	ZO_ScrollList_AddDataType(dataListing, NOTE_TYPE, "ESOA_RowTemplate_Misc1", 20,
+	ZO_ScrollList_AddDataType(dataListing, NOTE_TYPE, "ESOA_RowTemplate_Research", 20,
 		function(control, data)
-			ElderScrollsOfAlts:SetupRowControlMisc1(control, data)
+			ElderScrollsOfAlts:SetupRowControlResearch(control, data)
 		end
 	)
 	ZO_ScrollList_AddCategory(dataListing, 1, nil)
@@ -166,7 +166,7 @@ function ElderScrollsOfAlts:SetupGuiMisc1Listing(self, dataListing)
   --ZO_ScrollList_SetAutoSelect(dataListing, true)
   ZO_ScrollList_SetDeselectOnReselect(dataListing, true)
   
-	local playerLines = ElderScrollsOfAlts:SetupGuiMisc1PlayerLines()
+	local playerLines = ElderScrollsOfAlts:SetupGuiResearchPlayerLines()
   ElderScrollsOfAlts:createAndSetupScrollData(scroll_data,playerLines,NOTE_TYPE)
   
 	ZO_ScrollList_Commit(dataListing, scroll_data)
@@ -310,7 +310,7 @@ function ElderScrollsOfAlts:SetupRowControlSunk(row_control, row_data, uiname, r
 end
 
 --For each row in the SCROLLLIST
-function ElderScrollsOfAlts:SetupRowControlMisc1(row_control, row_data, scrollList)    
+function ElderScrollsOfAlts:SetupRowControlResearch(row_control, row_data, scrollList)    
   local pName = GetUnitName("player")
   local rName = row_data["name"]
   row_control:GetNamedChild('Name'):SetText(row_data["name"])
@@ -737,10 +737,10 @@ end
 function ElderScrollsOfAlts:SelectResearchRow(self)
   --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
-  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc1, data, self)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Research, data, self)
   
   --Get the selected row's data
-  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc1)
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Research)
   if selectedData ~= nil then
     ElderScrollsOfAlts:debugMsg("SelectResearchRow: Name=" .. tostring(selectedData.name))
   else
@@ -752,10 +752,10 @@ end
 function ElderScrollsOfAlts:SelectOtherRow(self)
   --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
-  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc1, data, self)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Research, data, self)
   
   --Get the selected row's data
-  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc1)
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Research)
   if selectedData ~= nil then
     ElderScrollsOfAlts:debugMsg("SelectResearchRow: Name=" .. tostring(selectedData.name))
   else

@@ -118,11 +118,11 @@ end
 function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_CharListHeader:SetHidden(false)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(true)
+  ESOA_GUI2_Body_ResearchListHeader:SetHidden(true)
   ESOA_GUI2_Body_Misc2ListHeader:SetHidden(true)
   ESOA_GUI2_Body_CharList:SetHidden(false)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
-  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
+  ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts.savedVariables.currentView = "Home"
 end
@@ -131,11 +131,11 @@ end
 function ElderScrollsOfAlts:GUIShowViewEquip()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(false)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(true)
+  ESOA_GUI2_Body_ResearchListHeader:SetHidden(true)
   ESOA_GUI2_Body_Misc2ListHeader:SetHidden(true)
   ESOA_GUI2_Body_CharList:SetHidden(true)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(false)
-  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
+  ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts.savedVariables.currentView = "Equip"
 end
@@ -144,11 +144,11 @@ end
 function ElderScrollsOfAlts:GUIShowViewMisc()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(false)
+  ESOA_GUI2_Body_ResearchListHeader:SetHidden(false)
   ESOA_GUI2_Body_Misc2ListHeader:SetHidden(true)
   ESOA_GUI2_Body_CharList:SetHidden(true)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
-  ESOA_GUI2_Body_List_Misc1:SetHidden(false)
+  ESOA_GUI2_Body_List_Research:SetHidden(false)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts.savedVariables.currentView = "Research"
 end
@@ -157,11 +157,11 @@ end
 function ElderScrollsOfAlts:GUIShowViewMisc2()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_Misc1ListHeader:SetHidden(false)
+  ESOA_GUI2_Body_ResearchListHeader:SetHidden(false)
   ESOA_GUI2_Body_Misc2ListHeader:SetHidden(false)
   ESOA_GUI2_Body_CharList:SetHidden(true)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
-  ESOA_GUI2_Body_List_Misc1:SetHidden(true)
+  ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(false)
   ElderScrollsOfAlts.savedVariables.currentView = "Research"
 end
@@ -253,12 +253,12 @@ function ElderScrollsOfAlts:GUI2Minimize(bMin)
     --Hdr
     ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
     ESOA_GUI2_Body_EquipListHeader:SetHidden(bMin)
-    ESOA_GUI2_Body_Misc1ListHeader:SetHidden(bMin)
+    ESOA_GUI2_Body_ResearchListHeader:SetHidden(bMin)
     ESOA_GUI2_Body_Misc2ListHeader:SetHidden(bMin)
     --Body  
     ESOA_GUI2_Body_CharList:SetHidden(bMin)
     ESOA_GUI2_Body_List_EQUIP:SetHidden(bMin)
-    ESOA_GUI2_Body_List_Misc1:SetHidden(bMin)
+    ESOA_GUI2_Body_List_Research:SetHidden(bMin)
     ESOA_GUI2_Body_List_Misc2:SetHidden(bMin)
   else
     ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
@@ -266,8 +266,8 @@ function ElderScrollsOfAlts:GUI2Minimize(bMin)
     ElderScrollsOfAlts:Gui2SortRefresh()
 
     if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
-      ESOA_GUI2_Body_Misc1ListHeader:SetHidden(bMin)
-      ESOA_GUI2_Body_List_Misc1:SetHidden(bMin)
+      ESOA_GUI2_Body_ResearchListHeader:SetHidden(bMin)
+      ESOA_GUI2_Body_List_Research:SetHidden(bMin)
     elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
       ESOA_GUI2_Body_EquipListHeader:SetHidden(bMin)
       ESOA_GUI2_Body_List_EQUIP:SetHidden(bMin)

@@ -1,10 +1,10 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.16c
+## Version: 0.1.17
 ## APIVersion: 100023, 100024, 100025
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData
-## OptionalDependsOn: LibAddonMenu-2.0 LibMainMenu
+## DependsOn: LibStub LibAddonMenu-2.0 
 
 ## This Add-on is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates.
 ## The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc.
@@ -18,7 +18,7 @@ Languages\$(language).lua
 Bindings.xml
 
 ElderScrollsOfAlts_Misc2.xml
-ElderScrollsOfAlts_Misc1.xml
+ElderScrollsOfAlts_Research.xml
 ElderScrollsOfAlts_Equip.xml
 ElderScrollsOfAlts_Main.xml
 

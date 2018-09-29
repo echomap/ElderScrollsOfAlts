@@ -2,7 +2,6 @@
 -- SORT --
 -----------
 
-
 --Sort
 local charSortKeys =
   {
@@ -21,63 +20,179 @@ local charSortKeys =
     ["jewelry"]       = { tiebreaker = "name", isNumeric = true },    
     ["woodworking"]   = { tiebreaker = "name", isNumeric = true },    
     ["backpackSize"]  = { tiebreaker = "name", isNumeric = true },        
+  }
+local equipSortKeys =
+  {
+    ["name"]          = { }, 
+    ["armortype"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["Head_Type"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["Shoulders_Type"] = { tiebreaker = "name", isNumeric = true }, 
+    ["Chest_Type"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["Hands_Type"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["Waist_Type"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["Legs_Type"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["Feet_Type"]      = { tiebreaker = "name", isNumeric = true }, 
+        
+    ["Neck_Quality"]   = { tiebreaker = "name", isNumeric = true }, 
+    ["Ring1_Quality"]  = { tiebreaker = "name", isNumeric = true }, 
+    ["Ring2_Quality"]  = { tiebreaker = "name", isNumeric = true }, 
+
+    ["Main1_WeaponType"] = { tiebreaker = "name", isNumeric = true }, 
+    ["Main2_WeaponType"] = { tiebreaker = "name", isNumeric = true }, 
+    ["Mainp_Type"]       = { tiebreaker = "name", isNumeric = true }, 
+    ["Off1_WeaponType"]  = { tiebreaker = "name", isNumeric = true },
+    ["Off2_WeaponType"]  = { tiebreaker = "name", isNumeric = true }, 
+    ["Offp_Type"]     = { tiebreaker = "name", isNumeric = true },
     
-    ["head"]         = { tiebreaker = "name", isNumeric = true }, 
+    ["Mp"]         = { tiebreaker = "name" },    
+    ["Op"]         = { tiebreaker = "name" },    
     
     ["heavy"]         = { tiebreaker = "name", isNumeric = true },    
     ["medium"]        = { tiebreaker = "name", isNumeric = true },    
     ["light"]         = { tiebreaker = "name", isNumeric = true },    
   }
---local currentSortKey = "name"
---local currentSortOrder = ZO_SORT_ORDER_UP --ZO_SORT_ORDER_DOWN
-  
+local researchSortKeys =
+  {
+    ["name"]          = { }, 
+    ["Jewelcrafting"] = { tiebreaker = "name" }, 
+    ["Woodworking"]   = { tiebreaker = "name" }, 
+    ["Smithing"]      = { tiebreaker = "name" }, 
+    ["Clothing"]      = { tiebreaker = "name" }, 
+    ["rclothier1"]    = { tiebreaker = "name" }, 
+    ["rclothier2"]    = { tiebreaker = "name" }, 
+    ["rclothier3"]    = { tiebreaker = "name" }, 
+    
+    ["rclothier1time"]    = { tiebreaker = "name" }, 
+    ["rclothier2time"]    = { tiebreaker = "name" }, 
+    ["rclothier3time"]    = { tiebreaker = "name" }, 
+    
+    ["rblacksmithing1time"]    = { tiebreaker = "name" }, 
+    ["rblacksmithing2time"]    = { tiebreaker = "name" }, 
+    ["rblacksmithing3time"]    = { tiebreaker = "name" }, 
+    
+    ["rwoodworking1time"]    = { tiebreaker = "name" }, 
+    ["rwoodworking2time"]    = { tiebreaker = "name" }, 
+    ["rwoodworking3time"]    = { tiebreaker = "name" }, 
+      
+    ["rjewelcrafting1time"]    = { tiebreaker = "name" }, 
+    ["rjewelcrafting2time"]    = { tiebreaker = "name" }, 
+    ["rjewelcrafting3time"]    = { tiebreaker = "name" }, 
+  }
+
 --Sort
 function ElderScrollsOfAlts.SortCharData(a, b)
   return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.savedVariables.currentSortKey, charSortKeys, ElderScrollsOfAlts.savedVariables.currentSortOrder)
 end
 function ElderScrollsOfAlts.SortEquipData(a, b)
-  return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.savedVariables.currentEquipSortKey, charSortKeys, ElderScrollsOfAlts.savedVariables.currentEquipSortOrder)
+  return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.savedVariables.currentEquipSortKey, equipSortKeys, ElderScrollsOfAlts.savedVariables.currentEquipSortOrder)
 end
+function ElderScrollsOfAlts.SortResearchData(a, b)
+  return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.savedVariables.currentResearchSortKey, researchSortKeys, ElderScrollsOfAlts.savedVariables.currentResearchSortOrder)
+end
+
 --Sort
 function ElderScrollsOfAlts:Gui2SortRefresh()
-  ElderScrollsOfAlts:GuiSortBase(ElderScrollsOfAlts.savedVariables.currentSortKey,true)
+  ElderScrollsOfAlts:GuiSortCharBase(ElderScrollsOfAlts.savedVariables.currentSortKey,true)
 end
 
 --Sort
 function ElderScrollsOfAlts:GuiEquipSortRefresh()
-  ElderScrollsOfAlts:GuiSortEquip(ElderScrollsOfAlts.savedVariables.currentEquipSortKey,true)
+  ElderScrollsOfAlts:GuiSortEquip(nil,ElderScrollsOfAlts.savedVariables.currentEquipSortKey,ElderScrollsOfAlts.savedVariables.currentEquipDisplayKey,true)
 end
 
-function ElderScrollsOfAlts:GuiSortResearch(newKey,refreshOnly)
+--
+function ElderScrollsOfAlts:GuiSortResearch(sender,newKey,displayKey,refreshOnly)
+  ElderScrollsOfAlts:debugMsg("GuiSortResearch newKey="..tostring(newKey) )
+  local sameKey = false
+  if ElderScrollsOfAlts.savedVariables.currentResearchSortKey == newKey then
+    sameKey = true
+  end
+  if refreshOnly == nil then
+    refreshOnly = false
+  end
+  ElderScrollsOfAlts:debugMsg("GuiSortResearch refreshOnly="..tostring(refreshOnly) )
   
+  if not refreshOnly then
+    if sameKey then
+      if ElderScrollsOfAlts.savedVariables.currentResearchSortOrder == ZO_SORT_ORDER_UP then 
+        ElderScrollsOfAlts.savedVariables.currentResearchSortOrder   = ZO_SORT_ORDER_DOWN 
+      else
+        ElderScrollsOfAlts.savedVariables.currentResearchSortOrder = ZO_SORT_ORDER_UP
+      end
+    else
+      ElderScrollsOfAlts.savedVariables.currentResearchSortKey   = newKey
+      ElderScrollsOfAlts.savedVariables.currentResearchSortOrder = ZO_SORT_ORDER_UP
+      if(displayKey~=nil)then
+        ElderScrollsOfAlts.savedVariables.currentResearchDisplayKey = displayKey
+      else
+        ElderScrollsOfAlts.savedVariables.currentResearchDisplayKey = newKey
+      end
+    end
+  end  
+  ElderScrollsOfAlts:debugMsg("GuiSortResearch key  ="..tostring(ElderScrollsOfAlts.savedVariables.currentResearchSortKey) )
+  ElderScrollsOfAlts:debugMsg("GuiSortResearch order="..tostring(ElderScrollsOfAlts.savedVariables.currentResearchSortOrder) )
+  
+  --Data Sort
+  local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_Body_List_Research)  
+  local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortResearchData )   
+  ZO_ScrollList_Commit(ESOA_GUI2_Body_List_Research, dataLines2)
+  
+  --Sort Label
+  local sVal = zo_strformat("<<C:1>>", ElderScrollsOfAlts.savedVariables.currentResearchDisplayKey )
+  ESOA_GUI2_Header_SortBy_Value:SetText( sVal )
+  if( not ElderScrollsOfAlts.savedVariables.currentResearchSortOrder ) then
+    ESOA_GUI2_Header_SortUp:SetHidden(false)
+    ESOA_GUI2_Header_SortDown:SetHidden(true)
+  else
+    ESOA_GUI2_Header_SortUp:SetHidden(true)
+    ESOA_GUI2_Header_SortDown:SetHidden(false)
+  end
+
 end
 
 --Sort Generalized
-function ElderScrollsOfAlts:GuiSortEquip(newKey,refreshOnly)
+function ElderScrollsOfAlts:GuiSortEquip(sender,newKey,displayKey,refreshOnly)
   local currentSortKey   = ElderScrollsOfAlts.savedVariables.currentEquipSortKey
   local currentSortOrder = ElderScrollsOfAlts.savedVariables.currentEquipSortOrder
-  local dataList         = ESOA_GUI2_Body_List_EQUIP
   ElderScrollsOfAlts:debugMsg("GuiSortEquip newKey=" ..tostring(newKey)
     .." currentSortKey="..tostring(currentSortKey)
     .." currentSortOrder="..tostring(currentSortOrder)
   )
-  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
+  --local dataList         = ESOA_GUI2_Body_List_EQUIP
+  currentSortKey, currentSortOrder = ElderScrollsOfAlts:GuiSortBase(sender,displayKey,newKey,currentSortKey,currentSortOrder)
   ElderScrollsOfAlts:debugMsg("GuiSortEquip Key=" ..tostring(newKey)
     .." newSortKey="..tostring(currentSortKey)
     .." newSortOrder="..tostring(currentSortOrder)
   )
   ElderScrollsOfAlts.savedVariables.currentEquipSortKey   = currentSortKey
   ElderScrollsOfAlts.savedVariables.currentEquipSortOrder = currentSortOrder
-  --
+  if(displayKey~=nil)then
+    ElderScrollsOfAlts.savedVariables.currentEquipDisplayKey = displayKey
+  else
+    ElderScrollsOfAlts.savedVariables.currentEquipDisplayKey = currentSortKey
+  end
+  --Data Sort
   local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_Body_List_EQUIP)  
   local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortEquipData )   
   ZO_ScrollList_Commit(ESOA_GUI2_Body_List_EQUIP, dataLines2)
+  
+  --Sort Label
+  local sVal = zo_strformat("<<C:1>>", ElderScrollsOfAlts.savedVariables.currentEquipDisplayKey )
+  ESOA_GUI2_Header_SortBy_Value:SetText( sVal )
+  if( not ElderScrollsOfAlts.savedVariables.currentEquipSortOrder ) then
+    ESOA_GUI2_Header_SortUp:SetHidden(false)
+    ESOA_GUI2_Header_SortDown:SetHidden(true)
+  else
+    ESOA_GUI2_Header_SortUp:SetHidden(true)
+    ESOA_GUI2_Header_SortDown:SetHidden(false)
+  end
 end
 
 --Sort Generalized
 --Returns: newSortKey, newSortOrder
-function ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOrder,dataList,refreshOnly)
-  ElderScrollsOfAlts:debugMsg("GuiSortEquipBase newKey=" ..tostring(newKey)
+function ElderScrollsOfAlts:GuiSortBase(sender,displayKey,newKey,currentSortKey,currentSortOrder)
+  ElderScrollsOfAlts:debugMsg("GuiSortBase newKey=" ..tostring(newKey)
+    .." displayKey="..tostring(displayKey)
     .." currentSortKey="..tostring(currentSortKey)
     .." currentSortOrder="..tostring(currentSortOrder)
     .." refreshOnly="..tostring(refreshOnly)
@@ -89,8 +204,7 @@ function ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOr
   if refreshOnly == nil then
     refreshOnly = false
   end
-  --ElderScrollsOfAlts:debugMsg("GuiSortEquipBase refreshOnly="..tostring(refreshOnly) )
-  
+  --
   if not refreshOnly then
     if sameKey then
       if currentSortOrder==nil or currentSortOrder == ZO_SORT_ORDER_UP then 
@@ -103,14 +217,14 @@ function ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOr
       currentSortOrder = ZO_SORT_ORDER_UP
     end
   end  
-  ElderScrollsOfAlts:debugMsg("GuiSortEquipBase"
+  ElderScrollsOfAlts:debugMsg("GuiSortBase"
       .." key="..tostring(currentSortKey) 
       .." order="..tostring(currentSortOrder) 
     )
   --
-  local scroll_data2 = ZO_ScrollList_GetDataList(dataList)  
-  local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortEquipData )   
-  ZO_ScrollList_Commit(dataList, dataLines2)
+  --local scroll_data2 = ZO_ScrollList_GetDataList(dataList)  
+  --local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortEquipData )   
+  --ZO_ScrollList_Commit(dataList, dataLines2)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
   --Arrows (TODO)
   --
@@ -118,8 +232,8 @@ function ElderScrollsOfAlts:GuiSortEquipBase(newKey,currentSortKey,currentSortOr
 end
 
 --Sort
-function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly,sender)
-  ElderScrollsOfAlts:debugMsg("GuiSortBase newKey="..tostring(newKey) )
+function ElderScrollsOfAlts:GuiSortCharBase(newKey,refreshOnly,sender)
+  ElderScrollsOfAlts:debugMsg("GuiSortCharBase newKey="..tostring(newKey) )
   local sameKey = false
   if ElderScrollsOfAlts.savedVariables.currentSortKey == newKey then
     sameKey = true
@@ -127,7 +241,7 @@ function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly,sender)
   if refreshOnly == nil then
     refreshOnly = false
   end
-  ElderScrollsOfAlts:debugMsg("GuiSortBase refreshOnly="..tostring(refreshOnly) )
+  ElderScrollsOfAlts:debugMsg("GuiSortCharBase refreshOnly="..tostring(refreshOnly) )
   
   if not refreshOnly then
     if sameKey then
@@ -141,15 +255,15 @@ function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly,sender)
       ElderScrollsOfAlts.savedVariables.currentSortOrder = ZO_SORT_ORDER_UP
     end
   end  
-  ElderScrollsOfAlts:debugMsg("GuiSortBase key  ="..tostring(ElderScrollsOfAlts.savedVariables.currentSortKey) )
-  ElderScrollsOfAlts:debugMsg("GuiSortBase order="..tostring(ElderScrollsOfAlts.savedVariables.currentSortOrder) )
+  ElderScrollsOfAlts:debugMsg("GuiSortCharBase key  ="..tostring(ElderScrollsOfAlts.savedVariables.currentSortKey) )
+  ElderScrollsOfAlts:debugMsg("GuiSortCharBase order="..tostring(ElderScrollsOfAlts.savedVariables.currentSortOrder) )
   
   --G1 local scroll_data = ZO_ScrollList_GetDataList(ESOA_GUI_PAGE1_List)  
   --G1 local dataLines   = table.sort( scroll_data,  ElderScrollsOfAlts.SortCharData )   
   --G1 ZO_ScrollList_Commit(ESOA_GUI_PAGE1_List, dataLines)
   --ElderScrollsOfAlts:RefreshCharacterScroll()
   
-  --
+  --Data Sort
   local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_Body_CharList)  
   local dataLines2   = table.sort( scroll_data2,  ElderScrollsOfAlts.SortCharData )   
   ZO_ScrollList_Commit(ESOA_GUI2_Body_CharList, dataLines2)
@@ -167,36 +281,13 @@ function ElderScrollsOfAlts:GuiSortBase(newKey,refreshOnly,sender)
   end
   
   --Arrows (TODO)
-  if(ElderScrollsOfAlts.lastSortIcon ~= nil) then
-    ElderScrollsOfAlts.lastSortIcon:SetHidden(true)
-  end  
-  if( sender ~= nil) then
-    local lUp = sender:GetNamedChild('_SortUp')
-    local lDown = sender:GetNamedChild('_SortDown')
-    if(lUp~=nil and lDown~=nil) then
-      if ElderScrollsOfAlts.savedVariables.currentSortOrder == ZO_SORT_ORDER_UP then 
-        lUp:SetHidden(true)
-        lDown:SetHidden(false)
-        ElderScrollsOfAlts.lastSortIcon = lUp
-      else
-        lUp:SetHidden(false)
-        lDown:SetHidden(true)
-        ElderScrollsOfAlts.lastSortIcon = lDown
-      end
-    end
-    --local fObj = sender:GetFont()
-    --fObj:SetTextColor(1,0,0,1.0)
-    --sender.font.color = (1,0,0,0)
-    --sender:SetColor(1,0,0,0)
-    --ElderScrollsOfAlts.lastSortIcon = 
-  end
 end
 
 --Sort
 function ElderScrollsOfAlts:GuiSortChar(sender,keyname)
-  ElderScrollsOfAlts:GuiSortBase(keyname,false,sender)
+  ElderScrollsOfAlts:GuiSortCharBase(keyname,false,sender)
 end
 --Sort
 function ElderScrollsOfAlts:GuiSort(keyname)
-  ElderScrollsOfAlts:GuiSortBase(keyname)
+  ElderScrollsOfAlts:GuiSortCharBase(keyname)
 end

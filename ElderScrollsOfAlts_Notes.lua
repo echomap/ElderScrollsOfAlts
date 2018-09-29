@@ -169,14 +169,14 @@ function ElderScrollsOfAlts:SelectCharacterNote2(self)
   end  
 end
 
---Gui2 - via row mouse event on Misc1/Research GUI
+--Gui2 - via row mouse event on Research GUI
 function ElderScrollsOfAlts:SelectCharacterNote3(self)
   --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
-  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc1, data, self)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Research, data, self)
   
   --Get the selected row's data
-  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc1)  
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Research)  
   local previousSelected = ElderScrollsOfAlts.view.SelectedDataNode
   if selectedData == nil then
     ElderScrollsOfAlts:debugMsg("SelectCharacterNote2: selectedData is nil")

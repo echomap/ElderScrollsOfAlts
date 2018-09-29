@@ -8,119 +8,119 @@
         <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="0"/>
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Name") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>    ElderScrollsOfAlts:GuiSortEquip("name")</OnMouseUp>
+        <OnMouseUp>    ElderScrollsOfAlts:GuiSortEquip(self,"name")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortHead" text="H" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortName" relativePoint="TOPRIGHT"/>
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Head") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("head")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Head_Type","Head")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortShoulders" text="S" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortHead" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Shoulders") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("shoulders")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Shoulders_Type","Shoulders")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortChest" text="C" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortShoulders" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Chest") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("chest")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Chest_Type","Chest")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortHands" text="H" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortChest" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Hands") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("hands")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Hands_Type","Hands")</OnMouseUp>
       </Button>        
       <Button name="$(parent)_SortWaist" text="W" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortHands" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Waist") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("waist")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Waist_Type","Waist")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortLegs" text="L" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortWaist" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Legs") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("legs")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Legs_Type","legs")</OnMouseUp>
       </Button> 
       <Button name="$(parent)_SortFeet" text="F" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortLegs" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Feet") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("feet")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Feet_Type","feet")</OnMouseUp>
       </Button> 
       <Button name="$(parent)_SortNeck" text="N" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortFeet" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Neck") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("neck")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Neck_Quality","neck")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortRing1" text="R1" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortNeck" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Ring1") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("ring1")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Ring1_Quality","ring1")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortRing2" text="R2" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortRing1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Ring2") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("ring2")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Ring2_Quality","ring2")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortMain1" text="M1" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortRing2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Main Hand") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("main1")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Main1_WeaponType","main1")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortMain2" text="M2" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortMain1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Off Hand") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("main2")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Main2_WeaponType","main2")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortMainp" text="Mp" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortMain2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Main Poison") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("mainp")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Mp","mainp")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortOff1" text="O1" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortMainp" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Backup Main") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("off1")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Off1_WeaponType","off1")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortOff2" text="O2" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortOff1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Backup Off") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("off12")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Off2_WeaponType","off2")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortOffp" text="Op" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortOff2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"Backup Poison") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("offp")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"Op","offp")</OnMouseUp>
       </Button>
 
       <Button name="$(parent)_SortHeavy" text="H" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
@@ -128,21 +128,21 @@
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortOffp" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"# Heavy") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("backpackSize")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"heavy")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortMedium" text="M" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortHeavy" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"# Medium") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("medium")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"medium")</OnMouseUp>
       </Button>   
       <Button name="$(parent)_SortLight" text="L" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortMedium" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:EquipHeaderTipEnter(self,"# Light") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:EquipHeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip("light")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortEquip(self,"light")</OnMouseUp>
       </Button>   
       
     </Controls>

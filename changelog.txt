@@ -1,8 +1,9 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
-0.x.xx
+0.x.xx (17)
 [list]
-[*] 
+[*] Removed LIBS from addon, as it seems everyone is doing that? dunno! Depends On: LibStub LibAddonMenu-2.0 
+[*] update/fixed all view's sorting
 [/list]
 0.1.16/b/c
 [list]

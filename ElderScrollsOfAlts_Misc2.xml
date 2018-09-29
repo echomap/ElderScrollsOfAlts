@@ -13,14 +13,14 @@
       <Button name="$(parent)_SortCloth1" text="Cloth1" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="65" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortName" relativePoint="TOPRIGHT"/>
-        <OnMouseEnter> ElderScrollsOfAlts:ResearchHeaderTipEnter(self,"Head") </OnMouseEnter>
+        <OnMouseEnter> ElderScrollsOfAlts:ResearchHeaderTipEnter(self,"rclothier1") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:ResearchHeaderTipExit(self)  </OnMouseExit>
         <OnMouseUp>ElderScrollsOfAlts:GuiSortResearch("head")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortCloth2" text="Cloth2" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="65" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortCloth1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
-        <OnMouseEnter> ElderScrollsOfAlts:ResearchHeaderTipEnter(self,"Shoulders") </OnMouseEnter>
+        <OnMouseEnter> ElderScrollsOfAlts:ResearchHeaderTipEnter(self,"rclothier2") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:ResearchHeaderTipExit(self)  </OnMouseExit>
         <OnMouseUp>ElderScrollsOfAlts:GuiSortResearch("shoulders")</OnMouseUp>
       </Button>
