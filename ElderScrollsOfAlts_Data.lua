@@ -540,7 +540,7 @@ function ElderScrollsOfAlts:SetupGuiEquipPlayerLines()
           playerLines[k].Waist_Type  = tarmortype
         elseif ev.equipType == EQUIP_TYPE_NECK then
           playerLines[k].Neck  = "O" --TODO lLine
-          playerLines[k].Neck_Link  = ev.itemLink          
+          playerLines[k].Neck_Link    = ev.itemLink          
           playerLines[k].Neck_Quality = ev.quality
         elseif ev.equipType == EQUIP_TYPE_RING then
           if( ev.slotId == EQUIP_SLOT_RING1) then
@@ -920,6 +920,7 @@ function ElderScrollsOfAlts:loadPlayerEquipment()
   local elemH = ElderScrollsOfAlts.altData.players[pName].equip.slots
   for slotId = 0, GetBagSize(BAG_WORN) do    
   	local itemName = GetItemName(BAG_WORN, slotId)
+    --quality is numeric
     local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
     local itemId = GetItemInstanceId(BAG_WORN, slotId)
     local itemLink = GetItemLink(BAG_WORN, slotId)--, number LinkStyle linkStyle) 

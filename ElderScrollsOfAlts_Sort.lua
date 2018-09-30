@@ -100,6 +100,10 @@ function ElderScrollsOfAlts:GuiEquipSortRefresh()
   ElderScrollsOfAlts:GuiSortEquip(nil,ElderScrollsOfAlts.savedVariables.currentEquipSortKey,ElderScrollsOfAlts.savedVariables.currentEquipDisplayKey,true)
 end
 
+--Sort
+function ElderScrollsOfAlts:GuiResearchSortRefresh()
+  ElderScrollsOfAlts:GuiSortResearch(nil,ElderScrollsOfAlts.savedVariables.currentResearchSortKey,ElderScrollsOfAlts.savedVariables.currentResearchDisplayKey,true)
+end
 --
 function ElderScrollsOfAlts:GuiSortResearch(sender,newKey,displayKey,refreshOnly)
   ElderScrollsOfAlts:debugMsg("GuiSortResearch newKey="..tostring(newKey) )

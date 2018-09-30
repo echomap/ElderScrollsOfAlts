@@ -373,10 +373,10 @@
                     />
           </Button>
           
-          <Button name="$(parent)_View_Misc" hidden="false" text="Research" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
+          <Button name="$(parent)_View_Research" hidden="false" text="Research" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Equip" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnMouseEnter> </OnMouseEnter>
-            <OnMouseUp> ElderScrollsOfAlts:GUIShowViewMisc() </OnMouseUp>
+            <OnMouseUp> ElderScrollsOfAlts:GUIShowViewResearch() </OnMouseUp>
             <Dimensions x="70" y="24" />            
             <Textures
                 normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
@@ -387,7 +387,7 @@
           </Button>
           
           <Button name="$(parent)_View_Misc2" hidden="false" text="Other" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Misc" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Research" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewMisc2() </OnMouseUp>
             <Dimensions x="60" y="24" />            

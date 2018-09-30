@@ -76,7 +76,7 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts:GuiEquipSortRefresh()
   
   if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
-    ElderScrollsOfAlts:GUIShowViewMisc()
+    ElderScrollsOfAlts:GUIShowViewResearch()
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Other") then     
     ElderScrollsOfAlts:GUIShowViewMisc2()
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
@@ -124,6 +124,7 @@ function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)  	
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
+  ElderScrollsOfAlts:Gui2SortRefresh()
   ElderScrollsOfAlts.savedVariables.currentView = "Home"
 end
 
@@ -137,11 +138,12 @@ function ElderScrollsOfAlts:GUIShowViewEquip()
   ESOA_GUI2_Body_List_EQUIP:SetHidden(false)
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
+  ElderScrollsOfAlts:GuiEquipSortRefresh()
   ElderScrollsOfAlts.savedVariables.currentView = "Equip"
 end
 
 --View, switch (not setup, just switched to if UI already shown)
-function ElderScrollsOfAlts:GUIShowViewMisc()  
+function ElderScrollsOfAlts:GUIShowViewResearch()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
   ESOA_GUI2_Body_ResearchListHeader:SetHidden(false)
@@ -150,6 +152,7 @@ function ElderScrollsOfAlts:GUIShowViewMisc()
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
   ESOA_GUI2_Body_List_Research:SetHidden(false)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
+  ElderScrollsOfAlts:GuiResearchSortRefresh()
   ElderScrollsOfAlts.savedVariables.currentView = "Research"
 end
 
