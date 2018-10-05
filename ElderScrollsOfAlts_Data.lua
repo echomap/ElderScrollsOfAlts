@@ -459,6 +459,62 @@ function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
       playerLines[k].category = "A"
     end
 
+    --Setup Player Lines
+    local rTypes = {"ava","guild","world"}
+    -- Check if player even has skills
+    local skills = ElderScrollsOfAlts.altData.players[k].skills
+    if(skills~=nil) then
+      for rtK,rtV in pairs(rTypes) do
+        --d("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
+        if(skills[rtV]~=nil)then
+          local skillO = skills[rtV]
+          if(skillO~=nil)then  
+            local skillL = skillO.typelist
+            if(skillL~=nil)then
+              for rtKT,rtVT in pairs(skillL) do
+                --d("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
+                playerLines[k][rtKT.."_Rank"] = rtVT.rank
+                playerLines[k][rtKT.."_Name"] = rtVT.name
+                --d("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
+              end
+            end
+          end
+        end
+      end
+    end
+    
+    --[[    
+    local lSkill = ElderScrollsOfAlts.altData.players[k].skills.trade
+    if trade ~=nil then
+      local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
+      if trade ~=nil then
+        local alchemy  = tradeL["Alchemy"]
+        if alchemy ~=nil then
+          playerLines[k].alchemy         = alchemy.rank
+          playerLines[k].alchemy_sunk    = alchemy.sunk
+          playerLines[k].alchemy_sinkmax = alchemy.sinkmax
+        else    
+
+    if( elemT ~= nil ) then 
+      for rtK,rtV in pairs(rTypes) do
+        ElderScrollsOfAlts.debugMsg("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
+        if(elemT[rtV]~=nil)then
+          xxxxxxxx
+          local researchMS = elemT[rtV].researchMS
+          for kkiT = 1, 3 do
+            local mKye = "r"..rtV..kkiT
+            if(researchMS==nil) then
+              playerLines[k][mKye.."time"] = ""
+            elseif(kkiT<=researchMS) then
+              playerLines[k][mKye.."time"] = "[avail]"
+            else
+              playerLines[k][mKye.."time"] = "--------"
+            end
+          end
+        end
+      end
+--]]
+
   end--for
   -- PlayerLines to table
   table.sort(playerLines)  

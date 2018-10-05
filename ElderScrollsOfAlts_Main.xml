@@ -137,15 +137,20 @@
         ZO_ScrollList_MouseExit(ESOA_GUI2_Body_CharList, self)
     </OnMouseExit>
     <OnMouseUp>
-        if(upInside and button==1) then
-            ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
-            ElderScrollsOfAlts:SelectCharacterRow(self)
-        end
-        if(upInside and button==2) then
-            ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
-            ElderScrollsOfAlts:SelectCharacterNote1(self)
-        end
+      <!-- local self, button, upInside, ctrl, alt, shift, command = ...-->
+      if(upInside and button==1) then
+          ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
+          ElderScrollsOfAlts:SelectCharacterRow(self)
+      end
+      if(upInside and button==2) then
+          ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
+          ElderScrollsOfAlts:SelectCharacterNote1(self)
+      end
     </OnMouseUp>
+    <OnMouseDoubleClick>
+      <!-- local self, button, ctrl, alt, shift, command = ...-->
+      ElderScrollsOfAlts:ToggleGuiCharacterDetails(self)
+    </OnMouseDoubleClick>
     
 		<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
 		<Controls>
@@ -386,7 +391,7 @@
                     />
           </Button>
           
-          <Button name="$(parent)_View_Misc2" hidden="false" text="Other" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
+          <Button name="$(parent)_View_Misc2" hidden="false" text="Skills" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Research" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewMisc2() </OnMouseUp>
@@ -564,7 +569,7 @@
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:ResetNote(self)</OnMouseUp>
       </Button>
-            <Button name="$(parent)_Close" text="Close" font="ZoFontGameLargeBold" 
+      <Button name="$(parent)_Close" text="Close" font="ZoFontGameLargeBold" 
           verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" 
           inherits="ZO_ButtonBehaviorClickSound">
         <Anchor point="TOPLEFT" relativeTo="$(parent)_Cancel" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
@@ -607,5 +612,49 @@
   </TopLevelControl>
 
 
+  <TopLevelControl name="ESOA_CharDetails" mouseEnabled="true" movable="true" hidden="true" 
+      resizeHandleSize="10" >
+    <Dimensions x="100" y="150" />
+    <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
+    <OnInitialized> </OnInitialized>
+    <OnShow> </OnShow>
+    <Controls>
+      <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"> <AnchorFill/> </Backdrop>
+      
+      <Control name="$(parent)_Hdr" hidden="false" resizeToFitDescendents="false"  >
+        <Anchor point="TOPLEFT"     relativeTo="$(parent)" relativePoint="TOPLEFT" />
+        <Dimensions y="50" />
+        <Controls>
+          <Button name="$(parent)_Close" text="Close" font="ZoFontGameLargeBold" 
+              verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" 
+              inherits="ZO_ButtonBehaviorClickSound">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <Dimensions x="60" y="25" />
+            <Textures
+              normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+              pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"
+              mouseOver="EsoUI/Art/ActionBar/actionBar_mouseOver.dds"
+              disabled="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
+            />
+            <OnMouseEnter></OnMouseEnter>
+            <OnMouseUp>ElderScrollsOfAlts:CloseNote(self)</OnMouseUp>
+          </Button>
+        </Controls>
+      </Control>
+        
+      <Control name="$(parent)_Body" hidden="false" resizeToFitDescendents="false"  >
+        <Anchor point="TOPLEFT"     relativeTo="$(parent)" relativePoint="TOPLEFT"     />
+        <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+        <Controls>
+          <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
+            text="WhoAmI?" >
+            <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="4"/>
+          </Label>
+        </Controls>
+      </Control>
+
+    </Controls>
+  </TopLevelControl>     
+      
 </Controls>
 </GuiXml>

@@ -195,12 +195,7 @@ function ElderScrollsOfAlts:SetupGuiMisc2Listing(self, dataListing)
   ZO_ScrollList_SetDeselectOnReselect(dataListing, true)
   
 	local playerLines = ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
-  
-	for k, v in pairs(playerLines) do
-		--ElderScrollsOfAlts:debugMsg(" playerLines k " .. tostring(k)  )
-		--ElderScrollsOfAlts:debugMsg(" playerLines v " .. tostring(v)  )	
-    scroll_data[#scroll_data + 1] = ZO_ScrollList_CreateDataEntry(NOTE_TYPE, v )
-	end
+  ElderScrollsOfAlts:createAndSetupScrollData(scroll_data,playerLines,NOTE_TYPE)
   
 	ZO_ScrollList_Commit(dataListing, scroll_data)
 	--dataListing:SetHidden(false)
@@ -346,7 +341,30 @@ end
 
 --For each row in the SCROLLLIST
 function ElderScrollsOfAlts:SetupRowControlMisc2(row_control, row_data, scrollList)  
-  --
+ local pName = GetUnitName("player")
+  local rName = row_data["name"]
+  row_control:GetNamedChild('Name'):SetText(row_data["name"])
+  if(pName==rName) then
+    row_control:GetNamedChild('Name').isMe = true
+  else
+    row_control:GetNamedChild('Name').isMe = false
+  end
+  
+  row_control:GetNamedChild('AssaultR'):SetText(row_data["Assault_Rank"])
+  row_control:GetNamedChild('SupportR'):SetText(row_data["Support_Rank"])
+  row_control:GetNamedChild('LegerdemainR'):SetText(row_data["Legerdemain_Rank"])
+  row_control:GetNamedChild('Soul MagicR'):SetText(row_data["Soul Magic_Rank"])
+  row_control:GetNamedChild('WerewolfR'):SetText(row_data["Werewolf_Rank"])
+  row_control:GetNamedChild('VampireR'):SetText(row_data["Vampire_Rank"])
+  row_control:GetNamedChild('Fighters GuildR'):SetText(row_data["Fighters Guild_Rank"])
+  row_control:GetNamedChild('Mages GuildR'):SetText(row_data["Mages Guild_Rank"])
+  row_control:GetNamedChild('UndauntedR'):SetText(row_data["Undaunted_Rank"])
+  row_control:GetNamedChild('Thieves GuildR'):SetText(row_data["Thieves Guild_Rank"])
+  row_control:GetNamedChild('Dark BrotherhoodR'):SetText(row_data["Dark Brotherhood_Rank"])
+  row_control:GetNamedChild('Psijic OrderR'):SetText(row_data["Psijic Order_Rank"])
+  --row_control:GetNamedChild('AssaultR'):SetText(row_data["Assault_Rank"])
+  
+  --SetupRowControlMisc2
 end
 
 --For each row in the SCROLLLIST
@@ -359,7 +377,7 @@ function ElderScrollsOfAlts:SetupRowControlEquip(row_control, row_data, scrollLi
   else
     row_control:GetNamedChild('Name').isMe = false
   end
-    
+  
   row_control:GetNamedChild('Head'):SetText(row_data["Head"])
   row_control:GetNamedChild('Head').itemlink = row_data["Head_Link"]
   row_control:GetNamedChild('Shoulders'):SetText(row_data["Shoulders"])
@@ -595,6 +613,33 @@ end
 function ElderScrollsOfAlts:ResearchShowTip(myLabel,equipName)
 end
 
+
+--UI
+function ElderScrollsOfAlts:Misc2TipEnter(myLabel,equipName)
+  local itemLink = myLabel.name
+  if(itemLink==nil) then
+    return
+  end
+  InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
+  InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
+  
+  if(myLabel.traitType~=nil) then
+    --InformationTooltip:AddLine(string.format("(%s)"     , myLabel.traitType), "ZoFontGame")
+    --InformationTooltip:AddLine(string.format("Trait: %s", myLabel.traitDesc), "ZoFontGame")
+    --InformationTooltip:AddLine(string.format("(Known? %s)"     , tostring(myLabel.traitknown)), "ZoFontGame")
+  end
+end
+
+--UI
+function ElderScrollsOfAlts:Misc2TipExit(myLabel)  
+  ClearTooltip(InformationTooltip)
+end
+
+--UI
+function ElderScrollsOfAlts:Misc2ShowTip(myLabel,equipName)
+end
+
+
 --ESOACraftTooltip EQUIP Tooltip
 function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)    
   local itemLink = myLabel.itemlink
@@ -644,6 +689,17 @@ function ElderScrollsOfAlts:EquipTipExit(myLabel)
   ClearTooltip(InformationTooltip)
 end
 
+
+
+function ElderScrollsOfAlts:Misc2HeaderTipEnter(sender,key)
+  --InitializeTooltip(InformationTooltip, resultButton, TOPRIGHT, 0, 0, BOTTOMLEFT)
+  InitializeTooltip(ESOATooltip, sender, TOPLEFT, 5, -56, TOPRIGHT)
+  --InitializeTooltip(ESOATooltip, sender, TOPLEFT, -10, -10, BOTTOMLEFT)
+  --TODO ElderScrollsOfAlts:TraitTipLookupDesc(ESOATooltip,key)
+  ESOATooltip:AddLine(key, "ZoFontHeader3")
+  --SetTooltipText(ESOATooltip, "Test123" ZO_NORMAL_TEXT)
+end
+
 --ESOATooltip EQUIP HEADER Tooltip
 function ElderScrollsOfAlts:EquipHeaderTipEnter(sender,key)
   --InitializeTooltip(InformationTooltip, resultButton, TOPRIGHT, 0, 0, BOTTOMLEFT)
@@ -652,6 +708,12 @@ function ElderScrollsOfAlts:EquipHeaderTipEnter(sender,key)
   ElderScrollsOfAlts:TraitTipLookupDesc(ESOATooltip,key)
   ESOATooltip:AddLine(key, "ZoFontHeader3")
   --SetTooltipText(ESOATooltip, "Test123" ZO_NORMAL_TEXT)
+end
+
+--UI
+function ElderScrollsOfAlts:Misc2HeaderTipExit(sender)
+  --ClearTooltip(InformationTooltip)
+  ClearTooltip(ESOATooltip)
 end
 
 --UI

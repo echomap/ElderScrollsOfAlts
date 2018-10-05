@@ -81,6 +81,8 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
     ElderScrollsOfAlts:GUIShowViewMisc2()
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
     ElderScrollsOfAlts:GUIShowViewEquip()
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Skills") then     
+    ElderScrollsOfAlts:GUIShowViewMisc2()
   else
     ElderScrollsOfAlts:GUIShowViewHome()
   end
@@ -160,7 +162,7 @@ end
 function ElderScrollsOfAlts:GUIShowViewMisc2()  
   ESOA_GUI2_Body_CharListHeader:SetHidden(true)
   ESOA_GUI2_Body_EquipListHeader:SetHidden(true)
-  ESOA_GUI2_Body_ResearchListHeader:SetHidden(false)
+  ESOA_GUI2_Body_ResearchListHeader:SetHidden(true)
   ESOA_GUI2_Body_Misc2ListHeader:SetHidden(false)
   ESOA_GUI2_Body_CharList:SetHidden(true)
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
@@ -375,4 +377,52 @@ function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
   ElderScrollsOfAlts:debugMsg("DoDeleteSelectedCharacter: Name=" .. tostring(charname))
   ElderScrollsOfAlts.altData.players[charname] = nil
 end
+
+
+-----Character Details Screen
+
+function ElderScrollsOfAlts:ToggleGuiCharacterDetails(self)
+  ElderScrollsOfAlts:debugMsg("ToggleGuiCharacterDetails: Called")
+  if(ESOA_CharDetails:IsHidden())then
+    ElderScrollsOfAlts:CloseGuiCharacterDetails(self)    
+  else
+    ElderScrollsOfAlts:ShowGuiCharacterDetails(self)
+  end
+end
+
+--
+--if already being shown, close and reopen for this character
+function ElderScrollsOfAlts:ShowGuiCharacterDetails(self)
+  ElderScrollsOfAlts:debugMsg("ShowGuiCharacterDetails: Called") 
+  
+  --
+  ElderScrollsOfAlts:HideGuiCharacterNote(self)
+  ElderScrollsOfAlts:CloseGuiCharacterDetails(self)
+  
+  --
+  local selectedData = ElderScrollsOfAlts.view.SelectedDataNode
+  if selectedData == nil then
+    ElderScrollsOfAlts:debugMsg("ShowGuiCharacterDetails: selectedData is nil")
+    return
+  end    
+  ElderScrollsOfAlts:debugMsg("ShowGuiCharacterDetails: Req  Name="..tostring(selectedData.name))
+  
+  --Populate with Selected Data  
+  --TODO
+  --ElderScrollsOfAlts:ShowGuiCharacterNote(self, selectedData)
+  --TODO ElderScrollsOfAlts.savedVariables.selected.charactername = selectedData.name
+  
+  --Show
+  ESOA_CharDetails:SetHidden(false)
+  --ShowGuiCharacterDetails
+end
+
+function ElderScrollsOfAlts:CloseGuiCharacterDetails(self)
+  ESOA_CharDetails:SetHidden(true)
+  --ElderScrollsOfAlts.view.SelectedDataNode = nil
+  --ESOA_GUI2_Notes_Index_Note:SetText("")
+  --ESOA_GUI2_Notes_Category_Edit:SetText("")
+  --ESOA_GUI2_Notes:SetHidden(true)
+end
+ 
 

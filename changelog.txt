@@ -1,6 +1,10 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
-0.x.xx (17)
+0.1.18
+[list]
+[*] added a tab for guild/ava/world skill lines
+[/list]
+0.1.17
 [list]
 [*] Removed LIBS from addon, as it seems everyone is doing that? dunno! Depends On: LibStub LibAddonMenu-2.0 
 [*] update/fixed all view's sorting
