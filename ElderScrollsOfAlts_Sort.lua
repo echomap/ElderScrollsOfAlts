@@ -79,21 +79,34 @@ local researchSortKeys =
     ["rjewelcrafting3time"]    = { tiebreaker = "name" }, 
   }
 
-local Misc2SortKeys =
+local misc2SortKeys =
   {
     ["name"]              = { }, 
-    ["AssaultR"]          = { tiebreaker = "name", isNumeric = true }, 
-    ["SupportR"]          = { tiebreaker = "name", isNumeric = true }, 
-    ["LegerdemainR"]      = { tiebreaker = "name", isNumeric = true }, 
-    ["Soul MagicR"]       = { tiebreaker = "name", isNumeric = true }, 
-    ["WerewolfR"]         = { tiebreaker = "name", isNumeric = true }, 
-    ["VampireR"]          = { tiebreaker = "name", isNumeric = true }, 
-    ["Fighters GuildR"]   = { tiebreaker = "name", isNumeric = true }, 
-    ["Mages GuildR"]      = { tiebreaker = "name", isNumeric = true }, 
-    ["UndauntedR"]        = { tiebreaker = "name", isNumeric = true }, 
-    ["Thieves GuildR"]    = { tiebreaker = "name", isNumeric = true }, 
-    ["Dark BrotherhoodR"] = { tiebreaker = "name", isNumeric = true }, 
-    ["Psijic OrderR"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["AssaultR"]          = { tiebreaker = "name" }, 
+    ["SupportR"]          = { tiebreaker = "name" }, 
+    ["LegerdemainR"]      = { tiebreaker = "name" }, 
+    ["Soul MagicR"]       = { tiebreaker = "name" }, 
+    ["WerewolfR"]         = { tiebreaker = "name" }, 
+    ["VampireR"]          = { tiebreaker = "name" }, 
+    ["Fighters GuildR"]   = { tiebreaker = "name" }, 
+    ["Mages GuildR"]      = { tiebreaker = "name" }, 
+    ["UndauntedR"]        = { tiebreaker = "name" }, 
+    ["Thieves GuildR"]    = { tiebreaker = "name" }, 
+    ["Dark BrotherhoodR"] = { tiebreaker = "name" }, 
+    ["Psijic OrderR"]     = { tiebreaker = "name" }, 
+    
+    ["AssaultR_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
+    ["SupportR_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
+    ["LegerdemainR_Rank"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["Soul MagicR_Rank"]       = { tiebreaker = "name", isNumeric = true }, 
+    ["WerewolfR_Rank"]         = { tiebreaker = "name", isNumeric = true }, 
+    ["VampireR_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
+    ["Fighters GuildR_Rank"]   = { tiebreaker = "name", isNumeric = true }, 
+    ["Mages GuildR_Rank"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["UndauntedR_Rank"]        = { tiebreaker = "name", isNumeric = true }, 
+    ["Thieves GuildR_Rank"]    = { tiebreaker = "name", isNumeric = true }, 
+    ["Dark BrotherhoodR_Rank"] = { tiebreaker = "name", isNumeric = true }, 
+    ["Psijic OrderR_Rank"]     = { tiebreaker = "name", isNumeric = true }, 
   }
 
 --Sort
@@ -208,8 +221,8 @@ function ElderScrollsOfAlts:GuiSortMisc2(sender,newKey,displayKey,refreshOnly)
       end
     end
   end  
-  ElderScrollsOfAlts:debugMsg("GuiSortMisc2 key  ="..tostring(ElderScrollsOfAlts.savedVariables.currentMisc2SortKey) )
-  ElderScrollsOfAlts:debugMsg("GuiSortMisc2 order="..tostring(ElderScrollsOfAlts.savedVariables.currentMisc2SortOrder) )
+  ElderScrollsOfAlts:debugMsg("GuiSortMisc2 key  ='"..tostring(ElderScrollsOfAlts.savedVariables.currentMisc2SortKey) .."'")
+  ElderScrollsOfAlts:debugMsg("GuiSortMisc2 order='"..tostring(ElderScrollsOfAlts.savedVariables.currentMisc2SortOrder).."'" )
   
   --Data Sort
   local scroll_data2 = ZO_ScrollList_GetDataList(ESOA_GUI2_Body_List_Misc2)  

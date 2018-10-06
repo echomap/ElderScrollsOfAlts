@@ -168,7 +168,7 @@ function ElderScrollsOfAlts:GUIShowViewMisc2()
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(false)
-  ElderScrollsOfAlts.savedVariables.currentView = "Research"
+  ElderScrollsOfAlts.savedVariables.currentView = "Skills"
 end
 
 --ESOA_GUI2
