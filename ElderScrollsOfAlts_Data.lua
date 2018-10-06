@@ -5,6 +5,12 @@
 function ElderScrollsOfAlts.loadPlayerData(self)
 	local pName = GetUnitName("player")
   local rName = GetRawUnitName("player")    
+  
+  --d("pName='"..tostring(pName).."'" )
+	if ElderScrollsOfAlts.altData.players == nil then
+		ElderScrollsOfAlts.altData.players = {}
+	end
+
   --Protect note data if not saved to disk in this session
   if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
       ElderScrollsOfAlts.altData.players[pName].note ~= nil ) then
@@ -18,10 +24,6 @@ function ElderScrollsOfAlts.loadPlayerData(self)
     ElderScrollsOfAlts:debugMsg("ESOA, saved current category, as '"..tostring(ElderScrollsOfAlts.altData.players[pName].category) .."'")    
   end
 
-  --d("pName='"..tostring(pName).."'" )
-	if ElderScrollsOfAlts.altData.players == nil then
-		ElderScrollsOfAlts.altData.players = {}
-	end
   --Resets all my data to current data
 	ElderScrollsOfAlts.altData.players[pName] = {}
   ElderScrollsOfAlts.altData.players[pName].category = "A"

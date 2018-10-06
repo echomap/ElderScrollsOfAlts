@@ -135,7 +135,7 @@ function ElderScrollsOfAlts:SetupGui2(self)
   ESOA_GUI2_Header_WhoAmI:SetText(sVal)
 
   if( not ElderScrollsOfAlts.altData.beta ) then 
-    ESOA_GUI2_Header_View_Misc2:SetHidden(true)
+    --
   end
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)
   
@@ -811,16 +811,16 @@ function ElderScrollsOfAlts:SelectResearchRow(self)
 end
 
 --Row Select
-function ElderScrollsOfAlts:SelectOtherRow(self)
+function ElderScrollsOfAlts:SelectMisc2Row(self)
   --Select the Row
   local data = ZO_ScrollList_GetData(self) --rowControl)
-  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Research, data, self)
+  ZO_ScrollList_SelectData(ESOA_GUI2_Body_List_Misc2, data, self)
   
   --Get the selected row's data
-  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Research)
+  local selectedData = ZO_ScrollList_GetSelectedData(ESOA_GUI2_Body_List_Misc2)
   if selectedData ~= nil then
-    ElderScrollsOfAlts:debugMsg("SelectResearchRow: Name=" .. tostring(selectedData.name))
+    ElderScrollsOfAlts:debugMsg("SelectMisc2Row: Name=" .. tostring(selectedData.name))
   else
-    ElderScrollsOfAlts:debugMsg("SelectResearchRow: selectedData= nil")
+    ElderScrollsOfAlts:debugMsg("SelectMisc2Row: selectedData= nil")
   end  
 end

@@ -109,11 +109,11 @@
     <OnMouseUp>
         if(upInside and button==1) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_List_Misc2)
-            ElderScrollsOfAlts:SelectOtherRow(self)
+            ElderScrollsOfAlts:SelectMisc2Row(self)
         end
         if(upInside and button==2) then
             ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_List_Misc2)
-            ElderScrollsOfAlts:SelectCharacterNote5(self)
+            ElderScrollsOfAlts:SelectCharacterNote4(self)
         end
     </OnMouseUp>
     

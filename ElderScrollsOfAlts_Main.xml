@@ -137,20 +137,24 @@
         ZO_ScrollList_MouseExit(ESOA_GUI2_Body_CharList, self)
     </OnMouseExit>
     <OnMouseUp>
-      <!-- local self, button, upInside, ctrl, alt, shift, command = ...-->
-      if(upInside and button==1) then
-          ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
-          ElderScrollsOfAlts:SelectCharacterRow(self)
-      end
-      if(upInside and button==2) then
-          ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
-          ElderScrollsOfAlts:SelectCharacterNote1(self)
-      end
+        if(upInside and button==1) then
+            ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
+            ElderScrollsOfAlts:SelectCharacterRow(self)
+        end
+        if(upInside and button==2) then
+            ZO_ScrollList_MouseClick(self, ESOA_GUI2_Body_CharList)
+            ElderScrollsOfAlts:SelectCharacterNote1(self)
+        end
+        <!-- local self, button, upInside, ctrl, alt, shift, command = ...-->
     </OnMouseUp>
+    
     <OnMouseDoubleClick>
       <!-- local self, button, ctrl, alt, shift, command = ...-->
-      ElderScrollsOfAlts:ToggleGuiCharacterDetails(self)
+      if(button==1)then
+        ElderScrollsOfAlts:ToggleGuiCharacterDetails(self)
+      end
     </OnMouseDoubleClick>
+    
     
 		<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
 		<Controls>
