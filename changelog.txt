@@ -1,5 +1,10 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
+0.1.19
+[list]
+[*] update set view for skills
+[*] update sort skills
+[/list]
 0.1.18
 [list]
 [*] added a tab for guild/ava/world skill lines

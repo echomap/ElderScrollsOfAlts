@@ -447,6 +447,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines()
   return playerLines 
 end
 
+--
 function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
     local playerLines =  {}
 	--table.insert(playerLines, "Select")
@@ -462,9 +463,17 @@ function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
     end
 
     --Setup Player Lines
-    local rTypes = {"ava","guild","world"}
+    --HACK! TODO fix
+    local aTypes = {"Assault_Rank","Support_Rank","Legerdemain_Rank","Soul Magic_Rank","Werewolf_Rank","Vampire_Rank","Fighters Guild_Rank","Mages Guild_Rank","Undaunted_Rank","Thieves Guild_Rank","Dark Brotherhood_Rank","Psijic Order_Rank"}
+    for rtK,rtV in pairs(aTypes) do
+      --d("skills All "..k.." as="..rtK.." rtVT='"..tostring(rtV).."'")
+      playerLines[k][rtV] = 0
+    end
+    
     -- Check if player even has skills
+    local rTypes = {"ava","guild","world"}
     local skills = ElderScrollsOfAlts.altData.players[k].skills
+    
     if(skills~=nil) then
       for rtK,rtV in pairs(rTypes) do
         --d("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
@@ -484,44 +493,12 @@ function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
         end
       end
     end
-    
-    --[[    
-    local lSkill = ElderScrollsOfAlts.altData.players[k].skills.trade
-    if trade ~=nil then
-      local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
-      if trade ~=nil then
-        local alchemy  = tradeL["Alchemy"]
-        if alchemy ~=nil then
-          playerLines[k].alchemy         = alchemy.rank
-          playerLines[k].alchemy_sunk    = alchemy.sunk
-          playerLines[k].alchemy_sinkmax = alchemy.sinkmax
-        else    
-
-    if( elemT ~= nil ) then 
-      for rtK,rtV in pairs(rTypes) do
-        ElderScrollsOfAlts.debugMsg("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
-        if(elemT[rtV]~=nil)then
-          xxxxxxxx
-          local researchMS = elemT[rtV].researchMS
-          for kkiT = 1, 3 do
-            local mKye = "r"..rtV..kkiT
-            if(researchMS==nil) then
-              playerLines[k][mKye.."time"] = ""
-            elseif(kkiT<=researchMS) then
-              playerLines[k][mKye.."time"] = "[avail]"
-            else
-              playerLines[k][mKye.."time"] = "--------"
-            end
-          end
-        end
-      end
---]]
 
   end--for
   -- PlayerLines to table
   table.sort(playerLines)  
   return playerLines
-end
+end--SetupGuiMisc2PlayerLines
 
 --
 function ElderScrollsOfAlts:SetupGuiEquipPlayerLines()

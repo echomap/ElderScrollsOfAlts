@@ -82,6 +82,7 @@ local researchSortKeys =
 local misc2SortKeys =
   {
     ["name"]              = { }, 
+    
     ["AssaultR"]          = { tiebreaker = "name" }, 
     ["SupportR"]          = { tiebreaker = "name" }, 
     ["LegerdemainR"]      = { tiebreaker = "name" }, 
@@ -95,18 +96,18 @@ local misc2SortKeys =
     ["Dark BrotherhoodR"] = { tiebreaker = "name" }, 
     ["Psijic OrderR"]     = { tiebreaker = "name" }, 
     
-    ["AssaultR_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
-    ["SupportR_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
-    ["LegerdemainR_Rank"]      = { tiebreaker = "name", isNumeric = true }, 
-    ["Soul MagicR_Rank"]       = { tiebreaker = "name", isNumeric = true }, 
-    ["WerewolfR_Rank"]         = { tiebreaker = "name", isNumeric = true }, 
-    ["VampireR_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
-    ["Fighters GuildR_Rank"]   = { tiebreaker = "name", isNumeric = true }, 
-    ["Mages GuildR_Rank"]      = { tiebreaker = "name", isNumeric = true }, 
-    ["UndauntedR_Rank"]        = { tiebreaker = "name", isNumeric = true }, 
-    ["Thieves GuildR_Rank"]    = { tiebreaker = "name", isNumeric = true }, 
-    ["Dark BrotherhoodR_Rank"] = { tiebreaker = "name", isNumeric = true }, 
-    ["Psijic OrderR_Rank"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["Assault_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
+    ["Support_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
+    ["Legerdemain_Rank"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["Soul Magic_Rank"]       = { tiebreaker = "name", isNumeric = true }, 
+    ["Werewolf_Rank"]         = { tiebreaker = "name", isNumeric = true }, 
+    ["Vampire_Rank"]          = { tiebreaker = "name", isNumeric = true }, 
+    ["Fighters Guild_Rank"]   = { tiebreaker = "name", isNumeric = true }, 
+    ["Mages Guild_Rank"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["Undaunted_Rank"]        = { tiebreaker = "name", isNumeric = true }, 
+    ["Thieves Guild_Rank"]    = { tiebreaker = "name", isNumeric = true }, 
+    ["Dark Brotherhood_Rank"] = { tiebreaker = "name", isNumeric = true }, 
+    ["Psijic Order_Rank"]     = { tiebreaker = "name", isNumeric = true }, 
   }
 
 --Sort

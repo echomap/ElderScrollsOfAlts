@@ -28,6 +28,9 @@ end
 
 --UIButton
 function ElderScrollsOfAlts.ShowUIButton()
+  if(not ElderScrollsOfAlts.GetUIButtonShown()) then
+    return
+  end  
   --d("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
   ESOA_ButtonFrame:SetHidden(false)
   ESOA_ButtonFrame:ClearAnchors()
@@ -72,8 +75,10 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
   ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data     
   ElderScrollsOfAlts:ShowGui2()       -- Display GUI
-  ElderScrollsOfAlts:Gui2SortRefresh()
-  ElderScrollsOfAlts:GuiEquipSortRefresh()
+  --ElderScrollsOfAlts:Gui2SortRefresh()
+  --ElderScrollsOfAlts:GuiEquipSortRefresh()
+  --ElderScrollsOfAlts:GuiResearchSortRefresh()
+  --ElderScrollsOfAlts:GuiMisc2SortRefresh()
   
   if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
     ElderScrollsOfAlts:GUIShowViewResearch()
@@ -168,6 +173,7 @@ function ElderScrollsOfAlts:GUIShowViewMisc2()
   ESOA_GUI2_Body_List_EQUIP:SetHidden(true)
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(false)
+  ElderScrollsOfAlts:GuiMisc2SortRefresh()
   ElderScrollsOfAlts.savedVariables.currentView = "Skills"
 end
 

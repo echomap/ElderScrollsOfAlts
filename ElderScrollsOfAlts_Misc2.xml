@@ -15,84 +15,84 @@
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortName" relativePoint="TOPRIGHT"/>
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Assault") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>    ElderScrollsOfAlts:GuiSortMisc2(self,"AssaultR_Rank","Assault")</OnMouseUp>
+        <OnMouseUp>    ElderScrollsOfAlts:GuiSortMisc2(self,"Assault_Rank","Assault")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortCloth2" text="Spprt" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortCloth1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Support") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"SupportR_Rank","Support")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Support_Rank","Support")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortCloth3" text="Leger" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortCloth2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Legerdemain") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"LegerdemainR","Legerdemain")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Legerdemain_Rank","Legerdemain")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortSmith1" text="Soul" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortCloth3" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Soul Magic") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Soul MagicR","Soul Magic")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Soul Magic_Rank","Soul Magic")</OnMouseUp>
       </Button>        
       <Button name="$(parent)_SortSmith2" text="Were" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortSmith1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Werewolf") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"WerewolfR","Werewolf")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Werewolf_Rank","Werewolf")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortSmith3" text="Vamp" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortSmith2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Vampire") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"VampireR","Vampire")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Vampire_Rank","Vampire")</OnMouseUp>
       </Button> 
       <Button name="$(parent)_SortWood1" text="Fight" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortSmith3" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Fighters Guild") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Fighters GuildR","Fighters Guild")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Fighters Guild_Rank","Fighters Guild")</OnMouseUp>
       </Button> 
       <Button name="$(parent)_SortWood2" text="Mage" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Mages Guild") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Mages GuildR","Mages Guild")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Mages Guild_Rank","Mages Guild")</OnMouseUp>
       </Button>
       <Button name="$(parent)_SortUndaunt" text="Undaunt" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Undaunted") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"UndauntedR","Undaunted")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Undaunted_Rank","Undaunted")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortThieve" text="Thief" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortUndaunt" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Thieves Guild") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Thieves GuildR","Thieves Guild")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Thieves Guild_Rank","Thieves Guild")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortDark" text="Dark" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortThieve" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Dark Brotherhood") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Dark BrotherhoodR","Dark Brotherhood")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Dark Brotherhood_Rank","Dark Brotherhood")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortPsi" text="Psi" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
         <Dimensions x="40" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortDark" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Psijic Order") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
-        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Psijic OrderR","Psijic Order")</OnMouseUp>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Psijic Order_Rank","Psijic Order")</OnMouseUp>
       </Button>  
 
     </Controls>
