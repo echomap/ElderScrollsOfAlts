@@ -323,6 +323,7 @@ end
 function ElderScrollsOfAlts.ShowGui2()
   if not ESOA_GUI2:IsHidden() then 
     ESOA_GUI2:SetHidden(true)
+    ElderScrollsOfAlts:CloseNote(self)
   else
     ESOA_GUI2:SetHidden(false)
     if ElderScrollsOfAlts.savedVariables.window.minimized then
