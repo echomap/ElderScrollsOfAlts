@@ -127,3 +127,29 @@ function ElderScrollsOfAlts:matchStringList(str,itemlist)
   end
   return false;
 end
+
+function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
+  if(timeMS==nil)then
+    return "--"
+  end
+  --d("GetTimeMS="..tostring(GetFrameTimeMilliseconds()) .. " timeDataTaken="..tostring(timeDataTaken))
+  --d("nowDiff="..tostring(nowDiff) .. " timeMS="..tostring(timeMS) )
+
+  local timeS  = math.floor(timeMS/1000)
+  local timeM  = math.floor(timeS/60)
+  local timeH  = math.floor(timeM/60)
+  local timeD  = math.floor(timeH/24)
+  if(timeH>0) then
+    timeM = timeM - (timeH*60)
+  end
+  if(timeD>0) then
+    timeH = timeH - (timeD*24)
+  end
+  local hdrStr = ""
+  if(incDay)then
+    hdrStr = string.format("%sd%sh%sm",  timeD, timeH, timeM)
+  else
+    hdrStr = string.format("%sh%sm",  timeH, timeM)
+  end
+  return hdrStr
+end

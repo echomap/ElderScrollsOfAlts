@@ -352,7 +352,7 @@
           </Label>
           <Label name="$(parent)_SortBy_Label" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
             text="Sort By:" >
-            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Value" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Value" relativePoint="TOPLEFT" offsetX="-8" offsetY="0" />
           </Label>
           
 <!-- VIEW buttons -->

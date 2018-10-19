@@ -108,6 +108,13 @@ local misc2SortKeys =
     ["Thieves Guild_Rank"]    = { tiebreaker = "name", isNumeric = true }, 
     ["Dark Brotherhood_Rank"] = { tiebreaker = "name", isNumeric = true }, 
     ["Psijic Order_Rank"]     = { tiebreaker = "name", isNumeric = true }, 
+    
+    ["riding_inventory"]   = { tiebreaker = "name", isNumeric = true }, 
+    ["riding_speed"]       = { tiebreaker = "name", isNumeric = true }, 
+    ["riding_stamina"]     = { tiebreaker = "name", isNumeric = true }, 
+    ["riding_timeDisplay"] = { tiebreaker = "name" }, 
+    ["riding_timeMs"]      = { tiebreaker = "name", isNumeric = true }, 
+    ["riding_timer"]       = { tiebreaker = "riding_timeMs" }, 
   }
 
 --Sort

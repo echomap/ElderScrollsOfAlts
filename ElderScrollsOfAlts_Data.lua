@@ -184,10 +184,41 @@ function ElderScrollsOfAlts.loadPlayerData(self)
       ElderScrollsOfAlts.altData.players[pName].bio.Vampire = true
     end
   end  
+  
+  --Misc
+  if(ElderScrollsOfAlts.altData.players[pName].misc==nil) then
+    ElderScrollsOfAlts.altData.players[pName].misc = {}
+  end
+  
+  --Riding
+  local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =   GetRidingStats()
+  ElderScrollsOfAlts.altData.players[pName].misc.riding = {}
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.inventory = inventoryBonus
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.stamina   = staminaBonus
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.speed     = speedBonus
+  local canTrainRiding = false
+  if(speedBonus < maxSpeedBonus)then
+    canTrainRiding = true
+  elseif (staminaBonus < maxStaminaBonus) then
+    canTrainRiding = true
+  elseif(inventoryBonus < maxInventoryBonus) then
+    canTrainRiding = true
+  end
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.cantrain = canTrainRiding   
+  local timeMs, totalDurationMs = GetTimeUntilCanBeTrained()
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.timeMs          = timeMs
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.totalDurationMs = totalDurationMs
+  ElderScrollsOfAlts.altData.players[pName].misc.riding.timeDataTaken   = GetFrameTimeMilliseconds()
+  if(timeMs<1)then
+    ElderScrollsOfAlts.altData.players[pName].misc.riding.trainingReadyAt  = 0
+  else
+    local expiresAt = GetFrameTimeMilliseconds() + timeMs
+    ElderScrollsOfAlts.altData.players[pName].misc.riding.trainingReadyAt  = expiresAt
+  end
+ 
   -- Bags
   local bagSize = GetBagSize(BAG_BACKPACK) 
   local bagUsed = GetNumBagUsedSlots(BAG_BACKPACK)
-  ElderScrollsOfAlts.altData.players[pName].misc = {}
   ElderScrollsOfAlts.altData.players[pName].misc.backpackSize = bagSize
   ElderScrollsOfAlts.altData.players[pName].misc.backpackUsed = bagUsed
   --
@@ -491,6 +522,33 @@ function ElderScrollsOfAlts:SetupGuiMisc2PlayerLines()
             end
           end
         end
+      end
+    end
+
+    --misc
+    local misc = ElderScrollsOfAlts.altData.players[k].misc
+    playerLines[k].riding_inventory = -1
+    playerLines[k].riding_speed     = -1
+    playerLines[k].riding_stamina   = -1
+    --playerLines[k].riding_cantrain  = false
+    playerLines[k].riding_timeMs    = -1
+    playerLines[k].riding_totalDurationMs = -1
+    --playerLines[k].riding_timedisplay     = "--"
+    playerLines[k].riding_trainingready   = nil    
+      
+    if(misc~=nil)then
+      local riding = misc.riding
+      if(riding~=nil)then
+        playerLines[k].riding_inventory = riding.inventory
+        playerLines[k].riding_speed     = riding.speed
+        playerLines[k].riding_stamina   = riding.stamina
+        playerLines[k].riding_timeMs          = riding.timeMs
+        playerLines[k].riding_totalDurationMs = riding.totalDurationMs
+        playerLines[k].riding_trainingready   = riding.trainingReadyAt
+        
+        --if(riding.timeMs~=nil and riding.timeMs>-1)then
+          --playerLines[k].riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )
+        --end
       end
     end
 

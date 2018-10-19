@@ -362,7 +362,32 @@ function ElderScrollsOfAlts:SetupRowControlMisc2(row_control, row_data, scrollLi
   row_control:GetNamedChild('Thieves GuildR'):SetText(row_data["Thieves Guild_Rank"])
   row_control:GetNamedChild('Dark BrotherhoodR'):SetText(row_data["Dark Brotherhood_Rank"])
   row_control:GetNamedChild('Psijic OrderR'):SetText(row_data["Psijic Order_Rank"])
-  --row_control:GetNamedChild('AssaultR'):SetText(row_data["Assault_Rank"])
+  
+  row_control:GetNamedChild('riding_inventory'):SetText(row_data["riding_inventory"])
+  row_control:GetNamedChild('riding_speed'):SetText(row_data["riding_speed"])
+  row_control:GetNamedChild('riding_stamina'):SetText(row_data["riding_stamina"])
+  local timeMS     = row_data["riding_timeMs"]
+  local expireTime = row_data["riding_trainingready"]  
+  local nowTime    = GetFrameTimeMilliseconds()
+  local timeDiff   = nil
+  if(expireTime~=nil)then
+    timeDiff = expireTime - nowTime
+  end
+  
+  row_control:GetNamedChild('riding_timer').timeMS = timeMS  
+  if( timeDiff ~= nil )then
+    if( timeDiff <= 0 ) then
+      row_control:GetNamedChild('riding_timer').hoverover = "Now"
+      row_control:GetNamedChild('riding_timer'):SetText("Now")
+    else
+      local timeD = ElderScrollsOfAlts:timeToDisplay(timeDiff,false,false)
+      row_control:GetNamedChild('riding_timer').hoverover = timeD
+      row_control:GetNamedChild('riding_timer'):SetText(timeD)      
+    end
+  else
+    row_control:GetNamedChild('riding_timer').hoverover = "--"
+    row_control:GetNamedChild('riding_timer'):SetText("--")  
+  end
   
   --SetupRowControlMisc2
 end
@@ -616,17 +641,19 @@ end
 
 --UI
 function ElderScrollsOfAlts:Misc2TipEnter(myLabel,equipName)
-  local itemLink = myLabel.name
-  if(itemLink==nil) then
-    return
+  local itemLink  = myLabel.name
+  local hoverover = myLabel.hoverover 
+  InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)  
+  if(itemLink~=nil)then
+    InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")  
   end
-  InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
-  InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
-  
-  if(myLabel.traitType~=nil) then
-    --InformationTooltip:AddLine(string.format("(%s)"     , myLabel.traitType), "ZoFontGame")
+  if(hoverover~=nil ) then
+    InformationTooltip:AddLine(string.format("(%s)"     , myLabel.hoverover), "ZoFontGame")
     --InformationTooltip:AddLine(string.format("Trait: %s", myLabel.traitDesc), "ZoFontGame")
     --InformationTooltip:AddLine(string.format("(Known? %s)"     , tostring(myLabel.traitknown)), "ZoFontGame")
+  end
+  if(itemLink==nil and hoverover==nil ) then
+    InformationTooltip:AddLine(string.format("(%s=%s)"   , equipName, myLabel:GetText() ), "ZoFontGame")
   end
 end
 

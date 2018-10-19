@@ -88,13 +88,43 @@
         <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Dark Brotherhood_Rank","Dark Brotherhood")</OnMouseUp>
       </Button>  
       <Button name="$(parent)_SortPsi" text="Psi" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-        <Dimensions x="40" y="20"/>
+        <Dimensions x="30" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortDark" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Psijic Order") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
         <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"Psijic Order_Rank","Psijic Order")</OnMouseUp>
       </Button>  
-
+      
+      
+      <Button name="$(parent)_SortRide1" text="Speed" font="ZoFontGameBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+        <Dimensions x="35" y="20"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_SortPsi" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Riding Speed") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"riding_speed","Riding Speed")</OnMouseUp>
+      </Button>  
+      <Button name="$(parent)_SortRide2" text="Stam" font="ZoFontGameBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+        <Dimensions x="35" y="20"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_SortRide1" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Riding Stamina") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"riding_stamina","Riding Stamina")</OnMouseUp>
+      </Button>  
+      <Button name="$(parent)_SortRide3" text="Inv" font="ZoFontGameBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+        <Dimensions x="35" y="20"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_SortRide2" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Riding Inventory") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"riding_inventory","Riding Inventory")</OnMouseUp>
+      </Button>  
+      <Button name="$(parent)_SortRide4" text="Timer" font="ZoFontGameBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+        <Dimensions x="40" y="20"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_SortRide3" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Riding Timer") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSortMisc2(self,"riding_timeMs","Riding Time")</OnMouseUp>
+      </Button>  
+      
     </Controls>
   </Control>
 
@@ -209,7 +239,36 @@
         <OnMouseExit>  ElderScrollsOfAlts:Misc2TipExit(self)  </OnMouseExit>        
         <OnMouseUp>    ElderScrollsOfAlts:Misc2ShowTip(self)</OnMouseUp>
 			</Label>
-
+      
+      <Label name="$(parent)riding_speed" font="ZoFontGame" verticalAlignment="CENTER" text="r1r" mouseEnabled="true">
+				<Dimensions x="35" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)Psijic OrderR" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2TipEnter(self,"riding_speed") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2TipExit(self)  </OnMouseExit>        
+        <OnMouseUp>    ElderScrollsOfAlts:Misc2ShowTip(self)</OnMouseUp>
+			</Label>
+      <Label name="$(parent)riding_stamina" font="ZoFontGame" verticalAlignment="CENTER" text="r1r" mouseEnabled="true">
+				<Dimensions x="35" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)riding_speed" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2TipEnter(self,"riding_stamina") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2TipExit(self)  </OnMouseExit>        
+        <OnMouseUp>    ElderScrollsOfAlts:Misc2ShowTip(self)</OnMouseUp>
+			</Label>
+      <Label name="$(parent)riding_inventory" font="ZoFontGame" verticalAlignment="CENTER" text="r1r" mouseEnabled="true">
+				<Dimensions x="35" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)riding_stamina" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2TipEnter(self,"riding_inventory") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2TipExit(self)  </OnMouseExit>        
+        <OnMouseUp>    ElderScrollsOfAlts:Misc2ShowTip(self)</OnMouseUp>
+			</Label>
+      <Label name="$(parent)riding_timer" font="ZoFontGame" verticalAlignment="CENTER" text="r1r" mouseEnabled="true">
+				<Dimensions x="55" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)riding_inventory" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2TipEnter(self,"riding_timer") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2TipExit(self)  </OnMouseExit>        
+        <OnMouseUp>    ElderScrollsOfAlts:Misc2ShowTip(self)</OnMouseUp>
+			</Label>
+      
 		</Controls>
 	</Control>
 
