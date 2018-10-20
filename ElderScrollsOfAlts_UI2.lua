@@ -380,7 +380,7 @@ function ElderScrollsOfAlts:SetupRowControlMisc2(row_control, row_data, scrollLi
       row_control:GetNamedChild('riding_timer').hoverover = "Now"
       row_control:GetNamedChild('riding_timer'):SetText("Now")
     else
-      local timeD = ElderScrollsOfAlts:timeToDisplay(timeDiff,false,false)
+      local timeD = ElderScrollsOfAlts:timeToDisplay(timeDiff,false,true)
       row_control:GetNamedChild('riding_timer').hoverover = timeD
       row_control:GetNamedChild('riding_timer'):SetText(timeD)      
     end

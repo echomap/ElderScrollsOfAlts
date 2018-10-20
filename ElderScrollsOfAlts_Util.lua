@@ -146,10 +146,14 @@ function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
     timeH = timeH - (timeD*24)
   end
   local hdrStr = ""
-  if(incDay)then
-    hdrStr = string.format("%sd%sh%sm",  timeD, timeH, timeM)
+  if(incDay and incSec)then
+    hdrStr = string.format("%sd%sh%sm%ss", timeD, timeH, timeM, timeS)
+  elseif(incDay)then
+    hdrStr = string.format("%sd%sh%sm",    timeD, timeH, timeM)
+  elseif(incSec)then
+    hdrStr = string.format("%sh%sm%ss",    timeH, timeM, timeS)
   else
-    hdrStr = string.format("%sh%sm",  timeH, timeM)
+    hdrStr = string.format("%sh%sm",       timeH, timeM)
   end
   return hdrStr
 end
