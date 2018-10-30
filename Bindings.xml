@@ -10,6 +10,9 @@
       <Action name="ESOA_DISPLAY3">
 		    <Up>ElderScrollsOfAlts.ShowGuiEquip()</Up>
       </Action>
+      <Action name="ESOA_DISPLAY_NEXTVIEW">
+		    <Up>ElderScrollsOfAlts.ShowNextView()</Up>
+      </Action>
     </Category>
   </Layer>
 </Bindings>

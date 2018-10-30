@@ -70,6 +70,13 @@ function ElderScrollsOfAlts.GetUIShown()
   return not ESOA_GUI2:IsHidden()
 end
 
+ElderScrollsOfAlts.view.views = {
+    [0] = "Research",
+    [1] = "Other",
+    [2] = "Equip",
+    [3] = "Skills",
+}
+
 --Show the View previously shown
 function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
@@ -96,6 +103,22 @@ end
 --Hide GUI
 function ElderScrollsOfAlts:HideGuiByChoice()
   ElderScrollsOfAlts:HideGui2() 
+end
+
+function ElderScrollsOfAlts:ShowNextView()
+  --ElderScrollsOfAlts.view.views
+  if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
+    ElderScrollsOfAlts.savedVariables.currentView = "Other"
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Other") then     
+    ElderScrollsOfAlts.savedVariables.currentView = "Equip"
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
+    ElderScrollsOfAlts.savedVariables.currentView = "Skills"
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Skills") then     
+    ElderScrollsOfAlts.savedVariables.currentView = "Research"
+  else
+    ElderScrollsOfAlts.savedVariables.currentView = "Research"
+  end  
+  ElderScrollsOfAlts:ShowGuiByChoice()
 end
 
 --View, Setup and Show

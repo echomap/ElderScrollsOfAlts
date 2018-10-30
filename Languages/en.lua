@@ -7,8 +7,9 @@ local localization_strings = {
     SI_BINDING_NAME_ESOA_DISPLAY3    = "Show Equip",
     ElderScrollsOfAlts_ESOA_DISPLAY  = "Display ESOA",
     ElderScrollsOfAlts_ESOA_DISPLAY2 = "Show Home",
-    ElderScrollsOfAlts_ESOA_DISPLAY3 = "Show Equip",
-
+    ElderScrollsOfAlts_ESOA_DISPLAY3 = "Show Equip",	
+	ElderScrollsOfAlts_ESOA_DISPLAY_NEXTVIEW = "Next View",
+	
     ESOA_NAME    ="name",
     ESOA_BAGS    ="Bags",
     ESOA_Unknown ="Unknown",

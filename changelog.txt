@@ -5,6 +5,7 @@ Unpublished:
 [*] 
 [*] 
 [/list]
+0.1.21 Murk
 0.1.20
 [list]
 [*] Closing the addon ui closes/cancels the note too.
