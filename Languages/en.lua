@@ -2,13 +2,35 @@
 local localization_strings = {
     SI_ESOA_MESSAGE  = " addon is loaded",
     -- Keybindings.
-    SI_BINDING_NAME_ESOA_DISPLAY  = "Display ESOA",
-    SI_BINDING_NAME_ESOA_DISPLAY2 = "Show Home",
-    SI_BINDING_NAME_ESOA_DISPLAY3 = "Show Equip",
-    
+    SI_BINDING_NAME_ESOA_DISPLAY     = "Display ESOA",
+    SI_BINDING_NAME_ESOA_DISPLAY2    = "Show Home",
+    SI_BINDING_NAME_ESOA_DISPLAY3    = "Show Equip",
     ElderScrollsOfAlts_ESOA_DISPLAY  = "Display ESOA",
     ElderScrollsOfAlts_ESOA_DISPLAY2 = "Show Home",
     ElderScrollsOfAlts_ESOA_DISPLAY3 = "Show Equip",
+
+    ESOA_NAME    ="name",
+    ESOA_BAGS    ="Bags",
+    ESOA_Unknown ="Unknown",
+
+    ESOA_VIEW_HOME="Home",
+    ESOA_VIEW_EQUIP="Equip",
+    ESOA_VIEW_RESEARCH="Research",
+    ESOA_VIEW_OTHER="Other",
+
+    ESOA_ABBR_ALLY = "Aly",
+    ESOA_ABBR_CLASS="Class",
+    ESOA_ABBR_LVL  ="Lvl",
+    ESOA_ABBR_G    ="G",
+    ESOA_ABBR_RACE ="Race",
+    ESOA_ABBR_ALC  ="Alc",
+    ESOA_ABBR_SMTH ="Smth",
+    ESOA_ABBR_CLTH ="Clth",
+    ESOA_ABBR_ENCH ="Ench",
+    ESOA_ABBR_JC   ="JC",
+    ESOA_ABBR_PROV ="Prov",
+    ESOA_ABBR_WOOD ="Wood",
+
 }
 
 for stringId, stringValue in pairs(localization_strings) do
