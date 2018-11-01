@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.21
+## Version: 0.1.22
 ## APIVersion: 100024, 100025
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
@@ -16,36 +16,8 @@ Languages\en.lua
 Languages\$(language).lua
 
 Bindings.xml
-
-ElderScrollsOfAlts_Misc2.xml
-ElderScrollsOfAlts_Research.xml
-ElderScrollsOfAlts_Equip.xml
-ElderScrollsOfAlts_Main.xml
-
-libs\LibStub\LibStub.lua
-
-libs\LibMediaProvider-1.0\LibMediaProvider-1.0.lua
-libs\LibAddonMenu-2.0\LibAddonMenu-2.0.lua
-
-libs\LibAddonMenu-2.0\controls\panel.lua
-libs\LibAddonMenu-2.0\controls\submenu.lua
-libs\LibAddonMenu-2.0\controls\button.lua
-libs\LibAddonMenu-2.0\controls\checkbox.lua
-libs\LibAddonMenu-2.0\controls\colorpicker.lua
-libs\LibAddonMenu-2.0\controls\iconpicker.lua
-libs\LibAddonMenu-2.0\controls\custom.lua
-libs\LibAddonMenu-2.0\controls\description.lua
-libs\LibAddonMenu-2.0\controls\dropdown.lua
-libs\LibAddonMenu-2.0\controls\editbox.lua
-libs\LibAddonMenu-2.0\controls\header.lua
-libs\LibAddonMenu-2.0\controls\slider.lua
-libs\LibAddonMenu-2.0\controls\texture.lua
-libs\LibAddonMenu-2.0\controls\divider.lua
-
-libs\LibMainMenu\LibMainMenu.lua
-libs\LibCustomMenu\LibCustomMenu.lua
-
 --ElderScrollsOfAlts_Preload.lua
+
 ElderScrollsOfAlts.lua
 ESOA_Charts.lua
 ElderScrollsOfAlts_Util.lua
@@ -56,3 +28,10 @@ ElderScrollsOfAlts_Notes.lua
 ElderScrollsOfAlts_Data.lua
 ElderScrollsOfAlts_TestData.lua
 Settings.lua
+
+
+ElderScrollsOfAlts_Misc2.xml
+ElderScrollsOfAlts_Research.xml
+ElderScrollsOfAlts_Equip.xml
+ElderScrollsOfAlts_Main.xml
+--

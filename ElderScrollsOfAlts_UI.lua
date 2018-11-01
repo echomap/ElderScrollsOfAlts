@@ -87,12 +87,12 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   --ElderScrollsOfAlts:GuiResearchSortRefresh()
   --ElderScrollsOfAlts:GuiMisc2SortRefresh()
   
-  if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
+  if(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
+    ElderScrollsOfAlts:GUIShowViewEquip()
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
     ElderScrollsOfAlts:GUIShowViewResearch()
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Other") then     
     ElderScrollsOfAlts:GUIShowViewMisc2()
-  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
-    ElderScrollsOfAlts:GUIShowViewEquip()
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Skills") then     
     ElderScrollsOfAlts:GUIShowViewMisc2()
   else
@@ -107,16 +107,22 @@ end
 
 function ElderScrollsOfAlts:ShowNextView()
   --ElderScrollsOfAlts.view.views
-  if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
+  ESOA_GUI2:SetHidden(true)--since byChoice calls showGui2, which hides if visible
+
+  if(ElderScrollsOfAlts.savedVariables.currentView == nil) then
+    ElderScrollsOfAlts.savedVariables.currentView = "Home"
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Home") then     
+    ElderScrollsOfAlts.savedVariables.currentView = "Research"
+  elseif(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
     ElderScrollsOfAlts.savedVariables.currentView = "Other"
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Other") then     
     ElderScrollsOfAlts.savedVariables.currentView = "Equip"
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
     ElderScrollsOfAlts.savedVariables.currentView = "Skills"
   elseif(ElderScrollsOfAlts.savedVariables.currentView == "Skills") then     
-    ElderScrollsOfAlts.savedVariables.currentView = "Research"
+    ElderScrollsOfAlts.savedVariables.currentView = "Home"
   else
-    ElderScrollsOfAlts.savedVariables.currentView = "Research"
+    ElderScrollsOfAlts.savedVariables.currentView = "Home"
   end  
   ElderScrollsOfAlts:ShowGuiByChoice()
 end
@@ -143,6 +149,12 @@ function ElderScrollsOfAlts:ShowGuiHome()
   ElderScrollsOfAlts:GUIShowViewHome()
 end
 
+function ElderScrollsOfAlts:resetHomeButtons()
+  ESOA_GUI2_Header_View_Home:SetFont(ElderScrollsOfAlts.HOME_FONT_BASE)
+  ESOA_GUI2_Header_View_Equip:SetFont(ElderScrollsOfAlts.HOME_FONT_BASE)
+  ESOA_GUI2_Header_View_Research:SetFont(ElderScrollsOfAlts.HOME_FONT_BASE)
+  ESOA_GUI2_Header_View_Misc2:SetFont(ElderScrollsOfAlts.HOME_FONT_BASE)
+end
 
 --View, switch (not setup, just switched to if UI already shown)
 function ElderScrollsOfAlts:GUIShowViewHome()
@@ -155,6 +167,8 @@ function ElderScrollsOfAlts:GUIShowViewHome()
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts:Gui2SortRefresh()
+  ElderScrollsOfAlts:resetHomeButtons()
+  ESOA_GUI2_Header_View_Home:SetFont(ElderScrollsOfAlts.HOME_FONT_SEL)
   ElderScrollsOfAlts.savedVariables.currentView = "Home"
 end
 
@@ -169,6 +183,8 @@ function ElderScrollsOfAlts:GUIShowViewEquip()
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts:GuiEquipSortRefresh()
+  ElderScrollsOfAlts:resetHomeButtons()
+  ESOA_GUI2_Header_View_Equip:SetFont(ElderScrollsOfAlts.HOME_FONT_SEL)
   ElderScrollsOfAlts.savedVariables.currentView = "Equip"
 end
 
@@ -183,6 +199,9 @@ function ElderScrollsOfAlts:GUIShowViewResearch()
   ESOA_GUI2_Body_List_Research:SetHidden(false)
   ESOA_GUI2_Body_List_Misc2:SetHidden(true)
   ElderScrollsOfAlts:GuiResearchSortRefresh()
+  ElderScrollsOfAlts:resetHomeButtons()
+  ESOA_GUI2_Header_View_Research:SetFont(ElderScrollsOfAlts.HOME_FONT_SEL)
+  --ESOA_GUI2_Header_View_Research:SetTexture("EsoUI/Art/ActionBar/actionBar_mouseOver.dds")
   ElderScrollsOfAlts.savedVariables.currentView = "Research"
 end
 
@@ -197,6 +216,8 @@ function ElderScrollsOfAlts:GUIShowViewMisc2()
   ESOA_GUI2_Body_List_Research:SetHidden(true)
   ESOA_GUI2_Body_List_Misc2:SetHidden(false)
   ElderScrollsOfAlts:GuiMisc2SortRefresh()
+  ElderScrollsOfAlts:resetHomeButtons()
+  ESOA_GUI2_Header_View_Misc2:SetFont(ElderScrollsOfAlts.HOME_FONT_SEL)
   ElderScrollsOfAlts.savedVariables.currentView = "Skills"
 end
 

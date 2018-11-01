@@ -21,6 +21,17 @@ function ElderScrollsOfAlts:getColoredString(color, s)
 	return c:Colorize(s)
 end
 
+--
+function ElderScrollsOfAlts:InitText(self,textKey,defaultValue)
+  local textVal = GetString(textKey)
+  if(textVal~=nil) then
+    self:SetText(textVal)
+  end
+  if(defaultValue~=nil) then
+    self:SetText(defaultValue)
+  end
+end
+
 function ElderScrollsOfAlts:GetGenderText(genderId)
   local genderName = "O"
     if genderId == 0 then

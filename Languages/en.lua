@@ -1,24 +1,24 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
     SI_ESOA_MESSAGE  = " addon is loaded",
-    -- Keybindings.
+    -- Keybindings
     SI_BINDING_NAME_ESOA_DISPLAY     = "Display ESOA",
     SI_BINDING_NAME_ESOA_DISPLAY2    = "Show Home",
     SI_BINDING_NAME_ESOA_DISPLAY3    = "Show Equip",
-    ElderScrollsOfAlts_ESOA_DISPLAY  = "Display ESOA",
-    ElderScrollsOfAlts_ESOA_DISPLAY2 = "Show Home",
-    ElderScrollsOfAlts_ESOA_DISPLAY3 = "Show Equip",	
-	ElderScrollsOfAlts_ESOA_DISPLAY_NEXTVIEW = "Next View",
-	
+    SI_BINDING_NAME_ESOA_DISPLAY_NEXTVIEW = "Next View",
+    
+    --
     ESOA_NAME    ="name",
     ESOA_BAGS    ="Bags",
     ESOA_Unknown ="Unknown",
 
-    ESOA_VIEW_HOME="Home",
-    ESOA_VIEW_EQUIP="Equip",
+    --Views
+    ESOA_VIEW_HOME    ="Home",
+    ESOA_VIEW_EQUIP   ="Equip",
     ESOA_VIEW_RESEARCH="Research",
-    ESOA_VIEW_OTHER="Other",
+    ESOA_VIEW_OTHER   ="Other",
 
+    --Abbrevs
     ESOA_ABBR_ALLY = "Aly",
     ESOA_ABBR_CLASS="Class",
     ESOA_ABBR_LVL  ="Lvl",

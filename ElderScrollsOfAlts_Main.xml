@@ -358,6 +358,7 @@
 <!-- VIEW buttons -->
           <Button name="$(parent)_View_Home" hidden="false" text="Home" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnInitialized> ElderScrollsOfAlts:InitText(self,"ESOA_VIEW_HOME","Home") </OnInitialized>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewHome() </OnMouseUp>
             <Dimensions x="45" y="24" />            
@@ -371,6 +372,7 @@
 
           <Button name="$(parent)_View_Equip" hidden="false" text="Equip" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Home" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnInitialized> ElderScrollsOfAlts:InitText(self,"ESOA_VIEW_EQUIP","Equip") </OnInitialized>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewEquip() </OnMouseUp>
             <Dimensions x="45" y="24" />
@@ -384,6 +386,7 @@
           
           <Button name="$(parent)_View_Research" hidden="false" text="Research" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Equip" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnInitialized> ElderScrollsOfAlts:InitText(self,"ESOA_VIEW_RESEARCH","Research") </OnInitialized>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewResearch() </OnMouseUp>
             <Dimensions x="70" y="24" />            
@@ -397,6 +400,7 @@
           
           <Button name="$(parent)_View_Misc2" hidden="false" text="Skills" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" inherits="ZO_ButtonBehaviorClickSound">
           <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Research" relativePoint="TOPRIGHT" offsetX="12" offsetY="0"/>
+            <OnInitialized> ElderScrollsOfAlts:InitText(self,"ESOA_VIEW_SKILLS","Skills") </OnInitialized>
             <OnMouseEnter> </OnMouseEnter>
             <OnMouseUp> ElderScrollsOfAlts:GUIShowViewMisc2() </OnMouseUp>
             <Dimensions x="60" y="24" />            
