@@ -221,6 +221,7 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   local bagUsed = GetNumBagUsedSlots(BAG_BACKPACK)
   ElderScrollsOfAlts.altData.players[pName].misc.backpackSize = bagSize
   ElderScrollsOfAlts.altData.players[pName].misc.backpackUsed = bagUsed
+  ElderScrollsOfAlts.altData.players[pName].misc.backpackFree = tonumber( bagSize-bagUsed )
   --
   -- Equipment
   ElderScrollsOfAlts:loadPlayerEquipment()
@@ -239,12 +240,16 @@ function ElderScrollsOfAlts.loadPlayerData(self)
         ElderScrollsOfAlts.altData.players[pName].research)
   --TODO //JC?
   
-  --Bags
+  --Bags/ Bank
+  local currentcategory = ElderScrollsOfAlts.view.currentcategory
   ElderScrollsOfAlts.altData.data = {}
+  ElderScrollsOfAlts.altData.data.category = {}
+  ElderScrollsOfAlts.altData.data.category[ currentcategory ] = {}
   local bagSizeB = GetBagSize(BAG_BACKPACK) 
   local bagUsedB = GetNumBagUsedSlots(BAG_BACKPACK)
-  ElderScrollsOfAlts.altData.data.bankSize = bagSize
-  ElderScrollsOfAlts.altData.data.bankUsed = bagUsed
+  ElderScrollsOfAlts.altData.data.category[ currentcategory ].bankSize = bagSizeB
+  ElderScrollsOfAlts.altData.data.category[ currentcategory ].bankUsed = bagUsedB
+  ElderScrollsOfAlts.altData.data.category[ currentcategory ].bankFree = tonumber( bagSizeB-bagUsedB )
   
   -- Reload Note if not saved properly
   if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
@@ -784,16 +789,18 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     if misc ~=nil then
       playerLines[k].backpackSize = misc.backpackSize
       playerLines[k].backpackUsed = misc.backpackUsed
+      playerLines[k].backpackFree = misc.backpackFree
     else
       playerLines[k].backpackSize = 0
       playerLines[k].backpackUsed = 0
+      playerLines[k].backpackFree = 0
     end
     --
     local skills = ElderScrollsOfAlts.altData.players[k].skills
     if skills ~=nil then
     local trade = ElderScrollsOfAlts.altData.players[k].skills.trade
     if trade ~=nil then
-      local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist    
+      local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist
       if trade ~=nil then
         local alchemy  = tradeL["Alchemy"]
         if alchemy ~=nil then
@@ -852,8 +859,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
         local provisioning = tradeL["Provisioning"]          
         if provisioning ~=nil then
           playerLines[k].provisioning = provisioning.rank   
-          playerLines[k].provisioning_sunk    = provisioning.sunk
-          playerLines[k].provisioning_sinkmax = provisioning.sinkmax
+          playerLines[k].provisioning_sunk     = provisioning.sunk
+          playerLines[k].provisioning_sinkmax  = provisioning.sinkmax
           playerLines[k].provisioning_sunk2    = provisioning.sunk2
           playerLines[k].provisioning_sinkmax2 = provisioning.sinkmax2
         else

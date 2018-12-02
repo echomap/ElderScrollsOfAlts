@@ -20,6 +20,7 @@ local charSortKeys =
     ["jewelry"]       = { tiebreaker = "name", isNumeric = true },    
     ["woodworking"]   = { tiebreaker = "name", isNumeric = true },    
     ["backpackSize"]  = { tiebreaker = "name", isNumeric = true },        
+    ["backpackFree"]  = { tiebreaker = "name", isNumeric = true },        
   }
 local equipSortKeys =
   {

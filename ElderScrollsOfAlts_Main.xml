@@ -59,72 +59,78 @@
         </Controls>
       </Button>                       
       <Button name="$(parent)_SortLevel" text="Lvl" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-        <Dimensions x="65" y="20"/>
+        <Dimensions x="50" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortClass" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSortChar(self,"level")</OnMouseUp>
       </Button>                      
       <Button name="$(parent)_SortGender" text="G" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-        <Dimensions x="25" y="20"/>
+        <Dimensions x="20" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortLevel" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("gender")</OnMouseUp>
       </Button>                          
       <Button name="$(parent)_SortRace" text="Race" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
-        <Dimensions x="70" y="20"/>
+        <Dimensions x="75" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortGender" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("race")</OnMouseUp>
       </Button>  
     
-      <Button name="$(parent)_SortAlc" text="Alc" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortAlc" text="Alc" font="ZoFontGameLargeBold" verticalAlignment="LEFT" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortRace" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("alchemy")</OnMouseUp>
       </Button>  
-      <Button name="$(parent)_SortSmth" text="Smth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortSmth" text="Smth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortAlc" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("blacksmithing")</OnMouseUp>
       </Button>  
-      <Button name="$(parent)_SortClth" text="Clth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortClth" text="Clth" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortSmth" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("clothing")</OnMouseUp>
       </Button>  
-      <Button name="$(parent)_SortEnch" text="Ench" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortEnch" text="Ench" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortClth" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("enchanting")</OnMouseUp>
       </Button>  
-      <Button name="$(parent)_SortJC" text="JC" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortJC" text="JC" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortEnch" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("jewelry")</OnMouseUp>
       </Button>  
-      <Button name="$(parent)_SortProv" text="Prov" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortProv" text="Prov" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortJC" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("provisioning")</OnMouseUp>
       </Button>  
-      <Button name="$(parent)_SortWood" text="Wood" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+      <Button name="$(parent)_SortWood" text="Wood" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortProv" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("woodworking")</OnMouseUp>
       </Button>
-      <Button name="$(parent)_SortBagSpace" text="Bags" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="RIGHT" mouseEnabled="true">
-        <Dimensions x="75" y="20"/>
+      <Button name="$(parent)_SortBagSpace" text="Bags" font="ZoFontGameLargeBold" verticalAlignment="RIGHT" horizontalAlignment="RIGHT" mouseEnabled="true">
+        <Dimensions x="60" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortWood" relativePoint="TOPRIGHT"/>
         <OnMouseEnter></OnMouseEnter>
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("backpackSize")</OnMouseUp>
       </Button>
+      <Button name="$(parent)_SortBagFree" text="Free" font="ZoFontGameLargeBold" verticalAlignment="RIGHT" horizontalAlignment="RIGHT" mouseEnabled="true">
+        <Dimensions x="45" y="20"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_SortBagSpace" relativePoint="TOPRIGHT"/>
+        <OnMouseEnter></OnMouseEnter>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSort("backpackFree")</OnMouseUp>
+      </Button>      
     </Controls>
   </Control>
     
@@ -180,63 +186,67 @@
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Alliance" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
 			<Label name="$(parent)Level" font="ZoFontGame" verticalAlignment="CENTER" text="name">
-				<Dimensions x="60" y="30" />
+				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Class" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
-			<Label name="$(parent)Gender" font="ZoFontGame" verticalAlignment="CENTER" text="name">
-				<Dimensions x="20" y="30" />
+			<Label name="$(parent)Gender" font="ZoFontGame" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="name">
+				<Dimensions x="25" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Level" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
 			</Label>
-			<Label name="$(parent)Race" font="ZoFontGame" verticalAlignment="CENTER" text="msg">
+			<Label name="$(parent)Race" font="ZoFontGame" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="msg">
 				<Dimensions x="70" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Gender" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>        
-      <Label name="$(parent)Alchemy" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Alchemy" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Race" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Alchemy") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>        
 			</Label>        
-      <Label name="$(parent)Blacksmithing" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Blacksmithing" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Alchemy" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Blacksmithing") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>        
 			</Label>
-      <Label name="$(parent)Clothing" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Clothing" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Blacksmithing" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Clothing") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>        
 			</Label>      
-      <Label name="$(parent)Enchanting" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Enchanting" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Clothing" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Enchanting") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>
 			</Label>
-      <Label name="$(parent)Jewelry" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Jewelry" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Enchanting" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Jewelry") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>
 			</Label>
-      <Label name="$(parent)Provisioning" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Provisioning" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Jewelry" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Provisioning") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>
 			</Label>
-      <Label name="$(parent)Woodworking" font="ZoFontGame" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
+      <Label name="$(parent)Woodworking" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg" mouseEnabled="true">
 				<Dimensions x="40" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Provisioning" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
         <OnMouseEnter> ElderScrollsOfAlts:CraftTipEnter(self,"Woodworking") </OnMouseEnter>
         <OnMouseExit>  ElderScrollsOfAlts:CraftTipExit(self)  </OnMouseExit>
 			</Label>
-      <Label name="$(parent)BagSpace" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="RIGHT" text="msg">
-				<Dimensions x="80" y="30" />
+      <Label name="$(parent)BagSpace" font="ZoFontGame" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="msg">
+				<Dimensions x="60" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)Woodworking" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>
+      <Label name="$(parent)BagFree" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="RIGHT" text="msg">
+				<Dimensions x="35" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)BagSpace" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>      
 		</Controls>
 	</Control>
 

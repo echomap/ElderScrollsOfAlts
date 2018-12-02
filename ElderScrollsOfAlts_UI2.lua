@@ -481,13 +481,14 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Blacksmithing',"blacksmithing",sunk)
   sunk = row_data["clothing_sunk"]
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Clothing',"clothing",sunk)
-  sunk = row_data["enchanting_sunk"]
+  sunk  = row_data["enchanting_sunk"]
   sunk2 = row_data["enchanting_sunk2"]
-  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk,sunk2)
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk, sunk2)
   sunk = row_data["jewelry_sunk"]
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
-  sunk = row_data["provisioning_sunk"]    
-  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Provisioning',"provisioning",sunk)
+  sunk = row_data["provisioning_sunk"]
+  sunk2 = row_data["provisioning_sunk2"]
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Provisioning',"provisioning",sunk,sunk2)
   sunk = row_data["woodworking_sunk"]        
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Woodworking',"woodworking",sunk)    
   --Werewolf / Vampire
@@ -508,10 +509,15 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
     
   --Misc
   local bu = row_data["backpackUsed"] 
-  local bs = row_data["backpackSize"] 
+  local bs = row_data["backpackSize"]
+  local bf = row_data["backpackFree"]
   if bs == nil then bs = "---" end
-  local bagText = bu .."/".. bs .."("..bs-bu..")"
+  --local bagText = bu .."/".. bs .."("..bs-bu..")"
+  local bagText = bu .."/".. bs 
   row_control:GetNamedChild('BagSpace'):SetText(bagText)
+  --d("bs: '"..bs.."'")
+  if( bf==nil or bf=="" ) then bf= tonumber(bs-bu) end
+  row_control:GetNamedChild('BagFree'):SetText(bf)
   --playerLines[k].backpackSize = 0
   --playerLines[k].backpackUsed = 0
     

@@ -5,6 +5,8 @@ Unpublished:
 [*] added keybind for 'Next view' to cycle
 [*] Enabling some localization
 [*] Current view name highlighted better
+[*] added new column for bag free space
+[*] Bank space fix
 [*] 
 [/list]
 0.1.21 Murk
