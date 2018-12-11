@@ -223,6 +223,8 @@ function ElderScrollsOfAlts.loadPlayerData(self)
   ElderScrollsOfAlts.altData.players[pName].misc.backpackUsed = bagUsed
   ElderScrollsOfAlts.altData.players[pName].misc.backpackFree = tonumber( bagSize-bagUsed )
   --
+  ElderScrollsOfAlts.altData.players[pName].misc.skillpoints = GetAvailableSkillPoints() 
+  
   -- Equipment
   ElderScrollsOfAlts:loadPlayerEquipment()
   
@@ -357,6 +359,7 @@ function ElderScrollsOfAlts.loadPlayerTradeDetails(parentName, parentTableElem, 
             selElemSubTable.sinkmax2 = selElemSubTable.sinkmax2 + (maxUpgradeLevel - 1)
             tradeTableElem.sunk2     = selElemSubTable.sunk2
             tradeTableElem.sinkmax2  = selElemSubTable.sinkmax2
+            --ElderScrollsOfAlts:debugMsg("loadPlayerTradeDetails: plainName="..plainName.." sunk2="..selElemSubTable.sunk2)
           end
         end
     end
@@ -790,6 +793,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].backpackSize = misc.backpackSize
       playerLines[k].backpackUsed = misc.backpackUsed
       playerLines[k].backpackFree = misc.backpackFree
+      playerLines[k].skillpoints = misc.skillpoints
     else
       playerLines[k].backpackSize = 0
       playerLines[k].backpackUsed = 0

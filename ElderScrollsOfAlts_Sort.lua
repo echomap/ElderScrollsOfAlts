@@ -19,8 +19,9 @@ local charSortKeys =
     ["provisioning"]  = { tiebreaker = "name", isNumeric = true },    
     ["jewelry"]       = { tiebreaker = "name", isNumeric = true },    
     ["woodworking"]   = { tiebreaker = "name", isNumeric = true },    
-    ["backpackSize"]  = { tiebreaker = "name", isNumeric = true },        
+    ["backpackSize"]  = { tiebreaker = "name", isNumeric = false },        
     ["backpackFree"]  = { tiebreaker = "name", isNumeric = true },        
+    ["skillPoints"]   = { tiebreaker = "name", isNumeric = true },        
   }
 local equipSortKeys =
   {

@@ -2,12 +2,16 @@
 -=-=-=-=-=-=-=-
 Unpublished:
 [list]
+[*]
+[/list]
+0.1.22
 [*] added keybind for 'Next view' to cycle
 [*] Enabling some localization
 [*] Current view name highlighted better
 [*] added new column for bag free space
 [*] Bank space fix
-[*] 
+[*] added Skill points usable to main screen
+[*] Fixing secondary skills for prov/enchant
 [/list]
 0.1.21 Murk
 0.1.20

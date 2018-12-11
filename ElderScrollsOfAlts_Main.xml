@@ -128,9 +128,17 @@
       <Button name="$(parent)_SortBagFree" text="Free" font="ZoFontGameLargeBold" verticalAlignment="RIGHT" horizontalAlignment="RIGHT" mouseEnabled="true">
         <Dimensions x="45" y="20"/>
         <Anchor point="TOPLEFT" relativeTo="$(parent)_SortBagSpace" relativePoint="TOPRIGHT"/>
-        <OnMouseEnter></OnMouseEnter>
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Free Bag Space") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>    
         <OnMouseUp>ElderScrollsOfAlts:GuiSort("backpackFree")</OnMouseUp>
       </Button>      
+      <Button name="$(parent)_SortSkillPoints" text="SkPts" font="ZoFontGameLargeBold" verticalAlignment="RIGHT" horizontalAlignment="RIGHT" mouseEnabled="true">
+        <Dimensions x="45" y="20"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_SortBagFree" relativePoint="TOPRIGHT"/>
+        <OnMouseUp>ElderScrollsOfAlts:GuiSort("skillPoints")</OnMouseUp>
+        <OnMouseEnter> ElderScrollsOfAlts:Misc2HeaderTipEnter(self,"Unspent Skill Points") </OnMouseEnter>
+        <OnMouseExit>  ElderScrollsOfAlts:Misc2HeaderTipExit(self)  </OnMouseExit>        
+      </Button> 
     </Controls>
   </Control>
     
@@ -247,6 +255,11 @@
 				<Dimensions x="35" y="30" />
 				<Anchor point="TOPLEFT" relativeTo="$(parent)BagSpace" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
 			</Label>      
+      <Label name="$(parent)SkillPoints" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="RIGHT" text="msg">
+				<Dimensions x="35" y="30" />
+				<Anchor point="TOPLEFT" relativeTo="$(parent)BagFree" relativePoint="TOPRIGHT" offsetX="5" offsetY="0" />
+			</Label>
+      
 		</Controls>
 	</Control>
 

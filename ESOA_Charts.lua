@@ -52,20 +52,17 @@ function ElderScrollsOfAlts:InitializeCharts()
     [2] = "Allows the use of Artifact (|cFF00FFpurple|r) Aspect Runestones.",
     [3] = "Allows the use of Legendary (|cFFFF00gold|r) Aspect Runestones.",
   }
-  --3=20-35
-  --4=30-45
-  --5=40 chp 30, 6=30-50, 7=50-70
   ElderScrollsOfAlts.Sunk_Tooltip["Enchanting2"] = {
     [0] = "Allows the use of Jora, Porade, Jode and Notade Potency Runestones to make Glyphs of levels 1-15.",
-    [1] = "Allows the use of Jera, Jejora, Ode  and Tade Potency Runestones to make Glyphs of levels 11-25.",
-    [2] = "Allows the use of Odra, Pojora, Jayde  and Edode Potency Runestones to make Glyphs of levels 20-35.",
+    [1] = "Allows the use of Jera, Jejora, Ode and Tade Potency Runestones to make Glyphs of levels 10-25.",
+    [2] = "Allows the use of Odra, Pojora, Jayde and Edode Potency Runestones to make Glyphs of levels 20-35.",
     [3] = "Allows the use of Edora, Jaera, Pojode, and Rekude Potency Runestones to make Glyphs of levels 30-45.",
-    [4] = "Allows the use of Pora, Denara, Hade  and Idode Potency Runestones to make Glyphs from level 40 to Champion 30.",
-    [5] = "Allows the use of Rera and Pode Potency Runestones to make Glyphs of Champions 30-50.",
-    [6] = "Allows the use of Derado and Kedeko Potency Runestones to make Glyphs of Champions 50-70.",
-    [7] = "Allows the use of Recura and Rede Potency Runestones to make Glyphs of Champions 70-90",
-    [8] = "Allows the use of Cura  and Kude Potency Runestones to make Glyphs of Champions 100-140",
-    [9] = "Allows the use of Rejera, Repora, Jehade and Itade to make Glyphs of Champions 150-160.",
+    [4] = "Allows the use of Pora, Denara, Hade and Idode Potency Runestones to make Glyphs from level 40 to Champion 30.",
+    [5] = "Allows the use of Rera and Pode Potency Runestones to make Glyphs of Champion 30-50.",
+    [6] = "Allows the use of Derado and Kedeko Potency Runestones to make Glyphs of Champion 50-70.",
+    [7] = "Allows the use of Rekura and Rede Potency Runestones to make Glyphs of Champion 70-90.",
+    [8] = "Allows the use of Kura and Kude Potency Runestones to make Glyphs of Champion 100-140.",
+    [9] = "Allows the use of Rejera, Repora, Jehade, and Itade Potency Runestones to make Glyphs of Champion 150 and 160.",
   }  
   
   ElderScrollsOfAlts.Sunk_Tooltip["Provisioning"] = {

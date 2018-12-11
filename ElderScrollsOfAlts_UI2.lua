@@ -483,10 +483,10 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Clothing',"clothing",sunk)
   sunk  = row_data["enchanting_sunk"]
   sunk2 = row_data["enchanting_sunk2"]
-  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting",sunk, sunk2)
+  ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Enchanting',"enchanting", sunk,sunk2)
   sunk = row_data["jewelry_sunk"]
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Jewelry',"jewelry",sunk)
-  sunk = row_data["provisioning_sunk"]
+  sunk  = row_data["provisioning_sunk"]
   sunk2 = row_data["provisioning_sunk2"]
   ElderScrollsOfAlts:SetupRowControlSunk(row_control,row_data,'Provisioning',"provisioning",sunk,sunk2)
   sunk = row_data["woodworking_sunk"]        
@@ -520,7 +520,13 @@ function ElderScrollsOfAlts:SetupRowControl(row_control, row_data, scrollList)
   row_control:GetNamedChild('BagFree'):SetText(bf)
   --playerLines[k].backpackSize = 0
   --playerLines[k].backpackUsed = 0
-    
+
+  --SkillPoints
+  local spu = row_data["skillpoints"] 
+  --local sps = row_data["backpackSize"]
+  --local spf = row_data["backpackFree"]  
+  --local spText = spu .."/".. sps 
+  row_control:GetNamedChild('SkillPoints'):SetText(spu)
   --row_control:GetNamedChild("Name"):SetText(GetMoneyName(data))
   --local fieldColor = STATUS_COLORS[data.key] or defaultColor
   --sKey:SetColor(fieldColor:UnpackRGBA())
@@ -581,7 +587,7 @@ function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)
   local craftName2 = string.format("%s%s",craftName,"2")
   local tCraft2 = ElderScrollsOfAlts.Sunk_Tooltip[craftName2]
   if(tCraft2 ~= nil) then
-    tDesc2 = tCraft2[nVal]
+    tDesc2 = tCraft2[nVal2]
   end
 
   --ElderScrollsOfAlts.debugMsg("tVal=" .. tostring(tVal) .." craftName=" .. tostring(craftName))  
