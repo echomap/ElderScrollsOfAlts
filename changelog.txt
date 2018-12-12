@@ -5,6 +5,7 @@ Unpublished:
 [*]
 [/list]
 0.1.22
+[list]
 [*] added keybind for 'Next view' to cycle
 [*] Enabling some localization
 [*] Current view name highlighted better
