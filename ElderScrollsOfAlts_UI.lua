@@ -98,6 +98,7 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   else
     ElderScrollsOfAlts:GUIShowViewHome()
   end
+  --ESOA_GUI2_Header_View_Home:TakeFocus()
 end
 
 --Hide GUI

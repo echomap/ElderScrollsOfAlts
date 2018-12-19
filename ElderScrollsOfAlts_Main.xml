@@ -441,7 +441,6 @@
             <Anchor point="TOPLEFT" relativeTo="$(parent)_View_Misc2" relativePoint="TOPRIGHT" offsetX="24" offsetY="0" />
           </Label>
 
-
         </Controls>            
       </Control>
      

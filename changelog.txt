@@ -144,4 +144,6 @@ horse training
 pledges
 random dungeon
 bank space
+bag space upgrade 46k from 120?
+timer and check if 'can bite' ww/vamp, skill check and timer
 -=-=-=-=-=-=-=-
