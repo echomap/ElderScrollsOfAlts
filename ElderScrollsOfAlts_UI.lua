@@ -7,6 +7,9 @@ function ElderScrollsOfAlts.RestoreUI()
   else
     ElderScrollsOfAlts.HideUIButton()
   end
+  if(currentcategory==nil)then
+    ElderScrollsOfAlts.view.currentcategory = "A"
+  end
 end
 
 --Button

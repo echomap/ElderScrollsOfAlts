@@ -4,6 +4,7 @@ Unpublished:
 [list]
 [*]
 [/list]
+0.1.23 bugfix for long names 
 0.1.22
 [list]
 [*] added keybind for 'Next view' to cycle

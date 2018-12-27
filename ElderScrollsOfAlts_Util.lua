@@ -1,5 +1,5 @@
 
-function ElderScrollsOfAlts:debugMsg(text)
+function ElderScrollsOfAlts.debugMsg(text)
     if text == nil then
       return
     end  

@@ -16,7 +16,8 @@ function ElderScrollsOfAlts:LoadTestData1()
   ElderScrollsOfAlts.altData.players[pName1].bio = {}
   ElderScrollsOfAlts.altData.players[pName1].bio.gender = 0
 	ElderScrollsOfAlts.altData.players[pName1].bio.level = 0
-  local pName = "Perpugilliam Brown"
+  local pName = "Perpugilliam Brown Long Name Here 1234567890"
+  ElderScrollsOfAlts.altData.players[pName]={}
   ElderScrollsOfAlts.altData.players[pName].bio = {}
   ElderScrollsOfAlts.altData.players[pName].bio.gender = 0
 	ElderScrollsOfAlts.altData.players[pName].bio.level = 50
