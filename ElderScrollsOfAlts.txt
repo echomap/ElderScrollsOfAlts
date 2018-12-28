@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 0.1.23
+## Version: 0.2.01
 ## APIVersion: 100024, 100025
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v0.1.5
@@ -16,22 +16,22 @@ Languages\en.lua
 Languages\$(language).lua
 
 Bindings.xml
---ElderScrollsOfAlts_Preload.lua
 
 ElderScrollsOfAlts.lua
+ESOA_Settings.lua
 ESOA_Charts.lua
-ElderScrollsOfAlts_Util.lua
-ElderScrollsOfAlts_UI.lua
-ElderScrollsOfAlts_UI2.lua
-ElderScrollsOfAlts_Sort.lua
-ElderScrollsOfAlts_Notes.lua
-ElderScrollsOfAlts_Data.lua
-ElderScrollsOfAlts_TestData.lua
+ESOA_Util.lua
+
+ESOA_Load.lua
+ESOA_Save.lua
+
+ESOA_NOTE.lua
+ESOA_UI_Lookups.lua
+ESOA_Sort.lua
+ESOA_UI.lua
+ESOA_Testing.lua
+
 Settings.lua
 
-
-ElderScrollsOfAlts_Misc2.xml
-ElderScrollsOfAlts_Research.xml
-ElderScrollsOfAlts_Equip.xml
-ElderScrollsOfAlts_Main.xml
+ESOA_Main.xml
 --

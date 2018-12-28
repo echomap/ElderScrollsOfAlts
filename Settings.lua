@@ -14,34 +14,34 @@ function ElderScrollsOfAlts.LoadSettings()
     }
     LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
 
-    local optionsTable = {
-        [1] = {
+    local optionsTable = {}
+    optionsTable[1] = {
             type = "header",
             name = "Main",
             width = "full",	--or "half" (optional)
-        },
-        [2] = {
+    }
+    optionsTable[#optionsTable+1] = {
             type = "description",
             --title = "My Title",	--(optional)
             title = nil,	--(optional)
             text = "ESOA - Options and Configuration.",
             width = "full",	--or "half" (optional)
-        },
-        [3] = {
+    }
+    optionsTable [#optionsTable+1] = {
             type = "checkbox",
             name = "Show Button",
             tooltip = "On or off.",
             getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
             setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(value)  end,
             width = "half",	--or "half" (optional)
-        },     
-        [4] = {
+    }
+    optionsTable [#optionsTable+1] = {
             type = "header",
             name = "Character Maintanance",
             text = "Character Maintanance",
             tooltip = "Character Maintanance Utils",	--(optional)
-        },
-        [5] = {
+    }
+    optionsTable[#optionsTable+1] = {
             type = "dropdown",
             name = "Character",
             tooltip = "Select Character.",
@@ -49,24 +49,29 @@ function ElderScrollsOfAlts.LoadSettings()
             getFunc = function() return "Select" end,
             setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
             width = "half",	--or "half" (optional)
-        },
-        [6] = {
+    }
+    optionsTable[#optionsTable+1] = {
             name = "Commands",
             type = "description",
             --title = "My Title",	--(optional)
             title = nil,	--(optional)
             text = "ESOA - Options and Configuration.",
             width = "full",	--or "half" (optional)
-        },
-        [7] = {
+    }
+    optionsTable[#optionsTable+1] = {
             type = "button",
             name = "Delete",
             tooltip = "Delete selected Character's Data!",
             func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
             width = "full",	--or "half" (optional)
             warning = "No confirmation if you do this!",	--(optional)
-        },
-        
     }
+    --
+    optionsTable[#optionsTable+1] = {
+            type = "header",
+            name = "Views",
+            width = "full",	--or "half" (optional)
+    }
+    --
     LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end

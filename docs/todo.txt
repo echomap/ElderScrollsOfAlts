@@ -1,5 +1,0 @@
-min and icon restore height restores wrong
-save sort order/name
-
-Sub2 GUI
-Equipped

@@ -1,10 +1,34 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
-Unpublished:
+==Bugs==
+text max length
+timer seconds riding fix
+riding hover over
+hover over, skillpts, bags free
+Width update per size of insides?
+Selection/ UnSelection / DeselectOnReselect
+Current Sort NAME?Order by ViewName
+views dynamic
+test ESOA_ButtonFrame
+settings: ElderScrollsOfAlts.altData.maxViewButtons
+settings: max name length
+Sorting can fail if key is now invalid
+SLIDER: fix this thing!
+
+==Unpublished==
 [list]
-[*]
+[*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 [/list]
-0.1.23 bugfix for long names 
+
+==Published V0.2.X==
+0.2.01
+[list]
+[*] GUI recoded, should still look the same, functionality too, but the interior is cleaner
+[*] Double RIGHT click on note to show/edit it
+[*] If there is an error with the sort, just click another column header
+[/list]
+
+==Published V0.1.X==
 0.1.22
 [list]
 [*] added keybind for 'Next view' to cycle

@@ -1,13 +1,18 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
+
     displayName     = "Elder Scrolls of Alts",
-    version         = "0.1.23",			-- A nuisance to match to the Manifest.
+    version         = "0.2.01",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
     SV_VERSION_NAME = 1,
     HOME_FONT_BASE  = "ZoFontWinT2",
     HOME_FONT_SEL   = "ZoFontGameLargeBold",
+    defaultMaxViewButtons = 6,
+    defaultMaxLines = 12,
+    defaultView     = "Home",
+    defaultSearch   = "Name",
     view            = {},
     -- Saved Settings
     savedVariables  = {},
@@ -17,9 +22,10 @@ ElderScrollsOfAlts = {
 --ZO_SORT_ORDER_UP, --ZO_SORT_ORDER_DOWN
 local defaultSettings = {   
   sversion   = ElderScrollsOfAlts.version,
-  currentSortKey   = "name",
-  currentSortOrder =  true,
+  --currentSortKey   = "name",
+  --currentSortOrder =  true,
   currentView      = "Home",
+  currentsort      = { },
   window     = {
       ["minimized"] = false,
       ["shown"]     = false,
@@ -46,7 +52,7 @@ local defaultSettingsGlobal = {
 
 --Commands, help/debug/beta/testdata/deltestdata
 function ElderScrollsOfAlts.SlashCommandHandler(text)
-	ElderScrollsOfAlts.debugMsg("SlashCommandHandler: " .. text)
+	ElderScrollsOfAlts.debugMsg("SlashCommandHandler: " , text)
 	local options = {}
 	local searchResult = { string.match(text,"^(%S*)%s*(.-)$") }
 	for i,v in pairs(searchResult) do
@@ -57,8 +63,6 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 
 	if #options == 0 then
     ElderScrollsOfAlts.ShowGuiByChoice()
-	elseif options[1] == "help" then
-		-- TODO Display help  
 	elseif options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.altData.debug
 		ElderScrollsOfAlts.altData.debug = not dg
@@ -72,66 +76,66 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
   elseif options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
   elseif options[1] == "deltestdata" then
-    ElderScrollsOfAlts:DelTestData1()    
-	elseif (#options == 0 or options[1] == "tab") and options[2] ~= nil then
-		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: tab = " .. tostring(options[2]) )
-		ElderScrollsOfAlts.tab = tonumber(options[2])
-		ElderScrollsOfAlts.savedVariables.tab = ElderScrollsOfAlts.tab
-	elseif (#options == 0 or options[1] == "window") and options[2] ~= nil then
-		ElderScrollsOfAlts:debugMsg("ElderScrollsOfAlts: window = " .. tostring(options[2]) )
-		ElderScrollsOfAlts.window = tonumber(options[2])
-		ElderScrollsOfAlts.savedVariables.window = ElderScrollsOfAlts.window
+    ElderScrollsOfAlts:DelTestData1()     
 	end
 end
 
 -- EVENT
-function ElderScrollsOfAlts.OnChampionPerksSceneStateChange(oldState,newState)
+function ElderScrollsOfAlts.OnChampionPerksStateChange(oldState,newState)
     if newState == SCENE_SHOWING then
       ElderScrollsOfAlts.HideAll()--ESOA_ButtonFrame
-      ESOA_ButtonFrame:SetHidden(true)
+      --TODO ESOA_ButtonFrame:SetHidden(true)
     elseif newState == SCENE_HIDDEN then
       ElderScrollsOfAlts.ShowUIButton()--ESOA_ButtonFrame
     end
 end
 
--- EVENT
-function ElderScrollsOfAlts.Activated(e)
-    EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED)
-    ElderScrollsOfAlts:debugMsg(ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) 
+
+-- SETUP  setup event handling
+function ElderScrollsOfAlts.DelayedStart()
+    ElderScrollsOfAlts.SetupDefaultColors()
+    --ElderScrollsOfAlts:InitializeCharts()
+    ElderScrollsOfAlts.SavePlayerDataForGui() -- DATA
+    ElderScrollsOfAlts.InitializeGui()
+    ElderScrollsOfAlts:RestoreUI()
+    --fix
+    ElderScrollsOfAlts.savedVariables.selected.character = nil
+    
+    CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
+    ElderScrollsOfAlts.debugMsg(ElderScrollsOfAlts.name , GetString(SI_ESOA_MESSAGE)) 
     ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
         ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
-
-    ElderScrollsOfAlts:InitializeCharts()
-    ElderScrollsOfAlts:RestoreUI()
-
-    CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksSceneStateChange)
 end
 
--- When player is ready, after everything has been loaded. (after addon loaded)
-EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, ElderScrollsOfAlts.Activated)
 
 -- EVENT
--- TODO When is this called? NOT On quit!!
-function ElderScrollsOfAlts.OnAddOnUnloaded(event)
-  ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded called") -- Prints to chat.  
-  ElderScrollsOfAlts.loadPlayerData()
-  --ElderScrollsOfAlts.SaveSettings()
-  ElderScrollsOfAlts.debugMsg("OnAddOnUnloaded done") -- Prints to chat.
+function ElderScrollsOfAlts.OnPlayerLoaded(e)
+  --ElderScrollsOfAlts.debugMsg("OnPlayerLoaded:", " called") 
+  --EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED)
+  --ElderScrollsOfAlts.debugMsg("OnPlayerLoaded:", " done")
+end
+
+-- EVENT
+-- Player can be unloaded on zone change, reload, etc, but ont called on QUIT/Crash
+function ElderScrollsOfAlts.OnPlayerUnloaded(event)
+  --ElderScrollsOfAlts.debugMsg("OnPlayerUnloaded:", " called")
+  zo_callLater(ElderScrollsOfAlts.SavePlayerDataForGui, 3000)-- DATA
+  --ElderScrollsOfAlts.debugMsg("OnPlayerUnloaded:", " done")
 end
 
 -- EVENT
 function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     if addonName ~= ElderScrollsOfAlts.name then return end
     EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED)
-    CHAMPION_PERKS_SCENE:UnregisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksSceneStateChange)
+    CHAMPION_PERKS_SCENE:UnregisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
     --(savedVariableTable, version, namespace, defaults, profile, displayName, characterName)
     ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettings)
-    --local db = ZO_SavedVars:NewAccountWide("altsdata", SV_VERSION_NAME, nil, defaults)
     --(savedVariableTable, version, namespace, defaults, profile, displayName)
     ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
 
     -- LMM Settings menu in Settings.lua.
     ElderScrollsOfAlts.LoadSettings()    
+    zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
 
     -- Slash commands must be lowercase. Set to nil to disable.
     SLASH_COMMANDS["/elderScrollsOfAlts"] = ElderScrollsOfAlts.SlashCommandHandler
@@ -141,7 +145,10 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     --d(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
 end
 
+
 -- When any addon is loaded, but before UI (Chat) is loaded.
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED, ElderScrollsOfAlts.OnAddOnLoaded)
 --
-EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_DEACTIVATED, ElderScrollsOfAlts.OnAddOnUnloaded)
+EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_DEACTIVATED, ElderScrollsOfAlts.OnPlayerUnloaded)
+-- When player is ready, after everything has been loaded. (after addon loaded)
+EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, ElderScrollsOfAlts.OnPlayerLoaded)
