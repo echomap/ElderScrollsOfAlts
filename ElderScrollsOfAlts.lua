@@ -2,7 +2,7 @@ ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
 
     displayName     = "Elder Scrolls of Alts",
-    version         = "0.2.01",			-- A nuisance to match to the Manifest.
+    version         = "1.00.01",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -66,12 +66,12 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	elseif options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.altData.debug
 		ElderScrollsOfAlts.altData.debug = not dg
-		d("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.altData.debug) )
+		ElderScrollsOfAlts.outputMsg("ElderScrollsOfAlts: Debug = " .. tostring(ElderScrollsOfAlts.altData.debug) )
 		ElderScrollsOfAlts.savedVariables.debug = ElderScrollsOfAlts.altData.debug
 	elseif options[1] == "beta" then
 		local dg = ElderScrollsOfAlts.altData.beta
 		ElderScrollsOfAlts.altData.beta = not dg
-		d("ElderScrollsOfAlts: Beta = " .. tostring(ElderScrollsOfAlts.altData.beta) )
+		ElderScrollsOfAlts.outputMsg("ElderScrollsOfAlts: Beta = " .. tostring(ElderScrollsOfAlts.altData.beta) )
 		--ElderScrollsOfAlts.savedVariables.beta = ElderScrollsOfAlts.altData.beta
   elseif options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
@@ -142,7 +142,7 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     SLASH_COMMANDS["/esoa"] = ElderScrollsOfAlts.SlashCommandHandler
     -- Reset autocomplete cache to update it.
     SLASH_COMMAND_AUTO_COMPLETE:InvalidateSlashCommandCache()
-    --d(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
+    --debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
 end
 
 

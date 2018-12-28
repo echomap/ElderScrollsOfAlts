@@ -163,7 +163,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
     local newKey = string.lower(viewKey)
     newKey = newKey:gsub(" ","_")
-    --d("Newkey='"..newKey.."'")
+    --debugMsg("Newkey='"..newKey.."'")
     if( playerLine[ newKey ] ~=nil ) then
       eline:SetText( playerLine[newKey]  )
       return

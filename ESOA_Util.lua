@@ -2,6 +2,14 @@
 --ESOA UTIL
 -----------
 
+function ElderScrollsOfAlts.outputMsg(text)
+  d("(" .. ElderScrollsOfAlts.name .. ") " .. text )
+end
+
+function ElderScrollsOfAlts.errorMsg(text)
+  d("(" .. ElderScrollsOfAlts.name .. ") " .. text )
+end
+
 function ElderScrollsOfAlts.debugMsg(...)
   if not ElderScrollsOfAlts.altData.debug then
     return
@@ -10,12 +18,12 @@ function ElderScrollsOfAlts.debugMsg(...)
   if arg == nil then
     return
   end
-  --d("arg="..tostring(arg))
-  --d("argtype='"..type(arg) .."'")
+  --debugMsg("arg="..tostring(arg))
+  --debugMsg("argtype='"..type(arg) .."'")
   local printResult = ""
   --if(type(arg)==nil) then
   --elseif(type(arg) == "string")then
-  --  d("(" .. ElderScrollsOfAlts.name .. ") " .. arg );
+  --  debugMsg("(" .. ElderScrollsOfAlts.name .. ") " .. arg );
   --  return
   --end
   if(arg~=nil)then
@@ -82,13 +90,20 @@ function ElderScrollsOfAlts:getColoredString(color, s)
 	return c:Colorize(s)
 end
 
+-- Wraps text with a color.
+function EchoesOfLore.Colorize(text, color)
+    -- Default to addon's .color.
+    if not color then color = EchoesOfLore.color end
+    text = "|c" .. color .. text .. "|r"
+    return text
+end
 
 function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   if(timeMS==nil)then
     return "--"
   end
-  --d("GetTimeMS="..tostring(GetFrameTimeMilliseconds()) .. " timeDataTaken="..tostring(timeDataTaken))
-  --d("nowDiff="..tostring(nowDiff) .. " timeMS="..tostring(timeMS) )
+  --debugMsg("GetTimeMS="..tostring(GetFrameTimeMilliseconds()) .. " timeDataTaken="..tostring(timeDataTaken))
+  --debugMsg("nowDiff="..tostring(nowDiff) .. " timeMS="..tostring(timeMS) )
 
   local timeS  = math.floor(timeMS/1000)
   local timeM  = math.floor(timeS/60)

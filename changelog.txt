@@ -20,8 +20,8 @@ SLIDER: fix this thing!
 [*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 [/list]
 
-==Published V0.2.X==
-0.2.01
+==Published V1.0.X==
+1.00.01
 [list]
 [*] GUI recoded, should still look the same, functionality too, but the interior is cleaner
 [*] Double RIGHT click on note to show/edit it

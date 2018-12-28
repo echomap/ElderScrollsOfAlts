@@ -15,7 +15,7 @@ end
 
 function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   if(ElderScrollsOfAlts.view.selectedPlayerData==nil)then
-    d("ESOA, failed to get selected character to display note")
+    ElderScrollsOfAlts.errorMsg("failed to get selected character to display note")
     return
   end  
   
@@ -30,7 +30,7 @@ function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   ESOA_GUI2_Notes:SetWidth(  300 )
     
   local pNote = ElderScrollsOfAlts.view.selectedPlayerData["note"]
-  --d("selectedData="..tostring(selectedData))
+  --debugMsg("selectedData="..tostring(selectedData))
   if( pNote == nil ) then
     --
   end
@@ -46,7 +46,7 @@ end
 function ElderScrollsOfAlts:ResetNote()
   local tplayer = ElderScrollsOfAlts.view.selectedPlayerData
   if( tplayer == nil ) then
-    d("ESOA, failed to get selected character for note")
+    ElderScrollsOfAlts.errorMsg("failed to get selected character for note")
     return
   end
   
@@ -69,7 +69,7 @@ end
 function ElderScrollsOfAlts:SaveNote()
   local tplayer = ElderScrollsOfAlts.view.selectedPlayerData
   if( tplayer == nil ) then
-    d("ESOA, failed to get selected character to save note")
+    ElderScrollsOfAlts.errorMsg("failed to get selected character to save note")
     return
   end
   tplayer.note = ESOA_GUI2_Notes_Index_Note:GetText()
@@ -83,13 +83,13 @@ function ElderScrollsOfAlts:SaveNote()
   if(selCat==nil)then
     selCat = "All"
   end
-  d("ESOA, saved cat="..tostring(selCat))
+  ElderScrollsOfAlts.outputMsg("ESOA, saved cat="..tostring(selCat))
   tplayer.category = selCat
   ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "category", tplayer.category)
   --if(pName==splayer.rawname) then
   ElderScrollsOfAlts.view.currentcategory = tplayer.category
   --end
-  d("ESOA, saved note")
+  ElderScrollsOfAlts.outputMsg("ESOA, saved note")
 end
 
 function ElderScrollsOfAlts:CloseNote(self)

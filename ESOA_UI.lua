@@ -23,7 +23,7 @@ function ElderScrollsOfAlts.ShowUIButton()
   if(not ElderScrollsOfAlts.GetUIButtonShown()) then
     return
   end  
-  --d("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
+  --debugMsg("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
   ESOA_ButtonFrame:SetHidden(false)
   ESOA_ButtonFrame:ClearAnchors()
   ESOA_ButtonFrame:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
@@ -190,7 +190,7 @@ function ElderScrollsOfAlts:ShowSetView()
     --Hide Body items
     for k_entry, playerline in pairs(playerLines) do
        local charKey = k_entry
-      --d("charKey='"+charKey+"'")
+      --debugMsg("charKey='"+charKey+"'")
       --local lineName = "ESOA_GUI2_Body_ListHolder_Line_"..viewName.."_" ..charKey  
       local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..viewName.."_"..charKey)
       if(line~=nil)then
@@ -365,7 +365,7 @@ function ElderScrollsOfAlts:SetupGuiCharListing(viewName)
   local viewTemplateC = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.currentView)
   if(viewTemplateC==nil)then
     --log error!
-    d("No view template for this View: " .. viewName )
+    ElderScrollsOfAlts.errorMsg("No view template for this View: " .. viewName )
     return
   end
   
@@ -422,7 +422,7 @@ function ElderScrollsOfAlts:SetupGuiCharListing(viewName)
         ElderScrollsOfAlts.debugMsg("offset="..tostring(ESOA_GUI2_Body_ListHolder.dataOffset) )
         if( idx< ESOA_GUI2_Body_ListHolder.dataOffset)then
           offsetOk = false
-          d("Line rejected per before offset")
+          ElderScrollsOfAlts.errorMsg("Line rejected per before offset")
         end
       end
       if(offsetOk) then
@@ -458,7 +458,7 @@ function ElderScrollsOfAlts:RefreshGuiCharListing(viewName)
   local viewTemplateC = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.currentView)
   if(viewTemplateC==nil)then
     --log error!
-    d("No view template for this View: " .. viewName )
+    ElderScrollsOfAlts.errorMsg("No view template for this View: " .. viewName )
     return
   end
   
@@ -562,7 +562,7 @@ function ElderScrollsOfAlts:RefreshGuiCharListing(viewName)
   end --FOR EACH CHAR in category 
   
   builtWidth = builtWidth + 20 --PADDINGgui
-  --d("builtWidth="..tostring(builtWidth) )
+  --debugMsg("builtWidth="..tostring(builtWidth) )
   --unless locked reset window width
   if( ESOA_GUI2_Header_Locked:IsHidden() ) then
     ESOA_GUI2:SetWidth( builtWidth )
@@ -707,7 +707,7 @@ function ElderScrollsOfAlts.InitializeGui()
     ESOA_GUI2_Header_SortDown:GetWidth() + 
     ESOA_GUI2_Header_SortBy_Value:GetWidth() + 
     ESOA_GUI2_Header_WhoAmI:GetWidth()
-  d("ESOA: mainHdrMinWidth="..tostring(mainHdrMinWidth))
+  ElderScrollsOfAlts.debugMsg("mainHdrMinWidth=",tostring(mainHdrMinWidth))
   
   --ElderScrollsOfAlts.savedVariables.selected.category
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
@@ -782,7 +782,7 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
         if(value1Type=="string") then bVal = "nil"  end
     end
     ElderScrollsOfAlts.debugMsg("ESOA: aVal="..tostring(aVal).." bVal="..tostring(bVal))
-    --d("ESOA: a.name="..a.name.." b.name="..b.name)
+    --debugMsg("ESOA: a.name="..a.name.." b.name="..b.name)
     if(currentSortOrder) then
       return bVal > aVal or bVal == aVal and b.name < a.name
     else
@@ -881,7 +881,7 @@ function ElderScrollsOfAlts:GuiResizeLines()
 --		line.text:SetWidth(textwidth)
 --		line:SetWidth(linewidth)
 		line:SetHidden(index > ESOA_GUI2_Body_ListHolder.maxLines)
-    --d("Hidden line index="..tostring(index > ESOA_GUI2_Body_ListHolder.maxLines))
+    --debugMsg("Hidden line index="..tostring(index > ESOA_GUI2_Body_ListHolder.maxLines))
 	end
 end
 
@@ -956,7 +956,7 @@ function ElderScrollsOfAlts:onResizeStop()
 	-- if you resize the box, you need to resize the list to go with it
 	-- local sceneName = :GetCurrentSceneName()
 	EVENT_MANAGER:UnregisterForUpdate(ElderScrollsOfAlts.name.."OnWindowResize")
-  --d("Resize start")
+  --debugMsg("Resize start")
   --TODO ElderScrollsOfAlts:GuiResizeScroll()
   --TODO ElderScrollsOfAlts:UpdateDataScroll()
   if not ElderScrollsOfAlts.savedVariables.window.minimized and not ElderScrollsOfAlts.savedVariables.window.justone then
@@ -990,7 +990,7 @@ function ElderScrollsOfAlts:onResizeStop()
     
     ElderScrollsOfAlts:GuiResizeScroll()
     ElderScrollsOfAlts:UpdateDataScroll()
-    --d("Resize done")
+    --debugMsg("Resize done")
   end
 end
 
@@ -1026,7 +1026,7 @@ function ElderScrollsOfAlts:ShowGuiCharacterDetails(self)
 end
 
 function ElderScrollsOfAlts:GUI2Lock(bLock)
-  --d("GUI2Lock bLock: "..tostring(bLock) )
+  --debugMsg("GUI2Lock bLock: "..tostring(bLock) )
 	ESOA_GUI2_Header_Locked:SetHidden(not bLock)
 	ESOA_GUI2_Header_Unlocked:SetHidden(bLock)
 	ESOA_GUI2:SetMovable(not bLock)
@@ -1069,7 +1069,7 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
   local tCount = 0
 	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
     if k ~= nil then
-      --d("List: players " .. k)
+      --debugMsg("List: players " .. k)
       local catP = ElderScrollsOfAlts.altData.players[k].category
       if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
         table.insert(validChoices, catP)	
@@ -1149,10 +1149,10 @@ end
 function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   local itemLink = myLabel.itemlink
   if(itemLink~=nil) then
-    --d("EquipShowTip itemLink is set")
+    --debugMsg("EquipShowTip itemLink is set")
     ZO_PopupTooltip_SetLink(itemLink)
   else
-    --d("EquipShowTip itemLink is nil")
+    --debugMsg("EquipShowTip itemLink is nil")
   end
   --[[
   --Sends a link to chat
@@ -1234,7 +1234,7 @@ function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)
   if(itemLink==nil) then
     return
   end
-  --d("nVal=" .. tostring(nVal) .." equipName=" .. tostring(craftName))  
+  --debugMsg("nVal=" .. tostring(nVal) .." equipName=" .. tostring(craftName))  
   local traitType, traitDescription = GetItemLinkTraitInfo(itemLink)
   local requiredLevel = GetItemLinkRequiredLevel(itemLink)
   local requiredCp    = GetItemLinkRequiredChampionPoints(itemLink)
@@ -1357,7 +1357,7 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
     --local hdrStr = string.format("%s (%s)", craftName, nVal)
   elseif(tooltipName=="Special") then
     local nSpecial = tonumber(mySelf.special)
-    --d("TooltipEnter: nSpecial='"..tostring(nSpecial).."'")
+    --debugMsg("TooltipEnter: nSpecial='"..tostring(nSpecial).."'")
     if( nSpecial == nil or nSpecial == 0 ) then return end
     if( nSpecial == 1 ) then
       tooltipDesc  = "Werewolf"  

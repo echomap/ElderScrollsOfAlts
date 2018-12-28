@@ -164,7 +164,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
   local equip = elemT.slots
   for ek, ev in pairs(equip) do
     if ek == nil then return end
-    ElderScrollsOfAlts.debugMsg(" equip " .. ek)
+    --ElderScrollsOfAlts.debugMsg(" equip " .. ek)
     local tarmortype = 0
     local lLine = ""
     --Armor Types
@@ -235,9 +235,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
     --staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=20(EQUIP_SLOT_BACKUP_MAIN)
     --staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=4 (EQUIP_SLOT_MAIN_HAND)  
     elseif ev.equipType == EQUIP_TYPE_ONE_HAND then --5
-      --d("1h1 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+      --debugMsg("1h1 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
       if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then --20
-        --d("Set O1 to "..ev.itemName)
+        --debugMsg("Set O1 to "..ev.itemName)
         playerLines[k].O1  = "O"
         playerLines[k].O1_Link  = ev.itemLink  
         playerLines[k].O1_WeaponType  = ev.weaponType  
@@ -251,9 +251,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
         playerLines[k].M2_WeaponType  = ev.weaponType  
       end
     elseif ev.equipType == EQUIP_TYPE_OFF_HAND then --7
-      --d("1h2 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+      --debugMsg("1h2 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
       if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then --21
-        --d("Set O2 to "..ev.itemName)
+        --debugMsg("Set O2 to "..ev.itemName)
         playerLines[k].O2  = "O2"
         playerLines[k].O2_Link  = ev.itemLink  
         playerLines[k].O2_WeaponType  = ev.weaponType  
@@ -263,9 +263,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
         playerLines[k].M2_WeaponType  = ev.weaponType  
       end 
     elseif ev.equipType == EQUIP_TYPE_TWO_HAND then 
-      --d("2h itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+      --debugMsg("2h itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
       if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
-        --d("Set O1(b) to "..ev.itemName)
+        --debugMsg("Set O1(b) to "..ev.itemName)
         playerLines[k].O1  = "O"
         playerLines[k].O1_Link  = ev.itemLink  
         playerLines[k].O1_WeaponType  = ev.weaponType  
@@ -291,7 +291,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
   --HACK! TODO fix
   local aTypes = {"Assault_Rank","Support_Rank","Legerdemain_Rank","Soul Magic_Rank","Werewolf_Rank","Vampire_Rank","Fighters Guild_Rank","Mages Guild_Rank","Undaunted_Rank","Thieves Guild_Rank","Dark Brotherhood_Rank","Psijic Order_Rank"}
   for rtK,rtV in pairs(aTypes) do
-    --d("skills All "..k.." as="..rtK.." rtVT='"..tostring(rtV).."'")
+    --debugMsg("skills All "..k.." as="..rtK.." rtVT='"..tostring(rtV).."'")
     playerLines[k][rtV] = 0
   end
   --HACK! TODO fix
@@ -302,17 +302,17 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
 
   if(skills~=nil) then
     for rtK,rtV in pairs(rTypes) do
-      --d("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
+      --debugMsg("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
       if(skills[rtV]~=nil)then
         local skillO = skills[rtV]
         if(skillO~=nil)then  
           local skillL = skillO.typelist
           if(skillL~=nil)then
             for rtKT,rtVT in pairs(skillL) do
-              --d("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
+              --debugMsg("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
               playerLines[k][rtKT.."_Rank"] = rtVT.rank
               playerLines[k][rtKT.."_Name"] = rtVT.name
-              --d("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
+              --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
             end
           end
         end
@@ -499,7 +499,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
       local researchMS = research[rtV].researchMS
       for kkiT = 1, 3 do
         local mKye = "r"..rtV..kkiT
-        --d("ESOA: setup ResearchItem: playerLines[k][mKye.."S"] = timeS="
+        --debugMsg("ESOA: setup ResearchItem: playerLines[k][mKye.."S"] = timeS="
         if(researchMS==nil) then
           playerLines[k][mKye.."time"] = ""
         elseif(kkiT<=researchMS) then
@@ -545,7 +545,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           playerLines[k][mKye.."D"] = timeD
           playerLines[k][mKye.."H"] = timeH
           playerLines[k][mKye.."S"] = timeS
-          --d("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
+          --debugMsg("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
           playerLines[k][mKye.."TraitType"] = vv.traitType
           playerLines[k][mKye.."TraitDesc"] = vv.traitDescription
           playerLines[k][mKye.."Traitknown"] = vv.known

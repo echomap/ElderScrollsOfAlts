@@ -50,7 +50,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local pServer   = GetWorldName()
   local playerKey = pID.."_".. pServer:gsub(" ","_")
   
-  --d("pName='"..tostring(pName).."'" )
+  --debugMsg("pName='"..tostring(pName).."'" )
 	if ElderScrollsOfAlts.altData.players == nil then
 		ElderScrollsOfAlts.altData.players = {}
 	end
@@ -361,7 +361,7 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
       baseElemTable.skillLineId = skillLineId
       --ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
     else 
-      --d("loadPlayerDataPart: skillType="..skillType..". name=" ..name)
+      --debugMsg("loadPlayerDataPart: skillType="..skillType..". name=" ..name)
     end      
 	end
 end
