@@ -76,9 +76,9 @@ function ElderScrollsOfAlts:deepcopy(orig)
     if orig_type == 'table' then
         copy = {}
         for orig_key, orig_value in next, orig, nil do
-            copy[EchoExperience:deepcopy(orig_key)] = EchoExperience:deepcopy(orig_value)
+            copy[ElderScrollsOfAlts:deepcopy(orig_key)] = ElderScrollsOfAlts:deepcopy(orig_value)
         end
-        setmetatable(copy, EchoExperience:deepcopy(getmetatable(orig)))
+        setmetatable(copy, ElderScrollsOfAlts:deepcopy(getmetatable(orig)))
     else -- number, string, boolean, etc
         copy = orig
     end
@@ -91,7 +91,7 @@ function ElderScrollsOfAlts:getColoredString(color, s)
 end
 
 -- Wraps text with a color.
-function EchoesOfLore.Colorize(text, color)
+function ElderScrollsOfAlts.Colorize(text, color)
     -- Default to addon's .color.
     if not color then color = EchoesOfLore.color end
     text = "|c" .. color .. text .. "|r"

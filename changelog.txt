@@ -21,6 +21,7 @@ SLIDER: fix this thing!
 [/list]
 
 ==Published V1.0.X==
+1.00.02 fixed my derpy bug, per 'and' and some uibutton fixes
 1.00.01
 [list]
 [*] GUI recoded, should still look the same, functionality too, but the interior is cleaner

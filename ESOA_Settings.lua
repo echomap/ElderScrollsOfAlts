@@ -2,14 +2,11 @@
 --name
 --menuName
 
-function ElderScrollsOfAlts:Colorize()
-end
-
 function ElderScrollsOfAlts:GetUIButtonShown()
    return ElderScrollsOfAlts.savedVariables.uibutton.shown
 end
 
-function ElderScrollsOfAlts:SetUIButtonShown()
+function ElderScrollsOfAlts:SetUIButtonShown(value)
   ElderScrollsOfAlts.savedVariables.uibutton.shown = value
   if not value then
     ElderScrollsOfAlts.HideUIButton()

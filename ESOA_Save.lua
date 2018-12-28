@@ -49,6 +49,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local pID       = GetCurrentCharacterId()
   local pServer   = GetWorldName()
   local playerKey = pID.."_".. pServer:gsub(" ","_")
+  ElderScrollsOfAlts.view.whoiamplayerKey = playerKey
   
   --debugMsg("pName='"..tostring(pName).."'" )
 	if ElderScrollsOfAlts.altData.players == nil then
