@@ -38,9 +38,8 @@ local defaultSettings = {
     ["top"]   = 200,
     ["left"]  = 200,
   },
-  --TODO check if still used
   selected = {
-    ["charactername"] = nil,
+    --["charactername"] = nil,
   },
 }
 

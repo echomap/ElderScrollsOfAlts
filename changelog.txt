@@ -18,9 +18,12 @@ SLIDER: fix this thing!
 ==Unpublished==
 [list]
 [*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
+[*] character delete working again
 [/list]
 
 ==Published V1.0.X==
+1.00.04 slider should be working
+1.00.03 delay button show, more updates to gui and bugfixes
 1.00.02 fixed my derpy bug, per 'and' and some uibutton fixes
 1.00.01
 [list]

@@ -36,7 +36,7 @@ function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   end
   local sVal = zo_strformat("(<<C:1>>)", ElderScrollsOfAlts.view.selectedPlayerData["name"] )
   
-  ESOA_GUI2_Header_WhoAmI:SetText(sVal)
+  ESOA_GUI2_Notes_WhoAmI:SetText(sVal)
   ESOA_GUI2_Notes_WhoAmI:SetText(sVal)
   ESOA_GUI2_Notes_Index_Note:SetText("")
   ESOA_GUI2_Notes_Category_Edit:SetText("")

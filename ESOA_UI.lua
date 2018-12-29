@@ -223,13 +223,13 @@ function ElderScrollsOfAlts:getViewDataByName(viewNameFind)
   return nil
 end
 
-function ElderScrollsOfAlts:ShowAndSetView(viewName,viewIdx,buttonCalled)
+function ElderScrollsOfAlts:ShowAndSetView(viewName, viewIdx, buttonCalled)
   ElderScrollsOfAlts.savedVariables.lastView       = ElderScrollsOfAlts.savedVariables.currentView
   ElderScrollsOfAlts.savedVariables.currentView    = viewName
   ElderScrollsOfAlts.savedVariables.currentViewIdx = viewIdx
-  for _, btnLine in pairs(ElderScrollsOfAlts.view.viewButtons) do
+  --for _, btnLine in pairs(ElderScrollsOfAlts.view.viewButtons) do
     --btnLine:SetFont(ZoFontGameLarge)--TODO
-  end
+  --end
   if(buttonCalled~=nil)then
     --buttonCalled:SetFont(ZoFontGameLargeBold)--TODO
   end
@@ -275,8 +275,8 @@ function ElderScrollsOfAlts:RefreshView()
   ElderScrollsOfAlts:SetupGuiHeaderListing() 
   
   --Setup Data lines
-  --yyy ElderScrollsOfAlts:SetupGuiCharListing()  
-  --ElderScrollsOfAlts.ShowGuiBase()  
+  --Show Viewable
+  ElderScrollsOfAlts.RefreshViewableTable()
 end
 
 --SETUP tttt
@@ -356,11 +356,29 @@ function ElderScrollsOfAlts:CreateGUI()
   --Setup Views
   ElderScrollsOfAlts:SetupAndShowViewButtons()
   
+  --
+  local hllineName = "ESOA_GUI2_Body_ListHolder_Highlight_Selected"  
+  local hlline = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight_Selected')  
+  if(hlline==nil)then
+    hlline = WINDOW_MANAGER:CreateControlFromVirtual(hllineName, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
+  end
+  ESOA_GUI2_Body_ListHolder.hightlightSelected = hlline
+  ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(true)
+  --
+  local hllineName2 = "ESOA_GUI2_Body_ListHolder_Highlight"
+  local hlline2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight')  
+  if(hlline2==nil)then
+    hlline2 = WINDOW_MANAGER:CreateControlFromVirtual(hllineName2, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
+  end
+  ESOA_GUI2_Body_ListHolder.mouseHighlight = hlline2
+  ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
+  
   --Setup all PlayerData Lines (w/o data) 
   local mainParent = nil
   local parent     = nil
   --local builtWidth = 0  
   ESOA_GUI2_Body_ListHolder.dataHolderLines = {}
+  ElderScrollsOfAlts.debugMsg("CreateGUI: whoami=",tostring(ElderScrollsOfAlts.view.whoiamplayerKey) )
   --FOR EACH CHAR 
   local playerLines = ElderScrollsOfAlts.view.playerLines
   for k_entry, playerline in pairs(playerLines) do
@@ -385,10 +403,13 @@ function ElderScrollsOfAlts:CreateGUI()
     line:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
     --
     --TODO is me? SetTexture? --ElderScrollsOfAlts.view.whoiamplayerKey
-    if(charKey == ElderScrollsOfAlts.view.whoiamplayerKey)then
-      --ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(TOPLEFT, line, TOPLEFT, 0, 8) 
-      --ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(BOTTOMRIGHT, line, BOTTOMRIGHT, 0, -4) 
-      --ESOA_GUI2_Body_ListHolder:SetHidden(false)
+    ElderScrollsOfAlts.debugMsg("CreateGUI: charKey=",charKey,"' whoami=",tostring(ElderScrollsOfAlts.view.whoiamplayerKey) )
+    if(ESOA_GUI2_Body_ListHolder.hightlightSelected~=nil and charKey == ElderScrollsOfAlts.view.whoiamplayerKey)then
+      --TODO ESOA_GUI2_Body_ListHolder.hightlightSelected
+      ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(TOPLEFT, line, TOPLEFT, 0, 0) 
+      ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(BOTTOMRIGHT, line, BOTTOMRIGHT, 0, 0) 
+      ESOA_GUI2_Body_ListHolder:SetHidden(false)
+      ElderScrollsOfAlts.debugMsg("Selected player to hightlight")
     end
     --
     mainParent = line
@@ -397,7 +418,6 @@ function ElderScrollsOfAlts:CreateGUI()
       
     --NOTE no entries created here.
   end --FOR EACH CHAR 
-  
   
 end--CreateGUI
 
@@ -493,6 +513,10 @@ function ElderScrollsOfAlts:ShowSetView()
     local charKey = dataHolderLine.charKey
     local playerLine = ElderScrollsOfAlts.view.playerLines[charKey]
     ElderScrollsOfAlts.LoadDataEntriesForSetView(dataHolderLine,mainParentDH,playerLine) -- Populates the Lines with data for this view
+    if(ElderScrollsOfAlts.view.builtWidth~=nil and ElderScrollsOfAlts.view.builtWidth>100) then
+      dataHolderLine:SetWidth( ElderScrollsOfAlts.view.builtWidth )
+      --Update Anchors for Lines TODO?
+    end
     mainParentDH = dataHolderLine
   end
   
@@ -510,6 +534,7 @@ function ElderScrollsOfAlts:ShowSetView()
   --
 end--ShowSetView
 
+--Hides offset rows, shows others
 function ElderScrollsOfAlts.RefreshViewableTable()
   local lineParent = nil
   local parent     = nil
@@ -520,15 +545,18 @@ function ElderScrollsOfAlts.RefreshViewableTable()
     local charKey = dataHolderLine.charKey
     local playerLine = ElderScrollsOfAlts.view.playerLines[charKey]
     --Check OFFSET
-    if( ESOA_GUI2_Body_ListHolder.dataOffset==nil or (dHL >= ESOA_GUI2_Body_ListHolder.dataOffset) )then
-      --Update Anchors
+    if( ESOA_GUI2_Body_ListHolder.dataOffset==nil or (dHL > ESOA_GUI2_Body_ListHolder.dataOffset) )then
+      --Update Anchors for Lines
       if(lineParent==nil)then
         dataHolderLine:SetAnchor(TOPLEFT, ESOA_GUI2_Body_ListHolder, TOPLEFT, 0, 5)    
       else
         dataHolderLine:SetAnchor(TOPLEFT, lineParent, BOTTOMLEFT, 0, -10)    
       end
       table.insert( ESOA_GUI2_Body_ListHolder.displayedLines, dataHolderLine )
-      dataHolderLine:SetHidden(false)
+      --Check Max
+      dataHolderLine:SetHidden(dHL > ESOA_GUI2_Body_ListHolder.maxLines)
+      ElderScrollsOfAlts.debugMsg("RefreshViewableTable: Hidden="..tostring(dHL > ESOA_GUI2_Body_ListHolder.maxLines))
+      --dataHolderLine:SetHidden(false)
       lineParent = dataHolderLine
     else
       dataHolderLine:SetHidden(true)
@@ -661,7 +689,8 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
       ElderScrollsOfAlts.debugMsg("Reset width per header min as="..tostring(ESOA_GUI2_Body_CharListHeader.headerWinWidth))
     else
       ESOA_GUI2:SetWidth( builtWidth )
-    end
+    end    
+    ElderScrollsOfAlts.view.builtWidth = builtWidth
   end
   --TODO not working, need refresh??
   --Set max, and Hide lines out of the max display
@@ -996,7 +1025,11 @@ function ElderScrollsOfAlts:GuiOnScroll(control, delta)
 	ESOA_GUI2_Body_ListHolder.dataOffset  = value
   ElderScrollsOfAlts.debugMsg("GuiOnScroll: set dataOffset="..tostring(value) )
 
+  ----Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)
 	ElderScrollsOfAlts:UpdateDataScroll()
+  
+  --Set max, and Hide lines out of the max display
+  ElderScrollsOfAlts:GuiResizeScroll()
 
 	slider:SetValue(ESOA_GUI2_Body_ListHolder.dataOffset)
 
@@ -1004,13 +1037,14 @@ function ElderScrollsOfAlts:GuiOnScroll(control, delta)
 end
 
 function ElderScrollsOfAlts:GuiOnSliderUpdate(slider, value)
-	if not value or slider.locked then return end
+  ElderScrollsOfAlts.debugMsg("GuiOnSliderUpdate: Called, w/value="..tostring(value)  )
+	--if not value or slider.locked then return end
 	local relativeValue = math.floor(ESOA_GUI2_Body_ListHolder.dataOffset - value)
   ElderScrollsOfAlts.debugMsg("GuiOnSliderUpdate: relativeValue=" ..tostring(relativeValue) .. " value="..tostring(value) .. " offset="..tostring(ESOA_GUI2_Body_ListHolder.dataOffset)  )
 	ElderScrollsOfAlts:GuiOnScroll(slider, relativeValue)
 end
 
---Setup max lines, and slider (calls SetupDataLines: create show lines based on offset)
+--Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)
 function ElderScrollsOfAlts:UpdateDataScroll()
   local index = 0
 	if ESOA_GUI2_Body_ListHolder.dataOffset < 0 then ESOA_GUI2_Body_ListHolder.dataOffset = 0 end
@@ -1044,7 +1078,7 @@ end
 function ElderScrollsOfAlts:onResizeStart() 
   	EVENT_MANAGER:RegisterForUpdate(ElderScrollsOfAlts.name.."OnWindowResize", 50,
       function() 
-        --Setup max lines, and slider (calls SetupDataLines)
+        --Setup max lines, and slider (calls RefreshViewableTable)
         ElderScrollsOfAlts:UpdateDataScroll()
         --Set max, and Hide lines out of the max display
         ElderScrollsOfAlts:GuiResizeScroll() 
@@ -1085,15 +1119,16 @@ function ElderScrollsOfAlts:onResizeStop()
     ESOA_GUI2_Header:SetWidth( ESOA_GUI2:GetWidth() )
     --??ESOA_GUI2_Body_ListHolder:SetWidth( ESOA_GUI2:GetWidth() )   
     
-    
     --ZO_ScrollList_SetHeight(ESOA_GUI2_Body_CharList, ESOA_GUI2_Body:GetHeight())
     --ZO_ScrollList_UpdateScroll(ESOA_GUI2_Body_CharList)
     --ZO_ScrollList_Commit(ESOA_GUI2_Body_CharList)  
     
-    --Setup max lines, and slider (calls SetupDataLines)
+    --Setup max lines, and slider (calls RefreshViewableTable)
     ElderScrollsOfAlts:UpdateDataScroll()
     --Set max, and Hide lines out of the max display
     ElderScrollsOfAlts:GuiResizeScroll()
+    --Show Viewable
+    ElderScrollsOfAlts.RefreshViewableTable()    
     --debugMsg("Resize done")
   end
 end
@@ -1252,12 +1287,25 @@ end
 function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
   if not control then return end
   --TODO
-  --TODO show hightlight?
+  --[[
+  if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil )then
+    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
+    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0) 
+    ESOA_GUI2_Body_ListHolder:SetHidden(false)
+  end
+  ]]--
 end
 
 function ElderScrollsOfAlts:GuiLineOnMouseExit(self)
   --ClearTooltip(ESOATooltip)
   --TODO
+  --[[
+  if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil)then
+    --ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
+    --ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0) 
+    ESOA_GUI2_Body_ListHolder:SetHidden(true)
+  end
+  --]]
 end
 
 function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
@@ -1267,6 +1315,12 @@ function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
       --show itemlink
 			ZO_ChatWindowTextEntryEditBox:SetText(ZO_ChatWindowTextEntryEditBox:GetText() .. zo_strformat(SI_TOOLTIP_ITEM_NAME, control.itemLink))
 		end
+    if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil)then
+      ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
+      ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0) 
+      ESOA_GUI2_Body_ListHolder:SetHidden(false)
+    end
+
     --TODO show select?
     if(ESOA_GUI2_Body_ListHolder.hightlightSelected ~=nil) then      
       --unselect ESOA_RowTemplate_Highlight
