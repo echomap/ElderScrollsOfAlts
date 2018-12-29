@@ -93,7 +93,7 @@ end
 -- Wraps text with a color.
 function ElderScrollsOfAlts.Colorize(text, color)
     -- Default to addon's .color.
-    if not color then color = EchoesOfLore.color end
+    if not color then color = ElderScrollsOfAlts.color end
     text = "|c" .. color .. text .. "|r"
     return text
 end
