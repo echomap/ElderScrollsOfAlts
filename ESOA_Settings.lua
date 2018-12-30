@@ -21,9 +21,14 @@ function ElderScrollsOfAlts:ListOfCharacterNames()
 	table.insert(validChoices, "Select")
   if ElderScrollsOfAlts.altData.players ~= nil then
     for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-      local displayName = k.."("..v.bio.name..")"
-      --debugMsg(ElderScrollsOfAlts.name .. " k " .. k)
-      table.insert(validChoices, displayName ) --v.rawname)--v.bio.name )
+      if(k~=nil) then
+        local displayName = k
+        if(v~=nil and v.bio~=nil) then
+            displayName = k .."("..v.bio.name..")"
+        end
+        --debugMsg(ElderScrollsOfAlts.name .. " k " .. k)
+        table.insert(validChoices, displayName ) --v.rawname)--v.bio.name )
+      end
     end
   end
   return validChoices 
@@ -45,7 +50,7 @@ function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
   local charKey = string.sub(charname,0,iStart-1) 
   ElderScrollsOfAlts:debugMsg("DoDeleteSelectedCharacter: charKey=" , tostring(charKey))
   if(ElderScrollsOfAlts.altData.players[charKey]~=nil)then
-    --TODO ElderScrollsOfAlts.altData.players[charKey] = nil
+    ElderScrollsOfAlts.altData.players[charKey] = nil
     ElderScrollsOfAlts.outputMsg("ESOA deleted character: Name=" .. tostring(charname) )
   end
 end

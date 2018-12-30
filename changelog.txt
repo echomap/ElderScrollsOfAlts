@@ -3,20 +3,23 @@
 ==Bugs==
 text max length
 Selection/ UnSelection / DeselectOnReselect
-Current Sort NAME?Order by ViewName
+Current Sort NAME? Order by ViewName
 user create views dynamic
 settings: ElderScrollsOfAlts.altData.maxViewButtons
 settings: max name length
 Sorting can fail if key is now invalid
 [*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
+vamp/were bite timers
+test timers better, saw a negative number...?
 
 ==Unpublished==
-1.00.05
+1.00.06
 [list]
-[*]
+[*]character delete was still commented out for testing
 [/list]
 
 ==Published V1.0.X==
+1.00.05 bugfix, settings
 1.00.04 
 [list]
 [*] hover over, skillpts, bags free

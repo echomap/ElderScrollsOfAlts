@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 1.00.04
+## Version: 1.00.05
 ## APIVersion: 100024, 100025
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts 
