@@ -133,14 +133,15 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltip = zo_strformat("<<1>> has <<2>> free skillpoints", playerLine.name,playerLine["skillpoints"])
     --eline.sortKey
   --
-  elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then    
-    eline.tooltip = zo_strformat("<<1>> has <<2>> <<3>> riding skill", playerLine.name,  playerLine[viewKey], viewKey )
+  elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then        
     local newKey = string.lower(viewKey)
     newKey = newKey:gsub(" ","_")
     if( playerLine[ newKey ] ~=nil ) then
       eline:SetText( playerLine[newKey]  )
+      eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[newKey], viewKey )
     else
       eline:SetText(playerLine[viewKey])
+      eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[viewKey], viewKey )
     end
   elseif(viewKey=="Riding Timer") then
     local timeMS     = playerLine["riding_timeMs"]

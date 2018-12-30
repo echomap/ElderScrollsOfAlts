@@ -227,11 +227,14 @@ function ElderScrollsOfAlts:ShowAndSetView(viewName, viewIdx, buttonCalled)
   ElderScrollsOfAlts.savedVariables.lastView       = ElderScrollsOfAlts.savedVariables.currentView
   ElderScrollsOfAlts.savedVariables.currentView    = viewName
   ElderScrollsOfAlts.savedVariables.currentViewIdx = viewIdx
-  --for _, btnLine in pairs(ElderScrollsOfAlts.view.viewButtons) do
+  --ElderScrollsOfAlts.view.viewButtons
+  for _, btnLine in pairs(ElderScrollsOfAlts.view.viewButtons) do
     --btnLine:SetFont(ZoFontGameLarge)--TODO
-  --end
-  if(buttonCalled~=nil)then
+    btnLine:SetText( btnLine.viewName )
+  end
+  if(buttonCalled~=nil and buttonCalled.viewName~=nil )then
     --buttonCalled:SetFont(ZoFontGameLargeBold)--TODO
+    buttonCalled:SetText( "<"..buttonCalled.viewName..">" )
   end
   ElderScrollsOfAlts:ShowSetView()
 end
@@ -250,23 +253,24 @@ function ElderScrollsOfAlts:ShowNextView()
   if(ElderScrollsOfAlts.savedVariables.currentViewIdx > #ElderScrollsOfAlts.view.viewButtons)then
     ElderScrollsOfAlts.savedVariables.currentViewIdx = 1
   end
+  local viewButton = nil
   if(ElderScrollsOfAlts.view.viewButtons~=nil)then
-    local cItem = ElderScrollsOfAlts.view.viewButtons[ElderScrollsOfAlts.savedVariables.currentViewIdx]
-    if(cItem~=nil)then
-      ElderScrollsOfAlts.savedVariables.currentView = cItem.viewName
+    viewButton = ElderScrollsOfAlts.view.viewButtons[ElderScrollsOfAlts.savedVariables.currentViewIdx]
+    if(viewButton~=nil)then
+      ElderScrollsOfAlts.savedVariables.currentView = viewButton.viewName
     else
       ElderScrollsOfAlts.savedVariables.currentView    = ElderScrollsOfAlts.view.viewButtons[1]["viewName"]
       ElderScrollsOfAlts.savedVariables.currentViewIdx = 1
     end
   end  
       
-  --ElderScrollsOfAlts.savedVariables.currentView = 
-  --ElderScrollsOfAlts.savedVariables.currentViewIdx = 
-
-  ElderScrollsOfAlts:RefreshView()
+  local viewIdx = ElderScrollsOfAlts.view.viewLookupIdxFromName[ElderScrollsOfAlts.savedVariables.currentView]
+  ElderScrollsOfAlts:ShowAndSetView(ElderScrollsOfAlts.savedVariables.currentView, viewIdx, viewButton)
+  --ElderScrollsOfAlts:RefreshView()
   
 end
 
+--[[
 function ElderScrollsOfAlts:RefreshView()
   -- Setup common GUI
   ElderScrollsOfAlts.ShowGuiBase()
@@ -278,9 +282,9 @@ function ElderScrollsOfAlts:RefreshView()
   --Show Viewable
   ElderScrollsOfAlts.RefreshViewableTable()
 end
+]]--
 
 --SETUP tttt
-
 function ElderScrollsOfAlts:SetupAndShowViewButtons()
   local viewPred = ESOA_GUI2_Header_Label
   local vParent  = ESOA_GUI2_Header
@@ -301,6 +305,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
   end
   
   ElderScrollsOfAlts.view.viewButtons = {}
+  ElderScrollsOfAlts.view.viewLookupIdxFromName  = {}
   local viewCnt = 0
   for viewIdx = 1, #ElderScrollsOfAlts.savedVariables.gui do
     local guiLine = ElderScrollsOfAlts.savedVariables.gui[viewIdx]
@@ -318,6 +323,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
       line:SetWidth( (viewName:len()*10)+10 )
       line.viewName = viewName
       line.viewIdx  = viewIdx
+      ElderScrollsOfAlts.view.viewLookupIdxFromName[viewName] = viewIdx
       --line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry),24)--TODO get function to get display 
       --line:SetAnchor(TOPLEFT, predecessor, TOPRIGHT, 0, 0)
       if(viewPred==nil)then

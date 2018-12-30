@@ -2,27 +2,28 @@
 -=-=-=-=-=-=-=-
 ==Bugs==
 text max length
-timer seconds riding fix
-riding hover over
-hover over, skillpts, bags free
-Width update per size of insides?
 Selection/ UnSelection / DeselectOnReselect
 Current Sort NAME?Order by ViewName
-views dynamic
-test ESOA_ButtonFrame
+user create views dynamic
 settings: ElderScrollsOfAlts.altData.maxViewButtons
 settings: max name length
 Sorting can fail if key is now invalid
-SLIDER: fix this thing!
+[*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
+1.00.05
 [list]
-[*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
-[*] character delete working again
+[*]
 [/list]
 
 ==Published V1.0.X==
-1.00.04 slider should be working
+1.00.04 
+[list]
+[*] hover over, skillpts, bags free
+[*] character delete should be working again
+[*] Width update per size of elements
+[*] slider should be working
+[/list]
 1.00.03 delay button show, more updates to gui and bugfixes
 1.00.02 fixed my derpy bug, per 'and' and some uibutton fixes
 1.00.01
