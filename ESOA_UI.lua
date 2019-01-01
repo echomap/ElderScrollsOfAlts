@@ -99,16 +99,12 @@ function ElderScrollsOfAlts.InitializeGui()
       },
     }
   end -- GUI Views Update
-  if(ElderScrollsOfAlts.view.currentcategory==nil)then
-    ElderScrollsOfAlts.view.currentcategory = "All"
-  end
+  
   -- Setup Cat
-  local categoryS = ElderScrollsOfAlts.savedVariables.selected.category
-  if(categoryS==nil)then
-    categoryS="All"
-    ElderScrollsOfAlts.savedVariables.selected.category = categoryS
+  if(ElderScrollsOfAlts.savedVariables.selected.category==nil)then
+    ElderScrollsOfAlts.savedVariables.selected.category = ElderScrollsOfAlts.CATEGORY_ALL
   end
-
+  
   -- Initialize 
   ESOATooltip:SetParent(PopupTooltipTopLevel)
   --ESOACraftTooltip:SetParent(PopupTooltipTopLevel)
@@ -320,7 +316,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
       end
       line:SetText( viewName ) --TODO get function to get display name
       line:SetHidden(false)
-      line:SetWidth( (viewName:len()*10)+10 )
+      line:SetWidth( (viewName:len()*8)+20 )--TODO constants
       line.viewName = viewName
       line.viewIdx  = viewIdx
       ElderScrollsOfAlts.view.viewLookupIdxFromName[viewName] = viewIdx
@@ -450,12 +446,6 @@ function ElderScrollsOfAlts:ShowSetView()
     ElderScrollsOfAlts.errorMsg("No view template for this View: " .. tostring(ElderScrollsOfAlts.savedVariables.currentView ) )
     return
   end
-  
-  --ESOA_GUI2_Body_CharListHeader:SetHidden(false)
-  --ESOA_GUI2_Body_ListHolder:SetHidden(false)
-  
-  --
-  --ElderScrollsOfAlts:SetupAndShowViewButtons()
 
   -- Setup common GUI
   ElderScrollsOfAlts.ShowGuiBase()
@@ -468,7 +458,7 @@ function ElderScrollsOfAlts:ShowSetView()
   if(ESOA_GUI2_Body_ListHolder.displayedLines~=nil)then
     for k, dLine in pairs(ESOA_GUI2_Body_ListHolder.displayedLines) do
       if(dLine~=nil) then
-        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid item=",dLine.charKey)
+        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid displayedLines=",dLine.charKey)
         dLine:SetHidden(true)
       end
     end  
@@ -476,7 +466,7 @@ function ElderScrollsOfAlts:ShowSetView()
   if(ESOA_GUI2_Body_ListHolder.displayedEntries~=nil)then
     for k, dLine in pairs(ESOA_GUI2_Body_ListHolder.displayedEntries) do
       if(dLine~=nil) then
-        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid item=",dLine.entry)
+        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid displayedEntries=",dLine.entry)
         dLine:SetHidden(true)
       end
     end  
@@ -484,12 +474,19 @@ function ElderScrollsOfAlts:ShowSetView()
   if(ESOA_GUI2_Body_ListHolder.dataHolderLines~=nil)then
     for k, dLine in pairs(ESOA_GUI2_Body_ListHolder.dataHolderLines) do
       if(dLine~=nil) then
-        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid item=",dLine.entry)
+        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid dataHolderLines=",dLine.entry)
         dLine:SetHidden(true)
       end
     end  
   end
-
+  if(ESOA_GUI2_Body_ListHolder.dataLines~=nil)then
+    for k, dLine in pairs(ESOA_GUI2_Body_ListHolder.dataLines) do
+      if(dLine~=nil) then
+        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid dataLines=",dLine.entry)
+        dLine:SetHidden(true)
+      end
+    end  
+  end
   --
   --ESOA_GUI2_Body_ListHolder Defaults (TODO put in main file)
   ElderScrollsOfAlts.view.playerLineCount = #ESOA_GUI2_Body_ListHolder.dataHolderLines
@@ -505,9 +502,10 @@ function ElderScrollsOfAlts:ShowSetView()
     local charKey = dataHolderLine.charKey
     local playerLine = ElderScrollsOfAlts.view.playerLines[charKey]
     local pCategory = playerLine.category
-    if(pCategory==selCategory)then
+    if(pCategory==selCategory or ElderScrollsOfAlts.CATEGORY_ALL==selCategory )then
       table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine) --ESOA_RowTemplate
     end
+    dataHolderLine:SetHidden(true)
   end
   ElderScrollsOfAlts.view.playerLineCount = #ESOA_GUI2_Body_ListHolder.dataLines
   ElderScrollsOfAlts.debugMsg("ShowSetView: dataLinesCnt=" , tostring(ElderScrollsOfAlts.view.playerLineCount) )
@@ -534,9 +532,12 @@ function ElderScrollsOfAlts:ShowSetView()
   --Set max, and Hide lines out of the max display
   ElderScrollsOfAlts:GuiResizeScroll()
   --Show Viewable
-  ElderScrollsOfAlts.RefreshViewableTable()
+  --ElderScrollsOfAlts.RefreshViewableTable()
+  ----Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)
+	ElderScrollsOfAlts:UpdateDataScroll()
   --Set max, and Hide lines out of the max display
   ElderScrollsOfAlts:GuiResizeScroll()
+  
   --
 end--ShowSetView
 
@@ -544,8 +545,19 @@ end--ShowSetView
 function ElderScrollsOfAlts.RefreshViewableTable()
   local lineParent = nil
   local parent     = nil
-  local builtWidth = 0  
+  local builtWidth = 0
+  
+  --Hide Previously displayed Lines
+  if(ESOA_GUI2_Body_ListHolder.displayedLines~=nil)then
+    for k, dLine in pairs(ESOA_GUI2_Body_ListHolder.displayedLines) do
+      if(dLine~=nil) then
+        --ElderScrollsOfAlts.debugMsg("ShowSetView: Hid displayedLines=",dLine.charKey)
+        dLine:SetHidden(true)
+      end
+    end  
+  end
   ESOA_GUI2_Body_ListHolder.displayedLines = {}
+
   for dHL = 1, #ESOA_GUI2_Body_ListHolder.dataLines do
 		local dataHolderLine = ESOA_GUI2_Body_ListHolder.dataLines[dHL]
     local charKey = dataHolderLine.charKey
@@ -945,15 +957,19 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   
   --
   gSearch =  gSearch1
-  local testEntry1 = ESOA_GUI2_Body_ListHolder.dataLines[1].playerLine
-  if(testEntry1==nil) then
+  if(ESOA_GUI2_Body_ListHolder.dataLines[1]==nil) then
     gSearch = nil
-  elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"] ~=nil ) then
-    gSearch = gSearch2
-  --elseif( testEntry1[ ElderScrollsOfAlts.view.currentSortKey:gsub(" ","_") ] ~=nil ) then
-  --  gSearch = gSearch3
+  else
+    local testEntry1 = ESOA_GUI2_Body_ListHolder.dataLines[1].playerLine
+    if(testEntry1==nil) then
+      gSearch = nil
+    elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"] ~=nil ) then
+      gSearch = gSearch2
+    --elseif( testEntry1[ ElderScrollsOfAlts.view.currentSortKey:gsub(" ","_") ] ~=nil ) then
+    --  gSearch = gSearch3
+    end
   end
-
+  
   --local sortedData = 
   table.sort( ESOA_GUI2_Body_ListHolder.dataLines, gSearch )
  
@@ -1192,7 +1208,7 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
   ElderScrollsOfAlts.debugMsg("ListOfCategories: Called" )
   local validChoices =  {}
   if(forDisplayOnly~=nil and forDisplayOnly==true)then
-    table.insert(validChoices, "All")
+    table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_ALL )
   end
   
   local tCount = 0
@@ -1222,11 +1238,11 @@ end
 --
 function ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
   local validChoices = ElderScrollsOfAlts:ListOfCategories(true)
-  ESOA_GUI2_Header_CategorySelect:SetText("All")  
+  ESOA_GUI2_Header_CategorySelect:SetText( ElderScrollsOfAlts.CATEGORY_ALL )  
     --selected? --else all
   local categoryS = ElderScrollsOfAlts.savedVariables.selected.category
   if(categoryS==nil) then
-    ElderScrollsOfAlts.savedVariables.selected.category = "All"
+    ElderScrollsOfAlts.savedVariables.selected.category = ElderScrollsOfAlts.CATEGORY_ALL
   end
   ESOA_GUI2_Header_CategorySelect:SetText(categoryS)  
 end
@@ -1236,7 +1252,7 @@ function ElderScrollsOfAlts:SelectCategoryOnRotation(self)
   local validChoices =  ElderScrollsOfAlts:ListOfCategories(true)
   local categoryS = ElderScrollsOfAlts.savedVariables.selected.category
   if(categoryS==nil)then
-    categoryS = "All"
+    categoryS = ElderScrollsOfAlts.CATEGORY_ALL
   end
   --ElderScrollsOfAlts.debugMsg
   ElderScrollsOfAlts.debugMsg("categoryS=",tostring(categoryS) )
@@ -1259,7 +1275,7 @@ function ElderScrollsOfAlts:SelectCategoryOnRotation(self)
 	end
   if(not foundC or nextC or categoryS==ElderScrollsOfAlts.savedVariables.selected.category) then
     ElderScrollsOfAlts.debugMsg("reset category to All")
-    ElderScrollsOfAlts.savedVariables.selected.category = "All"
+    ElderScrollsOfAlts.savedVariables.selected.category = ElderScrollsOfAlts.CATEGORY_ALL
   end
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
   ElderScrollsOfAlts:ShowSetView()

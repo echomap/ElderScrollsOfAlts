@@ -66,12 +66,79 @@ function ElderScrollsOfAlts.LoadSettings()
             width = "full",	--or "half" (optional)
             warning = "No confirmation if you do this!",	--(optional)
     }
-    --
+    -- VIEWS --
     optionsTable[#optionsTable+1] = {
-            type = "header",
-            name = "Views",
-            width = "full",	--or "half" (optional)
+      type = "header",
+      name = "Views",
+      width = "full",	--or "half" (optional)
+    }    
+    --New from template
+    optionsTable[#optionsTable+1] = {
+      type = "button",
+      name = "NewFromTemplate",
+      tooltip = "New View!",
+      func = function()  ElderScrollsOfAlts:DoAddNewViewData() end,
+      width = "half",	--or "half" (optional)
+      warning = "No confirmation if you do this!",	--(optional)
     }
+    optionsTable[#optionsTable+1] = {
+      type = "dropdown",
+      name = "SelectView",
+      tooltip = "Select View.",
+      choices = ElderScrollsOfAlts:SettingsListOfViews(),
+      getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewidx) end,
+      setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewidx = tonumber(var) end,
+      width = "full",	--or "half" (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "button",
+      name = "Edit",
+      tooltip = "Edit selected View!",
+      func = function()  ElderScrollsOfAlts:DoEditSelectedView() end,
+      width = "half",	--or "half" (optional)
+      warning = "No confirmation if you do this!",	--(optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "button",
+      name = "Delete",
+      tooltip = "Delete selected View!",
+      func = function()  ElderScrollsOfAlts:DoDeleteSelectedView() end,
+      width = "half",	--or "half" (optional)
+      warning = "No confirmation if you do this!",	--(optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "editbox",
+      name = "Edit View Name",
+      tooltip = "Edit selected View!",
+      getFunc = function() return ElderScrollsOfAlts:GetEditSelectedViewName() end,
+      setFunc = function(text) ElderScrollsOfAlts:SetEditSelectedViewName(text) end,
+      width = "half",	--or "half" (optional)
+      isMultiline = false,
+      isExtraWide = false,
+      default = "", -- default value or function that returns the default value (optional)      
+      reference = "ESOASettingsTitleEditbox" -- unique global reference to control (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "editbox",
+      name = "Edit View Data",
+      tooltip = "Edit selected View!",
+      getFunc = function() return ElderScrollsOfAlts:GetEditSelectedViewText() end,
+      setFunc = function(text) ElderScrollsOfAlts:SetEditSelectedViewText(text) end,
+      width = "full",	--or "half" (optional)
+      isMultiline = true,
+      isExtraWide = true,
+      reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "button",
+      name = "Save",
+      tooltip = "Save selected View!",
+      func = function()  ElderScrollsOfAlts:DoSaveSelectedView() end,
+      width = "half",	--or "half" (optional)
+      warning = "No confirmation if you do this!",	--(optional)
+    }
+    -- VIEWS --
+    
     --
     LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end

@@ -10,12 +10,12 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     if werewolf then
       eline.special = 1
       eline:SetTexture("/esoui/art/icons/store_werewolfbite_01.dds")
-      eline.tooltip = playerLine.name .. " is a ".."Werewolf"
+      eline.tooltip = playerLine.name .. " is a ".."Werewolf (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
     if vampire then
       eline:SetTexture("/esoui/art/icons/store_vampirebite_01.dds")
       eline.special = 2
-      eline.tooltip = playerLine.name .. " is a ".."Vampire"
+      eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
     --TODO timers
   elseif(viewKey=="Note") then
@@ -451,11 +451,11 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   elseif(viewKey=="Riding Speed") then
     return "Spee"
   elseif(viewKey=="Riding Stamina") then
-    return "Stam"
+    return "RStam"
   elseif(viewKey=="Riding Inventory") then
-    return "Inven"
+    return "RInve"
   elseif(viewKey=="Riding Timer") then
-    return "Timer"
+    return "RTime"
   elseif(viewKey=="Clothier Research 1") then
     return "Cloth1"
   elseif(viewKey=="Clothier Research 2") then

@@ -37,6 +37,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].Werewolf = false
     playerLines[k].Vampire = false
     playerLines[k].special    = 0    
+    playerLines[k].special_biteicon = nil
+    playerLines[k].special_bitetimer = -1
+    --playerLines[k].special_bitetimer2 = "n/a"
+    playerLines[k].special_bitetimerDisplay = "[n/a]"
+    --
 		if bio ~=nil then
 			playerLines[k].gender   = bio.gender
       playerLines[k].level    = bio.level
@@ -44,16 +49,65 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].class    = bio.class
       playerLines[k].alliance = bio.alliance
       playerLines[k].name     = bio.name --rewrite name
-      playerLines[k].id       = bio.id
-      playerLines[k].special    = 0
+      playerLines[k].id       = bio.id      
+      --
       if bio.Werewolf then
         playerLines[k].Werewolf = true
-        playerLines[k].special    = 1
-      end
+        playerLines[k].special    = 1        
+        -- ["Werewolf"]["abilities"]["Bloodmoon"] TODO
+        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k],"world","Werewolf","Bloodmoon")
+        if(foundItem~=nil) then
+          playerLines[k].special_bitetimerDisplay = "[Unk]"
+          playerLines[k].special_icon = foundItem["textureName"]
+          if(ElderScrollsOfAlts.altData.players[k].buffs~=nil)then
+            local foundFeedBuff = false
+            for buffName,value in pairs(ElderScrollsOfAlts.altData.players[k].buffs) do
+              if(buffName==ElderScrollsOfAlts.BITE_WERE_ABILITY)then--TODO global
+                foundFeedBuff = true
+              end
+            end
+            if foundFeedBuff then
+              local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              playerLines[k].special_bitetimer = timeDiff
+              playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+            else
+              playerLines[k].special_bitetimer = 0
+              playerLines[k].special_bitetimerDisplay = "[v.v]"
+            end
+          end
+        else
+          playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+        end--foundItem
+      end--ww
       if bio.Vampire then
         playerLines[k].Vampire = true
         playerLines[k].special    = 2
-      end
+        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k],"world","Vampire","Blood Ritual")
+        if(foundItem~=nil) then
+          playerLines[k].special_bitetimerDisplay = "[Unk]"
+          playerLines[k].special_icon = foundItem["textureName"]
+          --ElderScrollsOfAlts.outputMsg("Found Blood Ritual!!")
+          --AND buff name check buff  "Feed on Ally"
+          if(ElderScrollsOfAlts.altData.players[k].buffs~=nil)then
+            local foundFeedBuff = false
+            for buffName,value in pairs(ElderScrollsOfAlts.altData.players[k].buffs) do
+              if(buffName==ElderScrollsOfAlts.BITE_VAMP_ABILITY  )then --TODO global
+                foundFeedBuff = true
+              end
+            end
+            if foundFeedBuff then
+              local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              playerLines[k].special_bitetimer = timeDiff
+              playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+            else
+              playerLines[k].special_bitetimer = 0
+              playerLines[k].special_bitetimerDisplay = "[v.v]"
+            end
+          end
+        else
+          playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+        end--foundItem    
+      end--vv
 		end
     if playerLines[k].level == nil or playerLines[k].level < 1 then
       ElderScrollsOfAlts.altData.players[k]  = nil --TODO this working as intended?
@@ -93,6 +147,19 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
   table.sort(playerLines)  
   ElderScrollsOfAlts.view.maxPlayerLineCount = pCount
   return playerLines
+end
+
+--("world","Vampire","Blood Ritual")
+function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
+  local retVal = nil
+  if( tplayer.skills[skillType]~=nil and 
+      tplayer.skills[skillType]["typelist"]~=nil and
+      tplayer.skills[skillType]["typelist"][skillClass]~=nil and
+      tplayer.skills[skillType]["typelist"][skillClass]["abilities"]~=nil and
+      tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]~=nil) then
+    retVal = tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]
+  end
+  return retVal
 end
 
 function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)    

@@ -12,6 +12,9 @@ ElderScrollsOfAlts = {
     defaultMaxLines = 12,
     defaultView     = "Home",
     defaultSearch   = "Name",
+    CATEGORY_ALL    = "All",
+    BITE_WERE_ABILITY = "Bite an Ally",
+    BITE_VAMP_ABILITY = "Feed on Ally",
     view            = {},
     -- Saved Settings
     savedVariables  = {},

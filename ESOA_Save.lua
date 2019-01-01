@@ -257,6 +257,8 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].misc = {}
   end
   
+  ElderScrollsOfAlts.altData.players[playerKey].misc.now = GetFrameTimeSeconds()--ZO_FormatClockTime()
+  
   --Riding
   local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =   GetRidingStats()
   ElderScrollsOfAlts.altData.players[playerKey].misc.riding = {}
@@ -332,8 +334,18 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --TODO more?
   
+  --BUFFS
+  ElderScrollsOfAlts.altData.players[playerKey].buffs = {}  
+  local numBuffs = GetNumBuffs("player") 
+  for buffIndex = 1, numBuffs do
+    --string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
+    local buffName, timeStarted, timeEnding, buffSlot, stackCount, iconFilename, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff, castByPlayer = GetUnitBuffInfo("player", buffIndex)
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName] = {}
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeStarted = timeStarted 
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeEnding  = timeEnding
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].abilityId   = abilityId
+  end
 	-- Fetch the saved variables
-
 end
 
 --loadPlayerDataPart
@@ -361,6 +373,24 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
       baseElemTable.rank = rank
       baseElemTable.skillLineId = skillLineId
       --ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
+      --string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 
+      --GetSkillAbilityInfo(number SkillType skillType, number skillIndex, number abilityIndex)
+      baseElemTable.abilities = {}
+      local baseAbilityElem = baseElemTable.abilities
+      for abilityIndex = 1, numAbilities do
+        local ABname, ABtextureName, ABearnedRank, ABpassive, ABultimate, ABpurchased, ABprogressionIndex, ABrankIndex =
+        GetSkillAbilityInfo(skillType, ii, abilityIndex)
+        baseAbilityElem[ABname] = {}
+        baseAbilityElem[ABname].name        = ABname
+        baseAbilityElem[ABname].textureName = ABtextureName
+        baseAbilityElem[ABname].earnedRank  = ABearnedRank
+        baseAbilityElem[ABname].passive     = ABpassive
+        baseAbilityElem[ABname].ultimate    = ABultimate
+        baseAbilityElem[ABname].purchased   = ABpurchased
+        baseAbilityElem[ABname].progressionIndex = ABprogressionIndex
+        baseAbilityElem[ABname].rankIndex   = ABrankIndex
+      end
+
     else 
       --debugMsg("loadPlayerDataPart: skillType="..skillType..". name=" ..name)
     end      
