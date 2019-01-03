@@ -66,6 +66,7 @@ function ElderScrollsOfAlts.LoadSettings()
             width = "full",	--or "half" (optional)
             warning = "No confirmation if you do this!",	--(optional)
     }
+    if(ElderScrollsOfAlts.altData.beta) then
     -- VIEWS --
     optionsTable[#optionsTable+1] = {
       type = "header",
@@ -73,9 +74,10 @@ function ElderScrollsOfAlts.LoadSettings()
       width = "full",	--or "half" (optional)
     }    
     --New from template
+    --TODO template dropdown to pick from
     optionsTable[#optionsTable+1] = {
       type = "button",
-      name = "NewFromTemplate",
+      name = "New From Template",
       tooltip = "New View!",
       func = function()  ElderScrollsOfAlts:DoAddNewViewData() end,
       width = "half",	--or "half" (optional)
@@ -89,6 +91,7 @@ function ElderScrollsOfAlts.LoadSettings()
       getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewidx) end,
       setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewidx = tonumber(var) end,
       width = "full",	--or "half" (optional)
+      reference = "ESOA_SETTINGS_DD_SelectView",
     }
     optionsTable[#optionsTable+1] = {
       type = "button",
@@ -138,7 +141,7 @@ function ElderScrollsOfAlts.LoadSettings()
       warning = "No confirmation if you do this!",	--(optional)
     }
     -- VIEWS --
-    
+    end
     --
     LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end

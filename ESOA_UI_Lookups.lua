@@ -210,8 +210,9 @@ end
 --rclothier2time
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,playerLine,tradeName,numkey)
   --local vkey = "r"..tradeName.."time"
-  local mKye1 = string.format("%s%s%s%s","r",tradeName,numkey,"time")
-  local mKyeN = string.format("%s%s%s%s","r",tradeName,numkey,"name")
+  local mKyeS  = string.format("%s%s%s%s","r",tradeName,numkey,"S")
+  local mKye1  = string.format("%s%s%s%s","r",tradeName,numkey,"time") --display time
+  local mKyeN  = string.format("%s%s%s%s","r",tradeName,numkey,"name")
   local mKyeMS = string.format("%s%s%s%s","r",tradeName,numkey,"researchMS")
   local mKyeTT = string.format("%s%s%s%s","r",tradeName,numkey,"TraitType")
   local mKyeTD = string.format("%s%s%s%s","r",tradeName,numkey,"TraitDesc")  

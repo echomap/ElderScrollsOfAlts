@@ -13,6 +13,12 @@ function ElderScrollsOfAlts.InitializeGui()
   -- GUI Views Update
   if(ElderScrollsOfAlts.savedVariables.gui==nil) then
     ElderScrollsOfAlts.savedVariables.gui = {}
+    ElderScrollsOfAlts.savedVariables.gui[1] = ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])
+    ElderScrollsOfAlts.savedVariables.gui[1] = ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])
+    ElderScrollsOfAlts.savedVariables.gui[1] = ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"])
+    ElderScrollsOfAlts.savedVariables.gui[1] = ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])
+    
+  --[[
     ElderScrollsOfAlts.savedVariables.gui[1] = {
       ["name"] = "Home",
       ["view"] = {
@@ -98,6 +104,7 @@ function ElderScrollsOfAlts.InitializeGui()
         [16] = "Riding Timer",
       },
     }
+    --]]
   end -- GUI Views Update
   
   -- Setup Cat
@@ -140,6 +147,7 @@ end
 
 --Called from Delayed Start
 function ElderScrollsOfAlts:RestoreUI()
+  if(ElderScrollsOfAlts.savedVariables.uibutton.shown==nil) then ElderScrollsOfAlts.savedVariables.uibutton.shown=false end
   if ElderScrollsOfAlts.savedVariables.uibutton.shown then
     ElderScrollsOfAlts.ShowUIButton()
   else
@@ -174,10 +182,12 @@ end
 --UIButton
 function ElderScrollsOfAlts.ShowUIButton()
   --debugMsg("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
-  ESOA_ButtonFrame:SetHidden(false)
-  ESOA_ButtonFrame:ClearAnchors()
-  ESOA_ButtonFrame:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
-    ElderScrollsOfAlts.savedVariables.uibutton.left, ElderScrollsOfAlts.savedVariables.uibutton.top)
+  if(ElderScrollsOfAlts.savedVariables.uibutton.shown)then
+    ESOA_ButtonFrame:SetHidden(false)
+    ESOA_ButtonFrame:ClearAnchors()
+    ESOA_ButtonFrame:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
+      ElderScrollsOfAlts.savedVariables.uibutton.left, ElderScrollsOfAlts.savedVariables.uibutton.top)
+  end
 end
 
 --UIButton
@@ -307,6 +317,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     local guiLine = ElderScrollsOfAlts.savedVariables.gui[viewIdx]
   --for viewIdx, guiLine in pairs(ElderScrollsOfAlts.savedVariables.gui) do
     local viewName = guiLine.name
+    if(viewName==nil) then viewName = "FIXME" end    
     table.insert(validChoices,  viewName )
     --local viewData = guiLine.view
     if(viewCnt<=ElderScrollsOfAlts.altData.maxViewButtons) then

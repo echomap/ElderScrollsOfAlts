@@ -594,13 +594,17 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           local timeD = math.floor(timeH/24)
           if(timeH>0) then
             timeM = timeM - (timeH*60)
+          elseif(timeH<0) then
+            timeH = 0
           end
           if(timeD>0) then
             timeH = timeH - (timeD*24)
-          end
+          end          
           local mKye = "r"..rtV..kki
           local timeDisp2Str = ""
-          if(timeD>0) then
+          if(timeS<0) then
+            timeDisp2Str = "[avail]"--ttt
+          elseif(timeD>0) then
             timeDisp2Str = "<<1>>d<<2>>h<<3>>m"
           else
             timeDisp2Str = "<<2>>h<<3>>m"

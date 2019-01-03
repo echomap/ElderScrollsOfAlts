@@ -17,7 +17,10 @@ Note change, not reflected immediately in UI
 ==Unpublished==
 1.00.06
 [list]
-[*]character delete was still commented out for testing
+[*] Update UI button was unable to be shut off
+[*] category switch bugs
+[*] Timer issue, was showing negative numbers sometimes
+[*] character delete was still commented out for testing
 [/list]
 
 ==Published V1.0.X==

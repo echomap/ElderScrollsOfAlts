@@ -3,11 +3,12 @@
 --menuName
 
 function ElderScrollsOfAlts:GetUIButtonShown()
-   return ElderScrollsOfAlts.savedVariables.uibutton.shown
+   return (ElderScrollsOfAlts.savedVariables.uibutton.shown)
 end
 
-function ElderScrollsOfAlts:SetUIButtonShown(value)
+function ElderScrollsOfAlts.SetUIButtonShown(value)
   ElderScrollsOfAlts.savedVariables.uibutton.shown = value
+  ElderScrollsOfAlts.debugMsg("SetUIButtonShown: value=",tostring(value) )
   if not value then
     ElderScrollsOfAlts.HideUIButton()
   else
@@ -73,6 +74,18 @@ end
 --  ElderScrollsOfAlts.savedVariables.selected.viewidx = choiceText
 --end
 
+function ElderScrollsOfAlts:RefreshSettingsDropdowns()
+  --
+  local myFpsLabelControl = WINDOW_MANAGER:GetControlByName("ESOA_SETTINGS_DD_SelectView", "")
+  if(myFpsLabelControl~=nil) then
+    local vals = EchoExperience:SettingsListOfViews()
+    myFpsLabelControl:UpdateChoices(vals )
+  else
+    EchoExperience.outputMsg("WARN: Dropdown not found, changes will not be reflected until /reloadui")
+  end
+
+end
+
 function ElderScrollsOfAlts:DoDeleteSelectedView()
   --TODO
 end
@@ -80,20 +93,20 @@ end
 function ElderScrollsOfAlts:DoAddNewViewData()
   local newView= {}
   newView["name"] = "New View"
-  newView["view"] = ElderScrollsOfAlts.deepCopy(ElderScrollsOfAlts.view.guiTemplates["Home"] )
+  newView["view"] = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.view.guiTemplates["Home"] )
   table.insert( ElderScrollsOfAlts.savedVariables.gui, newView )
+  ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
 
 --Save DATA from FORM
 function ElderScrollsOfAlts:DoSaveSelectedView()
   --TODO
   local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-  if(guiLine~=nil)then
-    for k,v in pairs(guiLine) do
+  if(guiLine~=nil and guiLine.view~=nil)then
+    for k,v in pairs(guiLine.view) do
       ElderScrollsOfAlts.outputMsg( "DoSaveSelectedView: k="..k.." v="..v)
     end
     --TODO
-    
     --ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx].name = ElderScrollsOfAlts.view.newViewName
     --ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx].veiw = ElderScrollsOfAlts.view.newViewEntry
   end
@@ -105,12 +118,12 @@ function ElderScrollsOfAlts:DoEditSelectedView()
   if(myViewEditControl~=nil) then
     --test ElderScrollsOfAlts.savedVariables.selected.viewidx
     local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-    ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
+    --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
     --test guiLine
     --tranlsate guiLine
     myViewEditControl:UpdateValue(false, guiLine.name)
   else
-    ElderScrollsOfAlts.outputMsg("No edit view found to output data to")
+    ElderScrollsOfAl5ts.outputMsg("No edit view found to output data to")
   end
 end
 
@@ -118,7 +131,7 @@ function ElderScrollsOfAlts:GetEditSelectedViewName()
   local retVal = ""
   local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
   if(guiLine~=nil)then
-    ElderScrollsOfAlts.outputMsg("Edit view name as <".. tostring(guiLine.name)..">" )
+    --ElderScrollsOfAlts.outputMsg("Edit view name as <".. tostring(guiLine.name)..">" )
     retVal = (guiLine.name)
   end
   return retVal
@@ -162,7 +175,7 @@ function ElderScrollsOfAlts:GetEditSelectedViewText()
   if(guiLine~=nil)then
     local vName = guiLine["name"]
     local vView = guiLine["view"]
-    ElderScrollsOfAlts.outputMsg("Edit view text as <".. tostring(vName)..">" )
+    --ElderScrollsOfAlts.outputMsg("Edit view text as <".. tostring(vName)..">" )
     --
     if(vView~=nil)then
       retVal = ""
