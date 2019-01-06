@@ -284,7 +284,7 @@
   </Tooltip>
 
 
-  <TopLevelControl name="ESOA_ButtonFrame" topmost="true" hidden="true" mouseEnabled="true" movable="true" >
+  <TopLevelControl name="ESOA_ButtonFrame" topmost="true" hidden="true" mouseEnabled="true" movable="true" resizeHandleSize="10">
       <Dimensions x="65" y="25" />
       <Anchor point="TOPLEFT" relativeTo="GUI_ROOT" relativePoint="TOPLEFT" offsetX="400" offsetY="400" />
       <OnInitialized> </OnInitialized>

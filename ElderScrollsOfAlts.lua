@@ -1,20 +1,26 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.05",			-- A nuisance to match to the Manifest.
+    version         = "1.00.06",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
     SV_VERSION_NAME = 1,
     HOME_FONT_BASE  = "ZoFontWinT2",
     HOME_FONT_SEL   = "ZoFontGameLargeBold",
-    defaultMaxViewButtons = 6,
+    defaultMaxViewButtons = 5,
     defaultMaxLines = 12,
     defaultView     = "Home",
     defaultSearch   = "Name",
     CATEGORY_ALL    = "All",
     BITE_WERE_ABILITY = "Bite an Ally",
     BITE_VAMP_ABILITY = "Feed on Ally",
+    rgbaBase   = {
+      ["r"] = 1,
+      ["g"] = 1,
+      ["b"] = 1,
+      ["a"] = 0.9,
+    },
     view            = {},
     -- Saved Settings
     savedVariables  = {},

@@ -560,6 +560,8 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
     playerLines[k]["r"..rtV.."1S"] = 0
     playerLines[k]["r"..rtV.."2S"] = 0
     playerLines[k]["r"..rtV.."3S"] = 0
+    playerLines[k]["r"..rtV.."code"] = -1
+    --Code = -1 is n/a, 0 is unk, 1 is READY, 
     if(research==nil or research[rtV]==nil)then
     else
       --Number of Slots = researchMS
@@ -569,10 +571,13 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
         --debugMsg("ESOA: setup ResearchItem: playerLines[k][mKye.."S"] = timeS="
         if(researchMS==nil) then
           playerLines[k][mKye.."time"] = ""
+          playerLines[k][mKye.."code"] = 0
         elseif(kkiT<=researchMS) then
           playerLines[k][mKye.."time"] = "[avail]"
+          playerLines[k][mKye.."code"] = 1
         else
           playerLines[k][mKye.."time"] = "--------"
+          playerLines[k][mKye.."code"] = 0
         end
       end
     end
@@ -602,12 +607,16 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           end          
           local mKye = "r"..rtV..kki
           local timeDisp2Str = ""
-          if(timeS<0) then
-            timeDisp2Str = "[avail]"--ttt
+          if(timeS<=0) then
+            timeDisp2Str = "[avail]"
+            playerLines[k][mKye.."code"] = 1
           elseif(timeD>0) then
             timeDisp2Str = "<<1>>d<<2>>h<<3>>m"
           else
             timeDisp2Str = "<<2>>h<<3>>m"
+          end
+          if(timeS>0) then
+            playerLines[k][mKye.."code"] = 2
           end
           local timeDisp2 = zo_strformat(timeDisp2Str, timeD,timeH,timeM )
           local timeDisp = timeD.."d" ..timeH.."h" ..timeM.."m"
@@ -616,6 +625,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           playerLines[k][mKye.."D"] = timeD
           playerLines[k][mKye.."H"] = timeH
           playerLines[k][mKye.."S"] = timeS
+          --TODO timeTillReady
           --debugMsg("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
           playerLines[k][mKye.."TraitType"] = vv.traitType
           playerLines[k][mKye.."TraitDesc"] = vv.traitDescription

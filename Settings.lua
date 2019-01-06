@@ -15,6 +15,22 @@ function ElderScrollsOfAlts.LoadSettings()
     LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
 
     local optionsTable = {}
+    --- -- ---
+    optionsTable[1] = {
+            type = "header",
+            name = "Account Wide Settings",
+            width = "full",	--or "half" (optional)
+    }
+    
+    --settings: use dropdown
+    --settings: max # buttons
+
+    --- -- ---
+    optionsTable[1] = {
+            type = "header",
+            name = "Character Settings",
+            width = "full",	--or "half" (optional)
+    }
     optionsTable[1] = {
             type = "header",
             name = "Main",
@@ -35,6 +51,95 @@ function ElderScrollsOfAlts.LoadSettings()
             setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(value)  end,
             width = "half",	--or "half" (optional)
     }
+    
+    --==== OPTIONS ====--
+    optionsTable[1] = {
+            type = "header",
+            name = "Options",
+            width = "full",	--or "half" (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "colorpicker",
+      name = "Timer  Done Soon Color",
+      tooltip = "What Color to use when a timer is near to completion.",
+      getFunc = function()               
+          if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
+            ElderScrollsOfAlts.SetupDefaultColors()
+        end
+        return              
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a      
+      end,
+      setFunc = 	function(r,g,b,a)
+        --(alpha is optional)
+        --d(r, g, b, a)
+        --local c = ZO_ColorDef:New(r,g,b,a)
+        --c:Colorize(text)
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear = {}
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = r
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g = g
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b = b
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a = a
+      end,
+      width = "full",	--or "half" (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "colorpicker",
+      name = "Timer Done Sooner Color",
+      tooltip = "What Color to use when a timer is nearer(!) to completion.",
+      getFunc = function()               
+          if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer==nil) then
+            ElderScrollsOfAlts.SetupDefaultColors()
+        end
+        return              
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a      
+      end,
+      setFunc = 	function(r,g,b,a)
+        --(alpha is optional)
+        --d(r, g, b, a)
+        --local c = ZO_ColorDef:New(r,g,b,a)
+        --c:Colorize(text)
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer = {}
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r = r
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g = g
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = b
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = a
+      end,
+      width = "full",	--or "half" (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "colorpicker",
+      name = "Timer N/A or not set Color",
+      tooltip = "What Color to use when a timer is NOT set or n/a.",
+      getFunc = function()               
+          if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
+            ElderScrollsOfAlts.SetupDefaultColors()
+        end
+        return              
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b,
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a      
+      end,
+      setFunc = 	function(r,g,b,a)
+        --(alpha is optional)
+        --d(r, g, b, a)
+        --local c = ZO_ColorDef:New(r,g,b,a)
+        --c:Colorize(text)
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r = r
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g = g
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b = b
+        ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a = a
+      end,
+      width = "full",	--or "half" (optional)
+    }
+    --==== Character Maintanance ====--
     optionsTable [#optionsTable+1] = {
             type = "header",
             name = "Character Maintanance",
@@ -66,8 +171,9 @@ function ElderScrollsOfAlts.LoadSettings()
             width = "full",	--or "half" (optional)
             warning = "No confirmation if you do this!",	--(optional)
     }
-    if(ElderScrollsOfAlts.altData.beta) then
-    -- VIEWS --
+    
+    if(ElderScrollsOfAlts.altData.beta) then    
+    --==== VIEWS ====--
     optionsTable[#optionsTable+1] = {
       type = "header",
       name = "Views",
@@ -125,12 +231,20 @@ function ElderScrollsOfAlts.LoadSettings()
       type = "editbox",
       name = "Edit View Data",
       tooltip = "Edit selected View!",
-      getFunc = function() return ElderScrollsOfAlts:GetEditSelectedViewText() end,
-      setFunc = function(text) ElderScrollsOfAlts:SetEditSelectedViewText(text) end,
+      getFunc = function() return ElderScrollsOfAlts.GetEditSelectedViewText() end,
+      setFunc = function(text) ElderScrollsOfAlts.SetEditSelectedViewText(text) end,
       width = "full",	--or "half" (optional)
       isMultiline = true,
       isExtraWide = true,
       reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
+    }
+    optionsTable[#optionsTable+1] = {
+      type = "button",
+      name = "Test",
+      tooltip = "Test selected View",
+      func = function()  ElderScrollsOfAlts:DoTestSelectedView() end,
+      width = "half",	--or "half" (optional)
+      warning = "No confirmation if you do this!",	--(optional)
     }
     optionsTable[#optionsTable+1] = {
       type = "button",

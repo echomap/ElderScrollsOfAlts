@@ -90,6 +90,13 @@ function ElderScrollsOfAlts:getColoredString(color, s)
 	return c:Colorize(s)
 end
 
+function ElderScrollsOfAlts.ColorText(colors,text)
+  --colorized text and write it out
+  local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
+  local text2 = cCD:Colorize(text)
+  return text2
+end
+
 -- Wraps text with a color.
 function ElderScrollsOfAlts.Colorize(text, color)
     -- Default to addon's .color.

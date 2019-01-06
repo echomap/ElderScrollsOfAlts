@@ -49,7 +49,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local pID       = GetCurrentCharacterId()
   local pServer   = GetWorldName()
   local playerKey = pID.."_".. pServer:gsub(" ","_")
-  ElderScrollsOfAlts.view.whoiamplayerKey = playerKey
+  ElderScrollsOfAlts.view.whoiamplayerKey = tostring(playerKey)
   
   --debugMsg("pName='"..tostring(pName).."'" )
 	if ElderScrollsOfAlts.altData.players == nil then
@@ -312,15 +312,15 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --TODO //JC?
   
   --Bags/ Bank
-  local currentcategory = ElderScrollsOfAlts.view.currentcategory
   ElderScrollsOfAlts.altData.data = {}
-  ElderScrollsOfAlts.altData.data.category = {}
-  ElderScrollsOfAlts.altData.data.category[ currentcategory ] = {}
+  ElderScrollsOfAlts.altData.data.server = {}
+  ElderScrollsOfAlts.altData.data.server[pServer] = {}
+  
   local bagSizeB = GetBagSize(BAG_BACKPACK) 
   local bagUsedB = GetNumBagUsedSlots(BAG_BACKPACK)
-  ElderScrollsOfAlts.altData.data.category[ currentcategory ].bankSize = bagSizeB
-  ElderScrollsOfAlts.altData.data.category[ currentcategory ].bankUsed = bagUsedB
-  ElderScrollsOfAlts.altData.data.category[ currentcategory ].bankFree = tonumber( bagSizeB-bagUsedB )
+  ElderScrollsOfAlts.altData.data.server[pServer].bankSize = bagSizeB
+  ElderScrollsOfAlts.altData.data.server[pServer].bankUsed = bagUsedB
+  ElderScrollsOfAlts.altData.data.server[pServer].bankFree = tonumber( bagSizeB-bagUsedB )
   
   -- Reload Note if not saved properly
   if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
@@ -518,11 +518,12 @@ function ElderScrollsOfAlts:SaveDataPlayerResearchData(tradeSkillType, keyProfNa
       local durationSecs, timeRemainingSecs = GetSmithingResearchLineTraitTimes(tradeSkillType, researchLineIndex, traitIndex)
       if(durationSecs~=nil) then
         local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType,  researchLineIndex, traitIndex)
-
+        local timeTillReady = GetFrameTimeSeconds() + timeRemainingSecs
         dataResearchElem[keyProfName].ongoing[name] = {}
         dataResearchElem[keyProfName].ongoing[name].name              = name
         dataResearchElem[keyProfName].ongoing[name].durationSecs      = durationSecs
         dataResearchElem[keyProfName].ongoing[name].timeRemainingSecs = timeRemainingSecs
+        dataResearchElem[keyProfName].ongoing[name].timeTillReady     = timeTillReady
         dataResearchElem[keyProfName].ongoing[name].traitIndex        = traitIndex
         dataResearchElem[keyProfName].ongoing[name].researchLineIndex = researchLineIndex
         dataResearchElem[keyProfName].ongoing[name].traitType         = traitType

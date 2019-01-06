@@ -1,29 +1,46 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Bugs==
-text max length
 Selection/ UnSelection / DeselectOnReselect
-Current Sort NAME? Order by ViewName
 user create views dynamic
-settings: ElderScrollsOfAlts.altData.maxViewButtons
+settings: 
 settings: max name length
-Sorting can fail if key is now invalid
-[*] User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
+settings: use dropdown 
+settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
+Sorting can fail if key is now invalid,try???
+  setmetatable(t,{
+  __index = function(t,k) return 0 end
+  })
+User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 vamp/were bite timers
-test timers better, saw a negative number...?
 a lot of localization
 Note change, not reflected immediately in UI
+copy views to account, from account
+change colors on timer screens
+
+==Test is Fixed==
+Text max length
+Current Sort NAME? Order by ViewName
+test colors ok
+test research 'code' param >0
 
 ==Unpublished==
+1.00.07
+[list]
+[*] 
+[/list]
+
+==Published V1.0.X==
+1.00.06c fix bug in new loadout
+1.00.06b fix bug in views
 1.00.06
 [list]
 [*] Update UI button was unable to be shut off
 [*] category switch bugs
 [*] Timer issue, was showing negative numbers sometimes
 [*] character delete was still commented out for testing
+[*] Start of Were/Vamp tracking
 [/list]
-
-==Published V1.0.X==
 1.00.05 bugfix, settings
 1.00.04 
 [list]

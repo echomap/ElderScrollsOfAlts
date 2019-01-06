@@ -19,7 +19,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
     --TODO timers
   elseif(viewKey=="Note") then
-    if( playerLine["note"]==nil)then
+    if( playerLine["note"]==nil or playerLine["note"]=="")then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
     else
       eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")
@@ -152,20 +152,28 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       timeDiff = expireTime - nowTime
     end
     eline.timeMS = timeMS  
+    local rtType = -1
     if( timeDiff ~= nil )then
       if( timeDiff <= 0 ) then
         eline.tooltip = "Now"
         eline:SetText("Now")
+        rtType = 1
       else
         local timeD = ElderScrollsOfAlts:timeToDisplay(timeDiff,false,true)
         eline.tooltip = timeD
         eline:SetText(timeD)      
-      end
+        rtType = 0
+      end      
     else
       eline.tooltip = "--"
       eline:SetText("--")  
     end
     --Riding Timer
+    if(rtType>0)then
+      if( ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil) then
+        eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline:GetText() ) )
+      end
+    end
   else
     if( playerLine[viewKey.."_Rank"] ~=nil ) then
       eline:SetText( playerLine[viewKey.."_Rank"]  )
@@ -211,6 +219,7 @@ end
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,playerLine,tradeName,numkey)
   --local vkey = "r"..tradeName.."time"
   local mKyeS  = string.format("%s%s%s%s","r",tradeName,numkey,"S")
+  local mKyeC  = string.format("%s%s%s%s","r",tradeName,numkey,"code")
   local mKye1  = string.format("%s%s%s%s","r",tradeName,numkey,"time") --display time
   local mKyeN  = string.format("%s%s%s%s","r",tradeName,numkey,"name")
   local mKyeMS = string.format("%s%s%s%s","r",tradeName,numkey,"researchMS")
@@ -220,13 +229,29 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   --local mKye1 = zo_strformat("<<1>><<2>><<3>><<4>>", "r",tradeName,numkey,"time")
   
   eline.data_val = playerLine[mKye1]
-  eline.sort_data = mKyeMS
+  eline.sort_data = playerLine[mKyeMS]
   eline:SetText( playerLine[mKye1] )
   eline:SetMaxLineCount( eline:GetWidth() )
   eline.name       = playerLine[mKyeN] 
   eline.traitType  = playerLine[mKyeTT]
   eline.traitDesc  = playerLine[mKyeTD]
   eline.traitKnown = playerLine[mKyeTK]
+  
+  --https://en.wikipedia.org/wiki/Web_colors
+  --red  |cFF0000 |r
+  --blue |c0000FF |r?
+  -- 	FF4500 40E0D0
+  local tradeTimeS = playerLine[mKyeS]  
+  local codeS = playerLine[mKyeC]   --  > 0 ok
+  if( (tradeTimeS==nil or codeS < 1) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil) then
+    eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, playerLine[mKye1]) )
+  elseif( codeS == 1 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil ) then
+    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer,playerLine[mKye1]) )
+  elseif( tradeTimeS < 43200 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil ) then
+    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer,playerLine[mKye1]) )
+  elseif( tradeTimeS < 86400 or codeS == 1 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNear~=nil) then
+    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNear, playerLine[mKye1]) )
+  end
   
   eline.datatype = "Research"
   --eline:SetMouseEnabled(true)
@@ -421,7 +446,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   elseif(viewKey=="BagSpace") then
     return "Bags"
   elseif(viewKey=="BagSpaceFree") then
-    return "BagFree"
+    return "B.Free"
   elseif(viewKey=="Skillpoints") then
     return "SkPt"
     
