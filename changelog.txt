@@ -1,33 +1,34 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
-==Bugs==
-Selection/ UnSelection / DeselectOnReselect
-user create views dynamic
+==Bugs/TODO==
 settings: 
 settings: max name length
 settings: use dropdown 
 settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
+
+view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
+vamp/were bite timers
+a lot of localization
+bug: Note change, not reflected immediately in UI
+copy views to account, from account
+change colors on timer screens
 Sorting can fail if key is now invalid,try???
   setmetatable(t,{
   __index = function(t,k) return 0 end
   })
-User created views, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
-vamp/were bite timers
-a lot of localization
-Note change, not reflected immediately in UI
-copy views to account, from account
-change colors on timer screens
+  
+Selection/ UnSelection / DeselectOnReselect
 
 ==Test is Fixed==
-Text max length
+Text max length, name issue
 Current Sort NAME? Order by ViewName
 test colors ok
-test research 'code' param >0
+test research 'code' param > 0
 
 ==Unpublished==
 1.00.07
 [list]
-[*] 
+[*] change colors on timer screens
 [/list]
 
 ==Published V1.0.X==

@@ -2,7 +2,7 @@
 <Controls>
 
    <Texture name="ESOA_RowTemplate_Highlight" textureFile="EsoUI/Art/Contacts/social_list_bgStrip_highlight.dds"
-        alpha="0" level="1" tier="HIGH" virtual="true">
+        alpha="0.9" level="1" tier="HIGH" virtual="true">
       <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="8" />
       <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="-4"/>
       <TextureCoords top="0" bottom=".625" left="0" right=".625"/>
@@ -10,7 +10,16 @@
           self.nonRecolorable = true
       </OnInitialized>
   </Texture>
-
+  <Texture name="ESOA_RowTemplate_Highlight2" textureFile="EsoUI/Art/miscellaneous/listitem_highlight.dds"
+        alpha="0.6" level="1" tier="HIGH" virtual="true">
+      <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="8" />
+      <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="-4"/>
+      <TextureCoords top="0" bottom=".625" left="0" right=".625"/>
+      <OnInitialized>
+          self.nonRecolorable = true
+      </OnInitialized>
+  </Texture>
+  
     <Button name="ESOA_SortBar_SortButton" text="ZZZZ" virtual="true" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
       <Dimensions x="100" y="20"/>
       <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="0"/>      

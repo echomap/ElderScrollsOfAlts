@@ -5,23 +5,50 @@
 
 function ElderScrollsOfAlts.SetupDefaultColors()
   --
-  ElderScrollsOfAlts.savedVariables.colors = {}
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNear = {}
+  if(ElderScrollsOfAlts.savedVariables.colors==nil) then
+    ElderScrollsOfAlts.savedVariables.colors = {}
+  end
+  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear = {}
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r   = ElderScrollsOfAlts.rgbaWhite.r
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g   = ElderScrollsOfAlts.rgbaWhite.g
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b   = ElderScrollsOfAlts.rgbaWhite.b
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a   = ElderScrollsOfAlts.rgbaWhite.a
+  end
+  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer==nil) then
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer = {}
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r = ElderScrollsOfAlts.rgbaWhite.r
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g = ElderScrollsOfAlts.rgbaWhite.g
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = ElderScrollsOfAlts.rgbaWhite.b
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = ElderScrollsOfAlts.rgbaWhite.a
+  end
+  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r   = ElderScrollsOfAlts.rgbaWhite.r
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g   = ElderScrollsOfAlts.rgbaWhite.g
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b   = ElderScrollsOfAlts.rgbaWhite.b
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a   = ElderScrollsOfAlts.rgbaWhite.a
+  end
+  --[[
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = 0.64 
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g = 0.224
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b = 0.208
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a = ElderScrollsOfAlts.rgbaBase.a  
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer = {}
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r = ElderScrollsOfAlts.rgbaBase.r
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g = ElderScrollsOfAlts.rgbaBase.g
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = ElderScrollsOfAlts.rgbaBase.b
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = ElderScrollsOfAlts.rgbaBase.a
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r = 0.178
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g = 0.48
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b = 0.96
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a = 0.9
-  
+  --]]
+end
+
+function ElderScrollsOfAlts:ResetUIViews(self)
+    ElderScrollsOfAlts.savedVariables.gui = {}
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])    )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])   )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]))
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])  )
+    ElderScrollsOfAlts.savedVariables.currentView = nil
 end
 
 function ElderScrollsOfAlts.InitializeGui()
@@ -147,12 +174,13 @@ function ElderScrollsOfAlts.InitializeGui()
     ESOA_GUI2_Header_Hide:GetWidth() + 
     ESOA_GUI2_Header_Minimize:GetWidth() + 
     ESOA_GUI2_Header_CategorySelect:GetWidth() + 
-    150 +
+    160 + --name width
     ESOA_GUI2_Header_SortUp:GetWidth() + 
     ESOA_GUI2_Header_SortDown:GetWidth() + 
     ESOA_GUI2_Header_SortBy_Value:GetWidth() + 
     ESOA_GUI2_Header_WhoAmI:GetWidth()
   ElderScrollsOfAlts.debugMsg("mainHdrMinWidth=",tostring(mainHdrMinWidth))
+  ElderScrollsOfAlts.view.headerWinWidth = mainHdrMinWidth
   ESOA_GUI2_Body_CharListHeader.headerWinWidth = mainHdrMinWidth
   
   --Setup Default Sort TODO
@@ -331,9 +359,17 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     ElderScrollsOfAlts.altData.maxViewButtons = ElderScrollsOfAlts.defaultMaxViewButtons
   end
   
+  if(ElderScrollsOfAlts.view~=nil and ElderScrollsOfAlts.view.viewButtons~=nil)then
+    for viewBtnIdx = 1, #ElderScrollsOfAlts.view.viewButtons do
+      local btnLine = ElderScrollsOfAlts.view.viewButtons[viewBtnIdx]
+      btnLine:SetHidden(true)
+    end
+  end
+  
   ElderScrollsOfAlts.view.viewButtons = {}
   ElderScrollsOfAlts.view.viewLookupIdxFromName  = {}
   local viewCnt = 0
+  local mhminWidth = ElderScrollsOfAlts.view.headerWinWidth
   for viewIdx = 1, #ElderScrollsOfAlts.savedVariables.gui do
     local guiLine = ElderScrollsOfAlts.savedVariables.gui[viewIdx]
     local viewName = guiLine.name
@@ -364,6 +400,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     --TODO add to min width
     table.insert(ElderScrollsOfAlts.view.viewButtons,line)      
     viewCnt = viewCnt+1
+    mhminWidth = mhminWidth + line:GetWidth()
     viewPred = line
   end
   --Dropdown
@@ -371,6 +408,9 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     local entry = comboBox:CreateItemEntry(validChoices[i], OnItemSelect1)
     comboBox:AddItem(entry)
   end
+  --
+  ESOA_GUI2_Body_CharListHeader.headerWinWidth = mhminWidth
+  
 end
 
 --Setup tttt
@@ -391,14 +431,15 @@ function ElderScrollsOfAlts:CreateGUI()
   --Setup Views
   ElderScrollsOfAlts:SetupAndShowViewButtons()
   
-  --
+  --[[
   local hllineName = "ESOA_GUI2_Body_ListHolder_Highlight_Selected"  
   local hlline = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight_Selected')  
   if(hlline==nil)then
-    hlline = WINDOW_MANAGER:CreateControlFromVirtual(hllineName, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
+    hlline = WINDOW_MANAGER:CreateControlFromVirtual(hllineName, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight2")
   end
   ESOA_GUI2_Body_ListHolder.hightlightSelected = hlline
   ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(true)
+  --]]--
   --
   local hllineName2 = "ESOA_GUI2_Body_ListHolder_Highlight"
   local hlline2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight')  
@@ -409,7 +450,6 @@ function ElderScrollsOfAlts:CreateGUI()
   ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   
   --Setup all PlayerData Lines (w/o data) 
-  local mainParent = nil
   local parent     = nil
   ESOA_GUI2_Body_ListHolder.dataHolderLines = {}
   ElderScrollsOfAlts.debugMsg("CreateGUI: whoami=",tostring(ElderScrollsOfAlts.view.whoiamplayerKey) )
@@ -425,10 +465,11 @@ function ElderScrollsOfAlts:CreateGUI()
       line = WINDOW_MANAGER:CreateControlFromVirtual(lineName, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate")
     end
     line:SetHidden(true)
-    if(mainParent==nil)then
+    --(AnchorPosition myPoint, object anchorTargetControl, AnchorPosition anchorControlsPoint, number offsetX, number offsetY) 
+    if(parent==nil)then
       line:SetAnchor(TOPLEFT, ESOA_GUI2_Body_ListHolder, TOPLEFT, 0, 5)    
     else
-      line:SetAnchor(TOPLEFT, mainParent, BOTTOMLEFT, 0, -10)    
+      line:SetAnchor(TOPLEFT, parent, BOTTOMLEFT, 0, 15)    
     end
     line.charKey = charKey
     line.playerLine = playerline
@@ -446,11 +487,10 @@ function ElderScrollsOfAlts:CreateGUI()
       --TODO ESOA_GUI2_Body_ListHolder.hightlightSelected
       ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(TOPLEFT, line, TOPLEFT, 0, 0) 
       ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(BOTTOMRIGHT, line, BOTTOMRIGHT, 0, 0) 
-      ESOA_GUI2_Body_ListHolder:SetHidden(false)
+      ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(false)
       ElderScrollsOfAlts.debugMsg("Selected player to hightlight")
     end
     --
-    mainParent = line
     parent = line
     table.insert( ESOA_GUI2_Body_ListHolder.dataHolderLines, line )
       
@@ -603,7 +643,7 @@ function ElderScrollsOfAlts.RefreshViewableTable()
       if(lineParent==nil)then
         dataHolderLine:SetAnchor(TOPLEFT, ESOA_GUI2_Body_ListHolder, TOPLEFT, 0, 5)    
       else
-        dataHolderLine:SetAnchor(TOPLEFT, lineParent, BOTTOMLEFT, 0, -10)    
+        dataHolderLine:SetAnchor(TOPLEFT, lineParent, BOTTOMLEFT, 0, -10)    --TODO -10 is how it was, 0 makes the hightlight better, but makes it longer, so it effects resize/slider
       end
       table.insert( ESOA_GUI2_Body_ListHolder.displayedLines, dataHolderLine )
       --Check Max
@@ -693,13 +733,15 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   eline:SetHandler('OnClicked',function(self)
     PlaySound(SOUNDS.POSITIVE_CLICK)        
     --TODO show select?
+    --[[
     if(ESOA_GUI2_Body_ListHolder.hightlightSelected ~=nil) then      
       --unselect ESOA_RowTemplate_Highlight
       ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(TOPLEFT, eline, TOPLEFT, 0, 0) 
       ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(BOTTOMRIGHT, eline, BOTTOMRIGHT, 0, 0) 
       ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(false)
       ElderScrollsOfAlts.outputMsg("Setting Hightlight Active")
-    end    
+    end 
+    --]]--
   end)
 
   table.insert( dataLine.displayedEntries, eline)
@@ -1361,20 +1403,23 @@ end
 function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
   if not control then return end
   if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil )then
+   --d("GuiLineOnMouseEnter control="..tostring(control)  )
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
-    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0) 
+    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, -5) --TODO changes if theline.setanchor does
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(false)
   end
 end
 
 function ElderScrollsOfAlts:GuiLineOnMouseExit(self)
-  --ClearTooltip(ESOATooltip)
+  --ClearTooltip(ESOATooltip)  
+  --[[
   if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil)then
+    --d("GuiLineOnMouseExit")
     --ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
     --ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0) 
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   end
-  --]]
+  --]]--
 end
 
 function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
@@ -1384,13 +1429,13 @@ function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
       --show itemlink
 			ZO_ChatWindowTextEntryEditBox:SetText(ZO_ChatWindowTextEntryEditBox:GetText() .. zo_strformat(SI_TOOLTIP_ITEM_NAME, control.itemLink))
 		end
+    --[[
     if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil)then
       ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
       ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, 0) 
       ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(false)
-      ElderScrollsOfAlts.outputMsg("Setting Mouse Hightlight Active")
-    end
-
+      --ElderScrollsOfAlts.outputMsg("Setting Mouse Hightlight Active")
+    end--]]
     --TODO show select?
     if(ESOA_GUI2_Body_ListHolder.hightlightSelected ~=nil) then      
       --unselect ESOA_RowTemplate_Highlight

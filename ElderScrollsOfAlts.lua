@@ -15,7 +15,7 @@ ElderScrollsOfAlts = {
     CATEGORY_ALL    = "All",
     BITE_WERE_ABILITY = "Bite an Ally",
     BITE_VAMP_ABILITY = "Feed on Ally",
-    rgbaBase   = {
+    rgbaWhite   = {
       ["r"] = 1,
       ["g"] = 1,
       ["b"] = 1,
@@ -69,7 +69,11 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	end
 
 	if #options == 0 then
+    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews")
+  elseif options[1] == "gui" then
     ElderScrollsOfAlts.ShowGuiByChoice()
+  elseif options[1] == "help" then
+    ElderScrollsOfAlts.ShowHelp()
 	elseif options[1] == "debug" then
 		local dg = ElderScrollsOfAlts.altData.debug
 		ElderScrollsOfAlts.altData.debug = not dg
@@ -84,7 +88,13 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts:LoadTestData1()
   elseif options[1] == "deltestdata" then
     ElderScrollsOfAlts:DelTestData1()     
+  elseif options[1] == "resetviews" then
+    ElderScrollsOfAlts:ResetUIViews()     
 	end
+end
+
+function ElderScrollsOfAlts.ShowHelp()
+
 end
 
 -- EVENT
