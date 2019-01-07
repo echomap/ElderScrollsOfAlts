@@ -3,8 +3,9 @@
 ==Bugs/TODO==
 settings: 
 settings: max name length
-settings: use dropdown 
+settings: use dropdown instead of buttons
 settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
+settings: turn off highlight
 
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 vamp/were bite timers
@@ -28,7 +29,9 @@ test research 'code' param > 0
 ==Unpublished==
 1.00.07
 [list]
-[*] change colors on timer screens
+[*] can change colors on timer screens
+[*] Hightlight row via mouse hover
+[*] more view work, turn on '/esoa beta', to see it and play, careful and backup data, but use '/esoa resetviews', to set them back
 [/list]
 
 ==Published V1.0.X==

@@ -69,6 +69,18 @@ function ElderScrollsOfAlts:SettingsListOfViews()
   return validChoices 
 end
 
+function ElderScrollsOfAlts:SettingsListOfViewTemplateNames()
+  local validChoices =  {}  
+	table.insert(validChoices, "Select")
+  local viewCnt = 0
+  for viewIdx = 1, #ElderScrollsOfAlts.view.guiTemplates do
+    local guiLine = ElderScrollsOfAlts.view.guiTemplates[viewIdx]
+    local viewName = guiLine.name
+    table.insert(validChoices, viewIdx)-- viewName )  
+  end
+  return validChoices 
+end
+
 --REMOVE
 --function ElderScrollsOfAlts:SettingsSelectView(choiceText)
 --  ElderScrollsOfAlts.savedVariables.selected.viewidx = choiceText
@@ -91,9 +103,15 @@ function ElderScrollsOfAlts:DoDeleteSelectedView()
 end
 
 function ElderScrollsOfAlts:DoAddNewViewData()
+  local viewTemplate = ElderScrollsOfAlts.view.guiTemplates[ElderScrollsOfAlts.savedVariables.selected.viewidxT]
+  if(viewTemplate==nil)then
+    ElderScrollsOfAlts.outputMsg("Failed to find specified template view")
+    return
+  end
   local newView= {}
   newView["name"] = "New View"
-  newView["view"] = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.view.guiTemplates["Home"]["view"] )
+  --newView["view"] = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.view.guiTemplates["Home"]["view"] )
+  newView["view"] = ElderScrollsOfAlts:deepcopy( viewTemplate["view"] )
   table.insert( ElderScrollsOfAlts.savedVariables.gui, newView )
   ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end

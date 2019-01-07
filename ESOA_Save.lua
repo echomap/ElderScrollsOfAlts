@@ -293,7 +293,25 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].misc.backpackFree = tonumber( bagSize-bagUsed )
   --
   ElderScrollsOfAlts.altData.players[playerKey].misc.skillpoints = GetAvailableSkillPoints() 
+  ElderScrollsOfAlts.altData.players[playerKey].misc.secondsPlayed = GetSecondsPlayed()
+  --GetUnitZone("player")
   
+  --Currency
+  if(ElderScrollsOfAlts.altData.players[playerKey].currency==nil) then
+    ElderScrollsOfAlts.altData.players[playerKey].currency = {}
+  end  
+  local currType = {CURT_ALLIANCE_POINTS, CURT_CHAOTIC_CREATIA,CURT_CROWNS,CURT_CROWN_GEMS,CURT_MONEY,CURT_NONE,CURT_STYLE_STONES,CURT_TELVAR_STONES,CURT_WRIT_VOUCHERS}
+  local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}
+  for clIdx = 1, #currLoc do 
+    local cL = currLoc[clIdx]
+    ElderScrollsOfAlts.altData.players[playerKey].currency[cL] = {}
+    for ctIdx = 1, #currType do
+      local cT = currType[ctIdx]
+      local amount = GetCurrencyAmount( cT, cL )
+      ElderScrollsOfAlts.altData.players[playerKey].currency[cL][cL] = amount
+    end
+  end  
+
   -- Equipment
   ElderScrollsOfAlts:SavaDataPlayerEquipment(playerKey)
   

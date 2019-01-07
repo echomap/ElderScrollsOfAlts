@@ -18,6 +18,10 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
     --TODO timers
+  elseif(viewKey=="SpecialBiteTimer") then
+    eline:SetText( playerLine.special_bitetimerDisplay )
+    eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"
+    --TODO eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
   elseif(viewKey=="Note") then
     if( playerLine["note"]==nil or playerLine["note"]=="")then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
@@ -184,6 +188,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --debugMsg("Newkey='"..newKey.."'")
     if( playerLine[ newKey ] ~=nil ) then
       eline:SetText( playerLine[newKey]  )
+      eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
       return
     end
       
@@ -368,6 +373,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 180
   elseif(viewKey=="Special") then
     return 20
+  elseif(viewKey=="SpecialBiteTimer") then
+    return 60
+  elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed") then  
+    return 60
   elseif(viewKey=="Alliance") then
     return 25
   elseif(viewKey=="Note") then
@@ -418,7 +427,13 @@ end
 
 function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   if(viewKey=="Special") then
-    return "Spc"
+    return "Spc"    
+  elseif(viewKey=="SpecialBiteTimer") then
+    return "Bite"
+  elseif(viewKey=="SecondsPlayed" ) then
+    return "Played"    
+  elseif(viewKey=="TimePlayed" ) then
+    return "Played"    
   elseif(viewKey=="Alliance") then
     return "Aly"
   elseif(viewKey=="Note") then

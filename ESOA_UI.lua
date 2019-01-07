@@ -774,7 +774,6 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
        --PlaySound(SOUNDS.POSITIVE_CLICK)        
         --ElderScrollsOfAlts:DoGuiSort(self, entry )
       --end)        
-      --eline:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(entry) )--TODO get function to get display name        
       ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewName,entry,eline,playerLine)
       eline.entry = entry
       eline.charKey=charKey

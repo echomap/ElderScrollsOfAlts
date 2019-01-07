@@ -182,6 +182,16 @@ function ElderScrollsOfAlts.LoadSettings()
     --New from template
     --TODO template dropdown to pick from
     optionsTable[#optionsTable+1] = {
+      type = "dropdown",
+      name = "Template View Names",
+      tooltip = "Select one of these to do 'New from Template' .",
+      choices = ElderScrollsOfAlts:SettingsListOfViewTemplateNames(),
+      getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewidxT) end,
+      setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewidxT = tonumber(var) end,
+      width = "full",	--or "half" (optional)
+      reference = "ESOA_SETTINGS_TV_SelectView",
+    }    
+    optionsTable[#optionsTable+1] = {
       type = "button",
       name = "New From Template",
       tooltip = "New View!",

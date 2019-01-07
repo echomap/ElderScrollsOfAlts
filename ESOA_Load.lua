@@ -122,19 +122,28 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
 
     -- MISC
     local misc = ElderScrollsOfAlts.altData.players[k].misc
-    playerLines[k].backpackSize = 0
-    playerLines[k].backpackUsed = 0
-    playerLines[k].backpackFree = 0
-    playerLines[k].skillpoints  = 0
+    playerLines[k].backpackSize  = 0
+    playerLines[k].backpackUsed  = 0
+    playerLines[k].backpackFree  = 0
+    playerLines[k].skillpoints   = 0
+    playerLines[k].secondsplayed = 0
+    playerLines[k].timeplayed    = "---"
     if misc ~=nil then
-      playerLines[k].backpackSize = misc.backpackSize
-      playerLines[k].backpackUsed = misc.backpackUsed
-      playerLines[k].backpackFree = misc.backpackFree
-      playerLines[k].skillpoints  = misc.skillpoints
+      playerLines[k].backpackSize  = misc.backpackSize
+      playerLines[k].backpackUsed  = misc.backpackUsed
+      playerLines[k].backpackFree  = misc.backpackFree
+      playerLines[k].skillpoints   = misc.skillpoints
+      playerLines[k].secondsplayed = misc.secondsPlayed
     end
     if(playerLines[k].skillpoints==nil)then
       playerLines[k].skillpoints = 0 --per recent version
     end
+    if(playerLines[k].secondsplayed==nil)then
+      playerLines[k].secondsplayed = 0 --per recent version
+    else
+      playerLines[k].timeplayed = ElderScrollsOfAlts:timeToDisplay( (playerLines[k].secondsplayed*1000) ,true,false)
+    end
+    
     --
     --local skills = ElderScrollsOfAlts.altData.players[k].skills
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)

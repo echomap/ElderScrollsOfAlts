@@ -71,6 +71,11 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Riding Stamina"] = 1, 
   ["Riding Inventory"] = 1, 
   ["Riding Timer"] = 1, 
+  
+  ["SpecialBiteTimer"] = 1, 
+  ["SecondsPlayed"] = 1, 
+  ["TimePlayed"] = 1, 
+  
 }
 
 ElderScrollsOfAlts.view.guiTemplates = {  
@@ -405,6 +410,18 @@ function ElderScrollsOfAlts:GetAllianceIcon(alliance)
   --end
   return ZO_GetAllianceIcon(alliance)
 end
+
+function ElderScrollsOfAlts:ListAllAllowedViewEntries()
+  local printEntries = "" 
+  for i = 1, #ElderScrollsOfAlts.allowedViewEntries do
+		local entry = ElderScrollsOfAlts.allowedViewEntries[i]
+    printEntries = zo_strformat("<<1>> <<2>>", printEntries, entry )
+  end
+  printEntries = "Allowable entry names: " .. printEntries
+  ElderScrollsOfAlts.outputMsg(printEntries)
+end
+
+
 
 -- DISPLAY -- 
 -----------

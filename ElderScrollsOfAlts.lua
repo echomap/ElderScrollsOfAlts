@@ -69,7 +69,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	end
 
 	if #options == 0 then
-    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews")
+    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries")
   elseif options[1] == "gui" then
     ElderScrollsOfAlts.ShowGuiByChoice()
   elseif options[1] == "help" then
@@ -90,6 +90,8 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts:DelTestData1()     
   elseif options[1] == "resetviews" then
     ElderScrollsOfAlts:ResetUIViews()     
+  elseif options[1] == "showentries" then
+    ElderScrollsOfAlts:ListAllAllowedViewEntries()     
 	end
 end
 
