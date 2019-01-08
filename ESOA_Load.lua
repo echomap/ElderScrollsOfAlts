@@ -14,6 +14,14 @@ end
 
 
 function ElderScrollsOfAlts:SetupGuiPlayerLines()
+  
+  --
+  ElderScrollsOfAlts.view.accountData = {}
+  ElderScrollsOfAlts.view.accountData.secondsplayed = 0
+  --bankspaces
+  --etc
+  
+  --
 	local playerLines =  {}
 	--table.insert(playerLines, "Select")
   local pCount = 0
@@ -141,6 +149,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     if(playerLines[k].secondsplayed==nil)then
       playerLines[k].secondsplayed = 0 --per recent version
     else
+      ElderScrollsOfAlts.view.accountData.secondsplayed = ElderScrollsOfAlts.view.accountData.secondsplayed+playerLines[k].secondsplayed
       playerLines[k].timeplayed = ElderScrollsOfAlts:timeToDisplay( (playerLines[k].secondsplayed*1000) ,true,false)
     end
     

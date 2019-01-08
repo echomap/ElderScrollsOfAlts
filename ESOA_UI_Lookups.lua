@@ -137,6 +137,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltip = zo_strformat("<<1>> has <<2>> free skillpoints", playerLine.name,playerLine["skillpoints"])
     --eline.sortKey
   --
+  --
   elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then        
     local newKey = string.lower(viewKey)
     newKey = newKey:gsub(" ","_")
@@ -178,6 +179,15 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline:GetText() ) )
       end
     end
+  elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed")then
+    eline:SetText( playerLine[string.lower(viewKey)]  )
+    eline.tooltip = zo_strformat("<<1>> has played for <<2>> (account total=<<3>>s)",
+        playerLine.name, playerLine[string.lower(viewKey)], 
+        ElderScrollsOfAlts:timeToDisplay( (ElderScrollsOfAlts.view.accountData.secondsplayed*1000) ,true,false),
+        ElderScrollsOfAlts.view.accountData.secondsplayed
+      )
+  --
+  --
   else
     if( playerLine[viewKey.."_Rank"] ~=nil ) then
       eline:SetText( playerLine[viewKey.."_Rank"]  )
@@ -372,7 +382,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   if(viewKey=="Name") then
     return 180
   elseif(viewKey=="Special") then
-    return 20
+    return 24
   elseif(viewKey=="SpecialBiteTimer") then
     return 60
   elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed") then  
@@ -431,9 +441,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   elseif(viewKey=="SpecialBiteTimer") then
     return "Bite"
   elseif(viewKey=="SecondsPlayed" ) then
-    return "Played"    
+    return "STime"    
   elseif(viewKey=="TimePlayed" ) then
-    return "Played"    
+    return "PTime"    
   elseif(viewKey=="Alliance") then
     return "Aly"
   elseif(viewKey=="Note") then

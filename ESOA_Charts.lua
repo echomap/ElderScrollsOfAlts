@@ -411,11 +411,11 @@ function ElderScrollsOfAlts:GetAllianceIcon(alliance)
   return ZO_GetAllianceIcon(alliance)
 end
 
+--
 function ElderScrollsOfAlts:ListAllAllowedViewEntries()
   local printEntries = "" 
-  for i = 1, #ElderScrollsOfAlts.allowedViewEntries do
-		local entry = ElderScrollsOfAlts.allowedViewEntries[i]
-    printEntries = zo_strformat("<<1>> <<2>>", printEntries, entry )
+  for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do
+    printEntries = zo_strformat("<<1>> {<<2>>},", printEntries, kName )
   end
   printEntries = "Allowable entry names: " .. printEntries
   ElderScrollsOfAlts.outputMsg(printEntries)
