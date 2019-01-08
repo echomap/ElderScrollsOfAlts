@@ -6,15 +6,15 @@ ElderScrollsOfAlts = {
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
     SV_VERSION_NAME = 1,
-    HOME_FONT_BASE  = "ZoFontWinT2",
-    HOME_FONT_SEL   = "ZoFontGameLargeBold",
+    --HOME_FONT_BASE  = "ZoFontWinT2",
+    --HOME_FONT_SEL   = "ZoFontGameLargeBold",
     defaultMaxViewButtons = 5,
     defaultMaxLines = 12,
     defaultView     = "Home",
     defaultSearch   = "Name",
     CATEGORY_ALL    = "All",
-    BITE_WERE_ABILITY = "Bite an Ally",
-    BITE_VAMP_ABILITY = "Feed on Ally",
+    BITE_WERE_ABILITY = "Bit an Ally",
+    BITE_VAMP_ABILITY = "Fed on Ally",
     rgbaWhite   = {
       ["r"] = 1,
       ["g"] = 1,
@@ -69,7 +69,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 	end
 
 	if #options == 0 then
-    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries")
+    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, resetviews, showentries")
   elseif options[1] == "gui" then
     ElderScrollsOfAlts.ShowGuiByChoice()
   elseif options[1] == "help" then
@@ -84,6 +84,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		ElderScrollsOfAlts.altData.beta = not dg
 		ElderScrollsOfAlts.outputMsg("ElderScrollsOfAlts: Beta = " .. tostring(ElderScrollsOfAlts.altData.beta) )
 		--ElderScrollsOfAlts.savedVariables.beta = ElderScrollsOfAlts.altData.beta
+    --ElderScrollsOfAlts.LoadSettings()
   elseif options[1] == "testdata" then
     ElderScrollsOfAlts:LoadTestData1()
   elseif options[1] == "deltestdata" then
@@ -91,7 +92,9 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
   elseif options[1] == "resetviews" then
     ElderScrollsOfAlts:ResetUIViews()     
   elseif options[1] == "showentries" then
-    ElderScrollsOfAlts:ListAllAllowedViewEntries()     
+    ElderScrollsOfAlts:ListAllAllowedViewEntries()   
+  else
+    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries")
 	end
 end
 
@@ -117,6 +120,8 @@ function ElderScrollsOfAlts.DelayedStart()
     ElderScrollsOfAlts.SavePlayerDataForGui() -- DATA
     ElderScrollsOfAlts.InitializeGui()
     ElderScrollsOfAlts:RestoreUI()
+    -- LMM Settings menu in Settings.lua.
+    ElderScrollsOfAlts.LoadSettings()    
     --fix
     ElderScrollsOfAlts.savedVariables.selected.character = nil
     
@@ -152,8 +157,6 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     --(savedVariableTable, version, namespace, defaults, profile, displayName)
     ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
 
-    -- LMM Settings menu in Settings.lua.
-    ElderScrollsOfAlts.LoadSettings()    
     zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
 
     -- Slash commands must be lowercase. Set to nil to disable.

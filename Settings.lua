@@ -17,46 +17,42 @@ function ElderScrollsOfAlts.LoadSettings()
     local optionsTable = {}
     --- -- ---
     optionsTable[1] = {
-            type = "header",
-            name = "Account Wide Settings",
-            width = "full",	--or "half" (optional)
+      type  = "header",
+      name  = "Account Wide Settings",
+      width = "full",	--or "half" (optional)
     }
-    
-    --settings: use dropdown
-    --settings: max # buttons
+   optionsTable[#optionsTable+1] = {
+      type  = "header",
+      name  = "TODO use dropdown, max # buttons, turn off highlight",
+      width = "full",	--or "half" (optional)
+    }
+    --TODO
 
     --- -- ---
-    optionsTable[1] = {
-            type = "header",
-            name = "Character Settings",
-            width = "full",	--or "half" (optional)
-    }
-    optionsTable[1] = {
-            type = "header",
-            name = "Main",
-            width = "full",	--or "half" (optional)
+    optionsTable[#optionsTable+1] = {
+      type  = "header",
+      name  = "Character Settings",
+      width = "full",	--or "half" (optional)
     }
     optionsTable[#optionsTable+1] = {
-            type = "description",
-            --title = "My Title",	--(optional)
-            title = nil,	--(optional)
-            text = "ESOA - Options and Configuration.",
-            width = "full",	--or "half" (optional)
+      type  = "header",
+      name  = "Main",
+      width = "full",	--or "half" (optional)
     }
     optionsTable [#optionsTable+1] = {
-            type = "checkbox",
-            name = "Show Button",
-            tooltip = "On or off.",
-            getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
-            setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(value)  end,
-            width = "half",	--or "half" (optional)
+      type    = "checkbox",
+      name    = "Show Button",
+      tooltip = "On or off.",
+      getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
+      setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(value)  end,
+      width   = "half",	--or "half" (optional)
     }
     
     --==== OPTIONS ====--
-    optionsTable[1] = {
-            type = "header",
-            name = "Options",
-            width = "full",	--or "half" (optional)
+    optionsTable[#optionsTable+1] = {
+      type  = "header",
+      name  = "Options",
+      width = "full",	--or "half" (optional)
     }
     optionsTable[#optionsTable+1] = {
       type = "colorpicker",
@@ -139,44 +135,38 @@ function ElderScrollsOfAlts.LoadSettings()
       end,
       width = "full",	--or "half" (optional)
     }
+    --
     --==== Character Maintanance ====--
     optionsTable [#optionsTable+1] = {
-            type = "header",
-            name = "Character Maintanance",
-            text = "Character Maintanance",
-            tooltip = "Character Maintanance Utils",	--(optional)
+      type = "header",
+      name = "Character Maintanance",
+      text = "Character Maintanance",
+      tooltip = "Character Maintanance Utils",	--(optional)
     }
     optionsTable[#optionsTable+1] = {
-            type = "dropdown",
-            name = "Character",
-            tooltip = "Select Character.",
-            choices = ElderScrollsOfAlts:ListOfCharacterNames(),
-            getFunc = function() return "Select" end,
-            setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
-            width = "half",	--or "half" (optional)
+      type = "dropdown",
+      name = "Character",
+      tooltip = "Select Character.",
+      choices = ElderScrollsOfAlts:ListOfCharacterNames(),
+      getFunc = function() return "Select" end,
+      setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
+      width = "half",	--or "half" (optional)
+      reference = "ESOA_SETTINGS_CHARMAIN_Select",--TODO refresh me
     }
     optionsTable[#optionsTable+1] = {
-            name = "Commands",
-            type = "description",
-            --title = "My Title",	--(optional)
-            title = nil,	--(optional)
-            text = "ESOA - Options and Configuration.",
-            width = "full",	--or "half" (optional)
-    }
-    optionsTable[#optionsTable+1] = {
-            type = "button",
-            name = "Delete",
-            tooltip = "Delete selected Character's Data!",
-            func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
-            width = "full",	--or "half" (optional)
-            warning = "No confirmation if you do this!",	--(optional)
+      type = "button",
+      name = "Delete",
+      tooltip = "Delete selected Character's Data!",
+      func = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
+      width = "full",	--or "half" (optional)
+      warning = "No confirmation if you do this!",	--(optional)
     }
     
-    if(ElderScrollsOfAlts.altData.beta) then    
+    --
     --==== VIEWS ====--
     optionsTable[#optionsTable+1] = {
       type = "header",
-      name = "Views",
+      name = "Views (BETA BETA BETA)",
       width = "full",	--or "half" (optional)
     }    
     --New from template
@@ -186,8 +176,8 @@ function ElderScrollsOfAlts.LoadSettings()
       name = "Template View Names",
       tooltip = "Select one of these to do 'New from Template' .",
       choices = ElderScrollsOfAlts:SettingsListOfViewTemplateNames(),
-      getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewidxT) end,
-      setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewidxT = tonumber(var) end,
+      getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewTemplate) end,
+      setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewTemplate = (var) end,
       width = "full",	--or "half" (optional)
       reference = "ESOA_SETTINGS_TV_SelectView",
     }    
@@ -265,7 +255,7 @@ function ElderScrollsOfAlts.LoadSettings()
       warning = "No confirmation if you do this!",	--(optional)
     }
     -- VIEWS --
-    end
+    --
     --
     LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end

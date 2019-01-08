@@ -19,9 +19,10 @@ Languages\$(language).lua
 Bindings.xml
 
 ElderScrollsOfAlts.lua
-ESOA_Settings.lua
-ESOA_Charts.lua
 ESOA_Util.lua
+ESOA_Charts.lua
+ESOA_Settings.lua
+
 
 ESOA_Load.lua
 ESOA_Save.lua

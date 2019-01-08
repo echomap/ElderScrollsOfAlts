@@ -20,7 +20,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --TODO timers
   elseif(viewKey=="SpecialBiteTimer") then
     eline:SetText( playerLine.special_bitetimerDisplay )
-    eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"
+    local canBite = ""
+    if( playerLines[k].special_bitetimer<=0)then
+      canBite = " Can Bite"
+    end
+    eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"..canBite
     --TODO eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
   elseif(viewKey=="Note") then
     if( playerLine["note"]==nil or playerLine["note"]=="")then --TODO string.len (s)?
@@ -394,7 +398,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="Class") then
     return 60
   elseif(viewKey=="Level") then
-    return 50
+    return 40
   elseif(viewKey=="Race") then
     return 75
   elseif(viewKey=="Gender") then
@@ -412,7 +416,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
     return 35
   elseif(viewKey=="Riding Timer") then
-    return 55
+    return 60
   elseif(viewKey=="Clothier Research 1" or viewKey=="Clothier Research 2" or viewKey=="Clothier Research 3") then
     return 65
   elseif(viewKey=="Blacksmithing Research 1" or viewKey=="Blacksmithing Research 2" or viewKey=="Blacksmithing Research 3") then

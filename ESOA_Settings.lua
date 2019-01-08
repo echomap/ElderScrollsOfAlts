@@ -61,6 +61,10 @@ function ElderScrollsOfAlts:SettingsListOfViews()
   local validChoices =  {}  
 	table.insert(validChoices, "Select")
   local viewCnt = 0
+  if(ElderScrollsOfAlts.savedVariables.gui==nil)then
+    ElderScrollsOfAlts.outputMsg("InitializeGui wasn't called first")
+    ElderScrollsOfAlts.InitializeGui()
+  end  
   for viewIdx = 1, #ElderScrollsOfAlts.savedVariables.gui do
     local guiLine = ElderScrollsOfAlts.savedVariables.gui[viewIdx]
     local viewName = guiLine.name
@@ -72,11 +76,9 @@ end
 function ElderScrollsOfAlts:SettingsListOfViewTemplateNames()
   local validChoices =  {}  
 	table.insert(validChoices, "Select")
-  local viewCnt = 0
-  for viewIdx = 1, #ElderScrollsOfAlts.view.guiTemplates do
-    local guiLine = ElderScrollsOfAlts.view.guiTemplates[viewIdx]
-    local viewName = guiLine.name
-    table.insert(validChoices, viewIdx)-- viewName )  
+  for k_entry, guiTemplate in pairs(ElderScrollsOfAlts.view.guiTemplates) do
+    local viewName = k_entry--guiTemplate.name
+    table.insert(validChoices, viewName)
   end
   return validChoices 
 end
@@ -99,13 +101,30 @@ function ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
 
 function ElderScrollsOfAlts:DoDeleteSelectedView()
-  --TODO
+ local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+  local viewText = ""
+  if(guiLine~=nil)then
+    --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
+    ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx] = nil
+    ElderScrollsOfAlts.outputMsg("Deleted view " .. ElderScrollsOfAlts.savedVariables.selected.viewidx)
+  end
+  ElderScrollsOfAlts:RefreshSettingsDropdowns()
+end
+
+function ElderScrollsOfAlts:DoTestSelectedView()
+  ElderScrollsOfAlts.outputMsg("TODO")
+  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+  local viewText = ""
+  if(guiLine~=nil)then
+    --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
+    --TODO
+  end
 end
 
 function ElderScrollsOfAlts:DoAddNewViewData()
-  local viewTemplate = ElderScrollsOfAlts.view.guiTemplates[ElderScrollsOfAlts.savedVariables.selected.viewidxT]
+  local viewTemplate = ElderScrollsOfAlts.view.guiTemplates[ElderScrollsOfAlts.savedVariables.selected.viewTemplate]
   if(viewTemplate==nil)then
-    ElderScrollsOfAlts.outputMsg("Failed to find specified template view")
+    ElderScrollsOfAlts.outputMsg("Failed to find specified template view w/name='".. tostring(ElderScrollsOfAlts.savedVariables.selected.viewTemplate).."'")
     return
   end
   local newView= {}
@@ -113,11 +132,8 @@ function ElderScrollsOfAlts:DoAddNewViewData()
   --newView["view"] = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.view.guiTemplates["Home"]["view"] )
   newView["view"] = ElderScrollsOfAlts:deepcopy( viewTemplate["view"] )
   table.insert( ElderScrollsOfAlts.savedVariables.gui, newView )
+  ElderScrollsOfAlts.outputMsg("Added new view")
   ElderScrollsOfAlts:RefreshSettingsDropdowns()
-end
-
-function ElderScrollsOfAlts:DoTestSelectedView()
---TODO
 end
 
 --Save DATA from FORM
@@ -186,7 +202,10 @@ function ElderScrollsOfAlts:DoEditSelectedView()
         local entry = vView[i]      
         viewText = zo_strformat( "<<1>>{<<2>>} ", viewText, entry )
       end
-    end    
+    end 
+  else
+    ElderScrollsOfAlts.view.SettingsViewData=""  
+    ElderScrollsOfAlts.view.SettingsViewName=""
   end
   ElderScrollsOfAlts.view.SettingsViewData = viewText
 end

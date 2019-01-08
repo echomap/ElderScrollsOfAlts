@@ -27,14 +27,21 @@ test colors ok
 test research 'code' param > 0
 
 ==Unpublished==
+1.00.08
+[list]
+[*] 
+[*] Added tags 
+[/list]
+
+==Published V1.0.X==
 1.00.07
 [list]
 [*] can change colors on timer screens
 [*] Hightlight row via mouse hover
-[*] more view work, turn on '/esoa beta', to see it and play, careful and backup data, but use '/esoa resetviews', to set them back
+[*] more view work, see the BETA section in settings, be careful and backup data, can use '/esoa resetviews', to set them back
+[*] Added tag viewing commandline "/esoa showentries"
+[*] Added tags {SpecialBiteTimer} and {SecondsPlayed} and {TimePlayed}
 [/list]
-
-==Published V1.0.X==
 1.00.06c fix bug in new loadout
 1.00.06b fix bug in views
 1.00.06

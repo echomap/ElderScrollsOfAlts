@@ -370,6 +370,10 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
   ElderScrollsOfAlts.view.viewLookupIdxFromName  = {}
   local viewCnt = 0
   local mhminWidth = ElderScrollsOfAlts.view.headerWinWidth
+  if(ElderScrollsOfAlts.savedVariables.gui==nil)then
+    ElderScrollsOfAlts.outputMsg("InitializeGui wasn't called first")
+    ElderScrollsOfAlts.InitializeGui()
+  end 
   for viewIdx = 1, #ElderScrollsOfAlts.savedVariables.gui do
     local guiLine = ElderScrollsOfAlts.savedVariables.gui[viewIdx]
     local viewName = guiLine.name
