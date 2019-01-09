@@ -1,32 +1,52 @@
 -- Settings menu.
 function ElderScrollsOfAlts.LoadSettings()
-    local LAM = LibStub("LibAddonMenu-2.0")
+  local LAM = LibStub("LibAddonMenu-2.0")
 
-    local panelData = {
-        type = "panel",
-        name = ElderScrollsOfAlts.name,
-        displayName = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.menuName),
-        author = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.author, "AAF0BB"),
-        version = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.version, "AA00FF"),
-        slashCommand = "/ElderScrollsOfAlts",
-        registerForRefresh = true,
-        registerForDefaults = true,
-    }
-    LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
+  local panelData = {
+      type = "panel",
+      name = ElderScrollsOfAlts.name,
+      displayName = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.menuName),
+      author = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.author, "AAF0BB"),
+      version = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.version, "AA00FF"),
+      slashCommand = "/ElderScrollsOfAlts",
+      registerForRefresh = true,
+      registerForDefaults = true,
+  }
+  LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
 
-    local optionsTable = {}
-    --- -- ---
-    optionsTable[1] = {
+  local optionsTable = {}
+  --- -- ---
+  optionsTable[1] = {
+    type  = "header",
+    name  = "Account Wide Settings",
+    width = "full",	--or "half" (optional)
+  }
+  optionsTable[#optionsTable+1] = {
       type  = "header",
-      name  = "Account Wide Settings",
+      name  = "TODO use dropdown, max # buttons, turn off highlight, fieldYOffset",
       width = "full",	--or "half" (optional)
-    }
-   optionsTable[#optionsTable+1] = {
-      type  = "header",
-      name  = "TODO use dropdown, max # buttons, turn off highlight",
-      width = "full",	--or "half" (optional)
-    }
-    --TODO
+  }
+  
+  optionsTable[#optionsTable+1] = {
+    type = "slider",
+    name = "Char name field width", -- or string id or function returning a string
+    getFunc = function() return ElderScrollsOfAlts.altData.fieldWidthForName end,
+    setFunc = function(value) ElderScrollsOfAlts.altData.fieldWidthForName = value end,
+    min = 50,
+    max = 300,
+    step = 1, --(optional)
+    clampInput = false, -- boolean, if set to false the input won't clamp to min and max and allow any number instead (optional)
+    decimals = 0, -- when specified the input value is rounded to the specified number of decimals (optional)
+    autoSelect = false, -- boolean, automatically select everything in the text input field when it gains focus (optional)
+    inputLocation = "below", -- or "right", determines where the input field is shown. This should not be used within the addon menu and is for custom sliders (optional) 
+    tooltip = "Width of Name field in gui.", -- or string id or function returning a string (optional)
+    width = "full", --or "half" (optional)
+    warning = "Don't set this to a negative number or too big, that's on you!", -- or string id or function returning a string (optional)
+    requiresReload = false, -- boolean, if set to true, the warning text will contain a notice that changes are only applied after an UI reload and any change to the value will make the "Apply Settings" button appear on the panel which will reload the UI when pressed (optional)
+    default = 160, -- default value or function that returns the default value (optional)
+    reference = "MyAddonSlider" -- unique global reference to control (optional)
+  }
+  -- Account Settings --
 
     --- -- ---
     optionsTable[#optionsTable+1] = {

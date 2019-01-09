@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.07",			-- A nuisance to match to the Manifest.
+    version         = "1.00.08",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -10,6 +10,9 @@ ElderScrollsOfAlts = {
     --HOME_FONT_SEL   = "ZoFontGameLargeBold",
     defaultMaxViewButtons = 5,
     defaultMaxLines = 12,
+    defaultFieldWidthForName = 180,
+    defaultFieldHeight  = 30,
+    defaultFieldYOffset = -10,-- -10 
     defaultView     = "Home",
     defaultSearch   = "Name",
     CATEGORY_ALL    = "All",
@@ -34,6 +37,7 @@ local defaultSettings = {
   --currentSortOrder =  true,
   currentView      = "Home",
   currentsort      = { },
+  fieldWidthForName = 180,
   window     = {
       ["minimized"] = false,
       ["shown"]     = false,
@@ -149,22 +153,25 @@ end
 
 -- EVENT
 function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
-    if addonName ~= ElderScrollsOfAlts.name then return end
-    EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED)
-    CHAMPION_PERKS_SCENE:UnregisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
-    --(savedVariableTable, version, namespace, defaults, profile, displayName, characterName)
-    ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettings)
-    --(savedVariableTable, version, namespace, defaults, profile, displayName)
-    ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
+  if addonName ~= ElderScrollsOfAlts.name then return end
+  EVENT_MANAGER:UnregisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED)
+  CHAMPION_PERKS_SCENE:UnregisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
+  --(savedVariableTable, version, namespace, defaults, profile, displayName, characterName)
+  ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettings)
+  --(savedVariableTable, version, namespace, defaults, profile, displayName)
+  ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
 
-    zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
+  --check/setup a bit earlier
+  ElderScrollsOfAlts.CheckData()
+  ElderScrollsOfAlts.SetupDefaultColors()
+  zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
 
-    -- Slash commands must be lowercase. Set to nil to disable.
-    SLASH_COMMANDS["/elderScrollsOfAlts"] = ElderScrollsOfAlts.SlashCommandHandler
-    SLASH_COMMANDS["/esoa"] = ElderScrollsOfAlts.SlashCommandHandler
-    -- Reset autocomplete cache to update it.
-    SLASH_COMMAND_AUTO_COMPLETE:InvalidateSlashCommandCache()
-    --debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
+  -- Slash commands must be lowercase. Set to nil to disable.
+  SLASH_COMMANDS["/elderScrollsOfAlts"] = ElderScrollsOfAlts.SlashCommandHandler
+  SLASH_COMMANDS["/esoa"] = ElderScrollsOfAlts.SlashCommandHandler
+  -- Reset autocomplete cache to update it.
+  SLASH_COMMAND_AUTO_COMPLETE:InvalidateSlashCommandCache()
+  --debugMsg(ElderScrollsOfAlts.name .. GetString(SI_NEW_ADDON_MESSAGE2)) -- Prints to chat.
 end
 
 

@@ -43,14 +43,16 @@ end
 --SETTINGS For use by Settings dropdown
 function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
   local charname = ElderScrollsOfAlts.savedVariables.selected.charactername
-  ElderScrollsOfAlts:debugMsg("DoDeleteSelectedCharacter: Name=" .. tostring(charname))
-  --local displayName = k.."("..v.bio.name..")"
-  local iStart, iEnd = string.find(charname, "%(" )
-  local charKey = string.sub(charname,0,iStart-1) 
-  ElderScrollsOfAlts:debugMsg("DoDeleteSelectedCharacter: charKey=" , tostring(charKey))
-  if(ElderScrollsOfAlts.altData.players[charKey]~=nil)then
-    ElderScrollsOfAlts.altData.players[charKey] = nil
-    ElderScrollsOfAlts.outputMsg("ESOA deleted character: Name=" .. tostring(charname) )
+  if(charname~=nil)then
+    ElderScrollsOfAlts.debugMsg("DoDeleteSelectedCharacter: Name=" .. tostring(charname) )
+    --local displayName = k.."("..v.bio.name..")"
+    local iStart, iEnd = string.find(charname, "%(" )
+    local charKey = string.sub(charname,0,iStart-1) 
+    ElderScrollsOfAlts.debugMsg("DoDeleteSelectedCharacter: charKey=" , tostring(charKey))
+    if(ElderScrollsOfAlts.altData.players[charKey]~=nil)then
+      ElderScrollsOfAlts.altData.players[charKey] = nil
+      ElderScrollsOfAlts.outputMsg("ESOA deleted character: Name=" .. tostring(charname) )
+    end
   end
 end
 
@@ -112,12 +114,42 @@ function ElderScrollsOfAlts:DoDeleteSelectedView()
 end
 
 function ElderScrollsOfAlts:DoTestSelectedView()
-  ElderScrollsOfAlts.outputMsg("TODO")
-  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-  local viewText = ""
-  if(guiLine~=nil)then
-    --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
-    --TODO
+  local guiLine2B = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+  if(guiLine2B==nil)then
+    ElderScrollsOfAlts.outputMsg("Failed test: Can't find data line")
+    return
+  end
+  
+  if(ElderScrollsOfAlts.view.SettingsViewName==nil or ElderScrollsOfAlts.view.SettingsViewName=="") then
+    ElderScrollsOfAlts.outputMsg("Failed test: nil name")
+  end
+  
+  local viewText = (ElderScrollsOfAlts.view.SettingsViewData)
+  if(ElderScrollsOfAlts.view.SettingsViewData==nil or ElderScrollsOfAlts.view.SettingsViewData=="") then
+    ElderScrollsOfAlts.outputMsg("Failed test: nil DATA")
+    return
+  end
+  
+  local tempTable = {}
+  for k, v in viewText:gmatch("(%b{})" ) do    
+    local val = tostring(k)
+    val = val:gsub("{","")
+    val = val:gsub("}","")
+    table.insert( tempTable, val  )
+    --tempTable[tostring(k)] = tostring(k)
+    ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: match k=",tostring(k)," v=", tostring(v) )
+  end
+  
+  --Test names, check in ElderScrollsOfAlts.allowedViewEntries
+  local goodEntries = {}
+  for kk,vv in pairs(tempTable) do
+    local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
+    --ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
+    if(fEntry~=nil)then
+      table.insert(goodEntries, tostring(vv) )
+    else
+      ElderScrollsOfAlts.outputMsg("Failed test: entry failed as k="..tostring(kk).." v="..tostring(vv))
+    end
   end
 end
 
@@ -204,8 +236,8 @@ function ElderScrollsOfAlts:DoEditSelectedView()
       end
     end 
   else
-    ElderScrollsOfAlts.view.SettingsViewData=""  
-    ElderScrollsOfAlts.view.SettingsViewName=""
+    ElderScrollsOfAlts.view.SettingsViewData = ""  
+    ElderScrollsOfAlts.view.SettingsViewName = ""
   end
   ElderScrollsOfAlts.view.SettingsViewData = viewText
 end

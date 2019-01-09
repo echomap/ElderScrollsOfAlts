@@ -21,7 +21,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif(viewKey=="SpecialBiteTimer") then
     eline:SetText( playerLine.special_bitetimerDisplay )
     local canBite = ""
-    if( playerLines[k].special_bitetimer<=0)then
+    if( playerLine.special_bitetimer~=nil and playerLine.special_bitetimer<=0)then
       canBite = " Can Bite"
     end
     eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"..canBite
@@ -384,7 +384,7 @@ end
 
 function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   if(viewKey=="Name") then
-    return 180
+    return ElderScrollsOfAlts.altData.fieldWidthForName
   elseif(viewKey=="Special") then
     return 24
   elseif(viewKey=="SpecialBiteTimer") then
