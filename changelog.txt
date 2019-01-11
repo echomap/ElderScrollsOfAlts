@@ -27,13 +27,17 @@ test colors ok
 test research 'code' param > 0
 
 ==Unpublished==
-1.00.08
+1.00.09
 [list]
-[*] Less highlight
 [*] Added tags 
 [/list]
 
 ==Published V1.0.X==
+1.00.08
+[list]
+[*] Less highlight
+[*] Timer bugged/fix
+[/list]
 1.00.07
 [list]
 [*] can change colors on timer screens

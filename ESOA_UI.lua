@@ -424,7 +424,10 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     --TODO add to min width
     table.insert(ElderScrollsOfAlts.view.viewButtons,line)      
     viewCnt = viewCnt+1
-    mhminWidth = mhminWidth + line:GetWidth()
+    local lw = line:GetWidth()
+    if(lw==nil) then lw = 0 end
+    if(mhminWidth==nil) then mhminWidth = 0 end
+    mhminWidth = mhminWidth + lw
     viewPred = line
   end
   --Dropdown

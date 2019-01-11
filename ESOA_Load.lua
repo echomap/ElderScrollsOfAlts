@@ -77,7 +77,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
             if foundFeedBuff then
               --local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
               local timeDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , value["timeEnding"] ) 
-              if(ElderScrollsOfAlts.altData.players[k].version==nil) then
+              if(ElderScrollsOfAlts.altData.players[k].version~=ElderScrollsOfAlts.version) then
                 timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
               end
               playerLines[k].special_bitetimer = timeDiff
@@ -110,8 +110,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
             if foundFeedBuff then
               --local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
               local timeDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , value["timeEnding"] ) 
-              if(ElderScrollsOfAlts.altData.players[k].version==nil) then
-                timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              if(ElderScrollsOfAlts.altData.players[k].version~=ElderScrollsOfAlts.version) then
+                timeDiff = GetFrameTimeSeconds() - timeTillReady
               end              
               playerLines[k].special_bitetimer = timeDiff
               playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
@@ -618,11 +618,15 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           if kk == nil then return end
           ElderScrollsOfAlts.debugMsg("research kk=" .. kk.. " v="..tostring(vv) )
           --Get/Fix Time
-          local nowDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , ElderScrollsOfAlts.altData.players[k].research.now ) 
-          if(ElderScrollsOfAlts.altData.players[k].version==nil) then
+          local nowDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , ElderScrollsOfAlts.altData.players[k].research.now ) --secconds
+          if(ElderScrollsOfAlts.altData.players[k].version~=ElderScrollsOfAlts.version) then
             nowDiff = GetFrameTimeSeconds() - ElderScrollsOfAlts.altData.players[k].research.now
+            --nowDiff = GetTimeStamp() - vv.timeTillReady
           end
-          local timeS = vv.timeRemainingSecs - nowDiff
+          local timeS = vv.timeRemainingSecs - nowDiff          
+          --if(ElderScrollsOfAlts.altData.players[k].version~=ElderScrollsOfAlts.version) then
+            --timeS = vv.timeTillReady - GetTimeStamp()
+          --end
           local timeM = math.floor(timeS/60)
           local timeH = math.floor(timeM/60)
           local timeD = math.floor(timeH/24)
@@ -649,6 +653,10 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           end
           local timeDisp2 = zo_strformat(timeDisp2Str, timeD,timeH,timeM )
           local timeDisp = timeD.."d" ..timeH.."h" ..timeM.."m"
+          if(ElderScrollsOfAlts.altData.players[k].version~=ElderScrollsOfAlts.version) then
+            playerLines[k][mKye.."code"] = 3
+            timeDisp2 = "*"..timeDisp2
+          end          
           playerLines[k][mKye.."name"] = vv.name
           playerLines[k][mKye.."time"] = timeDisp2
           playerLines[k][mKye.."D"] = timeD

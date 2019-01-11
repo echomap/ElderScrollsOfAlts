@@ -155,12 +155,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif(viewKey=="Riding Timer") then
     local timeMS     = playerLine["riding_timeMs"]
     local expireTime = playerLine["riding_trainingready"]  
-    local nowTime    = GetFrameTimeMilliseconds()
+    local nowTime    = GetTimeStamp()
     local timeDiff   = nil
     if(expireTime~=nil)then
-      timeDiff = expireTime - nowTime
+      --timeDiff = expireTime - nowTime
+      timeDiff = GetDiffBetweenTimeStamps(expireTime , nowTime)
+      --ElderScrollsOfAlts.outputMsg("name="..tostring(playerLine["name"]) .. " timeDiff="..tostring(timeDiff) )
     end
-    eline.timeMS = timeMS  
+    eline.timeMS = timeMS
     local rtType = -1
     if( timeDiff ~= nil )then
       if( timeDiff <= 0 ) then
@@ -168,7 +170,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         eline:SetText("Now")
         rtType = 1
       else
-        local timeD = ElderScrollsOfAlts:timeToDisplay(timeDiff,false,true)
+        local timeD = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000),false,true)
         eline.tooltip = timeD
         eline:SetText(timeD)      
         rtType = 0
@@ -262,7 +264,10 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   -- 	FF4500 40E0D0
   local tradeTimeS = playerLine[mKyeS]  
   local codeS = playerLine[mKyeC]   --  > 0 ok
-  if( (tradeTimeS==nil or codeS < 1) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil) then
+  if(codeS==3) then
+    --eline:SetText( "[Refresh]" )   
+    eline.traitDesc = "Old data! Refresh asap!!"
+  elseif( (tradeTimeS==nil or codeS < 1) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil) then
     eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, playerLine[mKye1]) )
   elseif( codeS == 1 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil ) then
     eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer,playerLine[mKye1]) )

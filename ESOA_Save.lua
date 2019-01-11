@@ -81,6 +81,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
   end
 
+  ElderScrollsOfAlts.view.previousversion = nil
+  if(ElderScrollsOfAlts.altData.players[playerKey] ~= nil and ElderScrollsOfAlts.altData.players[playerKey].version~=nil)then
+    ElderScrollsOfAlts.view.previousversion = ElderScrollsOfAlts.altData.players[playerKey].version
+  end
+  
   --- Reset Old Data Format
   --Resets all my data to current data
 	ElderScrollsOfAlts.altData.players[pName] = nil
@@ -88,8 +93,9 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --- Reset New Data Format
   --Resets all my data to current data
 	ElderScrollsOfAlts.altData.players[playerKey] = {}
-  ElderScrollsOfAlts.altData.players[playerKey].category = "A"
+  ElderScrollsOfAlts.altData.players[playerKey].category = "A"  
   ElderScrollsOfAlts.altData.players[playerKey].version = ElderScrollsOfAlts.version
+  ElderScrollsOfAlts.altData.players[playerKey].previousversion = ElderScrollsOfAlts.view.previousversion
 
   -- BIO section
 	if ElderScrollsOfAlts.altData.players[playerKey].bio == nil then
@@ -277,11 +283,13 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local timeMs, totalDurationMs = GetTimeUntilCanBeTrained()
   ElderScrollsOfAlts.altData.players[playerKey].misc.riding.timeMs          = timeMs
   ElderScrollsOfAlts.altData.players[playerKey].misc.riding.totalDurationMs = totalDurationMs
-  ElderScrollsOfAlts.altData.players[playerKey].misc.riding.timeDataTaken   = GetFrameTimeMilliseconds()
+  ElderScrollsOfAlts.altData.players[playerKey].misc.riding.timeDataTaken   = GetTimeStamp()--secconds
   if(timeMs<1)then
     ElderScrollsOfAlts.altData.players[playerKey].misc.riding.trainingReadyAt  = 0
   else
-    local expiresAt = GetFrameTimeMilliseconds() + timeMs
+    --ElderScrollsOfAlts.outputMsg("timeMs="..tostring(timeMs) )
+    local expiresAt = GetTimeStamp() + ( timeMs/1000 )
+    --local expiresAt = GetTimeStamp() + timeMs
     ElderScrollsOfAlts.altData.players[playerKey].misc.riding.trainingReadyAt  = expiresAt
   end
  
