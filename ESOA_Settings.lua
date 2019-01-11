@@ -137,7 +137,7 @@ function ElderScrollsOfAlts:DoTestSelectedView()
     val = val:gsub("}","")
     table.insert( tempTable, val  )
     --tempTable[tostring(k)] = tostring(k)
-    ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: match k=",tostring(k)," v=", tostring(v) )
+    ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: match val=", tostring(val) )
   end
   
   --Test names, check in ElderScrollsOfAlts.allowedViewEntries

@@ -370,6 +370,16 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeStarted = timeStarted 
     ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeEnding  = timeEnding
     ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].abilityId   = abilityId
+    
+    local duration = timeEnding - timeStarted
+    if(duration > 0) then
+        local timeLeftS = (timeEnding ) - GetFrameTimeSeconds()
+        --data:SetCooldown(timeLeft, duration * 1000.0)
+        ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = GetTimeStamp() + (timeLeftS)
+    else
+      ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = 0
+    end
+    --ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = GetTimeStamp() + ( timeEnding-timeStarted )
   end
 	-- Fetch the saved variables
 end

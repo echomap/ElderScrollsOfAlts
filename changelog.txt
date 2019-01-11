@@ -29,14 +29,14 @@ test research 'code' param > 0
 ==Unpublished==
 1.00.09
 [list]
-[*] Added tags 
+[*] WW timer/cooldown buff name
 [/list]
 
 ==Published V1.0.X==
-1.00.08
+1.00.08 (I hate time)
 [list]
 [*] Less highlight
-[*] Timer bugged/fix
+[*] Timer bugged/fix - old timers had NOW stored wrong, dang it.
 [/list]
 1.00.07
 [list]
