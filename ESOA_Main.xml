@@ -20,7 +20,7 @@
       </OnInitialized>
   </Texture>
   
-    <Button name="ESOA_SortBar_SortButton" text="ZZZZ" virtual="true" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
+    <Button name="ESOA_SortBar_SortButton" text="ZZZZ" virtual="true" font="ZoFontGameLargeBold" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
       <Dimensions x="100" y="20"/>
       <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="0"/>      
       <OnMouseEnter> ElderScrollsOfAlts:ToolTipHeaderEnterSort(self) </OnMouseEnter>

@@ -75,7 +75,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
               end
             end
             if foundFeedBuff then
-              local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              --local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              local timeDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , value["timeEnding"] ) 
+              if(ElderScrollsOfAlts.altData.players[k].version==nil) then
+                timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              end
               playerLines[k].special_bitetimer = timeDiff
               playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
             else
@@ -104,7 +108,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
               end
             end
             if foundFeedBuff then
-              local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              --local timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              local timeDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , value["timeEnding"] ) 
+              if(ElderScrollsOfAlts.altData.players[k].version==nil) then
+                timeDiff = GetFrameTimeSeconds() - value["timeEnding"]
+              end              
               playerLines[k].special_bitetimer = timeDiff
               playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
             else
@@ -610,7 +618,10 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           if kk == nil then return end
           ElderScrollsOfAlts.debugMsg("research kk=" .. kk.. " v="..tostring(vv) )
           --Get/Fix Time
-          local nowDiff = GetFrameTimeSeconds() - ElderScrollsOfAlts.altData.players[k].research.now
+          local nowDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , ElderScrollsOfAlts.altData.players[k].research.now ) 
+          if(ElderScrollsOfAlts.altData.players[k].version==nil) then
+            nowDiff = GetFrameTimeSeconds() - ElderScrollsOfAlts.altData.players[k].research.now
+          end
           local timeS = vv.timeRemainingSecs - nowDiff
           local timeM = math.floor(timeS/60)
           local timeH = math.floor(timeM/60)

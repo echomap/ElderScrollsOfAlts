@@ -89,7 +89,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --Resets all my data to current data
 	ElderScrollsOfAlts.altData.players[playerKey] = {}
   ElderScrollsOfAlts.altData.players[playerKey].category = "A"
-
+  ElderScrollsOfAlts.altData.players[playerKey].version = ElderScrollsOfAlts.version
 
   -- BIO section
 	if ElderScrollsOfAlts.altData.players[playerKey].bio == nil then
@@ -257,7 +257,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].misc = {}
   end
   
-  ElderScrollsOfAlts.altData.players[playerKey].misc.now = GetFrameTimeSeconds()--ZO_FormatClockTime()
+  ElderScrollsOfAlts.altData.players[playerKey].misc.now = GetTimeStamp()--ZO_FormatClockTime()
   
   --Riding
   local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =   GetRidingStats()
@@ -317,7 +317,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --Research
   ElderScrollsOfAlts.altData.players[playerKey].research = {}  
-  ElderScrollsOfAlts.altData.players[playerKey].research.now = GetFrameTimeSeconds()
+  ElderScrollsOfAlts.altData.players[playerKey].research.now = GetTimeStamp()
   ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_BLACKSMITHING, "blacksmithing",
         ElderScrollsOfAlts.altData.players[playerKey].research)
   ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_CLOTHIER, "clothier", 
@@ -536,7 +536,7 @@ function ElderScrollsOfAlts:SaveDataPlayerResearchData(tradeSkillType, keyProfNa
       local durationSecs, timeRemainingSecs = GetSmithingResearchLineTraitTimes(tradeSkillType, researchLineIndex, traitIndex)
       if(durationSecs~=nil) then
         local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType,  researchLineIndex, traitIndex)
-        local timeTillReady = GetFrameTimeSeconds() + timeRemainingSecs
+        local timeTillReady = GetTimeStamp() + timeRemainingSecs
         dataResearchElem[keyProfName].ongoing[name] = {}
         dataResearchElem[keyProfName].ongoing[name].name              = name
         dataResearchElem[keyProfName].ongoing[name].durationSecs      = durationSecs

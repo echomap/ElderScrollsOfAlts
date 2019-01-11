@@ -1432,7 +1432,7 @@ function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
   if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil )then
    --d("GuiLineOnMouseEnter control="..tostring(control)  )
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
-    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, -5) --TODO changes if theline.setanchor does
+    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, ElderScrollsOfAlts.altData.fieldYOffset) --TODO changes if theline.setanchor does
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(false)
   end
 end
