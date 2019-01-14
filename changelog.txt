@@ -27,12 +27,17 @@ test colors ok
 test research 'code' param > 0
 
 ==Unpublished==
-1.00.09
+1.00.10
 [list]
-[*] WW timer/cooldown buff name
+[*] JC Chart update
 [/list]
 
 ==Published V1.0.X==
+1.00.09
+[list]
+[*] WW and Vamp timer/cooldown buff name
+[*] tagname: {SpecialBiteTimer}
+[/list]
 1.00.08 (I hate time)
 [list]
 [*] Less highlight

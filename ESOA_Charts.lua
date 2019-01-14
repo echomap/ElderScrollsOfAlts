@@ -178,9 +178,9 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 1) then
       return"Allows the use of |c00FFFFCopper|r Ounces."
     elseif(sunkVal == 2) then
-      return "Allows the use of |c00FFFFSilver|r Ounces."
+      return "Allows the use of |c00FFFFSilver|r Ounces. (Create gear up to CP |c00FFFF80|r)."
     elseif(sunkVal == 3) then
-      return "Allows the use of |c00FFFFElectrum|r Ounces."
+      return "Allows the use of |c00FFFFElectrum|r Ounces. (Create gear up to CP |c00FFFF140|r)."
     elseif(sunkVal == 4) then
       return "Allows the use of |c00FFFFPlatinum|r Ounces."
     end

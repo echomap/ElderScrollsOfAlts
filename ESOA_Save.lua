@@ -404,10 +404,16 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
       local baseElemTable = baseElem[name]
       local numAbilities = GetNumSkillAbilities(skillType, ii)
       baseElemTable.name = name
-      baseElemTable.idx = ii
-      baseElemTable.numAbilities = numAbilities
+      baseElemTable.idx  = ii
       baseElemTable.rank = rank
-      baseElemTable.skillLineId = skillLineId
+      baseElemTable.numAbilities = numAbilities
+      baseElemTable.skillLineId  = skillLineId
+      
+      local lastRankXP, nextRankXP, currentXP  = GetSkillLineXPInfo( skillType, ii )
+      baseElemTable.lastRankXP = lastRankXP
+      baseElemTable.nextRankXP = nextRankXP
+      baseElemTable.currentXP  = currentXP
+
       --ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
       --string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 
       --GetSkillAbilityInfo(number SkillType skillType, number skillIndex, number abilityIndex)
