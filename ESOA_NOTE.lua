@@ -1,4 +1,4 @@
---
+-- Player Note processing and saving
 
 function ElderScrollsOfAlts:ShowCharacterNote(self)
   local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername  
@@ -90,6 +90,7 @@ function ElderScrollsOfAlts:SaveNote()
   ElderScrollsOfAlts.view.currentcategory = tplayer.category
   --end
   ElderScrollsOfAlts.outputMsg("ESOA, saved note")
+  ElderScrollsOfAlts.RefreshViewableTable()
 end
 
 function ElderScrollsOfAlts:CloseNote(self)

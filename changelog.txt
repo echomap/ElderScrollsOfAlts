@@ -6,25 +6,22 @@ settings: max name length
 settings: use dropdown instead of buttons
 settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
 settings: turn off highlight
-
-view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
-vamp/were bite timers
-a lot of localization
 bug: Note change, not reflected immediately in UI
-copy views to account, from account
-change colors on timer screens
-Sorting can fail if key is now invalid,try???
+bug: Sorting can fail if key is now invalid,try???
   setmetatable(t,{
   __index = function(t,k) return 0 end
   })
-  
-Selection/ UnSelection / DeselectOnReselect
+
+feature: a lot of localization
+feature: copy views to account, from account
+feature: Selection/ UnSelection / DeselectOnReselect
 
 ==Test is Fixed==
 Text max length, name issue
 Current Sort NAME? Order by ViewName
 test colors ok
 test research 'code' param > 0
+view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
 1.00.10

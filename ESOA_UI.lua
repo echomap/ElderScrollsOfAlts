@@ -1084,6 +1084,12 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   if(ESOA_GUI2_Body_ListHolder.dataLines[1]==nil) then
     gSearch = nil
   else
+    --[[
+    setmetatable(t,{
+      __index = function(t,k) return 0 end
+    })
+    --]]
+    
     local testEntry1 = ESOA_GUI2_Body_ListHolder.dataLines[1].playerLine
     if(testEntry1==nil) then
       gSearch = nil
