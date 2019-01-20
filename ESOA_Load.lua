@@ -239,7 +239,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
   playerLines[k].M2  = EMPTYLINE
   --playerLines[k].M2_Link  = ev.itemLink              
  -- playerLines[k].M2_WeaponType  = ev.weaponType  
-  playerLines[k].O2  = "O2"
+  playerLines[k].O2  = EMPTYLINE
   --playerLines[k].O2_Link  = ev.itemLink  
   --playerLines[k].O2_WeaponType  = ev.weaponType  
   playerLines[k].M2  = EMPTYLINE

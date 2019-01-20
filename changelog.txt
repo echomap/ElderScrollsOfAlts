@@ -26,15 +26,21 @@ test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
+1.00.11
+[list]
+[*] 
+[/list]
+
+==Published V1.0.X==
 1.00.10
 [list]
 [*] JC Chart update
 [*] more localization updates
-Bite timer fixes
-View percent of skilup in tooltips
+[*] Bite timer fixes
+[*] View percent of skilup in tooltips
+[*] user can pick a color to set when a skill/item is at maximum
+[*] Width of Name field displayed.
 [/list]
-
-==Published V1.0.X==
 1.00.09
 [list]
 [*] WW and Vamp timer/cooldown buff name

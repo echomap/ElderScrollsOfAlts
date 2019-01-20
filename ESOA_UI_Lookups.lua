@@ -239,7 +239,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     elseif( playerLine[(viewKey)] ~=nil) then
       eline:SetText( playerLine[(viewKey)]  )
       eline.tooltip = viewKey .. " is " .. playerLine[(viewKey)]
-       eline.value = playerLine[(viewKey)]
+      eline.value = playerLine[(viewKey)]
     end
   end
   if( ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline) ) then
@@ -263,8 +263,13 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
     if( eline.value == 10 ) then 
       return true
     end
-  elseif( viewKey=="blacksmithing" or viewKey=="clothing" or viewKey=="enchanting" or viewKey=="jewelry" or viewKey=="provisioning" or viewKey=="woodworking") then
-    if( eline.value == 50 ) then 
+  elseif( viewKey=="Blacksmithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="Jewelry" or viewKey=="Provisioning" or viewKey=="Woodworking") then
+    if( eline.value == 50 ) then
+      --TODO check sunk
+      --Enchanting2 9
+      --Provisioning2 5
+      --data_sunk
+      --data_sunk2
       return true
     end
   end
@@ -281,16 +286,18 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,pla
   eline:SetText( playerLine[equipName] )
   eline.itemlink = playerLine[mKye1]
   eline.datatype = "Equip"
-  --eline:SetMouseEnabled(true)
+  --[[
+  --eline:SetMouseEnabled(true) --TODO check that works in default tooltip, then remove these 2
   eline:SetHandler('OnMouseEnter',function(self)
     ElderScrollsOfAlts:EquipTipEnter(self, viewKey )
   end)
   eline:SetHandler('OnMouseExit',function(self)
     ElderScrollsOfAlts:EquipTipExit(self)
   end)   
+  --]]
   eline:SetHandler('OnMouseUp',function(self)
     ElderScrollsOfAlts:EquipShowTip(self)
-  end)
+  end)  
 end
 
 --rclothier2time
@@ -362,6 +369,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
     ElderScrollsOfAlts:CraftTipExit(self)
   end)
   eline.datatype = "Trade"
+  eline.value = playerLine[tradeName]
 end
 
 
@@ -494,7 +502,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="Neck" or viewKey=="Ring1" or viewKey=="Ring2" ) then
     return 30
   elseif(viewKey=="M1" or viewKey=="M2" or viewKey=="Mp" or viewKey=="O1" or viewKey=="O2" or viewKey=="Op" ) then
-    return 30
+    return 35
   --
   else
     return 100

@@ -1449,7 +1449,7 @@ function ElderScrollsOfAlts:ResearchTipExit(myLabel)
   ClearTooltip(InformationTooltip)
 end
 
---ESOACraftTooltip EQUIP Tooltip
+--ESOACraftTooltip EQUIP Tooltip TODO REMOVEME
 function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)    
   local itemLink = myLabel.itemlink
   if(itemLink==nil) then
@@ -1493,7 +1493,7 @@ function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)
   --InformationTooltip:AddItemTags(itemLink)
 end
 
---UI
+--UI TODO REMOVEME
 function ElderScrollsOfAlts:EquipTipExit(myLabel)  
   ClearTooltip(InformationTooltip)
 end
@@ -1585,6 +1585,45 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
     elseif( nSpecial == 2 ) then
       tooltipDesc  = "Vampire"
     end--]]
+  --
+  --EQUIP
+  elseif(mySelf.itemlink~=nil and mySelf.datatype == "Equip") then
+    local itemLink = mySelf.itemlink
+    --debugMsg("nVal=" .. tostring(nVal) .." equipName=" .. tostring(craftName))  
+    local traitType, traitDescription = GetItemLinkTraitInfo(itemLink)
+    local requiredLevel = GetItemLinkRequiredLevel(itemLink)
+    local requiredCp    = GetItemLinkRequiredChampionPoints(itemLink)
+    local hasCharges, enchantHeader, enchantDescription = GetItemLinkEnchantInfo(itemLink)
+    --boolean hasSet, setName, number numBonuses, number numEquipped, number maxEquipped, number setId  
+    local hasSet, setName, numBonuses, numEquipped, maxEquipped, setId = GetItemLinkSetInfo(itemLink, true)
+    local flavorText  = GetItemLinkFlavorText(itemLink)
+    InitializeTooltip(ESOATooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
+    if( equipName ~= nil ) then
+      ESOATooltip:AddLine(string.format("(%s)",equipName), "ZoFontGame")
+    end
+    --as equipName is the same in this context ESOATooltip:AddLine(itemLink, "ZoFontGame")
+    if( traitType ~= nil) then
+      local traitName = GetString("SI_ITEMTRAITTYPE", traitType)
+      ESOATooltip:AddLine(itemLink, "ZoFontGame")    
+      if(requiredCp>0) then
+        ESOATooltip:AddLine(string.format("Level: %s CP:%s",requiredLevel,requiredCp), "ZoFontGame")
+      else
+        ESOATooltip:AddLine(string.format("Requires: %s",requiredLevel,requiredCp), "ZoFontGame")
+      end
+      if(enchantHeader ~= nil and enchantDescription ~= nil) then
+        ESOATooltip:AddLine(enchantHeader, "ZoFontGame")
+        ESOATooltip:AddLine(enchantDescription, "ZoFontGameSmall")
+      end
+      ESOATooltip:AddLine(traitName, "ZoFontGame")
+      ESOATooltip:AddLine(traitDescription, "ZoFontGame")
+      ESOATooltip:AddLine(flavorText, "ZoFontGameSmall")
+      if(hasSet) then
+        ESOATooltip:AddLine(string.format("Part of the: %s set (%s/%s items)",setName,numEquipped,maxEquipped), "ZoFontGame")
+      end    
+    end
+  --ESOATooltip:AddItemTags(itemLink)
+  --EQUIP
+  --
   else
     if(mySelf.tooltip~=nil)then
       tooltipDesc = mySelf.tooltip
@@ -1592,16 +1631,18 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
       --tooltipDesc = tooltipName
     end
   end
+  
   --ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipDesc='"..tostring(tooltipDesc).."' tooltipTitle='"..tostring(tooltipTitle).."'")
-  if( tooltipDesc == nil and tooltipTitle == nil) then return end 
-  InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -76, TOPRIGHT)
-  if tooltipTitle ~= nil then
-    ESOATooltip:AddLine(tooltipTitle, "ZoFontGameBold")
+  if( tooltipDesc ~= nil or tooltipTitle ~= nil) then
+    InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -76, TOPRIGHT)
+    if tooltipTitle ~= nil then
+      ESOATooltip:AddLine(tooltipTitle, "ZoFontGameBold")
+    end
+    if tooltipDesc ~= nil then
+      ESOATooltip:AddLine(tooltipDesc, "ZoFontGame")
+    end
   end
-  if tooltipDesc ~= nil then
-    ESOATooltip:AddLine(tooltipDesc, "ZoFontGame")
-  end
-end
+end--TooltipEnter
 
 function ElderScrollsOfAlts:TooltipExit(myLabel,craftName)  
   ClearTooltip(ESOATooltip)
