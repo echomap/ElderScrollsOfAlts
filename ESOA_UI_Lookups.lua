@@ -1,8 +1,11 @@
+-- Used by the UI to go from player data to column data
+-- i.e. filling inthe chart from the in memory data
 
 -----------
 -- HELPER -- 
 
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
+  eline.viewKey = viewKey
   if(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
     local vampire  = playerLine["Vampire"] 
@@ -18,14 +21,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
     --TODO timers
-  elseif(viewKey=="SpecialBiteTimer") then
+  elseif(viewKey=="SpecialBiteTimer") then    
     eline:SetText( playerLine.special_bitetimerDisplay )
-    local canBite = ""
-    if( playerLine.special_bitetimer~=nil and playerLine.special_bitetimer<=0)then
-      canBite = " Can Bite"
+    if( playerLine.Werewolf == true or  playerLine.Vampire == true) then
+      local canBite = ""
+      if( playerLine.special_bitetimer~=nil and playerLine.special_bitetimer<=0)then
+        canBite = "Bite" --localize
+        eline:SetText( canBite )
+      end
+      eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"..canBite
+      --TODO eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
-    eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"..canBite
-    --TODO eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
   elseif(viewKey=="Note") then
     if( playerLine["note"]==nil or playerLine["note"]=="")then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
@@ -63,7 +69,21 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" and playerLine[viewKey.."_Rank"]~=nil ) then
     eline:SetText( playerLine[viewKey.."_Rank"]  )
+    eline.value = playerLine[viewKey.."_Rank"] 
     eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. playerLine[viewKey.."_Rank"] 
+    if( playerLine[viewKey.."_XPCode"]~=nil )then
+      if( playerLine[viewKey.."_XPCode"]==0 )then
+        local sHint = zo_strformat("<<1>> has <<2>> skill of <<3>> <<4>>",
+            playerLine.name, viewKey, playerLine[viewKey.."_Rank"], "(MAX)" )
+        eline.tooltip = sHint
+      elseif( playerLine[viewKey.."_Percentage"]~=nil and playerLine[viewKey.."_Percentage"]>0) then
+        local sHint = zo_strformat("<<1>> <<2>> skill of <<3>> (<<4>>/<<5>>) <<6>>%",
+            playerLine.name, viewKey, playerLine[viewKey.."_Rank"], playerLine[viewKey.."_CurrentXP"], playerLine[viewKey.."_NextRankXP"], playerLine[viewKey.."_Percentage"])
+        eline.tooltip = sHint
+      end
+    end
+    
+    
   --
   elseif(viewKey=="Alchemy") then
     ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,playerLine,"alchemy")--,"alchemy_sunk","alchemy_sunk2")    
@@ -146,10 +166,12 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     local newKey = string.lower(viewKey)
     newKey = newKey:gsub(" ","_")
     if( playerLine[ newKey ] ~=nil ) then
+      eline.value = playerLine[newKey]
       eline:SetText( playerLine[newKey]  )
       eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[newKey], viewKey )
     else
       eline:SetText(playerLine[viewKey])
+       eline.value = playerLine[viewKey]
       eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[viewKey], viewKey )
     end
   elseif(viewKey=="Riding Timer") then
@@ -197,6 +219,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   else
     if( playerLine[viewKey.."_Rank"] ~=nil ) then
       eline:SetText( playerLine[viewKey.."_Rank"]  )
+      eline.value = playerLine[viewKey.."_Rank"]  
       return
     end
     local newKey = string.lower(viewKey)
@@ -205,18 +228,52 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     if( playerLine[ newKey ] ~=nil ) then
       eline:SetText( playerLine[newKey]  )
       eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
+      eline.value = playerLine[ newKey ] 
       return
     end
       
     if( playerLine[string.lower(viewKey)] ~=nil) then
       eline:SetText( playerLine[string.lower(viewKey)]  )
       eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
+      eline.value = playerLine[string.lower(viewKey)]
     elseif( playerLine[(viewKey)] ~=nil) then
       eline:SetText( playerLine[(viewKey)]  )
       eline.tooltip = viewKey .. " is " .. playerLine[(viewKey)]
+       eline.value = playerLine[(viewKey)]
     end
- 
   end
+  if( ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline) ) then
+    ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
+  end
+end
+
+-- Returns true if this value is MAX
+function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
+  if( eline.value==nil) then
+    return false
+  end
+  local viewKey = eline.viewKey
+  if(viewKey=="Level" and eline.value == 50 ) then
+    return true
+  elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
+    if( eline.value == 60 ) then 
+      return true
+    end
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" ) then
+    if( eline.value == 10 ) then 
+      return true
+    end
+  elseif( viewKey=="blacksmithing" or viewKey=="clothing" or viewKey=="enchanting" or viewKey=="jewelry" or viewKey=="provisioning" or viewKey=="woodworking") then
+    if( eline.value == 50 ) then 
+      return true
+    end
+  end
+  return false
+end
+
+function ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
+  local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline:GetText() )
+      eline:SetText( cText )  
 end
 
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,playerLine,equipName)
@@ -397,7 +454,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed") then  
     return 60
   elseif(viewKey=="Alliance") then
-    return 25
+    return 28
   elseif(viewKey=="Note") then
     return 35
   elseif(viewKey=="Class") then

@@ -29,6 +29,14 @@ function ElderScrollsOfAlts.SetupDefaultColors()
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b   = ElderScrollsOfAlts.rgbaWhite.b
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a   = ElderScrollsOfAlts.rgbaWhite.a
   end
+  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax = {}
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r   = ElderScrollsOfAlts.rgbaWhite.r
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g   = ElderScrollsOfAlts.rgbaWhite.g
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b   = ElderScrollsOfAlts.rgbaWhite.b
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a   = ElderScrollsOfAlts.rgbaWhite.a
+  end
+  
   --[[
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = 0.64 
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g = 0.224
@@ -79,96 +87,7 @@ function ElderScrollsOfAlts.InitializeGui()
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])    )
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])   )
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]))
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])  )
-    
-    
-  --[[
-    ElderScrollsOfAlts.savedVariables.gui[1] = {
-      ["name"] = "Home",
-      ["view"] = {
-        [1] = "Note",
-        [2] = "Special",
-        [3] = "Alliance",
-        [4] = "Class",
-        [5] = "Level",
-        [6] = "Gender",
-        [7] = "Race",
-        [8] = "Alchemy",
-        [9] = "Smithing",
-        [10] = "Clothing",
-        [11] = "Enchanting",
-        [12] = "Jewelry",
-        [13] = "Provisioning",
-        [14] = "Woodworking",        
-        [15] = "BagSpace",        
-        [16] = "BagSpaceFree",        
-        [17] = "Skillpoints",
-      }
-    }
-    ElderScrollsOfAlts.savedVariables.gui[2] = {
-      ["name"]="Equip",
-      ["view"] = {
-        [1] = "Head",
-        [2] = "Shoulders",
-        [3] = "Chest",
-        [4] = "Hands",
-        [5] = "Waist",
-        [6] = "Legs",
-        [7] = "Feet",
-        [8] = "Neck",
-        [9] = "Ring1",
-        [10] = "Ring2",
-        [11] = "M1",
-        [12] = "M2",
-        [13] = "Mp",
-        [14] = "O1",
-        [15] = "O2",
-        [16] = "Op",
-        [17] = "Heavy",
-        [18] = "Medium",
-        [19] = "Light",
-      },
-    }
-    ElderScrollsOfAlts.savedVariables.gui[3] = {
-      ["name"] = "Research",
-      ["view"] = {
-        [1] = "Clothier Research 1",
-        [2] = "Clothier Research 2",
-        [3] = "Clothier Research 3",
-        [4] = "Blacksmithing Research 1",
-        [5] = "Blacksmithing Research 2",
-        [6] = "Blacksmithing Research 3",
-        [7] = "Woodworking Research 1",
-        [8] = "Woodworking Research 2",
-        [9] = "Woodworking Research 3",
-        [10] = "Jewelcrafting Research 1",
-        [11] = "Jewelcrafting Research 2",
-        [12] = "Jewelcrafting Research 3",
-      },
-    }
-    ElderScrollsOfAlts.savedVariables.gui[4] = {
-      ["name"] = "Skills",
-      ["view"] = {
-        [1] = "Assault",
-        [2] = "Support",
-        [3] = "Legerdemain",
-        [4] = "Soul Magic",
-        [5] = "Werewolf",
-        [6] = "Vampire",
-        [7] = "Fighters Guild",
-        [8] = "Mages Guild",
-        [9] = "Undaunted",
-        [10] = "Thieves Guild",
-        [11] = "Dark Brotherhood",
-        [12] = "Psijic Order",
-        
-        [13] = "Riding Speed",
-        [14] = "Riding Stamina",
-        [15] = "Riding Inventory",
-        [16] = "Riding Timer",
-      },
-    }
-    --]]
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])  )  
   end -- GUI Views Update
   
   -- Setup Cat
@@ -210,6 +129,11 @@ function ElderScrollsOfAlts.InitializeGui()
   --ElderScrollsOfAlts.savedVariables.selected.category
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
   --ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
+  
+  --Cache Colors
+  --local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
+  
+  
 end
 
 --Called from Delayed Start
@@ -230,7 +154,6 @@ end
 
 --View, Setup and Show
 function ElderScrollsOfAlts:ShowGuiByChoice()
-  --TODO
   if( ESOA_GUI2:IsHidden()) then
     ElderScrollsOfAlts:CreateGUI()
     ElderScrollsOfAlts:ShowSetView()
@@ -307,14 +230,13 @@ function ElderScrollsOfAlts:ShowAndSetView(viewName, viewIdx, buttonCalled)
   end
   if(buttonCalled~=nil and buttonCalled.viewName~=nil )then
     --buttonCalled:SetFont(ZoFontGameLargeBold)--TODO
-    buttonCalled:SetText( "<"..buttonCalled.viewName..">" )
+    buttonCalled:SetText( "<"..buttonCalled.viewName..">" )--TODO localize
   end
   ElderScrollsOfAlts:ShowSetView()
 end
 
 --View, Setup and Show
 function ElderScrollsOfAlts:ShowNextView()
-  --TODO
   if(ElderScrollsOfAlts.view.viewButtons==nil)then
     return
   end
@@ -405,12 +327,15 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
       line = WINDOW_MANAGER:CreateControlFromVirtual("ESOA_GUI2_Header_ViewBtn_"..viewName, vParent, "ESOA_View_Template")
     end
     line:SetText( viewName ) --TODO get function to get display name
+    
+    if(ElderScrollsOfAlts.savedVariables.currentView==viewName)then
+      line:SetText( "<"..viewName..">" )--TODO localize
+    end
     if(viewCnt<=ElderScrollsOfAlts.altData.maxViewButtons) then
       line:SetHidden(false)
     else
       line:SetHidden(true)
     end
-    --sline:SetWidth( (viewName:len()*9)+5 )--TODO constants
     line.viewName = viewName
     line.viewIdx  = viewIdx
     ElderScrollsOfAlts.view.viewLookupIdxFromName[viewName] = viewIdx
@@ -421,7 +346,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     else
       line:SetAnchor(TOPLEFT, viewPred, TOPRIGHT, 10, 0)    
     end
-    --TODO add to min width
+    -- add to min width
     table.insert(ElderScrollsOfAlts.view.viewButtons,line)      
     viewCnt = viewCnt+1
     local lw = line:GetWidth()
@@ -444,10 +369,10 @@ end
 -- Load/Save data, and setup views
 function ElderScrollsOfAlts:CreateGUI()
   if(ElderScrollsOfAlts.savedVariables.currentView == nil) then
-    ElderScrollsOfAlts.savedVariables.currentView = "Home"
+    ElderScrollsOfAlts.savedVariables.currentView = GetString(ESOA_VIEW_HOME)
   end
   ElderScrollsOfAlts.debugMsg("CreateGUI: currentSavedView=",ElderScrollsOfAlts.savedVariables.currentView)
-  --TODO
+  --
   ElderScrollsOfAlts:SavePlayerDataForGui()
   
   --Setup Data
@@ -529,7 +454,7 @@ end--CreateGUI
 --Show the VIEW data for selected View
 function ElderScrollsOfAlts:ShowSetView()
   if(ElderScrollsOfAlts.savedVariables.currentView == nil) then
-    ElderScrollsOfAlts.savedVariables.currentView = "Home"
+    ElderScrollsOfAlts.savedVariables.currentView = GetString(ESOA_VIEW_HOME)
   end
   ElderScrollsOfAlts.debugMsg("ShowSetView: currentSavedView=",ElderScrollsOfAlts.savedVariables.currentView)
   local viewName = ElderScrollsOfAlts.savedVariables.currentView
@@ -695,7 +620,7 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   if(viewTemplateC==nil)then
     --log error!
     ElderScrollsOfAlts.errorMsg("No view template for this View: " .. viewNameS .. ", So view changed to default")
-    ElderScrollsOfAlts.savedVariables.currentView = "Home"
+    ElderScrollsOfAlts.savedVariables.currentView = GetString(ESOA_VIEW_HOME)
     return
   end
  

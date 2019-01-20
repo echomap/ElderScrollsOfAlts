@@ -1,4 +1,4 @@
---
+-- Save Player Data to Saved Variables
 
 --Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
 local matchNameList1 = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Recipe Quality", "Woodworking", "Engraver" }
@@ -113,7 +113,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local canChampPts = CanUnitGainChampionPoints("player")
   ElderScrollsOfAlts.altData.players[playerKey].bio.CanChampPts = canChampPts  
   if CanChampPts then
-    --TODO Not sure what this means
+    --TODO Not sure what effective level means
     --ElderScrollsOfAlts.altData.players[playerKey].bio.level    = GetUnitEffectiveLevel("player") 
     ElderScrollsOfAlts.altData.players[playerKey].bio.champion = GetUnitChampionPoints("player")   
   end  
@@ -154,11 +154,22 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 		ElderScrollsOfAlts.altData.players[playerKey].skills = {}
 	end
 
-	--
+  -- SKILLS
+  local baseElem = nil
+  local outputUndiscovered = false
+  --
+  skillType = SKILL_TYPE_ARMOR 
+  outputUndiscovered = true
+	ElderScrollsOfAlts.altData.players[playerKey].skills.armor = {}
+	ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist
+  ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscovered)
+  
+  --[[
   local skillType = SKILL_TYPE_ARMOR
 	ElderScrollsOfAlts.altData.players[playerKey].skills.armor = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist = {}
-  local baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist
+  baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist
 	local numSkillLines = GetNumSkillLines(skillType)
   for ii = 1, numSkillLines do
 		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
@@ -176,9 +187,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 		baseElemTable.skillLineId = skillLineId
 		--ElderScrollsOfAlts.loadPlayerArmorDetails(skillType,skillLineId,ii,name,playerKey)
 	end
-  
+  --]]
+    
   --
   skillType = SKILL_TYPE_WORLD 
+  outputUndiscovered = false
 	ElderScrollsOfAlts.altData.players[playerKey].skills.world = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.world.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.world.typelist
@@ -186,6 +199,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --
   skillType = SKILL_TYPE_CLASS 
+  outputUndiscovered = false
 	ElderScrollsOfAlts.altData.players[playerKey].skills.class = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.class.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.class.typelist
@@ -193,6 +207,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --
   skillType = SKILL_TYPE_GUILD  
+  outputUndiscovered = false
 	ElderScrollsOfAlts.altData.players[playerKey].skills.guild = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.guild.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.guild.typelist
@@ -200,6 +215,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --
   skillType = SKILL_TYPE_RACIAL  
+  outputUndiscovered = false
 	ElderScrollsOfAlts.altData.players[playerKey].skills.racial = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.racial.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.racial.typelist
@@ -207,6 +223,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --
   skillType = SKILL_TYPE_WEAPON  
+  outputUndiscovered = false
 	ElderScrollsOfAlts.altData.players[playerKey].skills.weapon = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.weapon.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.weapon.typelist
@@ -214,23 +231,32 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     
   --
   skillType = SKILL_TYPE_AVA  
+  outputUndiscovered = false
 	ElderScrollsOfAlts.altData.players[playerKey].skills.ava = {}
 	ElderScrollsOfAlts.altData.players[playerKey].skills.ava.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.ava.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
     
-  --SKILL_TYPE_NONE
+  --SKILL_TYPE_NONE TODO ?
 
-	--SKILL_TYPE_TRADESKILL
+  --
+  skillType = SKILL_TYPE_TRADESKILL 
+  outputUndiscovered = true
+  --[[
+	ElderScrollsOfAlts.altData.players[playerKey].skills.trade = {}
+	ElderScrollsOfAlts.altData.players[playerKey].skills.trade.typelist = {}
+  baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.trade.typelist
+  ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
+  --]]
+  
 	ElderScrollsOfAlts.altData.players[playerKey].skills.trade = {}
 	local baseTableElem = ElderScrollsOfAlts.altData.players[playerKey].skills.trade
 	baseTableElem.typelist = {}
   baseTableElem.skills   = {}
-	skillType = SKILL_TYPE_TRADESKILL
   numSkillLines = GetNumSkillLines(skillType)
   for ii = 1, numSkillLines do
+    --name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
 		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
-		--name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
 		if name == nil then
 			name = ii;
 		end
@@ -238,13 +264,19 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 		local selElemTable = baseTableElem.typelist[name]
 		local numAbilities = GetNumSkillAbilities(skillType, ii)
 		selElemTable.name = name
-		selElemTable.idx = ii
-		selElemTable.numAbilities = numAbilities
+		selElemTable.idx  = ii	
 		selElemTable.rank = rank
+    selElemTable.numAbilities = numAbilities
 		selElemTable.skillLineId = skillLineId
     
-		ElderScrollsOfAlts.SaveDataPlayerTradeDetails( name, baseTableElem, selElemTable, skillType, ii, numAbilities ) --skillLineId,ii,name,baseTableElem,playerKey)
+    local lastRankXP, nextRankXP, currentXP  = GetSkillLineXPInfo( skillType, ii )
+    selElemTable.lastRankXP = lastRankXP
+    selElemTable.nextRankXP = nextRankXP
+    selElemTable.currentXP  = currentXP
+    
+		ElderScrollsOfAlts.SaveDataPlayerTradeDetails( name, baseTableElem, selElemTable, skillType, ii, numAbilities )
 	end
+  
 
   --Check Specific Skilllines
   --ElderScrollsOfAlts.altData.players[playerKey].skills.world.typelist = {}
@@ -309,7 +341,20 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].currency = {}
   end  
   local currType = {CURT_ALLIANCE_POINTS, CURT_CHAOTIC_CREATIA,CURT_CROWNS,CURT_CROWN_GEMS,CURT_MONEY,CURT_NONE,CURT_STYLE_STONES,CURT_TELVAR_STONES,CURT_WRIT_VOUCHERS}
-  local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}
+  local cLoc = CURRENCY_LOCATION_CHARACTER
+  for ctIdx = 1, #currType do
+    local cType = currType[ctIdx]
+    local amount = GetCurrencyAmount( cType, cLoc )
+    local IS_PLURAL = false
+    if(amount and amount>1) then IS_PLURAL = true end
+    local currencyName = GetCurrencyName(cType, IS_PLURAL, false)
+    ElderScrollsOfAlts.altData.players[playerKey].currency[cType] = {}
+    ElderScrollsOfAlts.altData.players[playerKey].currency[cType].currencyName = currencyName
+    ElderScrollsOfAlts.altData.players[playerKey].currency[cType].amount       = amount
+  end
+
+  --[[
+  --local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}
   for clIdx = 1, #currLoc do 
     local cL = currLoc[clIdx]
     ElderScrollsOfAlts.altData.players[playerKey].currency[cL] = {}
@@ -318,7 +363,8 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
       local amount = GetCurrencyAmount( cT, cL )
       ElderScrollsOfAlts.altData.players[playerKey].currency[cL][cL] = amount
     end
-  end  
+  end 
+  --]]
 
   -- Equipment
   ElderScrollsOfAlts:SavaDataPlayerEquipment(playerKey)
@@ -326,16 +372,14 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --Research
   ElderScrollsOfAlts.altData.players[playerKey].research = {}  
   ElderScrollsOfAlts.altData.players[playerKey].research.now = GetTimeStamp()
-  ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_BLACKSMITHING, "blacksmithing",
+  ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_BLACKSMITHING,   "blacksmithing",
         ElderScrollsOfAlts.altData.players[playerKey].research)
-  ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_CLOTHIER, "clothier", 
+  ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_CLOTHIER,        "clothier", 
         ElderScrollsOfAlts.altData.players[playerKey].research)
-  ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_WOODWORKING, "woodworking",
+  ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_WOODWORKING,     "woodworking",
         ElderScrollsOfAlts.altData.players[playerKey].research)
-  --7 d("CRAFTING_TYPE_JEWELRYCRAFTING="..tostring(CRAFTING_TYPE_JEWELRYCRAFTING) )
   ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_JEWELRYCRAFTING, "jewelcrafting",
         ElderScrollsOfAlts.altData.players[playerKey].research)
-  --TODO //JC?
   
   --Bags/ Bank
   ElderScrollsOfAlts.altData.data = {}
@@ -385,7 +429,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 end
 
 --loadPlayerDataPart
-function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
+function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscovered)
   if skillType == nil then
       ElderScrollsOfAlts.debugMsg("SaveDataSkillData: skillType is NIL")
       return
@@ -398,7 +442,7 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
 		if name == nil then
 			name = ii;
 		end
-    if discovered then
+    if discovered or outputUndiscovered then
       --ElderScrollsOfAlts.debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
       baseElem[name]	= {}
       local baseElemTable = baseElem[name]
@@ -439,9 +483,8 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
 	end
 end
 
---loadPlayerTradeDetails
+--
 function ElderScrollsOfAlts.SaveDataPlayerTradeDetails(parentName, parentTableElem, tradeTableElem, skillType, ii, numAbilities )
-    --Find Abilities - search for main - Levelled one, ie: use iron/maple/greenrunes
     --ElderScrollsOfAlts.debugMsg("parentName='",parentName,"'")
     parentTableElem.skills[parentName]	= {}
     local selElemSubTable = parentTableElem.skills[parentName]
@@ -454,6 +497,7 @@ function ElderScrollsOfAlts.SaveDataPlayerTradeDetails(parentName, parentTableEl
         local name, icon, earnedRank, passive, ultimate, purchased, progressionIndex = GetSkillAbilityInfo(skillType, ii, aj)
         --ElderScrollsOfAlts.debugMsg("TradeSkill Ability: name="..name.. " purchased="..tostring(purchased))
         local currentUpgradeLevel, maxUpgradeLevel = GetSkillAbilityUpgradeInfo(skillType, skillIndex, aj)
+        --name, textureName texture, number:nilable earnedRank
         local _, _, nextUpgradeEarnedRank = GetSkillAbilityNextUpgradeInfo(skillType, skillIndex, aj)
         local plainName = zo_strformat(SI_ABILITY_NAME, name)
         name = ZO_Skills_GenerateAbilityName(SI_ABILITY_NAME_AND_UPGRADE_LEVELS, name, currentUpgradeLevel, maxUpgradeLevel, progressionIndex)
@@ -464,14 +508,15 @@ function ElderScrollsOfAlts.SaveDataPlayerTradeDetails(parentName, parentTableEl
         --local isActive = (not passive and not ultimate)
         --local isUltimate = (not passive and ultimate)
         --ElderScrollsOfAlts.debugMsg("TradeSkill Ability: passive="..tostring(passive))
+        
         if purchased then          
           selElemSubTable[plainName] = {}
           local selL = selElemSubTable[plainName]
-          selL.plainName = plainName
-          selL.name = name
+          selL.plainName  = plainName
+          selL.name       = name
           selL.earnedRank = earnedRank
-          selL.currentUpgradeLevel = currentUpgradeLevel
-          selL.maxUpgradeLevel = maxUpgradeLevel
+          selL.currentUpgradeLevel   = currentUpgradeLevel
+          selL.maxUpgradeLevel       = maxUpgradeLevel
           selL.nextUpgradeEarnedRank = nextUpgradeEarnedRank
           local match1 = ElderScrollsOfAlts:matchStringList(plainName,matchNameList1)
           if match1 then

@@ -330,75 +330,75 @@ end
 
 
 function ElderScrollsOfAlts:GetGenderFullText(genderId)
-  local genderName = "Other"
+  local genderName = GetString(ESOA_GENDER_OTHER)
     if genderId == 0 then
-      genderName = "Male"
+      genderName = GetString(ESOA_GENDER_MALE)
     elseif genderId == 1 then
-      genderName ="Female"
+      genderName = GetString(ESOA_GENDER_FEMALE)
     end
     return genderName
 end
 function ElderScrollsOfAlts:GetGenderText(genderId)
-  local genderName = "O"
+  local genderName = GetString(ESOA_GENDER_OTHER_S)
     if genderId == 0 then
-      genderName = "M"
+      genderName = GetString(ESOA_GENDER_MALE_S)
     elseif genderId == 1 then
-      genderName ="F"
+      genderName = GetString(ESOA_GENDER_FEMALE_S)
     end
     return genderName
 end
 
 function ElderScrollsOfAlts:GetClassText(className)
-  local classX = "UK"
-    if className == "Dragonknight" then
-      classX = "DK"
-    elseif className == "Sorcerer" then
-      classX ="Sorc"
-    elseif className == "Nightblade" then
-      classX ="Night"
-    elseif className == "Templar" then
-      classX ="Temp"
-    elseif className == "Warden" then
-      classX ="Ward"
+  local classX = GetString(ESOA_CLASS_DEFAULT_ABBREV)
+    if className == GetString(ESOA_CLASS_DRAGONKNIGHT) then
+      classX = GetString(ESOA_CLASS_DRAGONKNIGHT_ABBREV)
+    elseif className == GetString(ESOA_CLASS_SORCERER) then
+      classX = GetString(ESOA_CLASS_SORCERER_ABBREV)
+    elseif className == GetString(ESOA_CLASS_NIGHTBLADE) then
+      classX = GetString(ESOA_CLASS_NIGHTBLADE_ABBREV) 
+    elseif className == GetString(ESOA_CLASS_TEMPLAR) then
+      classX = GetString(ESOA_CLASS_TEMPLAR_ABBREV)
+    elseif className == GetString(ESOA_CLASS_WARDEN) then
+      classX = GetString(ESOA_CLASS_WARDEN_ABBREV)
     end
     return classX
 end
 
 function ElderScrollsOfAlts:GetRaceText1(raceName)
   local raceX = raceName
-    if raceName == "High Elf" then
-      raceX = "H.Elf"
-    elseif raceName == "Wood Elf" then
-      raceX ="W.Elf"
-    elseif raceName == "Khajiit " then
-      raceX ="Kaji"
-    elseif raceName == "Argonian " then
-      raceX ="Argon"
-    elseif raceName == "Dark Elf" then
-      raceX ="D.Elf"
+    if raceName == GetString(ESOA_RACE_HIGHELF) then
+      raceX = GetString(ESOA_RACE_HIGHELF_ABBREV) 
+    elseif raceName == GetString(ESOA_RACE_WOODELF) then
+      raceX = GetString(ESOA_RACE_WOODELF_ABBREV)
+    elseif raceName == GetString(ESOA_RACE_KHAJIIT) then
+      raceX = GetString(ESOA_RACE_KHAJIIT_ABBREV)
+    elseif raceName == GetString(ESOA_RACE_ARGONIAN) then
+      raceX = GetString(ESOA_RACE_ARGONIAN_ABBREV)
+    elseif raceName == GetString(ESOA_RACE_DARKELF) then
+      raceX = GetString(ESOA_RACE_DARKELF_ABBREV)
     end
     return raceX
 end
 function ElderScrollsOfAlts:GetRaceText2(raceName)
-  local raceX = "UK"
-    if raceName == "High Elf" then
-      raceX = "High"
-    elseif raceName == "Wood Elf" then
-      raceX ="Wood"
-    elseif raceName == "Khajiit " then
-      raceX ="Kaj"
-    elseif raceName == "Argonian " then
-      raceX ="Argo"
-    elseif raceName == "Nord " then
-      raceX ="Nord"
-    elseif raceName == "Dark Elf" then
-      raceX ="Dark"
-    elseif raceName == "Breton " then
-      raceX ="Breton"
-    elseif raceName == "Orc " then
-      raceX ="Orc"
-    elseif raceName == "Redguard " then
-      raceX ="Red"      
+  local raceX = GetString(ESOA_RACE_UNKNOWN)
+    if raceName == GetString(ESOA_RACE_HIGHELF) then
+      raceX = GetString(ESOA_RACE_HIGHELF_ABBREV2)
+    elseif raceName == GetString(ESOA_RACE_WOODELF) then
+      raceX = GetString(ESOA_RACE_WOODELF_ABBREV2)
+    elseif raceName == GetString(ESOA_RACE_KHAJIIT) then
+      raceX = GetString(ESOA_RACE_KHAJIIT_ABBREV2)
+    elseif raceName == GetString(ESOA_RACE_ARGONIAN) then
+      raceX = GetString(ESOA_RACE_ARGONIAN_ABBREV2)
+    elseif raceName == GetString(ESOA_RACE_NORD) then
+      raceX = GetString(ESOA_RACE_NORD_ABBREV)
+    elseif raceName == GetString(ESOA_RACE_DARKELF) then
+      raceX = GetString(ESOA_RACE_DARKELF_ABBREV2)
+    elseif raceName == GetString(ESOA_RACE_BRETON) then
+      raceX = GetString(ESOA_RACE_BRETON_ABBREV)
+    elseif raceName == GetString(ESOA_RACE_ORC) then
+      raceX = GetString(ESOA_RACE_ORC_ABBREV)
+    elseif raceName == GetString(ESOA_RACE_REDGUARD) then
+      raceX = GetString(ESOA_RACE_REDGUARD_ABBREV)   
     end
     return raceX
 end

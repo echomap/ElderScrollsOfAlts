@@ -1,11 +1,11 @@
---
---name
---menuName
+-- Functions to process Settings data
 
+-- UI Button
 function ElderScrollsOfAlts:GetUIButtonShown()
    return (ElderScrollsOfAlts.savedVariables.uibutton.shown)
 end
 
+-- UI Button
 function ElderScrollsOfAlts.SetUIButtonShown(value)
   ElderScrollsOfAlts.savedVariables.uibutton.shown = value
   ElderScrollsOfAlts.debugMsg("SetUIButtonShown: value=",tostring(value) )
@@ -14,6 +14,17 @@ function ElderScrollsOfAlts.SetUIButtonShown(value)
   else
     ElderScrollsOfAlts.ShowUIButton()
   end  
+end
+
+-- View Dropdown
+function ElderScrollsOfAlts.GetUIViewDropDownShown()
+  return (ElderScrollsOfAlts.savedVariables.viewdropdown.shown)
+end
+-- View Dropdown
+function ElderScrollsOfAlts.SetUIViewDropDownShown(value)
+  ElderScrollsOfAlts.savedVariables.viewdropdown.shown = value
+  ElderScrollsOfAlts.debugMsg("SetUIViewDropDownShown: value=", tostring(value) )
+  --TODO update UI
 end
 
 --Returns a list of character names
@@ -161,7 +172,6 @@ function ElderScrollsOfAlts:DoAddNewViewData()
   end
   local newView= {}
   newView["name"] = "New View"
-  --newView["view"] = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.view.guiTemplates["Home"]["view"] )
   newView["view"] = ElderScrollsOfAlts:deepcopy( viewTemplate["view"] )
   table.insert( ElderScrollsOfAlts.savedVariables.gui, newView )
   ElderScrollsOfAlts.outputMsg("Added new view")

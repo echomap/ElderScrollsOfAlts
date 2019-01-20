@@ -1,4 +1,4 @@
---
+-- Load Player Data from Saved Variables to GUI friendly data
 
 function ElderScrollsOfAlts:SavePlayerDataForGui()
   ElderScrollsOfAlts.DataSaveLivePlayer()
@@ -30,7 +30,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
 		--ElderScrollsOfAlts.debugMsg(" players " .. k)
 		playerLines[k] = {}
     pCount = pCount+1    
-		playerLines[k].name = ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
+		playerLines[k].name = k --ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
     playerLines[k].rawname = k
     playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
     if(playerLines[k].category==nil)then
@@ -63,7 +63,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       if bio.Werewolf then
         playerLines[k].Werewolf = true
         playerLines[k].special    = 1        
-        -- ["Werewolf"]["abilities"]["Bloodmoon"] TODO
+        -- ["Werewolf"]["abilities"]["Bloodmoon"]
         local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k],"world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
         if(foundItem~=nil) then
           playerLines[k].special_bitetimerDisplay = "[Unk]"
@@ -82,7 +82,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
                 timeDiff = GetFrameTimeSeconds() - buffvalue["timeEnding"]
               end
               playerLines[k].special_bitetimer = timeDiff
-              playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+              if(timeDiff<0) then
+                  playerLines[k].special_bitetimerDisplay = "Now"
+              else
+                playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+              end
             else
               playerLines[k].special_bitetimer = 0
               playerLines[k].special_bitetimerDisplay = "[v.v]"
@@ -310,7 +314,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
       playerLines[k].Waist_Link  = ev.itemLink          
       playerLines[k].Waist_Type  = tarmortype
     elseif ev.equipType == EQUIP_TYPE_NECK then
-      playerLines[k].Neck  = "O" --TODO lLine
+      playerLines[k].Neck  = "O"
       playerLines[k].Neck_Link    = ev.itemLink          
       playerLines[k].Neck_Quality = ev.quality
     elseif ev.equipType == EQUIP_TYPE_RING then
@@ -407,6 +411,19 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
               --debugMsg("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
               playerLines[k][rtKT.."_Rank"] = rtVT.rank
               playerLines[k][rtKT.."_Name"] = rtVT.name
+              playerLines[k][rtKT.."_LastRankXP"] = rtVT.lastRankXP
+              playerLines[k][rtKT.."_NextRankXP"] = rtVT.nextRankXP
+              playerLines[k][rtKT.."_CurrentXP"]  = rtVT.currentXP
+              playerLines[k][rtKT.."_XPCode"]     = -1
+              if( rtVT.nextRankXP == 0 )then
+                 playerLines[k][rtKT.."_XPCode"] = 0
+              elseif( rtVT.nextRankXP==nil or rtVT.currentXP==nil) then
+                playerLines[k][rtKT.."_XPCode"] = -1
+                playerLines[k][rtKT.."_Percentage"] = -1
+              elseif( rtVT.nextRankXP > rtVT.currentXP )then
+                playerLines[k][rtKT.."_XPCode"] = 1
+                playerLines[k][rtKT.."_Percentage"] =  math.floor(  (rtVT.currentXP/rtVT.nextRankXP)*100  )
+              end
               --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
             end
           end

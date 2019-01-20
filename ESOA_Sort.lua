@@ -33,7 +33,6 @@ end
 --Sort
 function ElderScrollsOfAlts:GuiSortCharBase(newKey,refreshOnly,sender)
   ElderScrollsOfAlts:debugMsg("GuiSortCharBase newKey="..tostring(newKey) )
-  --Arrows (TODO)
 end
 
   

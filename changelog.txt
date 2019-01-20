@@ -6,6 +6,8 @@ settings: max name length
 settings: use dropdown instead of buttons
 settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
 settings: turn off highlight
+settings:  add auto save timer?
+settings: max level skill color
 bug: Note change, not reflected immediately in UI
 bug: Sorting can fail if key is now invalid,try???
   setmetatable(t,{
@@ -27,6 +29,9 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 1.00.10
 [list]
 [*] JC Chart update
+[*] more localization updates
+Bite timer fixes
+View percent of skilup in tooltips
 [/list]
 
 ==Published V1.0.X==

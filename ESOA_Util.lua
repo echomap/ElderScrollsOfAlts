@@ -84,7 +84,7 @@ function ElderScrollsOfAlts:deepcopy(orig)
     end
     return copy
 end
---
+--TODO not used, remove
 function ElderScrollsOfAlts:getColoredString(color, s)
 	local c = ZO_ColorDef:New(GetInterfaceColor(INTERFACE_COLOR_TYPE_ITEM_QUALITY_COLORS, color))
 	return c:Colorize(s)
@@ -92,6 +92,7 @@ end
 
 function ElderScrollsOfAlts.ColorText(colors,text)
   --colorized text and write it out
+  --check cache
   local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
   local text2 = cCD:Colorize(text)
   return text2

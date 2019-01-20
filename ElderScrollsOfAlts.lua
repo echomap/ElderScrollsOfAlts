@@ -13,13 +13,13 @@ ElderScrollsOfAlts = {
     defaultFieldWidthForName = 180,
     defaultFieldHeight  = 30,
     defaultFieldYOffset = -10,-- -10 
-    defaultView     = "Home",
+    defaultView     = GetString(ESOA_VIEW_HOME),
     defaultSearch   = "Name",
     CATEGORY_ALL    = "All",
-    BITE_WERE_ABILITY  = "Bloodmoon",
-    BITE_WERE_COOLDOWN = "Bloodmoon Cooldown",
-    BITE_VAMP_ABILITY  = "Blood Ritual",
-    BITE_VAMP_COOLDOWN = "Blood Ritual Cooldown",
+    BITE_WERE_ABILITY  = GetString(ESOA_BITE_WERE_ABILITY),
+    BITE_WERE_COOLDOWN = GetString(ESOA_BITE_WERE_COOLDOWN),
+    BITE_VAMP_ABILITY  = GetString(ESOA_BITE_VAMP_ABILITY),
+    BITE_VAMP_COOLDOWN = GetString(ESOA_BITE_VAMP_COOLDOWN),
     rgbaWhite   = {
       ["r"] = 1,
       ["g"] = 1,
@@ -37,7 +37,7 @@ local defaultSettings = {
   sversion   = ElderScrollsOfAlts.version,
   --currentSortKey   = "name",
   --currentSortOrder =  true,
-  currentView      = "Home",
+  currentView      = GetString(ESOA_VIEW_HOME),
   currentsort      = { },
   fieldWidthForName = 180,
   window     = {
@@ -112,7 +112,6 @@ end
 function ElderScrollsOfAlts.OnChampionPerksStateChange(oldState,newState)
     if newState == SCENE_SHOWING then
       ElderScrollsOfAlts.HideAll()--ESOA_ButtonFrame
-      --TODO ESOA_ButtonFrame:SetHidden(true)
     elseif newState == SCENE_HIDDEN then
       ElderScrollsOfAlts.ShowUIButton()--ESOA_ButtonFrame
     end
@@ -146,10 +145,11 @@ function ElderScrollsOfAlts.OnPlayerLoaded(e)
 end
 
 -- EVENT
--- Player can be unloaded on zone change, reload, etc, but ont called on QUIT/Crash
+-- Player can be unloaded on zone change, reload, etc, but not called on QUIT/Crash
 function ElderScrollsOfAlts.OnPlayerUnloaded(event)
   --ElderScrollsOfAlts.debugMsg("OnPlayerUnloaded:", " called")
-  zo_callLater(ElderScrollsOfAlts.SavePlayerDataForGui, 3000)-- DATA
+  --zo_callLater(ElderScrollsOfAlts.SavePlayerDataForGui, 3000)-- DATA
+  ElderScrollsOfAlts.SavePlayerDataForGui()
   --ElderScrollsOfAlts.debugMsg("OnPlayerUnloaded:", " done")
 end
 
