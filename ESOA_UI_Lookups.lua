@@ -263,15 +263,28 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
     if( eline.value == 10 ) then 
       return true
     end
-  elseif( viewKey=="Blacksmithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="Jewelry" or viewKey=="Provisioning" or viewKey=="Woodworking") then
-    if( eline.value == 50 ) then
-      --TODO check sunk
-      --Enchanting2 9
-      --Provisioning2 5
-      --data_sunk
-      --data_sunk2
+  elseif( viewKey=="Alchemy") then
+    if( eline.value == 50  and eline.data_sunk == 7 ) then
       return true
     end
+  elseif( viewKey=="Jewelry") then
+    if( eline.value == 50  and eline.data_sunk == 4 ) then
+      return true
+    end
+  elseif( viewKey=="Blacksmithing" or viewKey == "Smithing" or viewKey=="Clothing" or viewKey=="Woodworking") then
+    --ElderScrollsOfAlts.outputMsg("Skill found, val = ".. tostring(eline.value) .. " sunk="..tostring(eline.data_sunk) )
+    if( eline.value == 50  and eline.data_sunk == 9 ) then
+      return true
+    end
+  elseif( viewKey=="Enchanting") then
+    if( eline.value == 50  and eline.data_sunk == 3 and eline.data_sunk2 == 9 ) then
+      return true
+    end
+  elseif( viewKey=="Provisioning") then
+    if( eline.value == 50  and eline.data_sunk == 3 and eline.data_sunk2 == 5 ) then
+      return true
+    end
+  else
   end
   return false
 end
