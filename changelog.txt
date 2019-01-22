@@ -13,6 +13,7 @@ bug: Sorting can fail if key is now invalid,try???
   setmetatable(t,{
   __index = function(t,k) return 0 end
   })
+bug: minimize button not working
 
 feature: a lot of localization
 feature: copy views to account, from account
@@ -28,6 +29,7 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 ==Unpublished==
 1.00.11
 [list]
+[*] update trigger when a skill/item is at maximum for trade profs
 [*] 
 [/list]
 
