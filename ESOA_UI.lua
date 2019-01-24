@@ -130,6 +130,11 @@ function ElderScrollsOfAlts.InitializeGui()
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
   --ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
   
+  if(ElderScrollsOfAlts.savedVariables.viewmousehighlight==nil)then
+    ElderScrollsOfAlts.savedVariables.viewmousehighlight = {}
+    ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = true
+  end
+  
   --Cache Colors
   --local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
   
@@ -393,13 +398,15 @@ function ElderScrollsOfAlts:CreateGUI()
   ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(true)
   --]]--
   --
-  local hllineName2 = "ESOA_GUI2_Body_ListHolder_Highlight"
-  local hlline2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight')  
-  if(hlline2==nil)then
-    hlline2 = WINDOW_MANAGER:CreateControlFromVirtual(hllineName2, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
+  if(ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
+    local hllineName2 = "ESOA_GUI2_Body_ListHolder_Highlight"
+    local hlline2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight')  
+    if(hlline2==nil)then
+      hlline2 = WINDOW_MANAGER:CreateControlFromVirtual(hllineName2, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
+    end
+    ESOA_GUI2_Body_ListHolder.mouseHighlight = hlline2
+    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   end
-  ESOA_GUI2_Body_ListHolder.mouseHighlight = hlline2
-  ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   
   --Setup all PlayerData Lines (w/o data) 
   local parent     = nil
@@ -1245,6 +1252,74 @@ end
 
 function ElderScrollsOfAlts:GUI2Minimize(bMin)
   ElderScrollsOfAlts.debugMsg("GUI2Minimize Called, bMin=",tostring(bMin) )
+  ElderScrollsOfAlts.savedVariables.window.minimized = bMin
+--[[  
+  if ElderScrollsOfAlts.savedVariables.window.minlevel == nil then
+    ElderScrollsOfAlts.savedVariables.window.minlevel = 0
+  end
+  if bMin then
+    ElderScrollsOfAlts.savedVariables.window.minlevel = ElderScrollsOfAlts.savedVariables.window.minlevel + 1
+  else
+    ElderScrollsOfAlts.savedVariables.window.minlevel = ElderScrollsOfAlts.savedVariables.window.minlevel - 1
+  end
+  --d("MinLevel=" .. tostring(ElderScrollsOfAlts.savedVariables.window.minlevel) )
+  
+  if ElderScrollsOfAlts.savedVariables.window.minlevel == nil or ElderScrollsOfAlts.savedVariables.window.minlevel == 0 then
+    --
+  else
+    --
+  end 
+--]]
+  --Header
+  ESOA_GUI2_Header_Minimize:SetHidden(bMin)
+  ESOA_GUI2_Header_Maximize:SetHidden(not bMin)  
+  --Body  
+  ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
+  ESOA_GUI2_Body_Divider:SetHidden(bMin)
+  ESOA_GUI2_Body_ListHolder:SetHidden(bMin)
+--[[
+  --Sizing
+  if bMin then
+    --ElderScrollsOfAlts.savedVariables.window.restoreheight = ESOA_GUI2:GetHeight()
+    ESOA_GUI2:SetHeight(20)
+    --ElderScrollsOfAlts:HideGuiByChoice()
+    --Hdr
+    ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
+    ESOA_GUI2_Body_EquipListHeader:SetHidden(bMin)
+    ESOA_GUI2_Body_ResearchListHeader:SetHidden(bMin)
+    ESOA_GUI2_Body_Misc2ListHeader:SetHidden(bMin)
+    --Body  
+    ESOA_GUI2_Body_CharList:SetHidden(bMin)
+    ESOA_GUI2_Body_List_EQUIP:SetHidden(bMin)
+    ESOA_GUI2_Body_List_Research:SetHidden(bMin)
+    ESOA_GUI2_Body_List_Misc2:SetHidden(bMin)
+  else
+    ElderScrollsOfAlts.loadPlayerData() -- read data from game into addon
+    ElderScrollsOfAlts:SetupGui2(self)  -- Setup Display of addon data   
+    ElderScrollsOfAlts:Gui2SortRefresh()
+
+    if(ElderScrollsOfAlts.savedVariables.currentView == "Research") then     
+      ESOA_GUI2_Body_ResearchListHeader:SetHidden(bMin)
+      ESOA_GUI2_Body_List_Research:SetHidden(bMin)
+    elseif(ElderScrollsOfAlts.savedVariables.currentView == "Equip") then     
+      ESOA_GUI2_Body_EquipListHeader:SetHidden(bMin)
+      ESOA_GUI2_Body_List_EQUIP:SetHidden(bMin)
+    elseif(ElderScrollsOfAlts.savedVariables.currentView == "Other1") then     
+      ESOA_GUI2_Body_Misc2ListHeader:SetHidden(bMin)
+      ESOA_GUI2_Body_List_Misc2:SetHidden(bMin)
+    else
+      ESOA_GUI2_Body_CharListHeader:SetHidden(bMin)
+      ESOA_GUI2_Body_CharList:SetHidden(bMin)
+    end
+  
+    --local rHt = ElderScrollsOfAlts.savedVariables.window.restoreheight
+    --if rHt == nil then
+    --  rHt = ElderScrollsOfAlts.savedVariables.window.height
+    --end    
+    ESOA_GUI2:SetHeight(ElderScrollsOfAlts.savedVariables.window.height)
+    --ElderScrollsOfAlts:ShowGuiByChoice()
+  end  
+--]]
 end
 
 

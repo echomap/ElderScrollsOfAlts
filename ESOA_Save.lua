@@ -352,6 +352,32 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].currency[cType].currencyName = currencyName
     ElderScrollsOfAlts.altData.players[playerKey].currency[cType].amount       = amount
   end
+  
+  --PVP - campaign
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar = {}
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.inCampaign = IsInCampaign()
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignId = GetGuestCampaignId()
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignId  = GetCurrentCampaignId()
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignId = GetAssignedCampaignId()  
+  --GetPreferredCampaign()  ??
+  --TODO TIMERS?
+
+  --TODO
+  local isInCampaign = GetCurrentCampaignId() ~= 0
+  local homeCampaignAssigned = GetAssignedCampaignId() ~= 0
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.isInCampaign = isInCampaign
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignAssigned = homeCampaignAssigned
+  if not (isInCampaign or homeCampaignAssigned) then
+    --no campaign
+  else
+    --TODO
+    --local campaignName = GetCampaignName(campaignId)    
+  end
+
+
+
+    
+    
 
   --[[
   --local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}

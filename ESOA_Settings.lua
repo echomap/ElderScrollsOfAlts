@@ -27,6 +27,17 @@ function ElderScrollsOfAlts.SetUIViewDropDownShown(value)
   --TODO update UI
 end
 
+-- Mouse Hightlight
+function ElderScrollsOfAlts.GetUIViewMouseHighlightShown()
+  return (ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown)
+end
+--  Mouse Hightlight
+function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
+  ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = value
+  ElderScrollsOfAlts.debugMsg("SetUIViewMouseHighlightShown: value=", tostring(value) )
+end
+
+
 --Returns a list of character names
 function ElderScrollsOfAlts:ListOfCharacterNames()
   local validChoices =  {}  
@@ -195,7 +206,7 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
       val = val:gsub("}","")
       table.insert( tempTable, val  )
       --tempTable[tostring(k)] = tostring(k)
-      ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: match k=",tostring(k)," v=", tostring(v) )
+      --ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: match k=",tostring(k)," v=", tostring(v) )
     end
     --TODO output fails etc
     --for kk,vv in pairs(tempTable) do
@@ -205,7 +216,7 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
     local goodEntries = {}
     for kk,vv in pairs(tempTable) do
       local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
-      ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
+      --ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
       if(fEntry~=nil)then
         ElderScrollsOfAlts.outputMsg( "Validated")
         table.insert(goodEntries, tostring(vv) )
@@ -215,12 +226,13 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
     end
     guiLine["view"] = goodEntries
   
-    for k2,v2 in pairs(guiLine.view) do
+    --[[for k2,v2 in pairs(guiLine.view) do
       ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: k="..tostring(k2).." v="..tostring(v2) )
     end
-    --TODO
+    --]]
     --ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx].name = ElderScrollsOfAlts.view.newViewName
     --ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx].veiw = ElderScrollsOfAlts.view.newViewEntry
+    ElderScrollsOfAlts.outputMsg("Saved View")
   else
     ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: Can't find data line")
   end

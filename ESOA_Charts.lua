@@ -76,6 +76,8 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["SecondsPlayed"] = 1, 
   ["TimePlayed"] = 1, 
   
+  ["Alliance Name"] = 1,
+  
 }
 
 ElderScrollsOfAlts.view.guiTemplates = {  

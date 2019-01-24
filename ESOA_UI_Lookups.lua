@@ -50,6 +50,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
       eline:SetTexture(pAllIcon)      
     end
+  elseif(viewKey=="Alliance Name") then
+    local pAlliance = playerLine["alliance"]
+    eline.allianceid = pAlliance
+    --TODO alliance name
+    eline.alliance = GetAllianceName(pAlliance) 
   elseif(viewKey=="Class") then
     eline:SetText( ElderScrollsOfAlts:GetClassText(playerLine["class"]) )
     eline.tooltip = playerLine.name .. " is a ".. ElderScrollsOfAlts:GetClassText(playerLine["class"])
@@ -476,6 +481,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 60
   elseif(viewKey=="Alliance") then
     return 28
+  elseif(viewKey=="Alliance Name") then
+    return 50
   elseif(viewKey=="Note") then
     return 35
   elseif(viewKey=="Class") then
@@ -533,6 +540,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "PTime"    
   elseif(viewKey=="Alliance") then
     return "Aly"
+  elseif(viewKey=="Alliance Name") then
+    return "Alliance"
   elseif(viewKey=="Note") then
     return "Note"
   elseif(viewKey=="Class") then

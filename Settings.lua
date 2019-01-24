@@ -92,10 +92,18 @@ function ElderScrollsOfAlts.LoadSettings()
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
-    name    = "Use dropdown for Views",
+    name    = "Use dropdown for Views, instead of buttons.",
     tooltip = "On or off.",
-    getFunc = function() return ElderScrollsOfAlts.GetUIViewDropDownShown() end,
-    setFunc = function(value) ElderScrollsOfAlts.SetUIViewDropDownShown(value)  end,
+    getFunc = function() return ElderScrollsOfAlts.GetUIViewMouseHighlightShown() end,
+    setFunc = function(value) ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
+    width   = "half",	--or "half" (optional)
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = "Mouse Hightlight On/Off",
+    tooltip = "On or off.",
+    getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
+    setFunc = function(value) ElderScrollsOfAlts.SetUIButtonShown(value)  end,
     width   = "half",	--or "half" (optional)
   }
   
