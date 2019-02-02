@@ -24,13 +24,18 @@ test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
+1.00.12
+[list]
+[*] 
+[*] 
+[/list]
+
+==Published V1.0.X==
 1.00.11
 [list]
 [*] update trigger when a skill/item is at maximum for trade profs
 [*] settings: turn off highlight
 [/list]
-
-==Published V1.0.X==
 1.00.10
 [list]
 [*] JC Chart update

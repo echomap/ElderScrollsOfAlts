@@ -134,6 +134,12 @@ function ElderScrollsOfAlts.InitializeGui()
     ElderScrollsOfAlts.savedVariables.viewmousehighlight = {}
     ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = true
   end
+  if(ElderScrollsOfAlts.savedVariables.uibutton==nil) then
+    ElderScrollsOfAlts.savedVariables.uibutton = {}
+  end
+  if(ElderScrollsOfAlts.savedVariables.viewdropdown==nil) then
+    ElderScrollsOfAlts.savedVariables.viewdropdown = {}
+  end
   
   --Cache Colors
   --local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)

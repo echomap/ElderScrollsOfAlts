@@ -17,7 +17,7 @@ function ElderScrollsOfAlts.SetUIButtonShown(value)
 end
 
 -- View Dropdown
-function ElderScrollsOfAlts.GetUIViewDropDownShown()
+function ElderScrollsOfAlts:GetUIViewDropDownShown()
   return (ElderScrollsOfAlts.savedVariables.viewdropdown.shown)
 end
 -- View Dropdown
@@ -28,7 +28,7 @@ function ElderScrollsOfAlts.SetUIViewDropDownShown(value)
 end
 
 -- Mouse Hightlight
-function ElderScrollsOfAlts.GetUIViewMouseHighlightShown()
+function ElderScrollsOfAlts:GetUIViewMouseHighlightShown()
   return (ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown)
 end
 --  Mouse Hightlight
