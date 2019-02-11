@@ -404,15 +404,13 @@ function ElderScrollsOfAlts:CreateGUI()
   ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(true)
   --]]--
   --
-  if(ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
-    local hllineName2 = "ESOA_GUI2_Body_ListHolder_Highlight"
-    local hlline2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight')  
-    if(hlline2==nil)then
-      hlline2 = WINDOW_MANAGER:CreateControlFromVirtual(hllineName2, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
-    end
-    ESOA_GUI2_Body_ListHolder.mouseHighlight = hlline2
-    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
+  local hllineName2 = "ESOA_GUI2_Body_ListHolder_Highlight"
+  local hlline2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Highlight')  
+  if(hlline2==nil)then
+    hlline2 = WINDOW_MANAGER:CreateControlFromVirtual(hllineName2, ESOA_GUI2_Body_ListHolder, "ESOA_RowTemplate_Highlight")
   end
+  ESOA_GUI2_Body_ListHolder.mouseHighlight = hlline2
+  ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   
   --Setup all PlayerData Lines (w/o data) 
   local parent     = nil
@@ -448,11 +446,8 @@ function ElderScrollsOfAlts:CreateGUI()
     --if(ESOA_GUI2_Body_ListHolder.hightlightSelected==nil)then
     --  ElderScrollsOfAlts.debugMsg("CreateGUI: hightlightSelected is nil")
     --end
-    if(ESOA_GUI2_Body_ListHolder.hightlightSelected~=nil and charKey == ElderScrollsOfAlts.view.whoiamplayerKey )then
-      --TODO ESOA_GUI2_Body_ListHolder.hightlightSelected
-      ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(TOPLEFT, line, TOPLEFT, 0, 0) 
-      ESOA_GUI2_Body_ListHolder.hightlightSelected:SetAnchor(BOTTOMRIGHT, line, BOTTOMRIGHT, 0, 0) 
-      ESOA_GUI2_Body_ListHolder.hightlightSelected:SetHidden(false)
+    if(charKey == ElderScrollsOfAlts.view.whoiamplayerKey) then
+      ElderScrollsOfAlts:ShowHightlight(line)
       ElderScrollsOfAlts.debugMsg("Selected player to hightlight")
     end
     --
@@ -484,7 +479,13 @@ function ElderScrollsOfAlts:ShowSetView()
   local viewTemplateC = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.currentView)
   if(viewTemplateC==nil)then
     --log error!
-    ElderScrollsOfAlts.errorMsg("No view template for this View: " .. tostring(ElderScrollsOfAlts.savedVariables.currentView ) )
+    ElderScrollsOfAlts.errorMsg("No view template for this View: " .. tostring(ElderScrollsOfAlts.savedVariables.currentView ) .." Resetting to last, or Default. Try again.")
+    if(ElderScrollsOfAlts.savedVariables.lastView~=nil)then
+      ElderScrollsOfAlts.savedVariables.currentView = ElderScrollsOfAlts.savedVariables.lastView
+      ElderScrollsOfAlts.savedVariables.lastView    = nil
+    else
+      ElderScrollsOfAlts.savedVariables.currentView = GetString(ESOA_VIEW_HOME)
+    end
     return
   end
 
@@ -1441,15 +1442,18 @@ function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   ]]
 end
 
-
-function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
-  if not control then return end
-  if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil )then
+function ElderScrollsOfAlts:ShowHightlight(control)
+  if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
    --d("GuiLineOnMouseEnter control="..tostring(control)  )
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, ElderScrollsOfAlts.altData.fieldYOffset) --TODO changes if theline.setanchor does
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(false)
-  end
+  end  
+end
+
+function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
+  if not control then return end
+  ElderScrollsOfAlts:ShowHightlight(control)
 end
 
 function ElderScrollsOfAlts:GuiLineOnMouseExit(self)

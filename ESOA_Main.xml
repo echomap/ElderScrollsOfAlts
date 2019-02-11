@@ -2,7 +2,7 @@
 <Controls>
 
    <Texture name="ESOA_RowTemplate_Highlight" textureFile="EsoUI/Art/Contacts/social_list_bgStrip_highlight.dds"
-        alpha="0.8" level="1" tier="HIGH" virtual="true">
+        alpha="0.7" level="1" tier="HIGH" virtual="true">
       <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="8" />
       <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="-4"/>
       <TextureCoords top="0" bottom=".625" left="0" right=".625"/>

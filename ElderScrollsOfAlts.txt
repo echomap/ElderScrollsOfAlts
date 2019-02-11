@@ -1,5 +1,5 @@
 ## Title: ElderScrollsOfAlts
-## Version: 1.00.06
+## Version: 1.00.11
 ## AddOnVersion: 1.00.11
 ## APIVersion: 100025 100026
 ## Author: Echomap

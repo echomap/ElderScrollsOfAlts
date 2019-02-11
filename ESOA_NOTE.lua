@@ -77,10 +77,11 @@ function ElderScrollsOfAlts:SaveNote()
   --if(pName==splayer.rawname) then
   ElderScrollsOfAlts.view.currentnote = tplayer.note
   ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "note", tplayer.note)
+  --ElderScrollsOfAlts.view.playerLines[ElderScrollsOfAlts.savedVariables.selected.charactername].note = tplayer.note
   --end
   
   local selCat = ESOA_GUI2_Notes_Category_Edit:GetText()
-  if(selCat==nil)then
+  if(selCat==nil or selCat=="")then
     selCat = "All"
   end
   ElderScrollsOfAlts.outputMsg("ESOA, saved cat="..tostring(selCat))
@@ -90,7 +91,8 @@ function ElderScrollsOfAlts:SaveNote()
   ElderScrollsOfAlts.view.currentcategory = tplayer.category
   --end
   ElderScrollsOfAlts.outputMsg("ESOA, saved note")
-  ElderScrollsOfAlts.RefreshViewableTable()
+  --ElderScrollsOfAlts.RefreshViewableTable()
+  ElderScrollsOfAlts:CreateGUI()
 end
 
 function ElderScrollsOfAlts:CloseNote(self)

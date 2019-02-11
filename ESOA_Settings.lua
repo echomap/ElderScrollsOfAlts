@@ -35,6 +35,7 @@ end
 function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
   ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = value
   ElderScrollsOfAlts.debugMsg("SetUIViewMouseHighlightShown: value=", tostring(value) )
+  ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
 end
 
 
