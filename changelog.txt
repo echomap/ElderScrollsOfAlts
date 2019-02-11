@@ -26,7 +26,9 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 ==Unpublished==
 1.00.12
 [list]
-[*] 
+[*] Hightlight alpha reduced
+[*] Note in GUI update upon change
+[*] Hightlight updates, and current char automatic highlighting
 [*] 
 [/list]
 
