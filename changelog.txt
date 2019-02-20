@@ -29,7 +29,8 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 [*] Hightlight alpha reduced
 [*] Note in GUI update upon change
 [*] Hightlight updates, and current char automatic highlighting
-[*] 
+[*] Added field to settings, for views, to show all available tags
+[*] Nearly MAX color added
 [/list]
 
 ==Published V1.0.X==

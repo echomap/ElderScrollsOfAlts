@@ -160,7 +160,7 @@ function ElderScrollsOfAlts:DoTestSelectedView()
     val = val:gsub("}","")
     table.insert( tempTable, val  )
     --tempTable[tostring(k)] = tostring(k)
-    ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: match val=", tostring(val) )
+    --ElderScrollsOfAlts.outputMsg("DoTestSelectedView: match val=".. tostring(val) )
   end
   
   --Test names, check in ElderScrollsOfAlts.allowedViewEntries
@@ -298,5 +298,17 @@ function ElderScrollsOfAlts.GetEditSelectedViewText()
   return (ElderScrollsOfAlts.view.SettingsViewData)
 end
 
+function ElderScrollsOfAlts.GetAllAllowedViewEntries()
+  local printEntries = "" 
+  for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do
+    printEntries = zo_strformat("<<1>> {<<2>>},", printEntries, kName )
+  end
+  --printEntries = "Allowable entry names: " .. printEntries
+  --ElderScrollsOfAlts.outputMsg(printEntries)
+  return printEntries
+end
+
+function ElderScrollsOfAlts:SetAllAllowedViewEntries(newName)
+end
 
 --EOF

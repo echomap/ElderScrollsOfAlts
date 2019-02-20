@@ -247,57 +247,110 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.value = playerLine[(viewKey)]
     end
   end
-  if( ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline) ) then
+ 
+  local vcP = ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
+  --ElderScrollsOfAlts.outputMsg("MaxValueCheck:" .. 
+
+  local vc = ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
+  if( vc==1 ) then
     ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
+  elseif( vc==2 ) then
+    ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
   end
 end
 
+function ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
+  if( eline.value==nil) then
+    return 0
+  end
+  local viewKey = eline.viewKey
+  if(viewKey=="Level" or viewKey=="level") then
+    local vcP = ElderScrollsOfAlts.LookupPercentCheck(eline.value,50,80) 
+    ElderScrollsOfAlts.outputMsg("MaxValueCheck:" .. tostring(vcP) )
+  end
+end
+
+function ElderScrollsOfAlts.LookupPercentCheck(valIn,maxVal,perc)
+  if( valIn==nil) then
+    return 0
+  end
+  --local viewKey = eline.viewKey
+  if(valIn == maxVal ) then
+    return 1
+  end
+  local pVal = ( (valIn/maxVal) *100)
+  if(pVal>100) then
+    return 1
+  elseif(pVal>perc) then
+    return 2
+  end
+  return 0
+end
+
 -- Returns true if this value is MAX
+-- Returns 0 if not at max, 1 if at MAX, and 2 if near max
 function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
   if( eline.value==nil) then
-    return false
+    return 0
   end
   local viewKey = eline.viewKey
   if(viewKey=="Level" and eline.value == 50 ) then
-    return true
+    return 1
   elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
     if( eline.value == 60 ) then 
-      return true
+      return 1
     end
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" ) then
     if( eline.value == 10 ) then 
-      return true
+      return 1
     end
   elseif( viewKey=="Alchemy") then
     if( eline.value == 50  and eline.data_sunk == 7 ) then
-      return true
+      return 1
     end
   elseif( viewKey=="Jewelry") then
     if( eline.value == 50  and eline.data_sunk == 4 ) then
-      return true
+      return 1
+    elseif( eline.value == 50  ) then
+      return 2
     end
   elseif( viewKey=="Blacksmithing" or viewKey == "Smithing" or viewKey=="Clothing" or viewKey=="Woodworking") then
     --ElderScrollsOfAlts.outputMsg("Skill found, val = ".. tostring(eline.value) .. " sunk="..tostring(eline.data_sunk) )
     if( eline.value == 50  and eline.data_sunk == 9 ) then
-      return true
+      return 1
+    elseif( eline.value == 50  ) then
+      return 2
     end
   elseif( viewKey=="Enchanting") then
     if( eline.value == 50  and eline.data_sunk == 3 and eline.data_sunk2 == 9 ) then
-      return true
+      return 1
+    elseif( eline.value == 50  ) then
+      return 2
     end
   elseif( viewKey=="Provisioning") then
     if( eline.value == 50  and eline.data_sunk == 3 and eline.data_sunk2 == 5 ) then
-      return true
+      return 1
+    elseif( eline.value == 50  ) then
+      return 2
     end
   else
   end
-  return false
+  return 0
 end
 
 function ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
-  local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline:GetText() )
-      eline:SetText( cText )  
+  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax~=nil)then
+    local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline:GetText() )
+    eline:SetText( cText )  
+  end
 end
+function ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
+  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax~=nil)then
+    local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax, eline:GetText() )
+    eline:SetText( cText )  
+  end
+end
+
 
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,playerLine,equipName)
   local mKye1 = string.format("%s%s", equipName,"_Link")

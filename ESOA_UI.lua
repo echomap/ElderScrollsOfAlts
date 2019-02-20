@@ -36,6 +36,14 @@ function ElderScrollsOfAlts.SetupDefaultColors()
     ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b   = ElderScrollsOfAlts.rgbaWhite.b
     ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a   = ElderScrollsOfAlts.rgbaWhite.a
   end
+  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r   = ElderScrollsOfAlts.rgbaWhite.r
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g   = ElderScrollsOfAlts.rgbaWhite.g
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b   = ElderScrollsOfAlts.rgbaWhite.b
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.rgbaWhite.a
+  end
+
   
   --[[
   ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = 0.64 

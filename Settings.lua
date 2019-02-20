@@ -24,11 +24,6 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "full",	--or "half" (optional)
   }
   optionsTable[#optionsTable+1] = {
-      type  = "header",
-      name  = "TODO use dropdown, max # buttons, turn off highlight, fieldYOffset",
-      width = "full",	--or "half" (optional)
-  }
-  optionsTable[#optionsTable+1] = {
     type = "slider",
     name = "Char name field width", -- or string id or function returning a string
     getFunc = function() return ElderScrollsOfAlts.altData.fieldWidthForName end,
@@ -67,6 +62,29 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g = g
       ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b = b
       ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a = a
+    end,
+    width = "full",	--or "half" (optional)
+  }
+  optionsTable[#optionsTable+1] = {
+    type    = "colorpicker",
+    name    = "Skill at nearly MAX Color",
+    tooltip = "What Color to use when a skill is near the current MAX.",
+    getFunc = function()               
+      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
+          ElderScrollsOfAlts.SetupDefaultColors()
+      end
+      return              
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a      
+    end,
+    setFunc = 	function(r,g,b,a)
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r = r
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g = g
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b = b
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a = a
     end,
     width = "full",	--or "half" (optional)
   }
@@ -311,6 +329,24 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "half",	--or "half" (optional)
     warning = "No confirmation if you do this!",	--(optional)
   }
+  --
+  --optionsTable[#optionsTable+1] = {
+  --    type  = "submenu",
+  --    name  = "All Allowable Entries in a View",
+  --}
+  optionsTable[#optionsTable+1] = {
+    type = "editbox",
+    name = "All Allowable Entries",
+    --tooltip = "Edit selected View!",
+    getFunc = function() return ElderScrollsOfAlts.GetAllAllowedViewEntries() end,
+    setFunc = function(text) ElderScrollsOfAlts.SetAllAllowedViewEntries(text) end,
+    width = "full",	--or "half" (optional)
+    isMultiline = true,
+    isExtraWide = true,
+    --reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
+  }
+  
+  
   -- VIEWS --
   --
   --
