@@ -329,10 +329,14 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "half",	--or "half" (optional)
     warning = "No confirmation if you do this!",	--(optional)
   }
-  --
+  --https://github.com/sirinsidiator/ESO-LibAddonMenu/blob/master/LibAddonMenu-2.0/exampleoptions.lua
   --optionsTable[#optionsTable+1] = {
   --    type  = "submenu",
   --    name  = "All Allowable Entries in a View",
+  --      controls = {
+  --        [1] = {
+  --        },
+  --      }  
   --}
   optionsTable[#optionsTable+1] = {
     type = "editbox",

@@ -24,6 +24,12 @@ test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
+1.00.13
+[list]
+[*] 
+[/list]
+
+==Published V1.0.X==
 1.00.12
 [list]
 [*] Hightlight alpha reduced
@@ -32,8 +38,6 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 [*] Added field to settings, for views, to show all available tags
 [*] Nearly MAX color added
 [/list]
-
-==Published V1.0.X==
 1.00.11
 [list]
 [*] update trigger when a skill/item is at maximum for trade profs
