@@ -30,6 +30,11 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 [/list]
 
 ==Published V1.0.X==
+1.00.13
+[list]
+[*] Elsweyr
+[*] Necro Class
+[/list]
 1.00.12
 [list]
 [*] Hightlight alpha reduced

@@ -362,6 +362,8 @@ function ElderScrollsOfAlts:GetClassText(className)
       classX = GetString(ESOA_CLASS_TEMPLAR_ABBREV)
     elseif className == GetString(ESOA_CLASS_WARDEN) then
       classX = GetString(ESOA_CLASS_WARDEN_ABBREV)
+    elseif className == GetString(ESOA_CLASS_NECRO) then
+      classX = GetString(ESOA_CLASS_NECRO_ABBREV)
     end
     return classX
 end
