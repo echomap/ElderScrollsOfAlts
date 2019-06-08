@@ -92,7 +92,7 @@ function ElderScrollsOfAlts:SaveNote()
   --end
   ElderScrollsOfAlts.outputMsg("ESOA, saved note")
   --ElderScrollsOfAlts.RefreshViewableTable()
-  ElderScrollsOfAlts:ShowGuiByChoice()
+  ElderScrollsOfAlts:ShowSetView()
 end
 
 function ElderScrollsOfAlts:CloseNote(self)
