@@ -35,6 +35,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif(viewKey=="Note") then
     if( playerLine["note"]==nil or playerLine["note"]=="")then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
+	  eline.tooltip = "Double Right Click to set a Note"
     else
       eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")
       eline.tooltip = playerLine["note"]
