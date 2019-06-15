@@ -24,12 +24,16 @@ test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
-1.00.13
+1.00.15
 [list]
 [*] 
 [/list]
 
 ==Published V1.0.X==
+1.00.14
+[list]
+[*] Trying to update button moving - I use a keybinding and hide the button ;)
+[/list]
 1.00.13
 [list]
 [*] Elsweyr
