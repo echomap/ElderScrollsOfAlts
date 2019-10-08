@@ -128,7 +128,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
           playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
         end--foundItem
       end--vamp
-          
+      
 		end--if bio ~=nil then
     
     if playerLines[k].level == nil or playerLines[k].level < 1 then
@@ -173,6 +173,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)      
     ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)      
     ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
+    ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   end--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 
   -- PlayerLines to table
@@ -694,5 +695,46 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
   end
 end
 
+--
+function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
+  local alliancewar = ElderScrollsOfAlts.altData.players[k].alliancewar
+  if k == nil then return end
+  if alliancewar == nil then return end
+  
+  --Setup
+  playerLines[k].InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
+  playerLines[k].GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
+  playerLines[k].HomeCampaignId       = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignId      ,"")
+  playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
+  playerLines[k].HomeCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignAssigned,"") 
+  
+  playerLines[k].GuestCampaignName    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
+  playerLines[k].HomeCampaignName     = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignName     ,"")
+  playerLines[k].AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  
+  playerLines[k].IsInCampaign         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.isInCampaign        ,"")  
+  playerLines[k].UnitAlliance         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAlliance        ,"")
+  playerLines[k].AllianceName         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.allianceName        ,"")
+  playerLines[k].UnitAvARank          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARank         ,"")
+  playerLines[k].UnitAvARankPoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
+  playerLines[k].SubRankStartsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.subRankStartsAt     ,"")
+  playerLines[k].NextSubRankAt        = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextSubRankAt       ,"")
+  playerLines[k].RankStartsAt         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.rankStartsAt        ,"")
+  playerLines[k].NextRankAt           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
+  playerLines[k].AvaRankName          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.avaRankName         ,"")
+  
+  playerLines[k].HomeCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignRewardEarnedTier ,"")
+  playerLines[k].GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier ,"")  
+   
+end
+
+--
+function ElderScrollsOfAlts:getValueOrDefault(baseValue,defaultValue)
+  if(baseValue==nil) then
+    return defaultValue
+  else
+    return baseValue
+  end
+end
 
 --EOF

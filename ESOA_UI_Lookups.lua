@@ -6,6 +6,7 @@
 
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
   eline.viewKey = viewKey
+  if(eline==nil) then return end
   if(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
     local vampire  = playerLine["Vampire"] 
@@ -242,9 +243,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline:SetText( playerLine[string.lower(viewKey)]  )
       eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
       eline.value = playerLine[string.lower(viewKey)]
-    elseif( playerLine[(viewKey)] ~=nil) then
-      eline:SetText( playerLine[(viewKey)]  )
-      eline.tooltip = viewKey .. " is " .. playerLine[(viewKey)]
+    elseif( playerLine[(viewKey)] ~=nil ) then
+      eline:SetText( tostring(playerLine[(viewKey)])  )
+      eline.tooltip = viewKey .. " is " .. tostring(playerLine[(viewKey)])
       eline.value = playerLine[(viewKey)]
     end
   end
@@ -462,7 +463,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupDisplayType(view,viewKey,lineName,p
     if(line==nil)then
       line = WINDOW_MANAGER:CreateControlFromVirtual(lineName.."_"..viewKey, parent, "ESOA_RowTemplate_Label")      
     end
-    line:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey) )--TODO get function to get display name            
+    line:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey) )
   end
   return line
 end
@@ -565,6 +566,12 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 65
   elseif(viewKey=="Blacksmithing Research 1" or viewKey=="Blacksmithing Research 2" or viewKey=="Blacksmithing Research 3") then
     return 65
+  elseif(viewKey=="Alliance Name" or viewKey=="AllianceName" or viewKey == "HomeCampaignName" ) then
+    return 150
+  elseif(viewKey=="UnitAvARank" or viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
+    return 165
+  elseif(viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId") then
+    return 45
   elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
     return 65
   elseif(viewKey=="Jewelcrafting Research 1" or viewKey=="Jewelcrafting Research 2" or viewKey=="Jewelcrafting Research 3") then
@@ -584,6 +591,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
 end
 
 function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
+  --ElderScrollsOfAlts.debugMsg("LookupDisplay Key="..tostring(viewKey) )
   if(viewKey=="Special") then
     return "Spc"    
   elseif(viewKey=="SpecialBiteTimer") then
@@ -681,6 +689,25 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "JC2"
   elseif(viewKey=="Jewelcrafting Research 3") then
     return "JC3"
+    
+  elseif(viewKey=="AssignedCampaignId") then
+    return "AssignedId"
+  elseif(viewKey=="GuestCampaignId") then
+    return "GuestId"
+  elseif(viewKey=="HomeCampaignId") then
+    return "HomeId"
+  elseif(viewKey=="GuestCampaignName") then
+    return "Guest Campaign"
+  elseif(viewKey=="HomeCampaignName") then
+    return "Home Campaign"
+  elseif(viewKey=="UnitAvARank") then
+    return "AvARank"
+  elseif(viewKey=="UnitAvARankPoints") then
+    return "AvARankPts"
+  elseif(viewKey=="HomeCampaignRewardEarnedTier") then
+    return "HomeRewardTier"
+  elseif(viewKey=="GuestCampaignRewardEarnedTier") then
+    return "GuestRewardTier"
 
   else
     return viewKey

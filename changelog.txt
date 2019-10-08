@@ -24,12 +24,19 @@ test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 
 ==Unpublished==
-1.00.15
+1.00.XX
 [list]
 [*] 
 [/list]
 
 ==Published V1.0.X==
+1.00.15
+[list]
+[*] Added new view entries:
+[*] InCampaign, GuestCampaignId, HomeCampaignId, AssignedCampaignId, IsInCampaign,
+[*] UnitAlliance, AllianceName, UnitAvARank, UnitAvARankPoints, SubRankStartsAt, NextSubRankAt
+[*] RankStartsAt, NextRankAt, AvaRankName, HomeCampaignRewardEarnedTier, GuestCampaignRewardEarnedTier
+[/list]
 1.00.14
 [list]
 [*] Trying to update button moving - I use a keybinding and hide the button ;)

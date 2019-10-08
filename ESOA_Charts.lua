@@ -77,7 +77,27 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["TimePlayed"] = 1, 
   
   ["Alliance Name"] = 1,
+  ["InCampaign"] = 1,
+  ["GuestCampaignId"] = 1,
+  ["HomeCampaignId"] = 1,
+  ["AssignedCampaignId"] = 1,
   
+  ["HomeCampaignName"] = 1,
+  ["GuestCampaignName"] = 1,
+  ["AssignedCampaignName"] = 1,
+  
+  ["IsInCampaign"] = 1,  
+  ["UnitAlliance"] = 1,
+  ["AllianceName"] = 1,
+  ["UnitAvARank"] = 1,
+  ["UnitAvARankPoints"] = 1,
+  ["SubRankStartsAt"] = 1,
+  ["NextSubRankAt"] = 1,
+  ["RankStartsAt"] = 1,
+  ["NextRankAt"] = 1,
+  ["AvaRankName"] = 1,
+  ["HomeCampaignRewardEarnedTier"] = 1,
+  ["GuestCampaignRewardEarnedTier"] = 1,
 }
 
 ElderScrollsOfAlts.view.guiTemplates = {  

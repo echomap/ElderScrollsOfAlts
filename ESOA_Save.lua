@@ -353,31 +353,62 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].currency[cType].amount       = amount
   end
   
-  --PVP - campaign
+  --PVP Ava Campaign Cyrodil PVP (TODO) --
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar = {}
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.inCampaign = IsInCampaign()
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignId = GetGuestCampaignId()
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignId  = GetCurrentCampaignId()
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignId = GetAssignedCampaignId()  
+  
+  local homeCampaignId     = GetCurrentCampaignId()
+  local guestCampaignId    = GetGuestCampaignId()
+  local assignedCampaignId = GetAssignedCampaignId()
+  local isInCampaign       = homeCampaignId ~= 0
   --GetPreferredCampaign()  ??
-  --TODO TIMERS?
+ 
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignId    = guestCampaignId
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignId     = homeCampaignId
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignId = assignedCampaignId
+  
+  --ElderScrollsOfAlts.outputMsg("homeCampaignId="..tostring(homeCampaignId) )
+  --ElderScrollsOfAlts.outputMsg("guestCampaignId="..tostring(guestCampaignId) )
+  --d("(" .. ElderScrollsOfAlts.name .. ") " .. "guestCampaignId: "..guestCampaignId )
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignName    = GetCampaignName(guestCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignName     = GetCampaignName(homeCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignName = GetCampaignName(assignedCampaignId)
 
-  --TODO
-  local isInCampaign = GetCurrentCampaignId() ~= 0
-  local homeCampaignAssigned = GetAssignedCampaignId() ~= 0
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.isInCampaign = isInCampaign
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignAssigned = homeCampaignAssigned
-  if not (isInCampaign or homeCampaignAssigned) then
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.isInCampaign         = isInCampaign
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.unitAlliance         = pAlliance
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.allianceName         = GetAllianceName(pAlliance)
+  
+  local avaRank = GetUnitAvARank("player")
+  local unitAvARankPoints = GetUnitAvARankPoints("player") 
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.unitAvARank       = avaRank  
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.unitAvARankPoints = unitAvARankPoints
+  -- number subRankStartsAt, number nextSubRankAt, number rankStartsAt, number nextRankAt 
+  local subRankStartsAt, nextSubRankAt, rankStartsAt, nextRankAt = GetAvARankProgress(unitAvARankPoints)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.subRankStartsAt   = subRankStartsAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.nextSubRankAt     = nextSubRankAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.rankStartsAt      = rankStartsAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.nextRankAt        = nextRankAt
+  
+  local avaRankName = GetAvARankName( GetUnitGender("player"), avaRank )
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.avaRankName = avaRankName
+  
+  --Returns: number earnedTier, number nextTierProgress, number nextTierTotal 
+  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(homeCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignRewardEarnedTier = earnedTier  
+  earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = earnedTier  
+  
+  --GetLargeAvARankIcon(rank))
+  --GetAllianceColor(alliance):UnpackRGBA())
+  
+  if not (isInCampaign or assignedCampaignId) then
     --no campaign
   else
     --TODO
     --local campaignName = GetCampaignName(campaignId)    
   end
-
-
-
     
-    
+ --TODO TIMERS?
 
   --[[
   --local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}
