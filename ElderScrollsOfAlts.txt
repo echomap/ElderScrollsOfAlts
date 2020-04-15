@@ -1,9 +1,9 @@
 ## Title: ElderScrollsOfAlts
-## Version: 1.00.15
-## AddOnVersion: 1.00.16
-## APIVersion: 100026 100028
+## Version: 1.00.17
+## AddOnVersion: 10017
+## APIVersion: 100030 100031
 ## Author: Echomap
-## Description: ElderScrollsOfAlts keeps general track of alts 
+## Description: ElderScrollsOfAlts keeps general track of alts v17
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData
 ## DependsOn: LibStub LibAddonMenu-2.0 
 

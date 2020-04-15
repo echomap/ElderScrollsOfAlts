@@ -173,6 +173,7 @@ end
 
 --View, Setup and Show
 function ElderScrollsOfAlts:ShowGuiByChoice()
+  ElderScrollsOfAlts.debugMsg("ShowGuiByChoice");
   if( ESOA_GUI2:IsHidden()) then
     ElderScrollsOfAlts:CreateGUI()
     ElderScrollsOfAlts:ShowSetView()
@@ -190,7 +191,8 @@ end
 
 --UIButton
 function ElderScrollsOfAlts.ShowUIButton()
-  --debugMsg("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
+  ElderScrollsOfAlts.debugMsg("ShowUIButton");
+  --d("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
   if(ElderScrollsOfAlts.savedVariables.uibutton.shown)then
     ESOA_ButtonFrame:SetHidden(false)
     ESOA_ButtonFrame:ClearAnchors()
@@ -219,7 +221,15 @@ end
 function ElderScrollsOfAlts:ButtonFrameOnMoveStop()
   ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrame:GetTop()
   ElderScrollsOfAlts.savedVariables.uibutton.left   = ESOA_ButtonFrame:GetLeft()
-  --d("ButtonFrameOnMoveStop called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
+  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
+  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. top="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.top))
+end
+--Calling from the button, not the overlay seems to work
+function ElderScrollsOfAlts:ButtonFrameOnMoveStop2()  
+  ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrame:GetTop()
+  ElderScrollsOfAlts.savedVariables.uibutton.left   = ESOA_ButtonFrame:GetLeft()
+  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
+  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. top="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.top))
 end
 
 -----------

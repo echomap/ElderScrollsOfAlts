@@ -302,9 +302,11 @@
           <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
           <Dimensions x="60" y="50"/>
           <Edge edgeSize="1"/>
-          <OnMouseEnter>WINDOW_MANAGER:SetMouseCursor(12);self:SetAlpha(1)</OnMouseEnter>
-          <OnMouseExit> WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(0) </OnMouseExit>
-          <OnMoveStop>  ElderScrollsOfAlts:ButtonFrameOnMoveStop()        </OnMoveStop>
+          <OnMouseEnter>WINDOW_MANAGER:SetMouseCursor(12);self:SetAlpha(1) </OnMouseEnter>
+          <OnMouseExit> WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(0)  </OnMouseExit>
+          <OnMoveStop>  
+            ElderScrollsOfAlts:ButtonFrameOnMoveStop(self)
+          </OnMoveStop>
         </Backdrop>
         
         <Button name="$(parent)Button" topmost="true" hidden="false" font="ZoFontWinH5" text="-ESOA-"  >
@@ -313,6 +315,10 @@
           <Controls>
           </Controls>
           <OnClicked> ElderScrollsOfAlts:DoUiButtonClicked() </OnClicked>
+          <OnMoveStop>  
+            ElderScrollsOfAlts:ButtonFrameOnMoveStop2(self)
+          </OnMoveStop>
+
         </Button>
         
       </Controls>
