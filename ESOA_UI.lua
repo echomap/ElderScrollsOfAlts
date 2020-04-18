@@ -218,18 +218,11 @@ function ElderScrollsOfAlts.DoUiButtonClicked()
 end
 
 --UIButton
-function ElderScrollsOfAlts:ButtonFrameOnMoveStop()
-  ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrame:GetTop()
-  ElderScrollsOfAlts.savedVariables.uibutton.left   = ESOA_ButtonFrame:GetLeft()
-  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
-  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. top="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.top))
-end
---Calling from the button, not the overlay seems to work
-function ElderScrollsOfAlts:ButtonFrameOnMoveStop2()  
-  ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrame:GetTop()
-  ElderScrollsOfAlts.savedVariables.uibutton.left   = ESOA_ButtonFrame:GetLeft()
-  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
-  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop2: called. top="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.top))
+function ElderScrollsOfAlts:ButtonFrameOnMoveStop(mySelf)
+  ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrameButton:GetTop()
+  ElderScrollsOfAlts.savedVariables.uibutton.left   = ESOA_ButtonFrameButton:GetLeft()
+  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop: called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
+  ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop: called. top="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.top))
 end
 
 -----------

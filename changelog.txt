@@ -30,6 +30,7 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 [/list]
 
 ==Published V1.0.X==
+1.00.17b er,, perhaps this fixes the button?
 1.00.17 Updates to slash command bug, esoa button not staying moved
 1.00.16 things? Maybe?
 1.00.15

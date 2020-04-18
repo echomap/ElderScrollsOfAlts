@@ -303,7 +303,9 @@
           <Dimensions x="60" y="50"/>
           <Edge edgeSize="1"/>
           <OnMouseEnter>WINDOW_MANAGER:SetMouseCursor(12);self:SetAlpha(1) </OnMouseEnter>
-          <OnMouseExit> WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(0)  </OnMouseExit>
+          <OnMouseExit>
+            WINDOW_MANAGER:SetMouseCursor(0);self:SetAlpha(0)
+          </OnMouseExit>
           <OnMoveStop>  
             ElderScrollsOfAlts:ButtonFrameOnMoveStop(self)
           </OnMoveStop>
@@ -316,9 +318,8 @@
           </Controls>
           <OnClicked> ElderScrollsOfAlts:DoUiButtonClicked() </OnClicked>
           <OnMoveStop>  
-            ElderScrollsOfAlts:ButtonFrameOnMoveStop2(self)
+           
           </OnMoveStop>
-
         </Button>
         
       </Controls>
