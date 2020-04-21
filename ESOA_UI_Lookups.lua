@@ -222,6 +222,16 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         ElderScrollsOfAlts.view.accountData.secondsplayed
       )
   --
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then
+    local viewKey2 = viewKey
+    local pos = string.find(viewKey, "_")
+    viewKey2 = string.sub(viewKey,pos+1)
+    eline:SetText( playerLine[string.lower(viewKey)]  )
+    eline.tooltip = zo_strformat("<<1>> has <<2>> <<3>>",
+        playerLine.name, playerLine[string.lower(viewKey)], viewKey2
+      )
+  
+  --
   --
   else
     if( playerLine[viewKey.."_Rank"] ~=nil ) then
@@ -259,6 +269,10 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif( vc==2 ) then
     ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
   end
+end
+
+function ElderScrollsOfAlts.starts_with(str, start)
+   return str:sub(1, #start) == start
 end
 
 function ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
@@ -708,7 +722,14 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "HomeRewardTier"
   elseif(viewKey=="GuestCampaignRewardEarnedTier") then
     return "GuestRewardTier"
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then
+    local viewKey2 = viewKey
+    local pos = string.find(viewKey, "_")
+    viewKey2 = string.sub(viewKey,pos+1)
+    return viewKey2
+  --
 
+  --
   else
     return viewKey
   end

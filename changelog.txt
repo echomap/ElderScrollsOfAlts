@@ -22,6 +22,7 @@ Current Sort NAME? Order by ViewName
 test colors ok
 test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
+currency?
 
 ==Unpublished==
 1.00.XX
@@ -30,6 +31,14 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 [/list]
 
 ==Published V1.0.X==
+1.00.18
+-fix vampire ability cooldown name
+Added to views:
+[list]
+[*] "Currency_Gold", "Currency_Alliance point", "Currency_Tel Var Stone"
+[*] "Currency_Writ Vouchers", "Currency_Transmute Crystals", "Currency_Crown Gems", 
+[*] "Currency_Crowns", "Currency_Outfit Change Tokens"
+[/list]  
 1.00.17b er,, perhaps this fixes the button?
 1.00.17 Updates to slash command bug, esoa button not staying moved
 1.00.16 things? Maybe?

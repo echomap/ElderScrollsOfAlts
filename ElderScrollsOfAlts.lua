@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.17",			-- A nuisance to match to the Manifest.
+    version         = "1.00.18",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -91,18 +91,23 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		ElderScrollsOfAlts.outputMsg("ElderScrollsOfAlts: Beta = " .. tostring(ElderScrollsOfAlts.altData.beta) )
 		--ElderScrollsOfAlts.savedVariables.beta = ElderScrollsOfAlts.altData.beta
     --ElderScrollsOfAlts.LoadSettings()
-  elseif options[1] == "savedata" then
+  elseif options[1] == "savebuttondata" then --debug
     ElderScrollsOfAlts:ButtonFrameOnMoveStop()
-  elseif options[1] == "testdata" then
+  elseif options[1] == "testdata" then--debug
     ElderScrollsOfAlts:LoadTestData1()
-  elseif options[1] == "deltestdata" then
+  elseif options[1] == "deltestdata" then--debug
     ElderScrollsOfAlts:DelTestData1()     
   elseif options[1] == "resetviews" then
     ElderScrollsOfAlts:ResetUIViews()     
   elseif options[1] == "showentries" then
     ElderScrollsOfAlts:ListAllAllowedViewEntries()   
+  elseif options[1] == "forcesavedata" then
+    ElderScrollsOfAlts.SavePlayerDataForGui()
+  elseif options[1] == "forceloaddata" then
+    ElderScrollsOfAlts:LoadPlayerDataForGui()
   else
-    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries")
+    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries, forcesavedata, forceloaddata")
+    ElderScrollsOfAlts.outputMsg("showentries: prints allowable view entries. resetviews: sets the views back to default. ")
 	end
 end
 

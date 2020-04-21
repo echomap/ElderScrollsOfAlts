@@ -85,7 +85,7 @@ local localization_strings = {
     ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
     ESOA_BITE_WERE_COOLDOWN = "Bloodmoon Cooldown",
     ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
-    ESOA_BITE_VAMP_COOLDOWN = "Blood Ritual Cooldown",
+    ESOA_BITE_VAMP_COOLDOWN = "Fed on ally", --Blood Ritual Cooldown",
 
 }
 

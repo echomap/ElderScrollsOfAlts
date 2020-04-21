@@ -17,10 +17,12 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Enchanting"] = 1, 
   ["Jewelry"] = 1, 
   ["Provisioning"] = 1, 
-  ["Woodworking"] = 1,         
+  ["Woodworking"] = 1,    
+  
   ["BagSpace"] = 1,         
   ["BagSpaceFree"] = 1,         
   ["Skillpoints"] = 1, 
+  
   ["Head"] = 1, 
   ["Shoulders"] = 1, 
   ["Chest"] = 1, 
@@ -98,6 +100,16 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["AvaRankName"] = 1,
   ["HomeCampaignRewardEarnedTier"] = 1,
   ["GuestCampaignRewardEarnedTier"] = 1,
+  
+  ["Currency_Gold"] =1 ,
+  ["Currency_Alliance point"] = 1,
+  ["Currency_Tel Var Stone"] = 1,
+  ["Currency_Writ Vouchers"] = 1,
+  ["Currency_Transmute Crystals"] = 1,
+  ["Currency_Crown Gems"] = 1,
+  ["Currency_Crowns"] = 1,
+  ["Currency_Outfit Change Tokens"] = 1,
+  
 }
 
 ElderScrollsOfAlts.view.guiTemplates = {  

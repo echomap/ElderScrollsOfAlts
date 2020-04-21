@@ -109,6 +109,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
             for buffName, buffvalueL in pairs(ElderScrollsOfAlts.altData.players[k].buffs) do
               if(buffName==ElderScrollsOfAlts.BITE_VAMP_COOLDOWN)then
                 buffvalue = buffvalueL
+                --ElderScrollsOfAlts.outputMsg("LoadPlayerDataForGui:", "buffvalue:",buffvalue) 
               end
             end
             if buffvalue~=nil then
@@ -174,6 +175,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)      
     ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
     ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
+    ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
   end--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 
   -- PlayerLines to table
@@ -705,6 +707,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
   playerLines[k].GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
   playerLines[k].HomeCampaignId       = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignId      ,"")
+  playerLines[k].HomeCampaignId       = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignId      ,"")
   playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
   playerLines[k].HomeCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignAssigned,"") 
   
@@ -726,6 +729,36 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].HomeCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignRewardEarnedTier ,"")
   playerLines[k].GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier ,"")  
    
+end
+
+--
+function ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
+  local currency = ElderScrollsOfAlts.altData.players[k].currency
+  if k == nil then return end
+  if currency == nil then return end
+  
+  --Setup
+  --ElderScrollsOfAlts.altData.players[playerKey].currency[cType] = {}
+  --ElderScrollsOfAlts.altData.players[playerKey].currency[cType].currencyName = currencyName
+  --ElderScrollsOfAlts.altData.players[playerKey].currency[cType].amount       = amount
+  
+  --Defaults
+  playerLines[k]["currency_gold"] = 0
+  playerLines[k]["currency_alliance point"] = 0
+  playerLines[k]["currency_tel var stone"] = 0
+  playerLines[k]["currency_writ vouchers"] = 0
+  playerLines[k]["currency_transmute crystals"] = 0
+  playerLines[k]["currency_crown gems"] = 0
+  playerLines[k]["currency_crowns"] = 0
+  playerLines[k]["currency_outfit change tokens"] = 0
+
+  --Values
+  for rtK, rtKV in pairs(currency) do
+    ElderScrollsOfAlts.debugMsg("currency "..rtK.." as="..tostring(rtKV))    
+    ElderScrollsOfAlts.debugMsg("currency "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
+    playerLines[k]["currency_"..string.lower(rtKV.currencyName)] = ZO_CommaDelimitNumber(rtKV.amount)
+  end
+  
 end
 
 --
