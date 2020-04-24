@@ -599,6 +599,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="M1" or viewKey=="M2" or viewKey=="Mp" or viewKey=="O1" or viewKey=="O2" or viewKey=="Op" ) then
     return 35
   --
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then    
+    return 65    
+  --
   else
     return 100
   end
@@ -722,6 +725,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "HomeRewardTier"
   elseif(viewKey=="GuestCampaignRewardEarnedTier") then
     return "GuestRewardTier"
+  elseif(viewKey=="currency_alliance point" or viewKey=="Currency_Alliance Point") then
+    return "AP"
+  elseif(viewKey=="currency_tel var stone" or viewKey=="Currency_Tel Var Stone") then
+    return "TelVar"
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then
     local viewKey2 = viewKey
     local pos = string.find(viewKey, "_")
