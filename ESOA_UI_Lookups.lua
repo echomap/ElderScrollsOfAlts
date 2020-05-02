@@ -428,6 +428,11 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
     eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNear, playerLine[mKye1]) )
   end
   
+  --if(eline.data_val == GetString(ESOA_RESEARCH_AVAIL) ) then
+    --local cText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline.data_val )
+    --eline:SetText( cText )    
+  --end
+  
   eline.datatype = "Research"
   --eline:SetMouseEnabled(true)
   eline:SetHandler('OnMouseEnter',function(self)

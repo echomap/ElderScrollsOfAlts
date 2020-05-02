@@ -14,7 +14,9 @@ end
 
 
 function ElderScrollsOfAlts:SetupGuiPlayerLines()
-  
+  --local timeTotalStart = GetFrameTimeSeconds()
+  --ElderScrollsOfAlts.outputMsg("timeTotalStart: " .. tostring(timeTotalStart) )
+
   --
   ElderScrollsOfAlts.view.accountData = {}
   ElderScrollsOfAlts.view.accountData.secondsplayed = 0
@@ -62,71 +64,67 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       --
       if bio.Werewolf then
         playerLines[k].Werewolf = true
-        playerLines[k].special    = 1        
-        -- ["Werewolf"]["abilities"]["Bloodmoon"]
-        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k],"world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
+        playerLines[k].special    = 1
+        playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+        playerLines[k].special_bitetimer = 0
+        
+        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
         if(foundItem~=nil) then
           playerLines[k].special_bitetimerDisplay = "[Unk]"
           playerLines[k].special_icon = foundItem["textureName"]
-          if(ElderScrollsOfAlts.altData.players[k].buffs~=nil)then
-            local buffvalue = nil
-            for buffName, buffvalueL in pairs(ElderScrollsOfAlts.altData.players[k].buffs) do
-              if(buffName==ElderScrollsOfAlts.BITE_WERE_COOLDOWN)then
-                buffvalue = buffvalueL
-              end
-            end
-            if buffvalue~=nil then
-              --local timeDiff = GetFrameTimeSeconds() - buffvalue["timeEnding"]
-              local timeDiff = GetDiffBetweenTimeStamps( buffvalue["expiresAt"], GetTimeStamp() ) 
-              if(ElderScrollsOfAlts.altData.players[k].version==nil) then
-                timeDiff = GetFrameTimeSeconds() - buffvalue["timeEnding"]
-              end
-              playerLines[k].special_bitetimer = timeDiff
+          
+          ----ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+          if(ElderScrollsOfAlts.altData.players[k].bio.specialdata~=nil)then
+            local expiresAt = ElderScrollsOfAlts.altData.players[k].bio.specialdata.expiresAt
+            if(expiresAt~=nil)then
+              --Time in seconds left till expires
+              local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+              --ElderScrollsOfAlts.outputMsg("Buff timeDiff=".. tostring(timeDiff) )
               if(timeDiff<0) then
-                  playerLines[k].special_bitetimerDisplay = "Now"
+                playerLines[k].special_bitetimer = 0
+                playerLines[k].special_bitetimerDisplay = "[v.v]"
               else
+                playerLines[k].special_bitetimer        = timeDiff
                 playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
               end
             else
               playerLines[k].special_bitetimer = 0
               playerLines[k].special_bitetimerDisplay = "[v.v]"
             end
-          end
-        else
-          playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+          end--has special data
         end--foundItem
       end--ww
-      
+      --
       if bio.Vampire then
         playerLines[k].Vampire = true
         playerLines[k].special    = 1
-        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k],"world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
+        playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+        playerLines[k].special_bitetimer = 0
+        
+        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
         if(foundItem~=nil) then
           playerLines[k].special_bitetimerDisplay = "[Unk]"
           playerLines[k].special_icon = foundItem["textureName"]
-          if(ElderScrollsOfAlts.altData.players[k].buffs~=nil)then
-            local buffvalue = nil
-            for buffName, buffvalueL in pairs(ElderScrollsOfAlts.altData.players[k].buffs) do
-              if(buffName==ElderScrollsOfAlts.BITE_VAMP_COOLDOWN)then
-                buffvalue = buffvalueL
-                --ElderScrollsOfAlts.outputMsg("LoadPlayerDataForGui:", "buffvalue:",buffvalue) 
+          
+          ----ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+          if(ElderScrollsOfAlts.altData.players[k].bio.specialdata~=nil)then
+            local expiresAt = ElderScrollsOfAlts.altData.players[k].bio.specialdata.expiresAt
+            if(expiresAt~=nil)then
+              --Time in seconds left till expires
+              local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+              --ElderScrollsOfAlts.outputMsg("Buff timeDiff=".. tostring(timeDiff) )
+              if(timeDiff<0) then
+                playerLines[k].special_bitetimer = 0
+                playerLines[k].special_bitetimerDisplay = "[v.v]"
+              else
+                playerLines[k].special_bitetimer        = timeDiff
+                playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
               end
-            end
-            if buffvalue~=nil then
-              --local timeDiff = GetFrameTimeSeconds() - buffvalue["timeEnding"]
-              local timeDiff = GetDiffBetweenTimeStamps( buffvalue["expiresAt"], GetTimeStamp() ) 
-              if(ElderScrollsOfAlts.altData.players[k].version==nil) then
-                timeDiff = GetFrameTimeSeconds() - buffvalue["timeEnding"]
-              end
-              playerLines[k].special_bitetimer = timeDiff
-              playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
             else
               playerLines[k].special_bitetimer = 0
               playerLines[k].special_bitetimerDisplay = "[v.v]"
             end
-          end
-        else
-          playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+          end--has special data
         end--foundItem
       end--vamp
       
@@ -181,13 +179,18 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
   -- PlayerLines to table
   table.sort(playerLines)  
   ElderScrollsOfAlts.view.maxPlayerLineCount = pCount
+  --local timeTotalEnd = GetFrameTimeSeconds()
+  --local timeTotalDiff = GetDiffBetweenTimeStamps(timeTotalStart, timeTotalEnd)
+  --ElderScrollsOfAlts.outputMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
+  --ElderScrollsOfAlts.outputMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
   return playerLines
 end
 
 --("world","Vampire","Blood Ritual")
 function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
   local retVal = nil
-  if( tplayer.skills[skillType]~=nil and 
+  if( tplayer.skills~=nil and 
+      tplayer.skills[skillType]~=nil and 
       tplayer.skills[skillType]["typelist"]~=nil and
       tplayer.skills[skillType]["typelist"][skillClass]~=nil and
       tplayer.skills[skillType]["typelist"][skillClass]["abilities"]~=nil and
@@ -621,7 +624,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           playerLines[k][mKye.."time"] = ""
           playerLines[k][mKye.."code"] = 0
         elseif(kkiT<=researchMS) then
-          playerLines[k][mKye.."time"] = "[avail]"
+          playerLines[k][mKye.."time"] = GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
           playerLines[k][mKye.."code"] = 1
         else
           playerLines[k][mKye.."time"] = "--------"
@@ -663,7 +666,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           local mKye = "r"..rtV..kki
           local timeDisp2Str = ""
           if(timeS<=0) then
-            timeDisp2Str = "[avail]"
+            timeDisp2Str = GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
             playerLines[k][mKye.."code"] = 1
           elseif(timeD>0) then
             timeDisp2Str = "<<1>>d<<2>>h<<3>>m"

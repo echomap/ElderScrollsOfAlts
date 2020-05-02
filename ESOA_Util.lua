@@ -106,6 +106,7 @@ function ElderScrollsOfAlts.Colorize(text, color)
     return text
 end
 
+--IN: Milliseconds
 function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   if(timeMS==nil)then
     return "--"

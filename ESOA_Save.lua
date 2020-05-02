@@ -50,6 +50,8 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local pServer   = GetWorldName()
   local playerKey = pID.."_".. pServer:gsub(" ","_")
   ElderScrollsOfAlts.view.whoiamplayerKey = tostring(playerKey)
+  --local timeTotalStart = GetFrameTimeSeconds()
+  --ElderScrollsOfAlts.outputMsg("timeTotalStart: " .. tostring(timeTotalStart) )
   
   --debugMsg("pName='"..tostring(pName).."'" )
 	if ElderScrollsOfAlts.altData.players == nil then
@@ -276,8 +278,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     
 		ElderScrollsOfAlts.SaveDataPlayerTradeDetails( name, baseTableElem, selElemTable, skillType, ii, numAbilities )
 	end
-  
-
   --Check Specific Skilllines
   --ElderScrollsOfAlts.altData.players[playerKey].skills.world.typelist = {}
   --Werewolf or Vampire
@@ -468,22 +468,113 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     --string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
     local buffName, timeStarted, timeEnding, buffSlot, stackCount, iconFilename, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff, castByPlayer = GetUnitBuffInfo("player", buffIndex)
     ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName] = {}
-    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeStarted = timeStarted 
-    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeEnding  = timeEnding
-    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].abilityId   = abilityId
-    
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeStarted  = timeStarted 
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].timeEnding   = timeEnding
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].abilityId    = abilityId
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].iconFilename = iconFilename
     local duration = timeEnding - timeStarted
+    ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].duration     = duration
+    
     if(duration > 0) then
-        local timeLeftS = (timeEnding ) - GetFrameTimeSeconds()
+        local timeLeftS = (timeEnding) - GetFrameTimeSeconds() -- time end - time in frame is time left
         --data:SetCooldown(timeLeft, duration * 1000.0)
         ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = GetTimeStamp() + (timeLeftS)
     else
       ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = 0
     end
+    --[[TODO TESTING
+    if(ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt~=0) then
+      --Time in seconds left till expires
+      local timeDiff = GetDiffBetweenTimeStamps( ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt, GetTimeStamp() )
+      ElderScrollsOfAlts.outputMsg("Buff Data: name: '".. buffName .. "' expires="..tostring(ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt) .. " timeDiff=".. tostring(timeDiff) )
+    end--]]
     --ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = GetTimeStamp() + ( timeEnding-timeStarted )
+  end--for buffs
+  
+  --
+  if( ElderScrollsOfAlts.altData.players[playerKey].bio.Vampire == true) then
+    ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata = {}
+    ElderScrollsOfAlts:SaveDataVampire( playerKey, ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata )
   end
+  if( ElderScrollsOfAlts.altData.players[playerKey].bio.Werewolf == true) then
+    ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata = {}
+    ElderScrollsOfAlts:SaveDataWerewolf( playerKey, ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata )
+  end
+
+  --local timeTotalEnd = GetFrameTimeSeconds()
+  --local timeTotalDiff = GetDiffBetweenTimeStamps(timeTotalStart, timeTotalEnd)
+  --ElderScrollsOfAlts.outputMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
+  --ElderScrollsOfAlts.outputMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
 	-- Fetch the saved variables
 end
+
+--ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+function ElderScrollsOfAlts:SaveDataWerewolf(playerKey, baseElem)
+  ElderScrollsOfAlts.outputMsg("SaveDataWerewolf: playerKey= " .. tostring(playerKey) )
+  baseElem.werewolf = true
+  --Has to have this ability to be able to BITE!
+  local foundItem = ElderScrollsOfAlts:FindAbility( ElderScrollsOfAlts.altData.players[playerKey], "world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
+  ElderScrollsOfAlts.outputMsg("SaveDataWerewolf: foundItem= " .. tostring(foundItem) )
+  if(foundItem==nil) then
+    return
+  end
+  baseElem.biteability = ElderScrollsOfAlts.BITE_WERE_ABILITY
+  
+  local buffName = ElderScrollsOfAlts.BITE_WERE_COOLDOWN
+  local fedBuff  = ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName]
+  ElderScrollsOfAlts.outputMsg("SaveDataWerewolf: fedBuff= " .. tostring(fedBuff) )
+ 
+  baseElem.buffName  = buffName
+  baseElem.fedBuff   = fedBuff
+  baseElem.expiresAt = nil
+  if(fedBuff==nil) then
+    return
+  end
+  
+  local expiresAt   = fedBuff.expiresAt
+  ElderScrollsOfAlts.outputMsg("SaveDataWerewolf: expiresAt= " .. tostring(expiresAt) )
+  baseElem.expiresAt = expiresAt
+  
+  --Time in seconds left till expires
+  --local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+  --ElderScrollsOfAlts.outputMsg("Buff timeDiff=".. tostring(timeDiff) )
+  --local timeTillReady = GetTimeStamp() + timeRemainingSecs
+  --UUU
+end
+
+--ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+function ElderScrollsOfAlts:SaveDataVampire(playerKey, baseElem)
+  ElderScrollsOfAlts.outputMsg("SaveDataVampire: playerKey= " .. tostring(playerKey) )
+  baseElem.vampire = true
+  --Has to have this ability to be able to BITE!
+  local foundItem = ElderScrollsOfAlts:FindAbility( ElderScrollsOfAlts.altData.players[playerKey], "world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
+  ElderScrollsOfAlts.outputMsg("SaveDataVampire: foundItem= " .. tostring(foundItem) )
+  if(foundItem==nil) then
+    return
+  end
+  baseElem.biteability = ElderScrollsOfAlts.BITE_VAMP_ABILITY
+  
+  local buffName = ElderScrollsOfAlts.BITE_VAMP_COOLDOWN
+  local fedBuff  = ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName]
+  ElderScrollsOfAlts.outputMsg("SaveDataVampire: fedBuff= " .. tostring(fedBuff) )
+  baseElem.buffName = buffName
+  baseElem.fedBuff  = fedBuff
+  baseElem.expiresAt = nil
+  if(fedBuff==nil) then
+    return
+  end
+  
+  local expiresAt = fedBuff.expiresAt
+  ElderScrollsOfAlts.outputMsg("SaveDataVampire: expiresAt= " .. tostring(expiresAt) )
+  baseElem.expiresAt = expiresAt
+  
+  --Time in seconds left till expires
+  --local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+  --ElderScrollsOfAlts.outputMsg("Buff timeDiff=".. tostring(timeDiff) )
+  --local timeTillReady = GetTimeStamp() + timeRemainingSecs
+  --UUU
+end
+
 
 --loadPlayerDataPart
 function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscovered)

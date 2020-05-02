@@ -87,6 +87,7 @@ local localization_strings = {
     ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
     ESOA_BITE_VAMP_COOLDOWN = "Fed on ally", --Blood Ritual Cooldown",
 
+    ESOA_RESEARCH_AVAIL = "[avail]",
 }
 
 for stringId, stringValue in pairs(localization_strings) do

@@ -475,22 +475,20 @@ function ElderScrollsOfAlts:ShowSetView()
   if(ElderScrollsOfAlts.savedVariables.currentView == nil) then
     ElderScrollsOfAlts.savedVariables.currentView = GetString(ESOA_VIEW_HOME)
   end
-  ElderScrollsOfAlts.debugMsg("ShowSetView: currentSavedView=",ElderScrollsOfAlts.savedVariables.currentView)
-  local viewName = ElderScrollsOfAlts.savedVariables.currentView
-  
-  --TODO
-  --ElderScrollsOfAlts:SavePlayerDataForGui()
+  local currentView = ElderScrollsOfAlts.savedVariables.currentView
+  ElderScrollsOfAlts.debugMsg("ShowSetView: currentSavedView=",currentView)
   
   --Setup Data
   if( ElderScrollsOfAlts.view.needToLoadGuiData ) then
     ElderScrollsOfAlts:LoadPlayerDataForGui()
   end
   
+  --  
   local viewTemplateL = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.lastView)
   local viewTemplateC = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.currentView)
   if(viewTemplateC==nil)then
     --log error!
-    ElderScrollsOfAlts.errorMsg("No view template for this View: " .. tostring(ElderScrollsOfAlts.savedVariables.currentView ) .." Resetting to last, or Default. Try again.")
+    ElderScrollsOfAlts.errorMsg("No view template for this View: " .. tostring(currentView) .." Resetting to last, or Default. Try again.")
     if(ElderScrollsOfAlts.savedVariables.lastView~=nil)then
       ElderScrollsOfAlts.savedVariables.currentView = ElderScrollsOfAlts.savedVariables.lastView
       ElderScrollsOfAlts.savedVariables.lastView    = nil
@@ -1480,7 +1478,7 @@ function ElderScrollsOfAlts:GuiLineOnMouseExit(self)
 end
 
 function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
-  --ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: Called")
+  ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: Called")
   if button == MOUSE_BUTTON_INDEX_LEFT then
 		if control.itemLink~=nil and control.itemLink ~= "" then
       --show itemlink
