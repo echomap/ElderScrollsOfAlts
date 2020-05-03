@@ -110,6 +110,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Currency_Crowns"] = 1,
   ["Currency_Outfit Change Tokens"] = 1,
   
+  ["ReducedBounty"] = 1, 
 }
 
 ElderScrollsOfAlts.view.guiTemplates = {  

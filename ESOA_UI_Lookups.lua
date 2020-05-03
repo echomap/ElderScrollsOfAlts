@@ -550,7 +550,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="Special") then
     return 24
   elseif(viewKey=="SpecialBiteTimer") then
-    return 60
+    return 70
   elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed") then  
     return 60
   elseif(viewKey=="Alliance") then

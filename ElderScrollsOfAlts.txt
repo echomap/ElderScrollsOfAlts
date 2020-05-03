@@ -1,6 +1,6 @@
 ## Title: ElderScrollsOfAlts
-## Version: 1.00.18
-## AddOnVersion: 10018
+## Version: 1.00.20
+## AddOnVersion: 10020
 ## APIVersion: 100030 100031
 ## Author: Echomap
 ## Description: ElderScrollsOfAlts keeps general track of alts v17

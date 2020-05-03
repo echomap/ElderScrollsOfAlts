@@ -28,9 +28,20 @@ currency?
 1.00.XX
 [list]
 [*] 
+[*] 
 [/list]
 
 ==Published V1.0.X==
+1.00.20
+[list]
+[*] derp#1 bug output removed
+[*] derp#2 special vampire, mistype
+[/list]
+1.00.19
+[list]
+[*] fixes for vamp/were buff/bite
+[*] Avail localize
+[/list]
 1.00.18
 -fix vampire ability cooldown name
 Added to views:

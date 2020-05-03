@@ -83,9 +83,9 @@ local localization_strings = {
     ESOA_ABBR_WOOD ="Wood",
 
     ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
-    ESOA_BITE_WERE_COOLDOWN = "Bloodmoon Cooldown",
+    ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
     ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
-    ESOA_BITE_VAMP_COOLDOWN = "Fed on ally", --Blood Ritual Cooldown",
+    ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
 
     ESOA_RESEARCH_AVAIL = "[avail]",
 }

@@ -15,7 +15,7 @@ end
 
 function ElderScrollsOfAlts:SetupGuiPlayerLines()
   --local timeTotalStart = GetFrameTimeSeconds()
-  --ElderScrollsOfAlts.outputMsg("timeTotalStart: " .. tostring(timeTotalStart) )
+  --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
 
   --
   ElderScrollsOfAlts.view.accountData = {}
@@ -79,7 +79,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
             if(expiresAt~=nil)then
               --Time in seconds left till expires
               local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
-              --ElderScrollsOfAlts.outputMsg("Buff timeDiff=".. tostring(timeDiff) )
+              --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
               if(timeDiff<0) then
                 playerLines[k].special_bitetimer = 0
                 playerLines[k].special_bitetimerDisplay = "[v.v]"
@@ -112,7 +112,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
             if(expiresAt~=nil)then
               --Time in seconds left till expires
               local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
-              --ElderScrollsOfAlts.outputMsg("Buff timeDiff=".. tostring(timeDiff) )
+              --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
               if(timeDiff<0) then
                 playerLines[k].special_bitetimer = 0
                 playerLines[k].special_bitetimerDisplay = "[v.v]"
@@ -166,6 +166,13 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].timeplayed = ElderScrollsOfAlts:timeToDisplay( (playerLines[k].secondsplayed*1000) ,true,false)
     end
     
+    -- Infamy
+    local infamy = ElderScrollsOfAlts.altData.players[k].infamy
+    if( infamy ~= nil ) then
+      playerLines[k].reducedBounty = infamy.reducedBounty  
+    end
+    
+    
     --
     --local skills = ElderScrollsOfAlts.altData.players[k].skills
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
@@ -181,8 +188,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
   ElderScrollsOfAlts.view.maxPlayerLineCount = pCount
   --local timeTotalEnd = GetFrameTimeSeconds()
   --local timeTotalDiff = GetDiffBetweenTimeStamps(timeTotalStart, timeTotalEnd)
-  --ElderScrollsOfAlts.outputMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
-  --ElderScrollsOfAlts.outputMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
+  --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
+  --ElderScrollsOfAlts.debugMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
   return playerLines
 end
 
