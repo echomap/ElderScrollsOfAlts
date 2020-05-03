@@ -167,9 +167,12 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     end
     
     -- Infamy
+    --
     local infamy = ElderScrollsOfAlts.altData.players[k].infamy
     if( infamy ~= nil ) then
-      playerLines[k].reducedBounty = infamy.reducedBounty  
+      playerLines[k].reducedbounty = infamy.reducedBounty  
+    else
+      playerLines[k].reducedbounty = 0
     end
     
     

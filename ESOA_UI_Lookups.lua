@@ -567,6 +567,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 75
   elseif(viewKey=="Gender") then
     return 25
+  elseif(viewKey=="ReducedBounty") then
+    return 50
+    
   elseif(viewKey=="Alchemy" or viewKey=="Smithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="JC" or viewKey=="Jewelry" or viewKey=="Woodworking" or viewKey=="Provisioning") then
     return 45
   elseif(viewKey=="BagSpace") then
@@ -739,6 +742,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     local pos = string.find(viewKey, "_")
     viewKey2 = string.sub(viewKey,pos+1)
     return viewKey2
+  elseif(viewKey=="ReducedBounty") then
+    return "Bounty"
   --
 
   --

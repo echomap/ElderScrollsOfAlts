@@ -27,7 +27,7 @@ currency?
 ==Unpublished==
 1.00.XX
 [list]
-[*] 
+[*] ReducedBounty
 [*] 
 [/list]
 

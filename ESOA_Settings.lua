@@ -215,17 +215,22 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
     --end
     --Test names, check in ElderScrollsOfAlts.allowedViewEntries
     local goodEntries = {}
+    local validated = true
     for kk,vv in pairs(tempTable) do
       local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
       --ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
       if(fEntry~=nil)then
-        ElderScrollsOfAlts.outputMsg( "Validated")
+        --ElderScrollsOfAlts.outputMsg( "Validated")
         table.insert(goodEntries, tostring(vv) )
       else
+        validated = false
         ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: entry failed as k="..tostring(kk).." v="..tostring(vv))
       end
     end
     guiLine["view"] = goodEntries
+    if(validated) then
+      ElderScrollsOfAlts.outputMsg( "All were validated")
+    end
   
     --[[for k2,v2 in pairs(guiLine.view) do
       ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: k="..tostring(k2).." v="..tostring(v2) )
