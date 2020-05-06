@@ -1,8 +1,12 @@
---
+--[[ ESOA GUI / UI ]]-- 
+ 
+----------------------------------------
+-- ESOA GUI/UI Functions
+----------------------------------------
 
------------
--- SETUP -- 
 
+------------------------------
+-- SETUP: Colors
 function ElderScrollsOfAlts.SetupDefaultColors()
   --
   if(ElderScrollsOfAlts.savedVariables.colors==nil) then
@@ -58,6 +62,8 @@ function ElderScrollsOfAlts.SetupDefaultColors()
   --]]
 end
 
+------------------------------
+-- SETUP:
 function ElderScrollsOfAlts:ResetUIViews(self)
     ElderScrollsOfAlts.savedVariables.gui = {}
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])    )
@@ -67,6 +73,8 @@ function ElderScrollsOfAlts:ResetUIViews(self)
     ElderScrollsOfAlts.savedVariables.currentView = nil
 end
 
+------------------------------
+-- SETUP:
 function ElderScrollsOfAlts.CheckData()
   ElderScrollsOfAlts.debugMsg("CheckData:"," Called!")
   --
@@ -85,6 +93,8 @@ function ElderScrollsOfAlts.CheckData()
   ElderScrollsOfAlts.debugMsg("CheckData:"," Done!")
 end
 
+------------------------------
+-- SETUP:
 function ElderScrollsOfAlts.InitializeGui()
   ElderScrollsOfAlts.debugMsg("InitializeGui:"," Called!")
   ElderScrollsOfAlts.CheckData()
@@ -136,7 +146,6 @@ function ElderScrollsOfAlts.InitializeGui()
   
   --ElderScrollsOfAlts.savedVariables.selected.category
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
-  --ElderScrollsOfAlts:SetupGuiCharListing(self,  ESOA_GUI2_Body_CharList)
   
   if(ElderScrollsOfAlts.savedVariables.viewmousehighlight==nil)then
     ElderScrollsOfAlts.savedVariables.viewmousehighlight = {}
@@ -151,11 +160,11 @@ function ElderScrollsOfAlts.InitializeGui()
   
   --Cache Colors
   --local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
-  
-  
+  --
 end
 
---Called from Delayed Start
+------------------------------
+-- SETUP: Called from Delayed Start
 function ElderScrollsOfAlts:RestoreUI()
   if(ElderScrollsOfAlts.savedVariables.uibutton.shown==nil) then ElderScrollsOfAlts.savedVariables.uibutton.shown=false end
   if ElderScrollsOfAlts.savedVariables.uibutton.shown then
@@ -165,13 +174,9 @@ function ElderScrollsOfAlts:RestoreUI()
   end
 end
 
--- SETUP -- 
------------
 
------------
--- VIEWS -- 
-
---View, Setup and Show
+------------------------------
+-- UI: View, Setup and Show
 function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.debugMsg("ShowGuiByChoice");
   if( ESOA_GUI2:IsHidden()) then
@@ -182,14 +187,16 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   end
 end
 
---
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:HideAll()
   ElderScrollsOfAlts.HideUIButton()
   ESOA_GUI2:SetHidden(true)  
   ElderScrollsOfAlts:CloseNote(self)
 end
 
---UIButton
+------------------------------
+-- UI: UIButton
 function ElderScrollsOfAlts.ShowUIButton()
   ElderScrollsOfAlts.debugMsg("ShowUIButton");
   --d("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
@@ -201,12 +208,14 @@ function ElderScrollsOfAlts.ShowUIButton()
   end
 end
 
---UIButton
+------------------------------
+-- UI: UIButton
 function ElderScrollsOfAlts.HideUIButton()
   ESOA_ButtonFrame:SetHidden(true)
 end
 
---UIButton
+------------------------------
+-- UI: UIButton
 function ElderScrollsOfAlts.DoUiButtonClicked()
   ElderScrollsOfAlts:ShowGuiByChoice()    
   --[[local isShown = ESOA_GUI2:IsHidden()
@@ -217,7 +226,8 @@ function ElderScrollsOfAlts.DoUiButtonClicked()
   end --]] 
 end
 
---UIButton
+------------------------------
+-- UI: UIButton
 function ElderScrollsOfAlts:ButtonFrameOnMoveStop(mySelf)
   ElderScrollsOfAlts.savedVariables.uibutton.top    = ESOA_ButtonFrameButton:GetTop()
   ElderScrollsOfAlts.savedVariables.uibutton.left   = ESOA_ButtonFrameButton:GetLeft()
@@ -225,9 +235,8 @@ function ElderScrollsOfAlts:ButtonFrameOnMoveStop(mySelf)
   ElderScrollsOfAlts.debugMsg("ButtonFrameOnMoveStop: called. top="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.top))
 end
 
------------
--- VIEWS --
-
+------------------------------
+-- VIEWS: 
 function ElderScrollsOfAlts:getViewDataByName(viewNameFind)
   if(viewNameFind==nil) then
     return nil
@@ -241,6 +250,8 @@ function ElderScrollsOfAlts:getViewDataByName(viewNameFind)
   return nil
 end
 
+------------------------------
+-- VIEWS: 
 function ElderScrollsOfAlts:ShowAndSetView(viewName, viewIdx, buttonCalled)
   ElderScrollsOfAlts.savedVariables.lastView       = ElderScrollsOfAlts.savedVariables.currentView
   ElderScrollsOfAlts.savedVariables.currentView    = viewName
@@ -257,7 +268,8 @@ function ElderScrollsOfAlts:ShowAndSetView(viewName, viewIdx, buttonCalled)
   ElderScrollsOfAlts:ShowSetView()
 end
 
---View, Setup and Show
+------------------------------
+-- VIEWS: View, Setup and Show
 function ElderScrollsOfAlts:ShowNextView()
   if(ElderScrollsOfAlts.view.viewButtons==nil)then
     return
@@ -284,7 +296,6 @@ function ElderScrollsOfAlts:ShowNextView()
   local viewIdx = ElderScrollsOfAlts.view.viewLookupIdxFromName[ElderScrollsOfAlts.savedVariables.currentView]
   ElderScrollsOfAlts:ShowAndSetView(ElderScrollsOfAlts.savedVariables.currentView, viewIdx, viewButton)
   --ElderScrollsOfAlts:RefreshView()
-  
 end
 
 --[[
@@ -301,7 +312,8 @@ function ElderScrollsOfAlts:RefreshView()
 end
 ]]--
 
---SETUP tttt
+------------------------------
+-- VIEWS: SETUP tttt
 function ElderScrollsOfAlts:SetupAndShowViewButtons()
   local viewPred = ESOA_GUI2_Header_Label
   local vParent  = ESOA_GUI2_Header
@@ -387,7 +399,8 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
   
 end
 
---Setup tttt
+------------------------------
+-- VIEWS: Setup tttt
 -- Load/Save data, and setup views
 function ElderScrollsOfAlts:CreateGUI()
   if(ElderScrollsOfAlts.savedVariables.currentView == nil) then
@@ -470,7 +483,8 @@ function ElderScrollsOfAlts:CreateGUI()
   
 end--CreateGUI
 
---Show the VIEW data for selected View
+------------------------------
+-- VIEWS: Show the VIEW data for selected View
 function ElderScrollsOfAlts:ShowSetView()
   if(ElderScrollsOfAlts.savedVariables.currentView == nil) then
     ElderScrollsOfAlts.savedVariables.currentView = GetString(ESOA_VIEW_HOME)
@@ -592,7 +606,8 @@ function ElderScrollsOfAlts:ShowSetView()
   --
 end--ShowSetView
 
---Hides offset rows, shows others
+------------------------------
+-- VIEWS: Hides offset rows, shows others
 function ElderScrollsOfAlts.RefreshViewableTable()
   local lineParent = nil
   local parent     = nil
@@ -636,7 +651,8 @@ function ElderScrollsOfAlts.RefreshViewableTable()
   end
 end
 
--- Populates the Lines with data for this view
+------------------------------
+-- VIEWS: Populates the Lines with data for this view
 function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, playerLine) --ESOA_RowTemplate
   local viewNameS = ElderScrollsOfAlts.savedVariables.currentView
   local viewTemplateC = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.currentView)
@@ -733,7 +749,6 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   local viewData = viewTemplateC.view
   for i = 1, #viewData do
     entry = viewData[i]    
-    --ElderScrollsOfAlts.debugMsg("RefreshGuiCharListing:"," entry='", tostring(entry), "'")
     eline = ElderScrollsOfAlts.GuiCharLineLookupDisplayType(viewName,entry,lineName,parent)
     if(eline==nil) then
       ElderScrollsOfAlts.debugMsg("Ack! Virtual control is nil?")
@@ -788,8 +803,8 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   return dataLine
 end --LoadDataEntriesForSetView
 
-
---ESOA_GUI2 was:ShowGui2
+------------------------------
+-- UI: ESOA_GUI2 was:ShowGui2
 function ElderScrollsOfAlts.ShowGuiBase()
   if not ESOA_GUI2:IsHidden() then 
     --ESOA_GUI2:SetHidden(true)
@@ -832,7 +847,8 @@ function ElderScrollsOfAlts.ShowGuiBase()
   --NEED TO CALL A VIEW before or after this!
 end
 
---
+------------------------------
+-- VIEWS: 
 function ElderScrollsOfAlts:SetupGuiHeaderListing(viewName)  
   local viewTemplateL = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.lastView)
   local viewTemplateC = ElderScrollsOfAlts:getViewDataByName(ElderScrollsOfAlts.savedVariables.currentView)
@@ -920,23 +936,13 @@ function ElderScrollsOfAlts:SetupGuiHeaderListing(viewName)
   end
 end
   
---REMOVE
-function ElderScrollsOfAlts:SetupGuiCharListing()
-end
---REMOVE
-function ElderScrollsOfAlts:SetupDataLines(viewName)
-end
---REMOVE
+--REMOVE?
+--Called from : ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
 function ElderScrollsOfAlts:RefreshGuiCharListing(viewName)
 end
 
--- VIEWS -- 
------------
-
-
------------
---  SORT -- 
---
+------------------------------
+-- SORT: 
 function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/sortText='", tostring(sortText), "'")
   --ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/sortKey='"..tostring(control.sortKey).."'")
@@ -1054,9 +1060,7 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   if(newSort~=nil and newSort) then
     ElderScrollsOfAlts:RefreshGuiCharListing(ElderScrollsOfAlts.savedVariables.currentView)  
   end
-  --ElderScrollsOfAlts:RefreshGuiCharListing(ElderScrollsOfAlts.savedVariables.currentView)
   ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
-  
   
   --Sort Label
   local sVal = zo_strformat("<<C:1>>", ElderScrollsOfAlts.view.currentSortKey )
@@ -1074,7 +1078,8 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
 	--ESOA_GUI2_Body_ListHolder.dataOffset = 0
 end--DOGUISORT
 
-----Set max, and Hide lines out of the max display
+------------------------------
+-- SORT: Set max, and Hide lines out of the max display
 function ElderScrollsOfAlts:GuiResizeScroll()
   ElderScrollsOfAlts.debugMsg("GuiResizeScroll: Called")
 	local regionHeight = ESOA_GUI2_Body_ListHolder:GetHeight()
@@ -1090,7 +1095,8 @@ function ElderScrollsOfAlts:GuiResizeScroll()
   ElderScrollsOfAlts.debugMsg("GuiResizeScroll: Done")
 end
 
---Hide lines out of the max display
+------------------------------
+-- SORT: Hide lines out of the max display
 function ElderScrollsOfAlts:GuiResizeLines()
   ElderScrollsOfAlts.debugMsg("GuiResizeLines: Called")
 	--local lines
@@ -1110,6 +1116,8 @@ function ElderScrollsOfAlts:GuiResizeLines()
 	end
 end
 
+------------------------------
+-- SORT: 
 function ElderScrollsOfAlts:GuiOnScroll(control, delta)  
 	if not delta then return end
   ElderScrollsOfAlts.debugMsg("GuiOnScroll: delta="..tostring(delta) )
@@ -1136,6 +1144,8 @@ function ElderScrollsOfAlts:GuiOnScroll(control, delta)
 	--ElderScrollsOfAlts:GuiLineOnMouseEnter(moc())
 end
 
+------------------------------
+-- SORT: 
 function ElderScrollsOfAlts:GuiOnSliderUpdate(slider, value)
   ElderScrollsOfAlts.debugMsg("GuiOnSliderUpdate: Called, w/value="..tostring(value)  )
 	--if not value or slider.locked then return end
@@ -1144,7 +1154,8 @@ function ElderScrollsOfAlts:GuiOnSliderUpdate(slider, value)
 	ElderScrollsOfAlts:GuiOnScroll(slider, relativeValue)
 end
 
---Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)
+------------------------------
+-- SORT: Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)
 function ElderScrollsOfAlts:UpdateDataScroll()
   local index = 0
 	if ESOA_GUI2_Body_ListHolder.dataOffset < 0 then ESOA_GUI2_Body_ListHolder.dataOffset = 0 end
@@ -1152,9 +1163,6 @@ function ElderScrollsOfAlts:UpdateDataScroll()
 		ESOA_GUI2_Body_ListHolder.maxLines = ESOA_GUI2_Body_ListHolder.defaultMaxLines
 	end
 	--TODO SetDataLinesData()--Fill in data from datalines
-  --ElderScrollsOfAlts:RefreshGuiCharListing()
-  --ElderScrollsOfAlts.SetupGuiCharListing()
-  --yyyyElderScrollsOfAlts:SetupDataLines()
   ElderScrollsOfAlts.RefreshViewableTable()
 
 	local total = #ESOA_GUI2_Body_ListHolder.dataLines - ESOA_GUI2_Body_ListHolder.maxLines
@@ -1162,7 +1170,8 @@ function ElderScrollsOfAlts:UpdateDataScroll()
   
 end
 
---ESOA_GUI2
+------------------------------
+-- UI: ESOA_GUI2
 function ElderScrollsOfAlts:onMoveStop()  
   ElderScrollsOfAlts.savedVariables.window.top    = ESOA_GUI2:GetTop()
   ElderScrollsOfAlts.savedVariables.window.left   = ESOA_GUI2:GetLeft()
@@ -1174,7 +1183,8 @@ function ElderScrollsOfAlts:onMoveStop()
   end
 end
 
---ESOA_GUI2 (calls GuiResizeScroll and UpdateDataScroll)
+------------------------------
+-- UI: ESOA_GUI2 (calls GuiResizeScroll and UpdateDataScroll)
 function ElderScrollsOfAlts:onResizeStart() 
   	EVENT_MANAGER:RegisterForUpdate(ElderScrollsOfAlts.name.."OnWindowResize", 50,
       function() 
@@ -1186,7 +1196,8 @@ function ElderScrollsOfAlts:onResizeStart()
     )
 end
 
---ESOA_GUI2
+------------------------------
+-- UI: ESOA_GUI2
 function ElderScrollsOfAlts:onResizeStop()
   
 	-- if you resize the box, you need to resize the list to go with it
@@ -1233,6 +1244,8 @@ function ElderScrollsOfAlts:onResizeStop()
   end
 end
 
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:ToggleGuiCharacterDetails(self)
   ElderScrollsOfAlts.debugMsg("ToggleGuiCharacterDetails:"," Called")
   if(ESOA_CharDetails:IsHidden())then
@@ -1241,13 +1254,21 @@ function ElderScrollsOfAlts:ToggleGuiCharacterDetails(self)
     ElderScrollsOfAlts:ShowGuiCharacterDetails(self)
   end
 end
+
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:CloseGuiCharacterDetails(self)
   ESOA_CharDetails:SetHidden(true)
 end
+
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:ShowGuiCharacterDetails(self)
   ElderScrollsOfAlts.debugMsg("ShowGuiCharacterDetails:"," Called") 
 end
 
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:GUI2Lock(bLock)
   --debugMsg("GUI2Lock bLock: "..tostring(bLock) )
 	ESOA_GUI2_Header_Locked:SetHidden(not bLock)
@@ -1260,12 +1281,16 @@ function ElderScrollsOfAlts:GUI2Lock(bLock)
 		ESOA_GUI2:SetResizeHandleSize(10)
 	end
 end
---ESOA_GUI2 called from _Hide ??? TODO
+
+------------------------------
+-- UI: ESOA_GUI2 called from _Hide ??? TODO
 function ElderScrollsOfAlts.HideGui2()
     ESOA_GUI2:SetHidden(true)
     ESOA_GUI2_Notes:SetHidden(true)
 end
 
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:GUI2Minimize(bMin)
   ElderScrollsOfAlts.debugMsg("GUI2Minimize Called, bMin=",tostring(bMin) )
   ElderScrollsOfAlts.savedVariables.window.minimized = bMin
@@ -1344,12 +1369,15 @@ local categorySortKeys =
   {
     ["MAIN"]          = { },
   }
---Sort
+
+------------------------------
+-- UI: Sort
 function ElderScrollsOfAlts.SortCategoriesData(a, b)
   return ZO_TableOrderingFunction( a.data, b.data, "MAIN", categorySortKeys, ZO_SORT_ORDER_DOWN )
 end
 
---
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
   ElderScrollsOfAlts.debugMsg("ListOfCategories: Called" )
   local validChoices =  {}
@@ -1381,7 +1409,8 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
   return validChoices
 end
 
---
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:GuiSetupCategoryButton(self)  
   local validChoices = ElderScrollsOfAlts:ListOfCategories(true)
   ESOA_GUI2_Header_CategorySelect:SetText( ElderScrollsOfAlts.CATEGORY_ALL )  
@@ -1393,7 +1422,8 @@ function ElderScrollsOfAlts:GuiSetupCategoryButton(self)
   ESOA_GUI2_Header_CategorySelect:SetText(categoryS)  
 end
 
---
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:SelectCategoryOnRotation(self) 
   local validChoices =  ElderScrollsOfAlts:ListOfCategories(true)
   local categoryS = ElderScrollsOfAlts.savedVariables.selected.category
@@ -1427,16 +1457,8 @@ function ElderScrollsOfAlts:SelectCategoryOnRotation(self)
   ElderScrollsOfAlts:ShowSetView()
 end
 
-
-
--- VIEW -- 
------------
-
-
---------------
--- TOOLTIPS -- 
-
---UI
+------------------------------
+-- UI: TOOLTIPS: 
 function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   local itemLink = myLabel.itemlink
   if(itemLink~=nil) then
@@ -1451,6 +1473,8 @@ function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   ]]
 end
 
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:ShowHightlight(control)
   if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
    --d("GuiLineOnMouseEnter control="..tostring(control)  )
@@ -1460,11 +1484,15 @@ function ElderScrollsOfAlts:ShowHightlight(control)
   end  
 end
 
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
   if not control then return end
   ElderScrollsOfAlts:ShowHightlight(control)
 end
 
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:GuiLineOnMouseExit(self)
   --ClearTooltip(ESOATooltip)  
   --[[
@@ -1477,6 +1505,8 @@ function ElderScrollsOfAlts:GuiLineOnMouseExit(self)
   --]]--
 end
 
+------------------------------
+-- UI: 
 function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
   ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: Called")
   if button == MOUSE_BUTTON_INDEX_LEFT then
@@ -1504,25 +1534,33 @@ function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
 	end
 end
 
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:ToolTipHeaderEnterSort(sender)
   local senderName = sender.entry 
   ElderScrollsOfAlts:Misc2HeaderTipEnter(sender,senderName)
 end
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:ToolTipHeaderExitSort(sender)
   ElderScrollsOfAlts:Misc2HeaderTipExit(sender)
 end
 
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:Misc2HeaderTipEnter(sender,key)
   InitializeTooltip(ESOATooltip, sender, TOPLEFT, 5, -56, TOPRIGHT)
   ESOATooltip:AddLine(key, "ZoFontHeader3")
 end
 
---UI
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:Misc2HeaderTipExit(sender)
   ClearTooltip(ESOATooltip)
 end
 
-
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
   local itemLink = myLabel.name
   if(itemLink==nil) then
@@ -1538,12 +1576,14 @@ function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
   end
 end
 
---UI
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:ResearchTipExit(myLabel)  
   ClearTooltip(InformationTooltip)
 end
 
---ESOACraftTooltip EQUIP Tooltip TODO REMOVEME
+------------------------------
+-- UI: TOOLTIPS ESOACraftTooltip EQUIP Tooltip TODO REMOVEME
 function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)    
   local itemLink = myLabel.itemlink
   if(itemLink==nil) then
@@ -1587,12 +1627,14 @@ function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)
   --InformationTooltip:AddItemTags(itemLink)
 end
 
---UI TODO REMOVEME
+------------------------------
+-- UI: TOOLTIPS TODO REMOVEME
 function ElderScrollsOfAlts:EquipTipExit(myLabel)  
   ClearTooltip(InformationTooltip)
 end
 
---ESOACraftTooltip CRAFT Tooltip
+------------------------------
+-- UI: TOOLTIPS ESOACraftTooltip CRAFT Tooltip
 function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)  
   --ElderScrollsOfAlts.debugMsg("CraftTipEnter: myLabel='",myLabel," craftName='", tostring(craftName).."'")
   if( craftName == nil ) then return end 
@@ -1631,11 +1673,14 @@ function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)
   end
 end
 
---UI
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:CraftTipExit(myLabel)  
   ClearTooltip(ESOATooltip)
 end
 
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:Misc2TipEnter(myLabel,equipName)
   local itemLink  = myLabel.name
   local hoverover = myLabel.hoverover 
@@ -1653,11 +1698,14 @@ function ElderScrollsOfAlts:Misc2TipEnter(myLabel,equipName)
   end
 end
 
---UI
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:Misc2TipExit(myLabel)  
   ClearTooltip(InformationTooltip)
 end
 
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)  
   --ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipName='"..tostring(tooltipName).."'")
   if( tooltipName == nil ) then return end 
@@ -1738,29 +1786,23 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
   end
 end--TooltipEnter
 
+------------------------------
+-- UI: TOOLTIPS
 function ElderScrollsOfAlts:TooltipExit(myLabel,craftName)  
   ClearTooltip(ESOATooltip)
 end
 
--- TOOLTIPS --
 --------------
-
-----------
--- SORT -- 
-
+-- SORT
 function ElderScrollsOfAlts:GuiSortChar(sender,keyname)
   --ElderScrollsOfAlts:GuiSortCharBase(keyname,false,sender)
 end
---Sort
+
+--------------
+-- SORT
 function ElderScrollsOfAlts:GuiSort(keyname)
   --ElderScrollsOfAlts:GuiSortCharBase(keyname)
 end
 
--- SORT --
-----------
-
-
-
------------
------------
-
+------------------------------
+-- EOF

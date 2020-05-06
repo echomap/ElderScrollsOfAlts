@@ -1,9 +1,13 @@
+--[[ ESOA GUI Lookups ]]-- 
+ 
+----------------------------------------
 -- Used by the UI to go from player data to column data
 -- i.e. filling inthe chart from the in memory data
+----------------------------------------
 
------------
--- HELPER -- 
 
+------------------------------
+-- View Lookup, show data
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
   eline.viewKey = viewKey
   if(eline==nil) then return end
@@ -271,10 +275,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   end
 end
 
-function ElderScrollsOfAlts.starts_with(str, start)
-   return str:sub(1, #start) == start
-end
-
+------------------------------
+-- View Lookup, Percents, ??
 function ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
   if( eline.value==nil) then
     return 0
@@ -286,6 +288,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
   end
 end
 
+------------------------------
+-- View Lookup, Percents, ??
 function ElderScrollsOfAlts.LookupPercentCheck(valIn,maxVal,perc)
   if( valIn==nil) then
     return 0
@@ -303,6 +307,8 @@ function ElderScrollsOfAlts.LookupPercentCheck(valIn,maxVal,perc)
   return 0
 end
 
+------------------------------
+-- View Lookup, CHECK if value is max of field
 -- Returns true if this value is MAX
 -- Returns 0 if not at max, 1 if at MAX, and 2 if near max
 function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
@@ -354,12 +360,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
   return 0
 end
 
+------------------------------
+-- View Lookup, CHECK if data value is Max Value
 function ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
   if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax~=nil)then
     local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline:GetText() )
     eline:SetText( cText )  
   end
 end
+
+------------------------------
+-- View Lookup, CHECK if data value is NEAR Max Value
 function ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
   if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax~=nil)then
     local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax, eline:GetText() )
@@ -367,7 +378,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
   end
 end
 
-
+------------------------------
+-- View Lookup, Show Data 
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,playerLine,equipName)
   local mKye1 = string.format("%s%s", equipName,"_Link")
   eline:SetText( playerLine[equipName] )
@@ -387,7 +399,9 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,pla
   end)  
 end
 
---rclothier2time
+------------------------------
+-- View Lookup, Show Data 
+-- rclothier2time
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,playerLine,tradeName,numkey)
   --local vkey = "r"..tradeName.."time"
   local mKyeS  = string.format("%s%s%s%s","r",tradeName,numkey,"S")
@@ -443,7 +457,9 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   end)  
   --eline:SetFont(ZoFontGame)
 end
-  
+
+------------------------------
+-- View Lookup, Show Data 
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,playerLine,tradeName)
   eline.data_val    = playerLine[tradeName]
   eline.data_sunk   = playerLine[tradeName.."_sunk"] 
@@ -464,7 +480,8 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
   eline.value = playerLine[tradeName]
 end
 
-
+------------------------------
+-- View Lookup, Show Data  ??
 function ElderScrollsOfAlts.GuiCharLineLookupDisplayType(view,viewKey,lineName,parent)
   local line = nil
   -- ESOA_GUI2_Body_ListHolder_Line_"..charName    
@@ -487,14 +504,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupDisplayType(view,viewKey,lineName,p
   return line
 end
 
---What's this used for?
-function ElderScrollsOfAlts.GuiSortBarLookupSearchText(viewKey)
-  if(viewKey=="Smithing") then
-    return "blacksmithing"
-  end
-  return viewKey
-end
-
+------------------------------
+-- View Lookup, return sort lookup values
 function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
   if(viewKey==nil) then return nil end
   --viewKey = viewKey:lower()
@@ -544,6 +555,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
   return viewKey:lower()
 end
 
+------------------------------
+-- View Lookup, Return WIDTH
 function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   if(viewKey=="Name") then
     return ElderScrollsOfAlts.altData.fieldWidthForName
@@ -615,6 +628,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   end
 end
 
+------------------------------
+-- View Lookup, Return Column Header TEXT
 function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   --ElderScrollsOfAlts.debugMsg("LookupDisplay Key="..tostring(viewKey) )
   if(viewKey=="Special") then
@@ -752,5 +767,5 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   end
 end
 
--- HELPER -- 
------------
+------------------------------
+-- EOF

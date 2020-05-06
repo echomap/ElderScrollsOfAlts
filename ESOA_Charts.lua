@@ -1,8 +1,11 @@
---ESOA Charts -- data lookups
+--[[ ESOA UI Charts ]]-- 
+ 
+----------------------------------------
+-- ESOA GUI/UI Charts/Data Lookup Functions
+----------------------------------------
 
 -----------
--- VIEWS --
-
+-- VIEWS
 ElderScrollsOfAlts.allowedViewEntries = {
   ["Note"] = 1, 
   ["Special"] = 1, 
@@ -113,6 +116,8 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["ReducedBounty"] = 1, 
 }
 
+-----------
+-- VIEWS
 ElderScrollsOfAlts.view.guiTemplates = {  
   ["Home"] = {
     ["name"] = "Home",
@@ -201,11 +206,9 @@ ElderScrollsOfAlts.view.guiTemplates = {
   },
 }
 
--- VIEWS --
------------
 
 -----------
--- DISPLAY -- 
+-- VIEWS: Lookup CRAFT
 function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
   if(craftName=="JC" or craftName=="Jewelry" )then
     if(sunkVal == 0) then
@@ -364,6 +367,8 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
 end
 
 
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:GetGenderFullText(genderId)
   local genderName = GetString(ESOA_GENDER_OTHER)
     if genderId == 0 then
@@ -373,6 +378,9 @@ function ElderScrollsOfAlts:GetGenderFullText(genderId)
     end
     return genderName
 end
+
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:GetGenderText(genderId)
   local genderName = GetString(ESOA_GENDER_OTHER_S)
     if genderId == 0 then
@@ -383,6 +391,8 @@ function ElderScrollsOfAlts:GetGenderText(genderId)
     return genderName
 end
 
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:GetClassText(className)
   local classX = GetString(ESOA_CLASS_DEFAULT_ABBREV)
     if className == GetString(ESOA_CLASS_DRAGONKNIGHT) then
@@ -401,6 +411,8 @@ function ElderScrollsOfAlts:GetClassText(className)
     return classX
 end
 
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:GetRaceText1(raceName)
   local raceX = raceName
     if raceName == GetString(ESOA_RACE_HIGHELF) then
@@ -416,6 +428,9 @@ function ElderScrollsOfAlts:GetRaceText1(raceName)
     end
     return raceX
 end
+
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:GetRaceText2(raceName)
   local raceX = GetString(ESOA_RACE_UNKNOWN)
     if raceName == GetString(ESOA_RACE_HIGHELF) then
@@ -440,15 +455,14 @@ function ElderScrollsOfAlts:GetRaceText2(raceName)
     return raceX
 end
 
---
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:GetAllianceIcon(alliance)
-  --if( alliance == 1 ) then
-  --else if XXX then
-  --end
   return ZO_GetAllianceIcon(alliance)
 end
 
---
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:ListAllAllowedViewEntries()
   local printEntries = "" 
   for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do
@@ -458,7 +472,5 @@ function ElderScrollsOfAlts:ListAllAllowedViewEntries()
   ElderScrollsOfAlts.outputMsg(printEntries)
 end
 
-
-
--- DISPLAY -- 
 -----------
+-- EOF

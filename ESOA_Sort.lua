@@ -1,6 +1,12 @@
---
+--[[ ESOA UI SORT ]]-- 
+ 
+----------------------------------------
+-- ESOA GUI/UI SORTING Functions
+----------------------------------------
 
---Sort
+
+------------------------------
+-- Sort
 local charSortKeys =
   {
     ["name"]          = { }, 
@@ -23,17 +29,19 @@ local charSortKeys =
     ["skillPoints"]   = { tiebreaker = "name", isNumeric = true },        
   }
 
---Sort
+------------------------------
+-- Sort
 function ElderScrollsOfAlts.SortCharData(a, b)
     ElderScrollsOfAlts.debugMsg("SortCharData: aK="..tostring(a[ElderScrollsOfAlts.view.currentSortKey]).. " bK="..tosting(b[ElderScrollsOfAlts.view.currentSortKey]) )
     return a[ElderScrollsOfAlts.view.currentSortKey] < b[ElderScrollsOfAlts.view.currentSortKey]
   --return ZO_TableOrderingFunction( a.data, b.data, ElderScrollsOfAlts.view.currentSortKey, charSortKeys, ElderScrollsOfAlts.view.currentSortOrder)
 end
 
---Sort
+------------------------------
+-- Sort
 function ElderScrollsOfAlts:GuiSortCharBase(newKey,refreshOnly,sender)
   ElderScrollsOfAlts:debugMsg("GuiSortCharBase newKey="..tostring(newKey) )
 end
-
   
+------------------------------
 --EOF

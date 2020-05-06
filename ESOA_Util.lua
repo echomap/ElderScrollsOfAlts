@@ -1,15 +1,29 @@
------------
---ESOA UTIL
------------
+--[[ ESOA Utils ]]-- 
+ 
+----------------------------------------
+-- Utility Functions 
+----------------------------------------
 
+------------------------------
+-- 
 function ElderScrollsOfAlts.outputMsg(text)
   d("(" .. ElderScrollsOfAlts.name .. ") " .. text )
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts.errorMsg(text)
   d("(" .. ElderScrollsOfAlts.name .. ") " .. text )
 end
 
+------------------------------
+-- 
+function ElderScrollsOfAlts.starts_with(str, start)
+   return str:sub(1, #start) == start
+end
+
+------------------------------
+--
 function ElderScrollsOfAlts.debugMsg(...)
   if not ElderScrollsOfAlts.altData.debug then
     return
@@ -42,6 +56,8 @@ function ElderScrollsOfAlts.debugMsg(...)
 	d("(" .. ElderScrollsOfAlts.name .. ") " .. printResult )
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts:matchStringList(str,itemlist)
   for _, v in ipairs(itemlist) do
       if v == str then
@@ -51,6 +67,8 @@ function ElderScrollsOfAlts:matchStringList(str,itemlist)
   return false;
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts:has_value (tab, val)
     for index, value in ipairs(tab) do
         if value == val then
@@ -59,7 +77,9 @@ function ElderScrollsOfAlts:has_value (tab, val)
     end
     return false
 end
---Sets my(self)'s text if isnt null, or sets default
+
+------------------------------
+-- Sets my(self)'s text if isnt null, or sets default
 function ElderScrollsOfAlts:InitText(self,textKey,defaultValue)
   local textVal = GetString(textKey)
   if(textVal~=nil) then
@@ -70,6 +90,8 @@ function ElderScrollsOfAlts:InitText(self,textKey,defaultValue)
   end
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts:deepcopy(orig)
     local orig_type = type(orig)
     local copy
@@ -84,12 +106,16 @@ function ElderScrollsOfAlts:deepcopy(orig)
     end
     return copy
 end
---TODO not used, remove
+
+------------------------------
+-- TODO not used, remove
 function ElderScrollsOfAlts:getColoredString(color, s)
 	local c = ZO_ColorDef:New(GetInterfaceColor(INTERFACE_COLOR_TYPE_ITEM_QUALITY_COLORS, color))
 	return c:Colorize(s)
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts.ColorText(colors,text)
   --colorized text and write it out
   --check cache
@@ -98,6 +124,7 @@ function ElderScrollsOfAlts.ColorText(colors,text)
   return text2
 end
 
+------------------------------
 -- Wraps text with a color.
 function ElderScrollsOfAlts.Colorize(text, color)
     -- Default to addon's .color.
@@ -106,7 +133,8 @@ function ElderScrollsOfAlts.Colorize(text, color)
     return text
 end
 
---IN: Milliseconds
+------------------------------
+-- IN: Milliseconds
 function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   if(timeMS==nil)then
     return "--"
@@ -139,4 +167,5 @@ function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   return hdrStr
 end
 
---EOF
+------------------------------
+-- EOF

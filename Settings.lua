@@ -1,4 +1,11 @@
--- Settings menu.
+--[[ Settings GUI ]]-- 
+ 
+----------------------------------------
+-- Functions to SHOW Settings data --
+----------------------------------------
+
+------------------------------
+-- 
 function ElderScrollsOfAlts.LoadSettings()
   local LAM = LibStub("LibAddonMenu-2.0")
 
@@ -356,3 +363,5 @@ function ElderScrollsOfAlts.LoadSettings()
   --
     LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end
+
+--EOF

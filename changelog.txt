@@ -23,6 +23,7 @@ test colors ok
 test research 'code' param > 0
 view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
 currency?
+extractions/hirelings
 
 ==Unpublished==
 1.00.XX

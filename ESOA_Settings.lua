@@ -1,10 +1,16 @@
--- Functions to process Settings data
+--[[ Settings GUI ]]-- 
+ 
+----------------------------------------
+-- Functions to process Settings data --
+----------------------------------------
 
+------------------------------
 -- UI Button
 function ElderScrollsOfAlts:GetUIButtonShown()
    return (ElderScrollsOfAlts.savedVariables.uibutton.shown)
 end
 
+------------------------------
 -- UI Button
 function ElderScrollsOfAlts.SetUIButtonShown(value)
   ElderScrollsOfAlts.savedVariables.uibutton.shown = value
@@ -16,10 +22,13 @@ function ElderScrollsOfAlts.SetUIButtonShown(value)
   end  
 end
 
+------------------------------
 -- View Dropdown
 function ElderScrollsOfAlts:GetUIViewDropDownShown()
   return (ElderScrollsOfAlts.savedVariables.viewdropdown.shown)
 end
+
+------------------------------
 -- View Dropdown
 function ElderScrollsOfAlts.SetUIViewDropDownShown(value)
   ElderScrollsOfAlts.savedVariables.viewdropdown.shown = value
@@ -27,10 +36,13 @@ function ElderScrollsOfAlts.SetUIViewDropDownShown(value)
   --TODO update UI
 end
 
+------------------------------
 -- Mouse Hightlight
 function ElderScrollsOfAlts:GetUIViewMouseHighlightShown()
   return (ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown)
 end
+
+------------------------------
 --  Mouse Hightlight
 function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
   ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = value
@@ -38,7 +50,7 @@ function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
   ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
 end
 
-
+------------------------------
 --Returns a list of character names
 function ElderScrollsOfAlts:ListOfCharacterNames()
   local validChoices =  {}  
@@ -58,11 +70,13 @@ function ElderScrollsOfAlts:ListOfCharacterNames()
   return validChoices 
 end
 
+------------------------------
 --SETTINGS For use by Settings dropdown
 function ElderScrollsOfAlts:SelectCharacterName(choiceText)
   ElderScrollsOfAlts.savedVariables.selected.charactername = choiceText
 end
 
+------------------------------
 --SETTINGS For use by Settings dropdown
 function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
   local charname = ElderScrollsOfAlts.savedVariables.selected.charactername
@@ -98,6 +112,8 @@ function ElderScrollsOfAlts:SettingsListOfViews()
   return validChoices 
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts:SettingsListOfViewTemplateNames()
   local validChoices =  {}  
 	table.insert(validChoices, "Select")
@@ -113,8 +129,9 @@ end
 --  ElderScrollsOfAlts.savedVariables.selected.viewidx = choiceText
 --end
 
+------------------------------
+--
 function ElderScrollsOfAlts:RefreshSettingsDropdowns()
-  --
   local myFpsLabelControl = WINDOW_MANAGER:GetControlByName("ESOA_SETTINGS_DD_SelectView", "")
   if(myFpsLabelControl~=nil) then
     local vals = ElderScrollsOfAlts:SettingsListOfViews()
@@ -122,9 +139,10 @@ function ElderScrollsOfAlts:RefreshSettingsDropdowns()
   else
     ElderScrollsOfAlts.outputMsg("WARN: Dropdown not found, changes will not be reflected until /reloadui")
   end
-
 end
 
+------------------------------
+-- view: Delete
 function ElderScrollsOfAlts:DoDeleteSelectedView()
  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
   local viewText = ""
@@ -136,6 +154,8 @@ function ElderScrollsOfAlts:DoDeleteSelectedView()
   ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
 
+------------------------------
+-- view: Select
 function ElderScrollsOfAlts:DoTestSelectedView()
   local guiLine2B = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
   if(guiLine2B==nil)then
@@ -176,6 +196,8 @@ function ElderScrollsOfAlts:DoTestSelectedView()
   end
 end
 
+------------------------------
+-- view: Add
 function ElderScrollsOfAlts:DoAddNewViewData()
   local viewTemplate = ElderScrollsOfAlts.view.guiTemplates[ElderScrollsOfAlts.savedVariables.selected.viewTemplate]
   if(viewTemplate==nil)then
@@ -190,6 +212,7 @@ function ElderScrollsOfAlts:DoAddNewViewData()
   ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
 
+------------------------------
 --Save DATA from FORM
 function ElderScrollsOfAlts:DoSaveSelectedView()
   --TODO
@@ -244,6 +267,7 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
   end
 end--DoSaveSelectedView
 
+------------------------------
 --Edit button puts data into FORM
 function ElderScrollsOfAlts:DoEditSelectedView()
   local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
@@ -270,6 +294,8 @@ function ElderScrollsOfAlts:DoEditSelectedView()
   ElderScrollsOfAlts.view.SettingsViewData = viewText
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts:GetEditSelectedViewName()
   local retVal = ElderScrollsOfAlts.view.SettingsViewName
   --[[
@@ -282,6 +308,8 @@ function ElderScrollsOfAlts:GetEditSelectedViewName()
   return retVal
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts:SetEditSelectedViewName(newName)
   --[[
   local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
@@ -293,16 +321,21 @@ function ElderScrollsOfAlts:SetEditSelectedViewName(newName)
   ElderScrollsOfAlts.view.SettingsViewName = newName
 end
 
+------------------------------
 --Called when Box looses focus
 function ElderScrollsOfAlts.SetEditSelectedViewText(newText)
   ElderScrollsOfAlts.view.SettingsViewData = newText
   ElderScrollsOfAlts.debugMsg("SetEditSelectedViewText: set text as=",newText)
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts.GetEditSelectedViewText()
   return (ElderScrollsOfAlts.view.SettingsViewData)
 end
 
+------------------------------
+--
 function ElderScrollsOfAlts.GetAllAllowedViewEntries()
   local printEntries = "" 
   for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do
@@ -313,7 +346,10 @@ function ElderScrollsOfAlts.GetAllAllowedViewEntries()
   return printEntries
 end
 
+------------------------------
+-- UNUSED?
 function ElderScrollsOfAlts:SetAllAllowedViewEntries(newName)
+  --
 end
 
 --EOF
