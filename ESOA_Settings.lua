@@ -60,7 +60,7 @@ function ElderScrollsOfAlts:ListOfCharacterNames()
       if(k~=nil) then
         local displayName = k
         if(v~=nil and v.bio~=nil) then
-            displayName = k .."("..v.bio.name..")"
+            displayName = k .."("..tostring(v.bio.name)..")"
         end
         --debugMsg(ElderScrollsOfAlts.name .. " k " .. k)
         table.insert(validChoices, displayName ) --v.rawname)--v.bio.name )

@@ -28,9 +28,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --TODO timers
   elseif(viewKey=="SpecialBiteTimer") then    
     eline:SetText( playerLine.special_bitetimerDisplay )
-    if( playerLine.Werewolf == true or  playerLine.Vampire == true) then
+    if( playerLine.Werewolf == true or playerLine.Vampire == true) then
       local canBite = ""
-      if( playerLine.special_bitetimer~=nil and playerLine.special_bitetimer<=0)then
+      if( playerLine.special_bitetimer~=nil and playerLine.special_bitetimer==0)then
         canBite = "Bite" --localize
         eline:SetText( canBite )
       end
@@ -78,9 +78,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline:SetText( genderText )
     eline.tooltip = playerLine.name .. " is a ".. ElderScrollsOfAlts:GetGenderFullText(playerLine["gender"])
   --
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" and playerLine[viewKey.."_Rank"]~=nil ) then
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" and playerLine[viewKey.."_Rank"]~=nil ) then
     eline:SetText( playerLine[viewKey.."_Rank"]  )
     eline.value = playerLine[viewKey.."_Rank"] 
+    eline.sort_data = eline.value
+    eline.sort_numeric =  true
     eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. playerLine[viewKey.."_Rank"] 
     if( playerLine[viewKey.."_XPCode"]~=nil )then
       if( playerLine[viewKey.."_XPCode"]==0 )then
@@ -98,7 +100,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --
   elseif(viewKey=="Alchemy") then
     ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,playerLine,"alchemy")--,"alchemy_sunk","alchemy_sunk2")    
-  elseif(viewKey=="Smithing") then
+  elseif(viewKey=="Smithing" or viewKey=="Blacksmithing") then
     ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,playerLine,"blacksmithing")
   elseif(viewKey=="Clothing") then
     ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,playerLine,"clothing")
@@ -322,7 +324,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
     if( eline.value == 60 ) then 
       return 1
     end
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" ) then
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" ) then
     if( eline.value == 10 ) then 
       return 1
     end
@@ -469,6 +471,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
   else
     eline:SetText(eline.data_val .. "  ")
   end
+  eline.data_subskills= playerLine[tradeName.."_subskills"]
   --eline:SetMouseEnabled(true)
   eline:SetHandler('OnMouseEnter',function(self)
     ElderScrollsOfAlts:CraftTipEnter(self, viewKey )
@@ -509,7 +512,10 @@ end
 function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
   if(viewKey==nil) then return nil end
   --viewKey = viewKey:lower()
-  if(viewKey=="Clothier Research 1") then
+  
+  if(viewKey=="smithing") then
+    return "blacksmithing"
+  elseif(viewKey=="Clothier Research 1") then
     return "rclothier1S"
   elseif(viewKey=="Clothier Research 2") then
     return "rclothier2S"
@@ -549,7 +555,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "riding_timeMs"
   elseif( viewKey=="Vampire" or viewKey=="Werewolf") then  
     return viewKey
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order") then
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
     return viewKey.."_Rank"
   end
   return viewKey:lower()
@@ -591,7 +597,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 45
   elseif(viewKey=="Skillpoints") then
     return 45
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order") then
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
     return 45
   elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
     return 35
@@ -691,6 +697,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "Mage"
   elseif(viewKey=="Undaunted") then
     return "Unda"
+  elseif(viewKey=="Scrying") then
+    return "Scry"
+  elseif(viewKey=="Excavation") then
+    return "Exca"
   elseif(viewKey=="Thieves Guild") then
     return "Thief"
   elseif(viewKey=="Dark Brotherhood") then
@@ -766,6 +776,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return viewKey
   end
 end
+
 
 ------------------------------
 -- EOF

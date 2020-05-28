@@ -19,6 +19,7 @@ local charSortKeys =
     ["race"]          = { tiebreaker = "name" },    
     ["alchemy"]       = { tiebreaker = "name", isNumeric = true },    
     ["blacksmithing"] = { tiebreaker = "name", isNumeric = true },    
+    ["smithing"]      = { tiebreaker = "name", isNumeric = true },    
     ["clothing"]      = { tiebreaker = "name", isNumeric = true },    
     ["enchanting"]    = { tiebreaker = "name", isNumeric = true },    
     ["provisioning"]  = { tiebreaker = "name", isNumeric = true },    
@@ -27,6 +28,12 @@ local charSortKeys =
     ["backpackSize"]  = { tiebreaker = "name", isNumeric = false },        
     ["backpackFree"]  = { tiebreaker = "name", isNumeric = true },        
     ["skillPoints"]   = { tiebreaker = "name", isNumeric = true },        
+    ["rwoodworking1S"]   = { tiebreaker = "name", isNumeric = false },
+    ["rwoodworking2S"]   = { tiebreaker = "name", isNumeric = false },
+    ["rwoodworking3S"]   = { tiebreaker = "name", isNumeric = false },
+    ["Legerdemain_Rank"]   = { tiebreaker = "name", isNumeric = true },
+    ["riding_timeMs"]   = { tiebreaker = "name", isNumeric = true },
+    ["currency_gold"]   = { tiebreaker = "name", isNumeric = true },
   }
 
 ------------------------------

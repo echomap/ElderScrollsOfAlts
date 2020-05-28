@@ -106,13 +106,13 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
   elseif options[1] == "forceloaddata" then
     ElderScrollsOfAlts:LoadPlayerDataForGui()
   else
-    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries, forcesavedata, forceloaddata")
-    ElderScrollsOfAlts.outputMsg("showentries: prints allowable view entries. resetviews: sets the views back to default. ")
+    ElderScrollsOfAlts.ShowHelp()
 	end
 end
 
 function ElderScrollsOfAlts.ShowHelp()
-
+    ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, beta, resetviews, showentries, forcesavedata, forceloaddata")
+    ElderScrollsOfAlts.outputMsg("showentries: prints allowable view entries. resetviews: sets the views back to default. ")
 end
 
 -- EVENT

@@ -431,8 +431,19 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.bounty = bounty  
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.thresholdType = thresholdType  
   
-  --TODO TIMERS?
-
+  --[[
+  ElderScrollsOfAlts.altData.players[playerKey].location = {}
+  local subzoneNamePL = zo_strformat("<<1>>",  GetPlayerActiveSubzoneName() )
+  local zoneNamePL    =  zo_strformat("<<1>>", GetPlayerActiveZoneName() )
+  local zoneId, ...   = GetUnitWorldPosition("player")
+  local zoneIndex     = GetUnitZoneIndex("player")
+  --local zDescription  =  GetZoneDescription(zoneIndex)
+  --local zoneId        = GetZoneId(zoneIndex)
+  ElderScrollsOfAlts.altData.players[playerKey].location.subzoneName = subzoneNamePL
+  ElderScrollsOfAlts.altData.players[playerKey].location.zoneName    = zoneNamePL
+  ElderScrollsOfAlts.altData.players[playerKey].location.zoneId      = zoneId
+  --]]
+  
   --[[
   --local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}
   for clIdx = 1, #currLoc do 
@@ -512,8 +523,20 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
       ElderScrollsOfAlts.debugMsg("Buff Data: name: '".. buffName .. "' expires="..tostring(ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt) .. " timeDiff=".. tostring(timeDiff) )
     end--]]
     --ElderScrollsOfAlts.altData.players[playerKey].buffs[buffName].expiresAt = GetTimeStamp() + ( timeEnding-timeStarted )
+    --[[
+    if(buffName=="Major Protection")then
+      d("Has Major Protection!****")
+    elseif(buffName=="Minor Protection")then
+      d("Has Minor Protection!****")
+    else
+      d("Has buff "..tostring(buffName))
+    end
+    --]]
   end--for buffs
   
+  --STATS
+  --ElderScrollsOfAlts:SaveDataPlayerStatsData(ElderScrollsOfAlts.altData.players[playerKey])
+
   --
   if( ElderScrollsOfAlts.altData.players[playerKey].bio.Vampire == true) then
     ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata = {}
@@ -776,7 +799,90 @@ function ElderScrollsOfAlts:SaveDataPlayerResearchData(tradeSkillType, keyProfNa
   end    
 end
 
+--
+function ElderScrollsOfAlts:SaveDataPlayerStatsData(playerElem)
+  if(playerElem.stats==nil) then
+    playerElem.stats = {}
+  end
+  if(playerElem.stats.derivedStats==nil) then
+    playerElem.stats.derivedStats = {}
+  end
+  --[[
+  local numStats = GetNumStats()
+  for ii = 1, numStats do
+    local value = GetPlayerStat(number DerivedStats derivedStat, number StatBonusOption statBonusOption)
+  end
+  -]]
+  --DerivedStats/StatBonusOption
+  --ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_ARMOR_RATING,    "STAT_ARMOR_RATING" )
+  --ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_ATTACK_POWER,    "STAT_ATTACK_POWER" )
+  --ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_BLOCK,           "STAT_BLOCK" )
+  --ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_CRITICAL_RESISTANCE, "STAT_CRITICAL_RESISTANCE" )
+  --ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_CRITICAL_STRIKE, "STAT_CRITICAL_STRIKE" )
+  --[[
+STAT_DAMAGE_RESIST_COLD
+STAT_DAMAGE_RESIST_DISEASE
+STAT_DAMAGE_RESIST_DROWN
+STAT_DAMAGE_RESIST_EARTH
+STAT_DAMAGE_RESIST_FIRE
+STAT_DAMAGE_RESIST_GENERIC
+STAT_DAMAGE_RESIST_MAGIC
+STAT_DAMAGE_RESIST_OBLIVION
+STAT_DAMAGE_RESIST_PHYSICAL
+STAT_DAMAGE_RESIST_POISON
+STAT_DAMAGE_RESIST_SHOCK
+STAT_DAMAGE_RESIST_START
+STAT_DODGE
+STAT_HEALING_DONE
+STAT_HEALING_TAKEN
+  ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_HEALTH_MAX, "STAT_HEALTH_MAX" )
+STAT_HEALTH_REGEN_COMBAT
+STAT_HEALTH_REGEN_IDLE
+STAT_MAGICKA_MAX
+STAT_MAGICKA_REGEN_COMBAT
+STAT_MAGICKA_REGEN_IDLE
+STAT_MISS
+ElderScrollsOfAlts:SaveDataPlayerStatsDataSub( playerElem.stats,STAT_MITIGATION, "STAT_MITIGATION" )
+STAT_MOUNT_STAMINA_MAX
+STAT_MOUNT_STAMINA_REGEN_COMBAT
+STAT_MOUNT_STAMINA_REGEN_MOVING
+STAT_NONE
+STAT_PHYSICAL_PENETRATION
+STAT_PHYSICAL_RESIST
+STAT_POWER
+STAT_SPELL_CRITICAL
+STAT_SPELL_MITIGATION
+STAT_SPELL_PENETRATION
+STAT_SPELL_POWER
+STAT_SPELL_RESIST
+STAT_STAMINA_MAX
+STAT_STAMINA_REGEN_COMBAT
+STAT_STAMINA_REGEN_IDLE
+STAT_WEAPON_AND_SPELL_DAMAGE
+  -]]
+  --
+end
+
+------------------------------
+--
+function ElderScrollsOfAlts:SaveDataPlayerStatsDataSub(playerElemS,derivedStat,derivedStatName)
+  local value1 = GetPlayerStat(derivedStat, STAT_BONUS_OPTION_APPLY_BONUS     )
+  local value2 = GetPlayerStat(derivedStat, STAT_BONUS_OPTION_DONT_APPLY_BONUS)
+  playerElemS[derivedStat] = {}
+  playerElemS[derivedStat].derivedStatName   = derivedStatName
+  playerElemS[derivedStat].valueWithBonus    = value1
+  playerElemS[derivedStat].valueWithOutBonus = value2
+end
 
 
+------------------------------
+--NEW BETA/ALPHA
+function ElderScrollsOfAlts.DataSaveLivePlayerNew()
+    if (EchoESOADatastore ~= nil) then
+      EchoESOADatastore.saveCurrentPlayerData()
+    end
+end
+
+
+------------------------------
 --EOF
-

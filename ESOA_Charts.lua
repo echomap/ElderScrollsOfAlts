@@ -16,6 +16,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Race"] = 1, 
   ["Alchemy"] = 1, 
   ["Smithing"] = 1, 
+  ["Blacksmithing"] = 1, 
   ["Clothing"] = 1, 
   ["Enchanting"] = 1, 
   ["Jewelry"] = 1, 
@@ -70,7 +71,9 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Undaunted"] = 1, 
   ["Thieves Guild"] = 1, 
   ["Dark Brotherhood"] = 1, 
-  ["Psijic Order"] = 1, 
+  ["Psijic Order"] = 1,
+  ["Scrying"] = 1,
+  ["Excavation"] = 1,
   
   ["Riding Speed"] = 1, 
   ["Riding Stamina"] = 1, 
@@ -130,7 +133,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [6] = "Gender",
       [7] = "Race",
       [8] = "Alchemy",
-      [9] = "Smithing",
+      [9] = "Blacksmithing",
       [10] = "Clothing",
       [11] = "Enchanting",
       [12] = "Jewelry",
@@ -197,6 +200,8 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [10] = "Thieves Guild",
       [11] = "Dark Brotherhood",
       [12] = "Psijic Order",
+      [13] = "Scrying",
+      [14] = "Excavation",
       
       [13] = "Riding Speed",
       [14] = "Riding Stamina",
@@ -222,7 +227,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 4) then
       return "Allows the use of |c00FFFFPlatinum|r Ounces."
     end
-  elseif(craftName=="Smithing")then
+  elseif(craftName=="Smithing" or craftName=="Blacksmithing")then
     if(sunkVal == 0) then
       return "Allows the use of |c00FFFFIron|r Ingots (Create gear up to Lvl |c00FFFF14|r)."
     elseif(sunkVal == 1) then

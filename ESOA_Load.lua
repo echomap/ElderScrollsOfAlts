@@ -1,18 +1,27 @@
+--[[ ESOA Load ]]-- 
+----------------------------------------
 -- Load Player Data from Saved Variables to GUI friendly data
+------------------------------
 
+------------------------------
+-- 
 function ElderScrollsOfAlts:SavePlayerDataForGui()
   ElderScrollsOfAlts.DataSaveLivePlayer()
+  --ALPHA ElderScrollsOfAlts.DataSaveLivePlayerNew()
   ElderScrollsOfAlts.view.needToLoadGuiData = true
   ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " called") 
 end
 
+------------------------------
+-- 
 function ElderScrollsOfAlts:LoadPlayerDataForGui()
   ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLines()
   ElderScrollsOfAlts.view.needToLoadGuiData = false
   ElderScrollsOfAlts.debugMsg("LoadPlayerDataForGui:", " called") 
 end
 
-
+------------------------------
+-- 
 function ElderScrollsOfAlts:SetupGuiPlayerLines()
   --local timeTotalStart = GetFrameTimeSeconds()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
@@ -48,7 +57,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].Werewolf = false
     playerLines[k].Vampire = false
     playerLines[k].special    = 0    
-    playerLines[k].special_biteicon = nil
+    playerLines[k].special_biteicon  = nil
     playerLines[k].special_bitetimer = -1
     --playerLines[k].special_bitetimer2 = "n/a"
     playerLines[k].special_bitetimerDisplay = "[n/a]"
@@ -65,11 +74,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       if bio.Werewolf then
         playerLines[k].Werewolf = true
         playerLines[k].special    = 1
-        playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
-        playerLines[k].special_bitetimer = 0
+        playerLines[k].special_bitetimerDisplay = "[No Skill]"
+        playerLines[k].special_bitetimer = -1
         
         local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
-        if(foundItem~=nil) then
+        if(foundItem~=nil and foundItem.purchased ) then
           playerLines[k].special_bitetimerDisplay = "[Unk]"
           playerLines[k].special_icon = foundItem["textureName"]
           
@@ -99,10 +108,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
         playerLines[k].Vampire = true
         playerLines[k].special    = 1
         playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
-        playerLines[k].special_bitetimer = 0
+        playerLines[k].special_bitetimer = -1
         
         local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
-        if(foundItem~=nil) then
+        if(foundItem~=nil and foundItem.purchased ) then          
           playerLines[k].special_bitetimerDisplay = "[Unk]"
           playerLines[k].special_icon = foundItem["textureName"]
           
@@ -170,7 +179,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     --
     local infamy = ElderScrollsOfAlts.altData.players[k].infamy
     if( infamy ~= nil ) then
-      playerLines[k].reducedbounty = infamy.reducedBounty  
+      playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
     else
       playerLines[k].reducedbounty = 0
     end
@@ -404,7 +413,7 @@ end
 function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
   --Set Defaults
   --HACK! TODO fix
-  local aTypes = {"Assault_Rank","Support_Rank","Legerdemain_Rank","Soul Magic_Rank","Werewolf_Rank","Vampire_Rank","Fighters Guild_Rank","Mages Guild_Rank","Undaunted_Rank","Thieves Guild_Rank","Dark Brotherhood_Rank","Psijic Order_Rank"}
+  local aTypes = {"Assault_Rank","Support_Rank","Legerdemain_Rank","Soul Magic_Rank","Werewolf_Rank","Vampire_Rank","Fighters Guild_Rank","Mages Guild_Rank","Undaunted_Rank","Thieves Guild_Rank","Dark Brotherhood_Rank","Psijic Order_Rank","Scrying_Rank","Excavation_Rank"}
   for rtK,rtV in pairs(aTypes) do
     --debugMsg("skills All "..k.." as="..rtK.." rtVT='"..tostring(rtV).."'")
     playerLines[k][rtV] = 0
@@ -427,6 +436,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
               --debugMsg("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
               playerLines[k][rtKT.."_Rank"] = rtVT.rank
               playerLines[k][rtKT.."_Name"] = rtVT.name
+              playerLines[k][string.lower(rtKT).."_rank"] = rtVT.rank
+              playerLines[k][rtKT.."_SortKey"] = rtKT.."_Rank"
+              playerLines[k][rtKT.."_SortNumericType"] = true
               playerLines[k][rtKT.."_LastRankXP"] = rtVT.lastRankXP
               playerLines[k][rtKT.."_NextRankXP"] = rtVT.nextRankXP
               playerLines[k][rtKT.."_CurrentXP"]  = rtVT.currentXP
@@ -473,10 +485,38 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
         --playerLines[k].riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )
       --end
     end
-  end
-  
+  end  
 end
 
+--
+function ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeElem, tradeSkillElem, tplayerLine, destTradeName, tradeKeyName)
+  if tradeElem ~=nil then
+    tplayerLine[destTradeName]               = tradeElem.rank
+    tplayerLine[destTradeName.."_sunk"]      = tradeElem.sunk
+    tplayerLine[destTradeName.."_sinkmax"]   = tradeElem.sinkmax
+    tplayerLine[destTradeName.."_subskills"] = nil
+    
+    -- tradeElem subskills in tooltip?
+    local sstext = ""
+    if( tradeSkillElem~=nil and ElderScrollsOfAlts:istable(tradeSkillElem) ) then
+      for k, v in pairs( tradeSkillElem ) do
+        --d("k:" .. tostring(k)  .. " v:" .. tostring(v) ) 
+        if( ElderScrollsOfAlts:istable(v) ) then
+          sstext = sstext .." /".. tostring(v.name)
+        end
+      end
+      tplayerLine[destTradeName.."_subskills"] = sstext
+      --d("sstext:" .. sstext)
+    end
+  else
+    destTradeElem           = 0
+    destTradeElem_sunk      = 0
+    destTradeElem_sinkmax   = 0
+    destTradeElem_subskills = nil
+  end
+end
+
+--
 function ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
   --Setup Defaults
   local dEFvAL = 0
@@ -486,6 +526,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
   playerLines[k].blacksmithing         = dEFvAL
   playerLines[k].blacksmithing_sunk    = dEFvAL
   playerLines[k].blacksmithing_sinkmax = dEFvAL   
+  playerLines[k].smithing         = dEFvAL
+  playerLines[k].smithing_sunk    = dEFvAL
+  playerLines[k].smithing_sinkmax = dEFvAL     
   playerLines[k].clothing         = dEFvAL
   playerLines[k].clothing_sunk    = dEFvAL
   playerLines[k].clothing_sinkmax = dEFvAL   
@@ -507,48 +550,29 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
   playerLines[k].woodworking_sinkmax = dEFvAL              
 
   --
+  if( ElderScrollsOfAlts.altData.players[k].skills == nil ) then
+    return
+  end
+  --
   local trade = ElderScrollsOfAlts.altData.players[k].skills.trade
-  if trade ==nil then
+  if trade == nil then
     return
   end
 
   local tradeL = ElderScrollsOfAlts.altData.players[k].skills.trade.typelist
-  if tradeL ==nil then
+  if tradeL == nil then
+    return
+  end
+  local tradeS = ElderScrollsOfAlts.altData.players[k].skills.trade.skills
+  if tradeL == nil then
     return
   end
   
-  local alchemy  = tradeL["Alchemy"]
-  if alchemy ~=nil then
-    playerLines[k].alchemy         = alchemy.rank
-    playerLines[k].alchemy_sunk    = alchemy.sunk
-    playerLines[k].alchemy_sinkmax = alchemy.sinkmax
-  else
-    playerLines[k].alchemy = 0
-    playerLines[k].alchemy_sunk    = 0
-    playerLines[k].alchemy_sinkmax = 0          
-  end
-  local blacksmithing = tradeL["Blacksmithing"] 
-  if blacksmithing ~=nil then
-    playerLines[k].blacksmithing = blacksmithing.rank   
-    playerLines[k].smithing= blacksmithing.rank   
-    playerLines[k].blacksmithing_sunk    = blacksmithing.sunk
-    playerLines[k].blacksmithing_sunk    = blacksmithing.sunk
-    playerLines[k].blacksmithing_sinkmax = blacksmithing.sinkmax
-  else
-    playerLines[k].blacksmithing = 0
-    playerLines[k].blacksmithing_sunk    = 0
-    playerLines[k].blacksmithing_sinkmax = 0   
-  end
-  local clothing = tradeL["Clothing"] 
-  if clothing ~=nil then
-    playerLines[k].clothing = clothing.rank   
-    playerLines[k].clothing_sunk    = clothing.sunk
-    playerLines[k].clothing_sinkmax = clothing.sinkmax
-  else
-     playerLines[k].clothing = 0
-    playerLines[k].clothing_sunk    = 0
-    playerLines[k].clothing_sinkmax = 0   
-  end
+  ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Alchemy"],tradeS["Alchemy"] ,playerLines[k],"alchemy","Alchemy")
+  ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Blacksmithing"],tradeS["Blacksmithing"],playerLines[k],"blacksmithing","Blacksmithing")
+  ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Blacksmithing"],tradeS["Blacksmithing"],playerLines[k],"smithing","smithing")
+  ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Clothing"],tradeS["Clothing"],playerLines[k],"clothing","Clothing")  
+  
   local enchanting = tradeL["Enchanting"] 
   if enchanting ~=nil then
     playerLines[k].enchanting = enchanting.rank 

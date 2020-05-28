@@ -28,11 +28,19 @@ extractions/hirelings
 ==Unpublished==
 1.00.XX
 [list]
-[*] ReducedBounty
-[*] 
+[*] added "Scrying" and "Excavation" to default skill view
+[*] more fixing of special bite timer logic
+[*] sorting of skills better
 [/list]
 
 ==Published V1.0.X==
+1.00.21
+[list]
+[*] moving savedsettings to a more general repository
+[*] ReducedBounty
+[*] Added more data to tooltips
+[*] New skill lines for Greymoor or whatever
+[/list]
 1.00.20
 [list]
 [*] derp#1 bug output removed

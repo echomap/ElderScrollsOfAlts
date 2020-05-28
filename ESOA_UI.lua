@@ -946,12 +946,9 @@ end
 function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/sortText='", tostring(sortText), "'")
   --ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/sortKey='"..tostring(control.sortKey).."'")
-  --
-	--[[TODO?
-  if ESOA_GUI2_Body_ListHolder.displayedLines == nil then 
-    ElderScrollsOfAlts.debugMsg("DoGuiSort: no display to sort")
-    return
-  end--]]
+
+  local sortKey = ElderScrollsOfAlts.GuiSortBarLookupSortText(sortText)
+  ElderScrollsOfAlts.debugMsg("DoGuiSort: sortKey='", tostring(sortKey), "'")
   if(ElderScrollsOfAlts.savedVariables.currentsort==nil)then
     ElderScrollsOfAlts.savedVariables.currentsort = {}
   end
@@ -962,8 +959,8 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   
   --
   if(sortText~=nil and string.len(sortText) > 0 )then
-    ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["key"] = (sortText)
-    ElderScrollsOfAlts.debugMsg("DoGuiSort: set per sortText")
+    ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["key"] = (sortKey)
+    ElderScrollsOfAlts.debugMsg("DoGuiSort: set per sortText/sortKey")
   end
   if(newSort~=nil and newSort) then
     ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["order"] = not ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["order"]
@@ -978,6 +975,11 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   --Easy vars
   local currentSortKey   = ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["key"]
   local currentSortOrder = ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["order"]
+  if(currentSortKey==nil or currentSortKey=="") then
+    currentSortKey = "name"
+    ElderScrollsOfAlts.outputMsg("Reset sort order to Name")
+  end
+  
   ElderScrollsOfAlts.view.currentSortKey   = currentSortKey
   ElderScrollsOfAlts.view.currentSortOrder = currentSortOrder
   ElderScrollsOfAlts.savedVariables.currentSortKey   = nil
@@ -993,8 +995,19 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
     local aVal = a.playerLine[ElderScrollsOfAlts.view.currentSortKey]
     local bVal = b.playerLine[ElderScrollsOfAlts.view.currentSortKey]
     local value1Type = type(aVal)
+    if(aVal == nil) then 
+        if(value1Type=="string") then
+          aVal = "nil"
+        else
+          aVal = 0
+        end
+    end
     if(bVal == nil) then 
-        if(value1Type=="string") then bVal = "nil"  end
+        if(value1Type=="string") then
+          bVal = "nil"
+        else
+          bVal = 0
+        end
     end
     ElderScrollsOfAlts.debugMsg("ESOA: aVal="..tostring(aVal).." bVal="..tostring(bVal))
     --debugMsg("ESOA: a.name="..a.name.." b.name="..b.name)
@@ -1670,7 +1683,12 @@ function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)
   ESOATooltip:AddLine(tDesc, "ZoFontGame")
   if( tDesc2 ~= nil ) then
     ESOATooltip:AddLine(tDesc2, "ZoFontGame")
+  end    
+  if( myLabel.data_subskills ~= nil ) then
+    local sValSS = myLabel.data_subskills
+    ESOATooltip:AddLine(sValSS, "ZoFontGame")
   end
+
 end
 
 ------------------------------

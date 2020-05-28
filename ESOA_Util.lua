@@ -23,6 +23,12 @@ function ElderScrollsOfAlts.starts_with(str, start)
 end
 
 ------------------------------
+-- 
+function ElderScrollsOfAlts:istable(t)
+  return type(t) == 'table'
+end
+
+------------------------------
 --
 function ElderScrollsOfAlts.debugMsg(...)
   if not ElderScrollsOfAlts.altData.debug then
