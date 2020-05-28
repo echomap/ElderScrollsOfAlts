@@ -28,6 +28,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --TODO timers
   elseif(viewKey=="SpecialBiteTimer") then    
     eline:SetText( playerLine.special_bitetimerDisplay )
+    eline.value = playerLine.special_bitetimerDisplay
     if( playerLine.Werewolf == true or playerLine.Vampire == true) then
       local canBite = ""
       if( playerLine.special_bitetimer~=nil and playerLine.special_bitetimer==0)then
@@ -541,7 +542,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "rjewelcrafting3S"
   elseif(viewKey=="bagspaceFree" or viewKey=="bagspacefree" or viewKey=="BagSpaceFree") then
     return "backpackFree"
-  elseif(viewKey=="bagspace" or viewKey=="BagSpace") then
+  elseif(viewKey=="bagspace" or viewKey=="BagSpace" or viewKey=="backpackfree") then
     return "backpackSize"
   elseif(viewKey=="Head" or viewKey=="Shoulders" or viewKey=="Chest" or viewKey=="Waist" or viewKey=="Legs" or viewKey=="Hands" or viewKey=="Feet" ) then
     return viewKey
@@ -551,10 +552,12 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return viewKey
   elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
     return viewKey:gsub(" ","_"):lower()
-  elseif( viewKey=="Riding Timer") then  
+  elseif( viewKey=="Riding Timer" or viewKey=="riding_timems") then  
     return "riding_timeMs"
   elseif( viewKey=="Vampire" or viewKey=="Werewolf") then  
     return viewKey
+  elseif( viewKey=="specialbitetimer" or viewKey=="SpecialBiteTimer" ) then
+    return "special_bitetimer"
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
     return viewKey.."_Rank"
   end

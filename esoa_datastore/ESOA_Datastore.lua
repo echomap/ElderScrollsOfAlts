@@ -96,8 +96,8 @@ function EchoESOADatastore.OnAddOnLoaded(event, addonName)
   
   --(savedVariableTable, version, namespace, defaults, profile, displayName, characterName)
    EchoESOADatastore.svESOADataAW = ZO_SavedVars:NewAccountWide("ESOA_Datastore", EchoESOADatastore.SV_VERSION_NAME, "AccountData", EchoESOADatastore.defaultSettingsGlobal)
-  EchoESOADatastore.svCharDataAW = ZO_SavedVars:NewAccountWide("ESOA_DatastoreBio", EchoESOADatastore.SV_VERSION_NAME, "CharData", EchoESOADatastore.defaultSettings)
-  EchoESOADatastore.svEquipDataAW = ZO_SavedVars:NewAccountWide("ESOA_DatastoreEq", EchoESOADatastore.SV_VERSION_NAME, "EquipData", EchoESOADatastore.defaultSettings)
+  EchoESOADatastore.svCharDataAW = ZO_SavedVars:NewAccountWide("ESOA_Datastore", EchoESOADatastore.SV_VERSION_NAME, "CharData", EchoESOADatastore.defaultSettings)
+  EchoESOADatastore.svEquipDataAW = ZO_SavedVars:NewAccountWide("ESOA_Datastore", EchoESOADatastore.SV_VERSION_NAME, "EquipData", EchoESOADatastore.defaultSettings)
 
   --check/setup a bit earlier
   --EchoESOADatastore.CheckData()

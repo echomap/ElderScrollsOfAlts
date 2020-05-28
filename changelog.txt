@@ -28,12 +28,17 @@ extractions/hirelings
 ==Unpublished==
 1.00.XX
 [list]
-[*] added "Scrying" and "Excavation" to default skill view
-[*] more fixing of special bite timer logic
-[*] sorting of skills better
+[*] 
 [/list]
 
 ==Published V1.0.X==
+1.00.22
+[list]
+[*] added "Scrying" and "Excavation" to default skill view
+[*] more fixing of special bite timer logic
+[*] profession subskills shown in tooltip
+[*] doing sorting better
+[/list]
 1.00.21
 [list]
 [*] moving savedsettings to a more general repository

@@ -41,17 +41,23 @@ function ESOADatastoreLogic.saveCurrentPlayerDataInt()
 		EchoESOADatastore.svCharDataAW.sections.tradeskills = {}
 	end
   
-  
   --Resets all my data to current data
 	EchoESOADatastore.svCharDataAW.players[playerKey] = {}
   EchoESOADatastore.svCharDataAW.players[playerKey].version = EchoESOADatastore.version
   EchoESOADatastore.svCharDataAW.players[playerKey].previousversion = EchoESOADatastore.view.previousversion
+  EchoESOADatastore.svCharDataAW.players[playerKey].name = playerKey
+
+  EchoESOADatastore.svCharDataAW.sections.skills[playerKey] = {}
+  EchoESOADatastore.svCharDataAW.sections.skills[playerKey].name = pName
+  EchoESOADatastore.svCharDataAW.sections.stats[playerKey] = {}
+  EchoESOADatastore.svCharDataAW.sections.stats[playerKey].name = pName
 
   -- BIO section
   ESOADatastoreLogic.saveCurrentPlayerDataBio(   playerKey, EchoESOADatastore.svCharDataAW.sections.bio )
   ESOADatastoreLogic.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats )
   ESOADatastoreLogic.saveCurrentPlayerDataSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.skills )
   --ESOADatastoreLogic.saveCurrentPlayerDataTradeSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.tradeskills )
+  
   
   --
   local myBioSection     = EchoESOADatastore.svCharDataAW.sections.bio[playerKey]
@@ -62,9 +68,9 @@ function ESOADatastoreLogic.saveCurrentPlayerDataInt()
     for key,value in pairs(mySkilllsSection.world) do
       --print(key,value)
       if key == "Werewolf" then
-        EchoESOADatastore.svCharDataAW.players[playerKey].bio.Werewolf = true
+        EchoESOADatastore.svCharDataAW.sections.bio[playerKey].Werewolf = true
       elseif key == "Vampire" then
-        EchoESOADatastore.svCharDataAW.players[playerKey].bio.Vampire = true
+        EchoESOADatastore.svCharDataAW.sections.bio[playerKey].Vampire = true
       end
     end
   end
@@ -98,42 +104,42 @@ function ESOADatastoreLogic.saveCurrentPlayerDataSkills(playerKey, sectionElem)
   outputUndiscovered = false
 	playerElem.world = {}
   baseElem = playerElem.world --.typelist
-  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,playerRanksElem)
+  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscovered,playerRanksElem)
   
   --
   skillType = SKILL_TYPE_CLASS 
   outputUndiscovered = false
 	playerElem.class = {}
   baseElem = playerElem.class --.typelist
-  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,playerRanksElem)
+  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscovered,playerRanksElem)
   
   --
   skillType = SKILL_TYPE_GUILD  
   outputUndiscovered = false
 	playerElem.guild = {}
   baseElem = playerElem.guild --.typelist
-  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,playerRanksElem)
+  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscovered,playerRanksElem)
   
   --
   skillType = SKILL_TYPE_RACIAL  
   outputUndiscovered = false
 	playerElem.racial = {}
   baseElem = playerElem.racial --.typelist
-  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,playerRanksElem)
+  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscovered,playerRanksElem)
   
   --
   skillType = SKILL_TYPE_WEAPON  
   outputUndiscovered = false
 	playerElem.weapon = {}
   baseElem = playerElem.weapon --.typelist
-  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,playerRanksElem)
+  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscovered,playerRanksElem)
     
   --
   skillType = SKILL_TYPE_AVA  
   outputUndiscovered = false
 	playerElem.ava = {}
   baseELem = playerElem.ava
-  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,playerRanksElem)
+  ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscovered,playerRanksElem)
   --
 end
 
@@ -288,7 +294,11 @@ function ESOADatastoreLogic:SaveDataSkillData(skillType,baseElem,outputUndiscove
       baseElemTable.rank = rank
       baseElemTable.numAbilities = numAbilities
       baseElemTable.skillLineId  = skillLineId
-      playerRanksElem[name] = rank
+      if(playerRanksElem~=nil and name~=nil) then
+        playerRanksElem[name] = rank
+      else
+        EchoESOADatastore.outputMsg("Error writing to pre. ii="..tostring(ii).. "x=" .. tostring(name) );
+      end
       
       local lastRankXP, nextRankXP, currentXP  = GetSkillLineXPInfo( skillType, ii )
       baseElemTable.lastRankXP = lastRankXP
