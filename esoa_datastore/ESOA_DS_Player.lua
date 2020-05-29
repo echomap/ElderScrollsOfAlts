@@ -14,14 +14,13 @@ function ESOADatastoreLogic.saveCurrentPlayerDataInt()
   local playerKey = pID.."_".. pServer:gsub(" ","_")
   EchoESOADatastore.view.whoiamplayerKey = tostring(playerKey)
   
-  --globals
+  --add me to global lists
   if EchoESOADatastore.svCharDataAW.playerlist == nil then
 		EchoESOADatastore.svCharDataAW.playerlist = {}
 	end
   EchoESOADatastore.svCharDataAW.playerlist[playerKey] = pName
   
-  --current
-  --debugMsg("pName='"..tostring(pName).."'" )
+  --Sections
   if EchoESOADatastore.svCharDataAW.players == nil then
 		EchoESOADatastore.svCharDataAW.players = {}
 	end  
@@ -46,6 +45,7 @@ function ESOADatastoreLogic.saveCurrentPlayerDataInt()
   EchoESOADatastore.svCharDataAW.players[playerKey].version = EchoESOADatastore.version
   EchoESOADatastore.svCharDataAW.players[playerKey].previousversion = EchoESOADatastore.view.previousversion
   EchoESOADatastore.svCharDataAW.players[playerKey].name = playerKey
+  EchoESOADatastore.svCharDataAW.players[playerKey].server = pServer
 
   EchoESOADatastore.svCharDataAW.sections.skills[playerKey] = {}
   EchoESOADatastore.svCharDataAW.sections.skills[playerKey].name = pName

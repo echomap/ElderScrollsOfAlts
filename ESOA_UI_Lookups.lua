@@ -85,18 +85,22 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.sort_data = eline.value
     eline.sort_numeric =  true
     eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. playerLine[viewKey.."_Rank"] 
+    local sstext = playerLine[viewKey.."_subskills"]
+    if(sstext==nil ) then
+      sstext = ""    
+    end
     if( playerLine[viewKey.."_XPCode"]~=nil )then
       if( playerLine[viewKey.."_XPCode"]==0 )then
         local sHint = zo_strformat("<<1>> has <<2>> skill of <<3>> <<4>>",
             playerLine.name, viewKey, playerLine[viewKey.."_Rank"], "(MAX)" )
-        eline.tooltip = sHint
+        eline.tooltip = sHint        
       elseif( playerLine[viewKey.."_Percentage"]~=nil and playerLine[viewKey.."_Percentage"]>0) then
         local sHint = zo_strformat("<<1>> <<2>> skill of <<3>> (<<4>>/<<5>>) <<6>>%",
             playerLine.name, viewKey, playerLine[viewKey.."_Rank"], playerLine[viewKey.."_CurrentXP"], playerLine[viewKey.."_NextRankXP"], playerLine[viewKey.."_Percentage"])
-        eline.tooltip = sHint
+        eline.tooltip = sHint    
       end
+      eline.tooltip = eline.tooltip .. " " .. sstext      
     end
-    
     
   --
   elseif(viewKey=="Alchemy") then

@@ -453,6 +453,21 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
                 playerLines[k][rtKT.."_Percentage"] =  math.floor(  (rtVT.currentXP/rtVT.nextRankXP)*100  )
               end
               --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
+              -- subskills in tooltip
+              local abilities = rtVT.abilities
+              local sstext = ""
+              if( abilities ~=nil and ElderScrollsOfAlts:istable(abilities) ) then
+                for ak, av in pairs( abilities ) do
+                  --d("ak:" .. tostring(ak)  .. " av:" .. tostring(av) ) 
+                  if( ElderScrollsOfAlts:istable(av) and av.purchased ) then
+                    sstext = sstext .." /".. tostring(ak) .. "=".. av.earnedRank
+                  end
+                end
+                --d("ak:" .. tostring(ak)  .. " sstext:" .. tostring(sstext) ) 
+                playerLines[k][rtKT.."_subskills"] = sstext
+                --d("sstext:" .. sstext)
+              end
+              -- subskills in tooltip
             end
           end
         end
