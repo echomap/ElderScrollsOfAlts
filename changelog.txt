@@ -26,7 +26,7 @@ currency?
 extractions/hirelings
 
 ==Unpublished==
-1.00.XX
+1.00.23
 [list]
 [*] 
 [/list]
@@ -34,10 +34,11 @@ extractions/hirelings
 ==Published V1.0.X==
 1.00.22
 [list]
-[*] added "Scrying" and "Excavation" to default skill view
+[*] added "Scrying" and "Excavation" to default skill view for new characters/installs
 [*] more fixing of special bite timer logic
 [*] profession subskills shown in tooltip
 [*] doing sorting better
+[*] Note tooltip, added header info to reflect name of player
 [/list]
 1.00.21
 [list]

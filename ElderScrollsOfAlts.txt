@@ -6,7 +6,8 @@
 ## Description: ElderScrollsOfAlts keeps general track of alts v17
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData
 ## DependsOn: LibAddonMenu-2.0 
-## OptionalDependsOn: LibStub ESOA_Datastore
+## OptionalDependsOn: 
+##LibStub ESOA_Datastore
 
 ## This Add-on is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates. 
 ## The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc.

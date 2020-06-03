@@ -38,12 +38,13 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.tooltip = "("..tostring(playerLine.special_bitetimerDisplay) ..")"..canBite
       --TODO eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
-  elseif(viewKey=="Note") then
-    if( playerLine["note"]==nil or playerLine["note"]=="")then --TODO string.len (s)?
+  elseif(viewKey=="Note" or viewKey=="note") then
+    eline.tooltipHdr = "Note: " .. playerLine["name"]
+    if( playerLine["note"]==nil or playerLine["note"]=="") then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
-	  eline.tooltip = "Double Right Click to set a Note"
+      eline.tooltip = "Double Right Click to set a Note"
     else
-      eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")
+      eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")      
       eline.tooltip = playerLine["note"]
     end
     eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
@@ -85,10 +86,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.sort_data = eline.value
     eline.sort_numeric =  true
     eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. playerLine[viewKey.."_Rank"] 
-    local sstext = playerLine[viewKey.."_subskills"]
-    if(sstext==nil ) then
-      sstext = ""    
-    end
+   
     if( playerLine[viewKey.."_XPCode"]~=nil )then
       if( playerLine[viewKey.."_XPCode"]==0 )then
         local sHint = zo_strformat("<<1>> has <<2>> skill of <<3>> <<4>>",
@@ -99,8 +97,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
             playerLine.name, viewKey, playerLine[viewKey.."_Rank"], playerLine[viewKey.."_CurrentXP"], playerLine[viewKey.."_NextRankXP"], playerLine[viewKey.."_Percentage"])
         eline.tooltip = sHint    
       end
-      eline.tooltip = eline.tooltip .. " " .. sstext      
     end
+    --EchoBuffs.Colorize(EchoExperience.author, "AAF0BB"),
     
   --
   elseif(viewKey=="Alchemy") then
@@ -280,6 +278,33 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif( vc==2 ) then
     ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
   end
+  
+  --
+  local sstext  = playerLine[viewKey.."_subskills"]
+  local sstext1 = playerLine[string.lower(viewKey).."_subskills"]
+  local tttext  = playerLine[viewKey.."_tooltip"] 
+  local tttext1 = playerLine[string.lower(viewKey).."_tooltip"]   
+  --
+  local newTTtext = nil  
+  if(sstext~=nil ) then
+    newTTtext = sstext
+  elseif(sstext1~=nil ) then    
+    newTTtext = sstext1    
+  elseif(tttext~=nil ) then
+    newTTtext = tttext     
+  elseif(tttext1~=nil ) then
+    newTTtext = tttext1     
+  end
+  --d("newTTtext:"..tostring(newTTtext) )
+  if(newTTtext~=nil) then  
+    if(eline.tooltip~=nil)then
+      eline.tooltip = eline.tooltip .. " " .. newTTtext
+    else
+      eline.tooltip = newTTtext
+    end
+  end
+  --TODO colors? _subskillsA _subskillsP
+  --data_subskills
 end
 
 ------------------------------

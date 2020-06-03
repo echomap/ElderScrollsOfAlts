@@ -418,12 +418,16 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local bounty = GetBounty()
   ElderScrollsOfAlts.debugMsg("infamy="..tostring(infamy) )
   local fullBountyPayoffAmount    = GetFullBountyPayoffAmount()
-  local reducedBountyPayoffAmount = GetReducedBountyPayoffAmount()  
+  local reducedBountyPayoffAmount = GetReducedBountyPayoffAmount()
+  local infamyLevel     = GetInfamyLevel(infamy)
+  local infamyLevelText = ElderScrollsOfAlts.getInfamyLevelText(infamyLevel)
+  
+  ElderScrollsOfAlts.altData.players[playerKey].infamy.displayText = infamyLevelText
   ElderScrollsOfAlts.altData.players[playerKey].infamy.infamy = infamy
   ElderScrollsOfAlts.altData.players[playerKey].infamy.bounty = bounty
   ElderScrollsOfAlts.altData.players[playerKey].infamy.fullBounty    = fullBountyPayoffAmount
   ElderScrollsOfAlts.altData.players[playerKey].infamy.reducedBounty = reducedBountyPayoffAmount
-  
+
   --local thresholdType = getInfamyLevel( infamy )
   --local heat, bounty = GetPlayerInfamyData()
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.payoffAmount  = payoffAmount  

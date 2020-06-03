@@ -81,6 +81,11 @@ local localization_strings = {
     ESOA_ABBR_JC   ="JC",
     ESOA_ABBR_PROV ="Prov",
     ESOA_ABBR_WOOD ="Wood",
+    
+    ESOA_INFAMY_DISREPUTABLE = "Dispreputable",
+    ESOA_INFAMY_FUGITIVE     = "Fugitive",
+    ESOA_INFAMY_NOTORIOUS    = "Notorious",
+    ESOA_INFAMY_UPSTANDING   = "Upstanding",
 
     ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
     ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase

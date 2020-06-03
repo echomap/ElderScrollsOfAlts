@@ -1562,8 +1562,14 @@ end
 ------------------------------
 -- UI: TOOLTIPS
 function ElderScrollsOfAlts:Misc2HeaderTipEnter(sender,key)
+  ElderScrollsOfAlts.debugMsg("Misc2HeaderTipEnter: sender='",sender,"'","key:'",key,"'")
   InitializeTooltip(ESOATooltip, sender, TOPLEFT, 5, -56, TOPRIGHT)
   ESOATooltip:AddLine(key, "ZoFontHeader3")
+  --d("key="..tostring(key))
+  local tt = sender[ string.lower(key).."_tooltip"]
+  if(tt~=nil) then    
+    ESOATooltip:AddLine(tt, "ZoFontGame")
+  end
 end
 
 ------------------------------
@@ -1575,6 +1581,7 @@ end
 ------------------------------
 -- UI: TOOLTIPS
 function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
+  ElderScrollsOfAlts.debugMsg("ResearchTipEnter: equipName='",equipName,"'","myLabel:'",myLabel,"'")
   local itemLink = myLabel.name
   if(itemLink==nil) then
     return
@@ -1597,7 +1604,8 @@ end
 
 ------------------------------
 -- UI: TOOLTIPS ESOACraftTooltip EQUIP Tooltip TODO REMOVEME
-function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName)    
+function ElderScrollsOfAlts:EquipTipEnter(myLabel,equipName) 
+  ElderScrollsOfAlts.debugMsg("EquipTipEnter: equipName='",equipName,"'","myLabel:'",myLabel,"'")
   local itemLink = myLabel.itemlink
   if(itemLink==nil) then
     return
@@ -1649,7 +1657,7 @@ end
 ------------------------------
 -- UI: TOOLTIPS ESOACraftTooltip CRAFT Tooltip
 function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)  
-  --ElderScrollsOfAlts.debugMsg("CraftTipEnter: myLabel='",myLabel," craftName='", tostring(craftName).."'")
+  ElderScrollsOfAlts.debugMsg("CraftTipEnter: myLabel='",myLabel," craftName='", tostring(craftName).."'")
   if( craftName == nil ) then return end 
   local nVal = tonumber(myLabel.data_sunk)
   if( nVal == nil ) then return end 
@@ -1658,7 +1666,6 @@ function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)
     nVal2 = tonumber(myLabel.data_sunk2)
   end
   
-  --ElderScrollsOfAlts.debugMsg("CraftTipEnter: nVal='",nVal," craftName='", (craftName).."'")
   local tDesc = "Unknown"
   tDesc = ElderScrollsOfAlts:GetCraftSunkText(craftName, nVal)  
   if(tDesc == nil) then
@@ -1700,6 +1707,7 @@ end
 ------------------------------
 -- UI: TOOLTIPS
 function ElderScrollsOfAlts:Misc2TipEnter(myLabel,equipName)
+  ElderScrollsOfAlts.debugMsg("Misc2TipEnter: equipName='",equipName,"'","myLabel:'",myLabel,"'")
   local itemLink  = myLabel.name
   local hoverover = myLabel.hoverover 
   InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)  
@@ -1714,6 +1722,10 @@ function ElderScrollsOfAlts:Misc2TipEnter(myLabel,equipName)
   if(itemLink==nil and hoverover==nil ) then
     InformationTooltip:AddLine(string.format("(%s=%s)"   , equipName, myLabel:GetText() ), "ZoFontGame")
   end
+  local tt = sender[ string.lower(equipName).."_tooltip"]
+  if(tt~=nil) then    
+    ESOATooltip:AddLine(tt, "ZoFontGame")
+  end
 end
 
 ------------------------------
@@ -1725,10 +1737,15 @@ end
 ------------------------------
 -- UI: TOOLTIPS
 function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)  
-  --ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipName='"..tostring(tooltipName).."'")
+  ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipName='"..tostring(tooltipName).."'")
   if( tooltipName == nil ) then return end 
   local tooltipDesc  = nil
   local tooltipTitle = nil
+  --
+  if(mySelf.tooltipHdr~=nil)then
+    tooltipTitle = mySelf.tooltipHdr
+  end
+  --  
   if(tooltipName=="Alliance") then
     local nAliance = tonumber(mySelf.alliance)
     if( nAliance == nil ) then return end
@@ -1792,7 +1809,7 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
     end
   end
   
-  --ElderScrollsOfAlts.debugMsg("TooltipEnter: tooltipDesc='"..tostring(tooltipDesc).."' tooltipTitle='"..tostring(tooltipTitle).."'")
+  --
   if( tooltipDesc ~= nil or tooltipTitle ~= nil) then
     InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -76, TOPRIGHT)
     if tooltipTitle ~= nil then
@@ -1801,6 +1818,12 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
     if tooltipDesc ~= nil then
       ESOATooltip:AddLine(tooltipDesc, "ZoFontGame")
     end
+  end
+  --
+  local ttkey = string.lower(tooltipName).."_tooltip"
+  local ttval = mySelf[ ttkey ]
+  if(ttval~=nil) then    
+    ESOATooltip:AddLine(ttval, "ZoFontGame")
   end
 end--TooltipEnter
 

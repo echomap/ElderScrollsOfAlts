@@ -468,6 +468,23 @@ end
 
 -----------
 -- VIEWS
+function ElderScrollsOfAlts:getInfamyLevelText(infamyLevel)
+  if(infamyLevel==nil) then
+    return GetString(ESOA_INFAMY_UPSTANDING)
+  end
+  if(infamyLevel==INFAMY_THRESHOLD_DISREPUTABLE) then
+    return GetString(ESOA_INFAMY_DISREPUTABLE)
+  elseif(infamyLevel==INFAMY_THRESHOLD_FUGITIVE) then
+    return GetString(ESOA_INFAMY_FUGITIVE)
+  elseif(infamyLevel==INFAMY_THRESHOLD_NOTORIOUS) then
+    return GetString(ESOA_INFAMY_NOTORIOUS)
+  elseif(infamyLevel==INFAMY_THRESHOLD_UPSTANDING) then
+  return GetString(ESOA_INFAMY_UPSTANDING)
+  end  
+  return GetString(ESOA_INFAMY_UPSTANDING)
+end
+-----------
+-- VIEWS
 function ElderScrollsOfAlts:ListAllAllowedViewEntries()
   local printEntries = "" 
   for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do

@@ -183,7 +183,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     else
       playerLines[k].reducedbounty = 0
     end
-    
+   --d("infamy.displayText='"..tostring(infamy.displayText).."'")
+    playerLines[k].reducedbounty_tooltip = infamy.displayText
     
     --
     --local skills = ElderScrollsOfAlts.altData.players[k].skills
@@ -455,16 +456,25 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
               --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
               -- subskills in tooltip
               local abilities = rtVT.abilities
-              local sstext = ""
+              local sstext  = ""
+              local sstextA = ""
+              local sstextP = ""
               if( abilities ~=nil and ElderScrollsOfAlts:istable(abilities) ) then
                 for ak, av in pairs( abilities ) do
                   --d("ak:" .. tostring(ak)  .. " av:" .. tostring(av) ) 
                   if( ElderScrollsOfAlts:istable(av) and av.purchased ) then
-                    sstext = sstext .." /".. tostring(ak) .. "=".. av.earnedRank
+                    sstext = sstext .."  /".. tostring(ak) .. "=".. av.earnedRank
+                    if(passive)then
+                      sstextP = sstextP .."  /".. tostring(ak) .. "=".. av.earnedRank
+                    else
+                      sstextA = sstextA .."  /".. tostring(ak) .. "=".. av.earnedRank
+                    end
                   end
                 end
                 --d("ak:" .. tostring(ak)  .. " sstext:" .. tostring(sstext) ) 
                 playerLines[k][rtKT.."_subskills"] = sstext
+                playerLines[k][rtKT.."_subskillsA"] = sstextA
+                playerLines[k][rtKT.."_subskillsP"] = sstextP
                 --d("sstext:" .. sstext)
               end
               -- subskills in tooltip
