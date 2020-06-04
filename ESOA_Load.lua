@@ -494,7 +494,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
   playerLines[k].riding_timeMs    = -1
   playerLines[k].riding_totalDurationMs = -1
   --playerLines[k].riding_timedisplay     = "--"
-  playerLines[k].riding_trainingready   = nil    
+  playerLines[k].riding_trainingready   = nil   
+  playerLines[k].riding_maxed = false
     
   if(misc~=nil)then
     local riding = misc.riding
@@ -505,6 +506,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
       playerLines[k].riding_timeMs          = riding.timeMs
       playerLines[k].riding_totalDurationMs = riding.totalDurationMs
       playerLines[k].riding_trainingready   = riding.trainingReadyAt
+      
+      if( riding.inventory==60 and riding.speed==60 and riding.stamina==60 ) then
+        playerLines[k].riding_maxed = true
+      end
       
       --if(riding.timeMs~=nil and riding.timeMs>-1)then
         --playerLines[k].riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )

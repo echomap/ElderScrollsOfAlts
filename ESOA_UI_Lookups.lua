@@ -195,32 +195,44 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     local expireTime = playerLine["riding_trainingready"]  
     local nowTime    = GetTimeStamp()
     local timeDiff   = nil
-    if(expireTime~=nil)then
-      --timeDiff = expireTime - nowTime
-      timeDiff = GetDiffBetweenTimeStamps(expireTime , nowTime)
-      --ElderScrollsOfAlts.outputMsg("name="..tostring(playerLine["name"]) .. " timeDiff="..tostring(timeDiff) )
-    end
-    eline.timeMS = timeMS
     local rtType = -1
-    if( timeDiff ~= nil )then
-      if( timeDiff <= 0 ) then
-        eline.tooltip = "Now"
-        eline:SetText("Now")
-        rtType = 1
-      else
-        local timeD = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000),false,true)
-        eline.tooltip = timeD
-        eline:SetText(timeD)      
-        rtType = 0
-      end      
+      
+    if(playerLine["riding_maxed"]) then
+        eline.tooltip = "Riding Skills Maxed"
+        eline:SetText("Max")
+        rtType = 2
     else
-      eline.tooltip = "--"
-      eline:SetText("--")  
-    end
+      if(expireTime~=nil)then
+        --timeDiff = expireTime - nowTime
+        timeDiff = GetDiffBetweenTimeStamps(expireTime , nowTime)
+        --ElderScrollsOfAlts.outputMsg("name="..tostring(playerLine["name"]) .. " timeDiff="..tostring(timeDiff) )
+      end
+      eline.timeMS = timeMS
+      if( timeDiff ~= nil )then
+        if( timeDiff <= 0 ) then
+          eline.tooltip = "Now"
+          eline:SetText("Now")
+          rtType = 1
+        else
+          local timeD = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000),false,true)
+          eline.tooltip = timeD
+          eline:SetText(timeD)      
+          rtType = 0
+        end      
+      else
+        eline.tooltip = "--"
+        eline:SetText("--")  
+      end
+    end--max check
+    
     --Riding Timer
-    if(rtType>0)then
+    if(rtType>1)then
+        local noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
+        eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, eline:GetText() ) )      
+    elseif(rtType>0)then
       if( ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil) then
-        eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline:GetText() ) )
+        local noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
+        eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, eline:GetText() ) )
       end
     end
   elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed")then
