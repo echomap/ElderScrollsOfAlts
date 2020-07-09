@@ -1822,7 +1822,12 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
   --
   local ttkey = string.lower(tooltipName).."_tooltip"
   local ttval = mySelf[ ttkey ]
+  --ElderScrollsOfAlts.debugMsg("TooltipEnter: ttkey='"..tostring(ttkey).."'")
+  --ElderScrollsOfAlts.debugMsg("TooltipEnter: ttval='"..tostring(ttval).."'")
   if(ttval~=nil) then    
+    if( tooltipDesc == nil and tooltipTitle == nil) then
+      InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -76, TOPRIGHT)
+    end
     ESOATooltip:AddLine(ttval, "ZoFontGame")
   end
 end--TooltipEnter

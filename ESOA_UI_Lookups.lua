@@ -9,6 +9,7 @@
 ------------------------------
 -- View Lookup, show data
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
+  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: viewKey:" .. tostring(viewKey) )
   eline.viewKey = viewKey
   if(eline==nil) then return end
   if(viewKey=="Special") then
@@ -184,10 +185,10 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     if( playerLine[ newKey ] ~=nil ) then
       eline.value = playerLine[newKey]
       eline:SetText( playerLine[newKey]  )
-      eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[newKey], viewKey )
+      eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[newKey], viewKey )      
     else
       eline:SetText(playerLine[viewKey])
-       eline.value = playerLine[viewKey]
+      eline.value = playerLine[viewKey]
       eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[viewKey], viewKey )
     end
   elseif(viewKey=="Riding Timer") then
@@ -196,10 +197,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     local nowTime    = GetTimeStamp()
     local timeDiff   = nil
     local rtType = -1
+    eline.sort_data    = timeMS
+    eline.sort_numeric =  true
+    eline.value        = timeMS
       
     if(playerLine["riding_maxed"]) then
         eline.tooltip = "Riding Skills Maxed"
         eline:SetText("Max")
+        eline.sort_data = -1
         rtType = 2
     else
       if(expireTime~=nil)then
@@ -212,6 +217,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         if( timeDiff <= 0 ) then
           eline.tooltip = "Now"
           eline:SetText("Now")
+          eline.sort_data = 0
           rtType = 1
         else
           local timeD = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000),false,true)
@@ -295,7 +301,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   local sstext  = playerLine[viewKey.."_subskills"]
   local sstext1 = playerLine[string.lower(viewKey).."_subskills"]
   local tttext  = playerLine[viewKey.."_tooltip"] 
-  local tttext1 = playerLine[string.lower(viewKey).."_tooltip"]   
+  local tttext1 = playerLine[string.lower(viewKey).."_tooltip"]
+  --ElderScrollsOfAlts.outputMsg("tttext:" .. tostring(tttext) )
+  --ElderScrollsOfAlts.outputMsg("tttext1:" .. tostring(tttext1) )
   --
   local newTTtext = nil  
   if(sstext~=nil ) then

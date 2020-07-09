@@ -185,7 +185,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     end
    --d("infamy.displayText='"..tostring(infamy.displayText).."'")
     playerLines[k].reducedbounty_tooltip = infamy.displayText
-    
+    ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
     --
     --local skills = ElderScrollsOfAlts.altData.players[k].skills
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
@@ -492,6 +492,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
   playerLines[k].riding_stamina   = -1
   --playerLines[k].riding_cantrain  = false
   playerLines[k].riding_timeMs    = -1
+  playerLines[k].riding_timems    = -1
   playerLines[k].riding_totalDurationMs = -1
   --playerLines[k].riding_timedisplay     = "--"
   playerLines[k].riding_trainingready   = nil   
@@ -504,6 +505,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
       playerLines[k].riding_speed     = riding.speed
       playerLines[k].riding_stamina   = riding.stamina
       playerLines[k].riding_timeMs          = riding.timeMs
+      playerLines[k].riding_timems          = riding.timeMs
       playerLines[k].riding_totalDurationMs = riding.totalDurationMs
       playerLines[k].riding_trainingready   = riding.trainingReadyAt
       
@@ -779,20 +781,21 @@ end
 
 --
 function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
-  local alliancewar = ElderScrollsOfAlts.altData.players[k].alliancewar
   if k == nil then return end
+  local alliancewar = ElderScrollsOfAlts.altData.players[k].alliancewar
+  --ElderScrollsOfAlts.outputMsg("alliancewar="..tostring(alliancewar) )  
   if alliancewar == nil then return end
-  
+  --ElderScrollsOfAlts.outputMsg("alliancewar.currentCampaignName="..tostring(alliancewar.currentCampaignName) )  
   --Setup
   playerLines[k].InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
   playerLines[k].GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
-  playerLines[k].HomeCampaignId       = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignId      ,"")
-  playerLines[k].HomeCampaignId       = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignId      ,"")
+  playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
+  playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
   playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
-  playerLines[k].HomeCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignAssigned,"") 
+  playerLines[k].CurrentCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
   
   playerLines[k].GuestCampaignName    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
-  playerLines[k].HomeCampaignName     = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignName     ,"")
+  playerLines[k].CurrentCampaignName     = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
   playerLines[k].AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
   
   playerLines[k].IsInCampaign         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.isInCampaign        ,"")  
@@ -806,7 +809,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].NextRankAt           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
   playerLines[k].AvaRankName          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.avaRankName         ,"")
   
-  playerLines[k].HomeCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.homeCampaignRewardEarnedTier ,"")
+  playerLines[k].CurrentCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignRewardEarnedTier ,"")
   playerLines[k].GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier ,"")  
    
 end

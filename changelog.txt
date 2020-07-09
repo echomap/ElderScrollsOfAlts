@@ -28,7 +28,7 @@ extractions/hirelings
 ==Unpublished==
 1.00.23
 [list]
-[*] 
+[*] fix some recursion with having two entries on same view with same name
 [/list]
 
 ==Published V1.0.X==

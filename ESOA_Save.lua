@@ -357,22 +357,27 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar = {}
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.inCampaign = IsInCampaign()
   
-  local homeCampaignId     = GetCurrentCampaignId()
+  local currentCampaignId     = GetCurrentCampaignId()
   local guestCampaignId    = GetGuestCampaignId()
   local assignedCampaignId = GetAssignedCampaignId()
-  local isInCampaign       = homeCampaignId ~= 0
+  local isInCampaign       = currentCampaignId ~= 0
+  if(not isInCampaign) then
+    isInCampaign       = assignedCampaignId ~= 0
+  end
   --GetPreferredCampaign()  ??
  
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignId    = guestCampaignId
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignId     = homeCampaignId
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignId  = currentCampaignId
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignId = assignedCampaignId
   
-  --ElderScrollsOfAlts.debugMsg("homeCampaignId="..tostring(homeCampaignId) )
+  --ElderScrollsOfAlts.debugMsg("currentCampaignId="..tostring(currentCampaignId) )
   --ElderScrollsOfAlts.debugMsg("guestCampaignId="..tostring(guestCampaignId) )
   --d("(" .. ElderScrollsOfAlts.name .. ") " .. "guestCampaignId: "..guestCampaignId )
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignName    = GetCampaignName(guestCampaignId)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignName     = GetCampaignName(homeCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignName     = GetCampaignName(currentCampaignId)
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignName = GetCampaignName(assignedCampaignId)
+  --ElderScrollsOfAlts.outputMsg("save.currentCampaignId="..tostring(currentCampaignId) )  
+  --ElderScrollsOfAlts.outputMsg("save.currentCampaignName="..tostring( GetCampaignName(currentCampaignId) ) )  
 
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.isInCampaign         = isInCampaign
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.unitAlliance         = pAlliance
@@ -393,8 +398,8 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.avaRankName = avaRankName
   
   --Returns: number earnedTier, number nextTierProgress, number nextTierTotal 
-  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(homeCampaignId)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.homeCampaignRewardEarnedTier = earnedTier  
+  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(currentCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
   earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = earnedTier  
   

@@ -87,10 +87,10 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Alliance Name"] = 1,
   ["InCampaign"] = 1,
   ["GuestCampaignId"] = 1,
-  ["HomeCampaignId"] = 1,
+  ["CurrentCampaignId"] = 1,
   ["AssignedCampaignId"] = 1,
   
-  ["HomeCampaignName"] = 1,
+  ["CurrentCampaignName"] = 1,
   ["GuestCampaignName"] = 1,
   ["AssignedCampaignName"] = 1,
   
@@ -104,7 +104,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["RankStartsAt"] = 1,
   ["NextRankAt"] = 1,
   ["AvaRankName"] = 1,
-  ["HomeCampaignRewardEarnedTier"] = 1,
+  ["CurrentCampaignRewardEarnedTier"] = 1,
   ["GuestCampaignRewardEarnedTier"] = 1,
   
   ["Currency_Gold"] =1 ,
