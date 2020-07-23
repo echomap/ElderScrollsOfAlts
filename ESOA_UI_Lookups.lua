@@ -367,7 +367,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
   if( eline.value==nil) then
     return 0
   end
-  local viewKey = eline.viewKey
+  local viewKey  = eline.viewKey
+  local lviewKey = viewKey:lower()
   if(viewKey=="Level" and eline.value == 50 ) then
     return 1
   elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
@@ -388,7 +389,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
     elseif( eline.value == 50  ) then
       return 2
     end
-  elseif( viewKey=="Blacksmithing" or viewKey == "Smithing" or viewKey=="Clothing" or viewKey=="Woodworking") then
+  elseif( lviewKey=="blacksmithing" or lviewKey == "smithing" or viewKey=="Clothing" or viewKey=="Woodworking") then
     --ElderScrollsOfAlts.outputMsg("Skill found, val = ".. tostring(eline.value) .. " sunk="..tostring(eline.data_sunk) )
     if( eline.value == 50  and eline.data_sunk == 9 ) then
       return 1
@@ -563,7 +564,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
   if(viewKey==nil) then return nil end
   --viewKey = viewKey:lower()
   
-  if(viewKey=="smithing") then
+  if(viewKey:lower()=="smithing" or viewKey:lower()=="blacksmithing") then
     return "blacksmithing"
   elseif(viewKey=="Clothier Research 1") then
     return "rclothier1S"
@@ -616,6 +617,7 @@ end
 ------------------------------
 -- View Lookup, Return WIDTH
 function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
+  local lviewKey = viewKey:lower()
   if(viewKey=="Name") then
     return ElderScrollsOfAlts.altData.fieldWidthForName
   elseif(viewKey=="Special") then
@@ -641,7 +643,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="ReducedBounty") then
     return 50
     
-  elseif(viewKey=="Alchemy" or viewKey=="Smithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="JC" or viewKey=="Jewelry" or viewKey=="Woodworking" or viewKey=="Provisioning") then
+  elseif(viewKey=="Alchemy" or lviewKey=="blacksmithing" or lviewKey == "smithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="JC" or viewKey=="Jewelry" or viewKey=="Woodworking" or viewKey=="Provisioning") then
     return 45
   elseif(viewKey=="BagSpace") then
     return 60
@@ -712,7 +714,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "G"
   elseif(viewKey=="Alchemy") then
     return "Alc"
-  elseif(viewKey=="Smithing") then
+  elseif(viewKey:lower()=="smithing" or viewKey:lower()=="blacksmithing") then
     return "Smth"
   elseif(viewKey=="Clothing") then
     return "Clth"

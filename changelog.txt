@@ -26,12 +26,17 @@ currency?
 extractions/hirelings
 
 ==Unpublished==
-1.00.23
+1.00.24
 [list]
-[*] fix some recursion with having two entries on same view with same name
+[*] 
 [/list]
 
 ==Published V1.0.X==
+1.00.23
+[list]
+[*] fixed some recursion with having two entries on same view with same name
+[*] fixed too long label for blacksmithing.
+[/list]
 1.00.22
 [list]
 [*] added "Scrying" and "Excavation" to default skill view for new characters/installs
