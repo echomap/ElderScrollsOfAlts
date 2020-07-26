@@ -28,7 +28,9 @@ extractions/hirelings
 ==Unpublished==
 1.00.24
 [list]
-[*] 
+[*] moved settings to where they belong
+[*] save/load profile settings to other chars
+[*] save last location info
 [/list]
 
 ==Published V1.0.X==

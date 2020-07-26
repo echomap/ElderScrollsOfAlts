@@ -49,52 +49,6 @@ function ElderScrollsOfAlts.LoadSettings()
     default = 160, -- default value or function that returns the default value (optional)
     reference = "ESOA_NameSlider" -- unique global reference to control (optional)
   }
-  optionsTable[#optionsTable+1] = {
-    type    = "colorpicker",
-    name    = "Skill at MAX Color",
-    tooltip = "What Color to use when a skill is at the current MAX.",
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a      
-    end,
-    setFunc = 	function(r,g,b,a)
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a = a
-    end,
-    width = "full",	--or "half" (optional)
-  }
-  optionsTable[#optionsTable+1] = {
-    type    = "colorpicker",
-    name    = "Skill at nearly MAX Color",
-    tooltip = "What Color to use when a skill is near the current MAX.",
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a      
-    end,
-    setFunc = 	function(r,g,b,a)
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a = a
-    end,
-    width = "full",	--or "half" (optional)
-  }
   
   
   -- Account Settings --
@@ -218,6 +172,77 @@ function ElderScrollsOfAlts.LoadSettings()
     end,
     width = "full",	--or "half" (optional)
   }
+  
+  
+  optionsTable[#optionsTable+1] = {
+    type    = "colorpicker",
+    name    = "Skill at MAX Color",
+    tooltip = "What Color to use when a skill is at the current MAX.",
+    getFunc = function()               
+      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
+          ElderScrollsOfAlts.SetupDefaultColors()
+      end
+      return              
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a      
+    end,
+    setFunc = 	function(r,g,b,a)
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax = {}
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r = r
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g = g
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b = b
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a = a
+    end,
+    width = "full",	--or "half" (optional)
+  }
+  optionsTable[#optionsTable+1] = {
+    type    = "colorpicker",
+    name    = "Skill at nearly MAX Color",
+    tooltip = "What Color to use when a skill is near the current MAX.",
+    getFunc = function()               
+      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
+          ElderScrollsOfAlts.SetupDefaultColors()
+      end
+      return              
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b,
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a      
+    end,
+    setFunc = 	function(r,g,b,a)
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r = r
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g = g
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b = b
+      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a = a
+    end,
+    width = "full",	--or "half" (optional)
+  }
+  --
+  
+  -- Save/Load Settings
+  optionsTable[#optionsTable+1] = {
+    type = "button",
+    name = GetString(ESOA_KEY_SETTINGS_SAVE_TITLE),  --"Save these settings",
+    tooltip = GetString(ESOA_KEY_SETTINGS_SAVE_MSG), --"Save these as settings so they can be used later?",
+    func = function()  ElderScrollsOfAlts:DoSaveProfileSettings() end,
+    width = "full",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }
+  -- Save/Load Settings
+  optionsTable[#optionsTable+1] = {
+    type = "button",
+    name = GetString(ESOA_KEY_SETTINGS_LOAD_TITLE), --"Load saved settings",
+    tooltip = GetString(ESOA_KEY_SETTINGS_LOAD_MSG), --"Load settings from saved profile?",
+    func = function()  ElderScrollsOfAlts:DoLoadProfileSettings() end,
+    width = "full",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }
+  --
+  
+  
   -- Character Base Options --
   
   optionsTable [#optionsTable+1] = {
@@ -248,7 +273,7 @@ function ElderScrollsOfAlts.LoadSettings()
   
   optionsTable[#optionsTable+1] = {
     type = "header",
-    name = "Views (BETA BETA BETA)",
+    name = "Views",
     width = "full",	--or "half" (optional)
   }    
   --New from template

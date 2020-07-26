@@ -1851,4 +1851,20 @@ function ElderScrollsOfAlts:GuiSort(keyname)
 end
 
 ------------------------------
+-- UI
+function ElderScrollsOfAlts:RefreshTabs()
+  --[[
+  local myFpsLabelControl = WINDOW_MANAGER:GetControlByName("EchoExpDDExpOutput", "")
+  if(myFpsLabelControl~=nil) then
+    EchoExperience.UpdateUIExpTabs()
+    EchoExperience.UpdateUILootTabs()
+    EchoExperience.UpdateUIGuildTabs()
+    EchoExperience.UpdateUIQuestTabs()
+  else
+    zo_callLater(EchoExperience.RefreshTabs, 12000)
+  end 
+  --]]
+end
+
+------------------------------
 -- EOF

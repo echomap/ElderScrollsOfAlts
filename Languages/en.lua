@@ -93,6 +93,17 @@ local localization_strings = {
     ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
 
     ESOA_RESEARCH_AVAIL = "[avail]",
+    
+  --
+  ESOA_KEY_SETTINGS_NOCONFIRM       = "No confirmation if you do this!",
+  --
+  ESOA_KEY_SETTINGS_SAVE_TITLE      = "Save these (above) settings ",
+  ESOA_KEY_SETTINGS_SAVE_MSG        = "Save these as settings so they can be used later? (only the above settings)",  
+  ESOA_KEY_SETTINGS_LOAD_TITLE      = "Load saved settings",
+  ESOA_KEY_SETTINGS_LOAD_MSG        = "Load settings from saved profile? (only the above settings)",
+
+  --
+  --
 }
 
 for stringId, stringValue in pairs(localization_strings) do

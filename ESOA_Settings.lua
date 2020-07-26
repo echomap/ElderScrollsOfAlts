@@ -47,7 +47,9 @@ end
 function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
   ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = value
   ElderScrollsOfAlts.debugMsg("SetUIViewMouseHighlightShown: value=", tostring(value) )
-  ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
+  if(ESOA_GUI2_Body_ListHolder~=nil) then
+    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
+  end
 end
 
 ------------------------------
@@ -358,4 +360,53 @@ function ElderScrollsOfAlts:SetAllAllowedViewEntries(newName)
   --
 end
 
+
+
+------------------------------
+-- ProfileSettings, from settings
+function ElderScrollsOfAlts:DoSaveProfileSettings()
+  local pName = GetUnitName("player")  
+  ElderScrollsOfAlts.altData.defaults = {}
+  ElderScrollsOfAlts.altData.defaultsSaveTime = GetTimeStamp()
+  ElderScrollsOfAlts.altData.useAsDefault = pName
+  --
+  ElderScrollsOfAlts.altData.defaults.uiButtonShow       = ElderScrollsOfAlts:GetUIButtonShown()
+  ElderScrollsOfAlts.altData.defaults.uiMouseHighlight   = ElderScrollsOfAlts.GetUIViewMouseHighlightShown()
+  ElderScrollsOfAlts.altData.defaults.uiViewDropDown     = ElderScrollsOfAlts.GetUIViewDropDownShown()
+  ElderScrollsOfAlts.altData.defaults.colorTimerNear     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
+  ElderScrollsOfAlts.altData.defaults.colorTimerNearer   = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
+  ElderScrollsOfAlts.altData.defaults.colorTimerNone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
+  ElderScrollsOfAlts.altData.defaults.colorSkillsMax     = ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax
+  ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax = ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax
+  --
+end
+
+------------------------------
+-- ProfileSettings, from settings
+function ElderScrollsOfAlts:DoLoadProfileSettings()
+  if(ElderScrollsOfAlts.altData.useAsDefault~=nil and ElderScrollsOfAlts.altData.defaults~=nil )then
+    --
+    ElderScrollsOfAlts.savedVariables.immersive        = ElderScrollsOfAlts.altData.defaults.immersive
+    ElderScrollsOfAlts.savedVariables.showmdk          = ElderScrollsOfAlts.altData.defaults.showmdk
+    ElderScrollsOfAlts.savedVariables.showdiscovery    = ElderScrollsOfAlts.altData.defaults.showdiscovery
+    ElderScrollsOfAlts.savedVariables.sessiontracking  = ElderScrollsOfAlts.altData.defaults.sessiontracking
+    ElderScrollsOfAlts.savedVariables.lifetimetracking = ElderScrollsOfAlts.altData.defaults.lifetimetracking
+   
+    --
+    ElderScrollsOfAlts.SetUIButtonShown(ElderScrollsOfAlts.altData.defaults.uiButtonShow)
+    ElderScrollsOfAlts.SetUIViewMouseHighlightShown(ElderScrollsOfAlts.altData.defaults.uiMouseHighlight)
+    ElderScrollsOfAlts.SetUIViewDropDownShown(ElderScrollsOfAlts.altData.defaults.uiViewDropDown)
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear     = ElderScrollsOfAlts.altData.defaults.colorTimerNear
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone     = ElderScrollsOfAlts.altData.defaults.colorTimerNone
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax     = ElderScrollsOfAlts.altData.defaults.colorSkillsMax
+    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax
+    --
+   
+    --
+    ElderScrollsOfAlts:RefreshTabs()
+  end
+end
+
+------------------------------
 --EOF

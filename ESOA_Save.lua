@@ -442,18 +442,16 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.bounty = bounty  
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.thresholdType = thresholdType  
   
-  --[[
   ElderScrollsOfAlts.altData.players[playerKey].location = {}
   local subzoneNamePL = zo_strformat("<<1>>",  GetPlayerActiveSubzoneName() )
   local zoneNamePL    =  zo_strformat("<<1>>", GetPlayerActiveZoneName() )
-  local zoneId, ...   = GetUnitWorldPosition("player")
   local zoneIndex     = GetUnitZoneIndex("player")
+  local zoneId, worldX, worldY, worldZ   = GetUnitWorldPosition("player")  
   --local zDescription  =  GetZoneDescription(zoneIndex)
   --local zoneId        = GetZoneId(zoneIndex)
   ElderScrollsOfAlts.altData.players[playerKey].location.subzoneName = subzoneNamePL
   ElderScrollsOfAlts.altData.players[playerKey].location.zoneName    = zoneNamePL
   ElderScrollsOfAlts.altData.players[playerKey].location.zoneId      = zoneId
-  --]]
   
   --[[
   --local currLoc = {CURRENCY_LOCATION_ACCOUNT,CURRENCY_LOCATION_BANK,CURRENCY_LOCATION_CHARACTER,CURRENCY_LOCATION_GUILD_BANK}
