@@ -77,14 +77,6 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)   ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
     width   = "half",	--or "half" (optional)
   }
-  optionsTable [#optionsTable+1] = {
-    type    = "checkbox",
-    name    = "Use dropdown for Views, instead of buttons.",
-    tooltip = "On or off.",
-    getFunc = function() return ElderScrollsOfAlts.GetUIViewDropDownShown() end,
-    setFunc = function(value)   ElderScrollsOfAlts.SetUIViewDropDownShown(value)  end,
-    width   = "half",	--or "half" (optional)
-  }
   
   optionsTable[#optionsTable+1] = {
     type  = "header",
@@ -93,7 +85,7 @@ function ElderScrollsOfAlts.LoadSettings()
   }
   optionsTable[#optionsTable+1] = {
     type    = "colorpicker",
-    name    = "Timer  Done Soon Color",
+    name    = "Timer Done Soon Color",
     tooltip = "What Color to use when a timer is near to completion.",
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
@@ -145,6 +137,35 @@ function ElderScrollsOfAlts.LoadSettings()
     end,
     width = "full",	--or "half" (optional)
   }
+  
+  optionsTable[#optionsTable+1] = {
+    type = "colorpicker",
+    name = "Timer Done Color",
+    tooltip = "What Color to use when a timer is at completion.",
+    getFunc = function()               
+      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerDone==nil) then
+          ElderScrollsOfAlts.SetupDefaultColors()
+      end
+      return              
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r,
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g,
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b,
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a      
+    end,
+    setFunc = 	function(r,g,b,a)
+      --(alpha is optional)
+      --d(r, g, b, a)
+      --local c = ZO_ColorDef:New(r,g,b,a)
+      --c:Colorize(text)
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone = {}
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r = r
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g = g
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b = b
+      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a = a
+    end,
+    width = "full",	--or "half" (optional)
+  }
+  
   optionsTable[#optionsTable+1] = {
     type = "colorpicker",
     name = "Timer N/A or not set Color",
@@ -266,7 +287,7 @@ function ElderScrollsOfAlts.LoadSettings()
     name = "Delete",
     tooltip = "Delete selected Character's Data!",
     func  = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
-    width = "full",	--or "half" (optional)
+    width = "half",	--or "half" (optional)
     warning = "No confirmation if you do this!",	--(optional)
   }
   -- Character Maintanance Options --
@@ -276,16 +297,24 @@ function ElderScrollsOfAlts.LoadSettings()
     name = "Views",
     width = "full",	--or "half" (optional)
   }    
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = "Use dropdown for Views, instead of buttons.",
+    tooltip = "On or off.",
+    getFunc = function() return ElderScrollsOfAlts.GetUIViewDropDownShown() end,
+    setFunc = function(value)   ElderScrollsOfAlts.SetUIViewDropDownShown(value)  end,
+    width   = "full",	--or "half" (optional)
+  }
   --New from template
   --TODO template dropdown to pick from
   optionsTable[#optionsTable+1] = {
     type = "dropdown",
-    name = "Template View Names",
+    name = "Select View Name:",
     tooltip = "Select one of these to do 'New from Template' .",
     choices = ElderScrollsOfAlts:SettingsListOfViewTemplateNames(),
     getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewTemplate) end,
     setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewTemplate = (var) end,
-    width = "full",	--or "half" (optional)
+    width = "half",	--or "half" (optional)
     reference = "ESOA_SETTINGS_TV_SelectView",
   }    
   optionsTable[#optionsTable+1] = {

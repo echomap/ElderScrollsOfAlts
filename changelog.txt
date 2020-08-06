@@ -25,15 +25,21 @@ view: user create views dynamic, like a Home screen with no Vamp/Were columns, b
 currency?
 extractions/hirelings
 
-==Unpublished==
+==Unpublished ESOA==
+1.00.25
+[list]
+[*] 
+[/list]
+
+==ESOA Published V1.0.X==
 1.00.24
 [list]
 [*] moved settings to where they belong
 [*] save/load profile settings to other chars
-[*] save last location info
+[*] save last location info, usable in views as '{subzoneName}' or '{subzoneName}'
+[*] added another color setting 'colorTimerDone'
+[*] bagspaces low colors and some other color updates
 [/list]
-
-==Published V1.0.X==
 1.00.23
 [list]
 [*] fixed some recursion with having two entries on same view with same name

@@ -187,6 +187,15 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].reducedbounty_tooltip = infamy.displayText
     ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
     --
+    local locationInfo = ElderScrollsOfAlts.altData.players[k].location
+    if( locationInfo ~= nil ) then
+      playerLines[k].subzoneName = locationInfo.subzoneName
+      playerLines[k].zoneName    = locationInfo.zoneName
+    else
+      playerLines[k].subzoneName = ""
+      playerLines[k].zoneName    = ""
+    end    
+    
     --local skills = ElderScrollsOfAlts.altData.players[k].skills
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
     ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)      

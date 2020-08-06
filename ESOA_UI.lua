@@ -26,6 +26,13 @@ function ElderScrollsOfAlts.SetupDefaultColors()
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = ElderScrollsOfAlts.rgbaWhite.b
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = ElderScrollsOfAlts.rgbaWhite.a
   end
+  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerDone==nil) then
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone = {}
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r = ElderScrollsOfAlts.rgbaWhite.r
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g = ElderScrollsOfAlts.rgbaWhite.g
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b = ElderScrollsOfAlts.rgbaWhite.b
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a = ElderScrollsOfAlts.rgbaWhite.a
+  end
   if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r   = ElderScrollsOfAlts.rgbaWhite.r

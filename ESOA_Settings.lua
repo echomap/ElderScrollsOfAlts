@@ -47,7 +47,7 @@ end
 function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
   ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = value
   ElderScrollsOfAlts.debugMsg("SetUIViewMouseHighlightShown: value=", tostring(value) )
-  if(ESOA_GUI2_Body_ListHolder~=nil) then
+  if(ESOA_GUI2_Body_ListHolder~=nil and ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil) then
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   end
 end
@@ -375,6 +375,7 @@ function ElderScrollsOfAlts:DoSaveProfileSettings()
   ElderScrollsOfAlts.altData.defaults.uiViewDropDown     = ElderScrollsOfAlts.GetUIViewDropDownShown()
   ElderScrollsOfAlts.altData.defaults.colorTimerNear     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
   ElderScrollsOfAlts.altData.defaults.colorTimerNearer   = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
+  ElderScrollsOfAlts.altData.defaults.colorTimerDone   = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
   ElderScrollsOfAlts.altData.defaults.colorTimerNone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
   ElderScrollsOfAlts.altData.defaults.colorSkillsMax     = ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax
   ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax = ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax
@@ -398,6 +399,7 @@ function ElderScrollsOfAlts:DoLoadProfileSettings()
     ElderScrollsOfAlts.SetUIViewDropDownShown(ElderScrollsOfAlts.altData.defaults.uiViewDropDown)
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNear     = ElderScrollsOfAlts.altData.defaults.colorTimerNear
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer
+    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone     = ElderScrollsOfAlts.altData.defaults.colorTimerDone
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNone     = ElderScrollsOfAlts.altData.defaults.colorTimerNone
     ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax     = ElderScrollsOfAlts.altData.defaults.colorSkillsMax
     ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax

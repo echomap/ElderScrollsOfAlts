@@ -125,6 +125,9 @@ end
 function ElderScrollsOfAlts.ColorText(colors,text)
   --colorized text and write it out
   --check cache
+  if(colors==nil) then
+    return text
+  end
   local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
   local text2 = cCD:Colorize(text)
   return text2

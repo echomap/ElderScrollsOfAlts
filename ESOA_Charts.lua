@@ -117,6 +117,9 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Currency_Outfit Change Tokens"] = 1,
   
   ["ReducedBounty"] = 1, 
+  ["Reduced Bounty"] = 1, 
+  ["zoneName"] = 1, 
+  ["subzoneName"] = 1, 
 }
 
 -----------
@@ -142,6 +145,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [15] = "BagSpace",        
       [16] = "BagSpaceFree",        
       [17] = "Skillpoints",
+      [18] = "Riding Timer",
     }
   },
   ["Equip"] = {
@@ -200,6 +204,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [10] = "Thieves Guild",
       [11] = "Dark Brotherhood",
       [12] = "Psijic Order",
+      
       [13] = "Scrying",
       [14] = "Excavation",
       
@@ -207,6 +212,9 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [14] = "Riding Stamina",
       [15] = "Riding Inventory",
       [16] = "Riding Timer",
+      
+      [17] = "Reduced Bounty",
+      [18] = "AssignedCampaignName",
     }
   },
 }
