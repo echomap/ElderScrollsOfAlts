@@ -776,22 +776,31 @@ end
 --collectResearchData
 function ElderScrollsOfAlts:SaveDataPlayerResearchData(tradeSkillType, keyProfName, dataResearchElem)
   dataResearchElem[keyProfName] = {}
-  local researchMS       = GetMaxSimultaneousSmithingResearch(tradeSkillType)
-  local researchNumlines = GetNumSmithingResearchLines(tradeSkillType)
+  local researchMaxSimulSlots = GetMaxSimultaneousSmithingResearch(tradeSkillType)
+  local researchNumlines      = GetNumSmithingResearchLines(tradeSkillType)
   dataResearchElem[keyProfName].ongoing = {}
+  dataResearchElem[keyProfName].lines = {}
+  dataResearchElem[keyProfName].researchNumlinesDone = 0
+  dataResearchElem[keyProfName].researchNumlines      = researchNumlines
+  dataResearchElem[keyProfName].researchMS            = researchMaxSimulSlots
+  dataResearchElem[keyProfName].researchMaxSimulSlots = researchMaxSimulSlots
+  dataResearchElem[keyProfName].researchNumlines      = researchNumlines
+  --
   for researchLineIndex = 1, researchNumlines do
     local name, icon, numTraits, timeRequiredForNextResearchSecs = GetSmithingResearchLineInfo(tradeSkillType, researchLineIndex)
     --
-    dataResearchElem[keyProfName].numTraits = numTraits
-    dataResearchElem[keyProfName].researchMS = researchMS
-    dataResearchElem[keyProfName].researchNumlines = researchNumlines
-    dataResearchElem[keyProfName].timeRequiredForNextResearchSecs = timeRequiredForNextResearchSecs
-    --    
+    dataResearchElem[keyProfName].lines[name] = {}
+    dataResearchElem[keyProfName].lines[name].name           = name
+    dataResearchElem[keyProfName].lines[name].numTraits      = numTraits
+    dataResearchElem[keyProfName].lines[name].numTraitsKnown = 0
+    dataResearchElem[keyProfName].lines[name].researchLineIndex = researchLineIndex    
+    dataResearchElem[keyProfName].lines[name].timeRequiredForNextResearchSecs = timeRequiredForNextResearchSecs    
+    -- 
     for traitIndex = 1, numTraits do
       --local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType, researchLineIndex, traitIndex)
-      local durationSecs, timeRemainingSecs = GetSmithingResearchLineTraitTimes(tradeSkillType, researchLineIndex, traitIndex)
+      local durationSecs, timeRemainingSecs    = GetSmithingResearchLineTraitTimes(tradeSkillType, researchLineIndex, traitIndex)
+      local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType,  researchLineIndex, traitIndex)
       if(durationSecs~=nil) then
-        local traitType, traitDescription, known = GetSmithingResearchLineTraitInfo(tradeSkillType,  researchLineIndex, traitIndex)
         local timeTillReady = GetTimeStamp() + timeRemainingSecs
         dataResearchElem[keyProfName].ongoing[name] = {}
         dataResearchElem[keyProfName].ongoing[name].name              = name
@@ -803,8 +812,15 @@ function ElderScrollsOfAlts:SaveDataPlayerResearchData(tradeSkillType, keyProfNa
         dataResearchElem[keyProfName].ongoing[name].traitType         = traitType
         dataResearchElem[keyProfName].ongoing[name].traitDescription  = traitDescription
         dataResearchElem[keyProfName].ongoing[name].known             = known
-      end        
+      end
+      if(known) then
+        dataResearchElem[keyProfName].lines[name].numTraitsKnown = dataResearchElem[keyProfName].lines[name].numTraitsKnown + 1
+      end
     end
+    if( numTraits == dataResearchElem[keyProfName].lines[name].numTraitsKnown ) then
+      dataResearchElem[keyProfName].researchNumlinesDone = dataResearchElem[keyProfName].researchNumlinesDone + 1
+    end
+    --
   end    
 end
 

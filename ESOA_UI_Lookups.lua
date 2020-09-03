@@ -390,7 +390,23 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
     if( eline.value == 60 ) then 
       return 1
     end
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" ) then
+  elseif ( viewKey=="Dark Brotherhood" or viewKey=="Thieves Guild" ) then
+    if( eline.value == 12 ) then 
+      return 1
+    end
+  elseif ( viewKey=="Legerdemain" ) then
+    if( eline.value == 20 ) then 
+      return 1
+    end
+  elseif ( viewKey=="Soul Magic" ) then
+    if( eline.value == 6 ) then 
+      return 1
+    end    
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Werewolf" or viewKey=="Vampire" ) then
+    if( eline.value == 10 ) then 
+      return 1
+    end
+  elseif(viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" ) then
     if( eline.value == 10 ) then 
       return 1
     end

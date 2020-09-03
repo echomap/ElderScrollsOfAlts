@@ -688,7 +688,6 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
   local rTypes = {"clothier","woodworking","blacksmithing","jewelcrafting"}
   -- Check if player even has this research slot
   --if( research ~= nil ) then 
-    
   --rclothier1time,rclothier2time
   for rtK,rtV in pairs(rTypes) do
     ElderScrollsOfAlts.debugMsg("research for "..k.." as="..rtK.." rtV="..tostring(rtV))    
@@ -700,6 +699,13 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
     playerLines[k]["r"..rtV.."2S"] = 0
     playerLines[k]["r"..rtV.."3S"] = 0
     playerLines[k]["r"..rtV.."code"] = -1
+    --
+    local rrLinesMax  = research[rtV].researchNumlines
+    local rrLinesDone = research[rtV].researchNumlinesDone
+    local rrLinesMatch = false
+    if(rrLinesMax == rrLinesDone) then
+      rrLinesMatch = true
+    end
     --Code = -1 is n/a, 0 is unk, 1 is READY, 
     if(research==nil or research[rtV]==nil)then
     else
@@ -714,6 +720,10 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
         elseif(kkiT<=researchMS) then
           playerLines[k][mKye.."time"] = GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
           playerLines[k][mKye.."code"] = 1
+          if(rrLinesMatch) then
+            playerLines[k][mKye.."time"] = "[xxxxx]"-- GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
+            playerLines[k][mKye.."tooltip"] = "Already know all traits!"
+          end
         else
           playerLines[k][mKye.."time"] = "--------"
           playerLines[k][mKye.."code"] = 0

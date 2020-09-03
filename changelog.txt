@@ -1,7 +1,6 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Bugs/TODO==
-settings: 
 settings: use dropdown instead of buttons
 settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
 settings: add auto save timer?
@@ -11,27 +10,24 @@ bug: Sorting can fail if key is now invalid,try???
   __index = function(t,k) return 0 end
   })
 bug: minimize button not working
-
 feature: a lot of localization
 feature: copy views to account, from account
 feature: Selection/ UnSelection / DeselectOnReselect
-
-==Test is Fixed==
-Text max length, name issue
-Current Sort NAME? Order by ViewName
-test colors ok
-test research 'code' param > 0
-view: user create views dynamic, like a Home screen with no Vamp/Were columns, but maybe an Undaunted one, etc...
-currency?
 extractions/hirelings
+feature: traits
 
 ==Unpublished ESOA==
-1.00.25
+1.00.26
 [list]
-[*] 
+[*] fixed some max skill levels
+[*] added {ZoneName} and {SubzoneName}
+[*] when all traits have been learned, [avail] turns into [xxxxx]
+[*] saving traits known/unknown
+[*] added drop down(s) with some of the valid choices for view in settings
 [/list]
 
 ==ESOA Published V1.0.X==
+1.00.25 - version update
 1.00.24
 [list]
 [*] moved settings to where they belong

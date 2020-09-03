@@ -355,6 +355,83 @@ function ElderScrollsOfAlts.GetAllAllowedViewEntries()
 end
 
 ------------------------------
+--Returns a list of character names
+function ElderScrollsOfAlts:ListOfViewEntries1()
+  local validChoices =  {}  
+	table.insert(validChoices, "Select")
+  
+  local ave = ElderScrollsOfAlts.allowedViewEntries
+  table.sort( ave )
+  local cnt = 0
+  for kName, kVal in pairs( ave ) do  
+    table.insert(validChoices, kName )
+    cnt = cnt+1
+    if(cnt>40) then
+      break
+    end
+  end
+  table.sort( validChoices )
+  return validChoices 
+end
+
+------------------------------
+--Returns a list of character names
+function ElderScrollsOfAlts:ListOfViewEntries2()
+  local validChoices =  {}  
+	table.insert(validChoices, "Select")
+  
+  local ave = ElderScrollsOfAlts.allowedViewEntries
+  --table.sort( ave )
+  local cnt = 0
+  for kName, kVal in pairs( ave ) do    
+    cnt = cnt+1
+    if(cnt>80) then
+      break
+    end
+    if(cnt>40) then
+      table.insert(validChoices, kName )
+    end
+  end
+  table.sort( validChoices )
+  return validChoices 
+end
+
+------------------------------
+--Returns a list of character names
+function ElderScrollsOfAlts:ListOfViewEntries3()
+  local validChoices =  {}  
+	table.insert(validChoices, "Select")
+  
+  local ave = ElderScrollsOfAlts.allowedViewEntries
+  --table.sort( ave )
+  local cnt = 0
+  for kName, kVal in pairs( ave ) do   
+    cnt = cnt+1
+    if(cnt>80) then
+      table.insert(validChoices, kName )
+    end
+  end
+  table.sort( validChoices )
+  return validChoices 
+end
+
+------------------------------
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:SetSelectedAllowedViewEntry(choiceText)
+  ElderScrollsOfAlts.savedVariables.selected.viewentry = choiceText
+end
+
+------------------------------
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:GetSelectedAllowedViewEntry()
+  local viewentry = ElderScrollsOfAlts.savedVariables.selected.viewentry
+  if(viewentry~=nil)then
+     return viewentry
+  end
+  return ""
+end
+
+------------------------------
 -- UNUSED?
 function ElderScrollsOfAlts:SetAllAllowedViewEntries(newName)
   --

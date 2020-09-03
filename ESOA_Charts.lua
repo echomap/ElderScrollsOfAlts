@@ -120,6 +120,8 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Reduced Bounty"] = 1, 
   ["zoneName"] = 1, 
   ["subzoneName"] = 1, 
+  ["ZoneName"] = 1, 
+  ["SubzoneName"] = 1, 
 }
 
 -----------
@@ -175,50 +177,50 @@ ElderScrollsOfAlts.view.guiTemplates = {
   ["Research"] = {
     ["name"] = "Research",
     ["view"] = {
-      [1] = "Clothier Research 1",
-      [2] = "Clothier Research 2",
-      [3] = "Clothier Research 3",
-      [4] = "Blacksmithing Research 1",
-      [5] = "Blacksmithing Research 2",
-      [6] = "Blacksmithing Research 3",
-      [7] = "Woodworking Research 1",
-      [8] = "Woodworking Research 2",
-      [9] = "Woodworking Research 3",
-      [10] = "Jewelcrafting Research 1",
-      [11] = "Jewelcrafting Research 2",
-      [12] = "Jewelcrafting Research 3",
+      [1] = "Level",
+      [2] = "Clothier Research 1",
+      [3] = "Clothier Research 2",
+      [4] = "Clothier Research 3",
+      [5] = "Blacksmithing Research 1",
+      [6] = "Blacksmithing Research 2",
+      [7] = "Blacksmithing Research 3",
+      [8] = "Woodworking Research 1",
+      [9] = "Woodworking Research 2",
+      [10] = "Woodworking Research 3",
+      [11] = "Jewelcrafting Research 1",
+      [12] = "Jewelcrafting Research 2",
+      [13] = "Jewelcrafting Research 3",
     }
   },
   ["Skills"] = {
     ["name"] = "Skills",
     ["view"] = {
-      [1] = "Assault",
-      [2] = "Support",
-      [3] = "Legerdemain",
-      [4] = "Soul Magic",
-      [5] = "Werewolf",
-      [6] = "Vampire",
-      [7] = "Fighters Guild",
-      [8] = "Mages Guild",
-      [9] = "Undaunted",
-      [10] = "Thieves Guild",
-      [11] = "Dark Brotherhood",
-      [12] = "Psijic Order",
+      [1] = "Level",
+      [2] = "Assault",
+      [3] = "Support",
+      [4] = "Legerdemain",
+      [5] = "Soul Magic",
+      [6] = "Werewolf",
+      [7] = "Vampire",
+      [8] = "Fighters Guild",
+      [9] = "Mages Guild",
+      [10] = "Undaunted",
+      [11] = "Thieves Guild",
+      [12] = "Dark Brotherhood",
+      [13] = "Psijic Order",
+      [14] = "Scrying",
+      [15] = "Excavation",
       
-      [13] = "Scrying",
-      [14] = "Excavation",
+      [16] = "Riding Speed",
+      [17] = "Riding Stamina",
+      [18] = "Riding Inventory",
+      [19] = "Riding Timer",
       
-      [13] = "Riding Speed",
-      [14] = "Riding Stamina",
-      [15] = "Riding Inventory",
-      [16] = "Riding Timer",
-      
-      [17] = "Reduced Bounty",
-      [18] = "AssignedCampaignName",
+      [20] = "Reduced Bounty",
+      [21] = "AssignedCampaignName",
     }
   },
 }
-
 
 -----------
 -- VIEWS: Lookup CRAFT
@@ -379,7 +381,6 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
   return ""
 end
 
-
 -----------
 -- VIEWS
 function ElderScrollsOfAlts:GetGenderFullText(genderId)
@@ -503,4 +504,4 @@ function ElderScrollsOfAlts:ListAllAllowedViewEntries()
 end
 
 -----------
--- EOF
+-- EOF   --

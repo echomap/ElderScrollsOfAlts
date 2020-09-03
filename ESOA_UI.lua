@@ -1600,6 +1600,8 @@ function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
     InformationTooltip:AddLine(string.format("(%s)"     , myLabel.traitType), "ZoFontGame")
     InformationTooltip:AddLine(string.format("Trait: %s", myLabel.traitDesc), "ZoFontGame")
     InformationTooltip:AddLine(string.format("(Known? %s)"     , tostring(myLabel.traitknown)), "ZoFontGame")
+  elseif( myLabel.tooltip~=nil ) then
+    InformationTooltip:AddLine(string.format("(%s)"     , myLabel.tooltip), "ZoFontGame")
   end
 end
 

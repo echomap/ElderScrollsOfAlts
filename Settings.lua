@@ -356,7 +356,7 @@ function ElderScrollsOfAlts.LoadSettings()
     name = "Edit View Name",
     tooltip = "Edit selected View!",
     getFunc = function() return ElderScrollsOfAlts:GetEditSelectedViewName() end,
-    setFunc = function(text) ElderScrollsOfAlts:SetEditSelectedViewName(text) end,
+    --setFunc = function(text) ElderScrollsOfAlts:SetEditSelectedViewName(text) end,
     width = "half",	--or "half" (optional)
     isMultiline = false,
     isExtraWide = false,
@@ -399,6 +399,48 @@ function ElderScrollsOfAlts.LoadSettings()
   --        },
   --      }  
   --}
+  optionsTable[#optionsTable+1] = {
+    type = "dropdown",
+    name = "Select Entry",
+    tooltip = "Select Entry.",
+    choices = ElderScrollsOfAlts:ListOfViewEntries1(),
+    getFunc = function() return "Select" end,
+    setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
+    width = "half",	--or "half" (optional)
+    reference = "ESOA_SETTINGS_ENTRIES_Select1",--TODO refresh me
+  }
+  optionsTable[#optionsTable+1] = {
+    type = "dropdown",
+    name = "Select Entry",
+    tooltip = "Select Entry.",
+    choices = ElderScrollsOfAlts:ListOfViewEntries2(),
+    getFunc = function() return "Select" end,
+    setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
+    width = "half",	--or "half" (optional)
+    reference = "ESOA_SETTINGS_ENTRIES_Select2",--TODO refresh me
+  }
+  optionsTable[#optionsTable+1] = {
+    type = "dropdown",
+    name = "Select Entry",
+    tooltip = "Select Entry.",
+    choices = ElderScrollsOfAlts:ListOfViewEntries3(),
+    getFunc = function() return "Select" end,
+    setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
+    width = "half",	--or "half" (optional)
+    reference = "ESOA_SETTINGS_ENTRIES_Select3",--TODO refresh me
+  }
+  optionsTable[#optionsTable+1] = {
+    type = "editbox",
+    name = "Select Entry",
+    --tooltip = "Edit selected View!",
+    getFunc = function() return ElderScrollsOfAlts.GetSelectedAllowedViewEntry() end,
+    setFunc = function(text) ElderScrollsOfAlts.SetSelectedAllowedViewEntry(text) end,
+    width = "half",	--or "half" (optional)
+    isMultiline = false,
+    isExtraWide = false,
+    --reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
+  }
+  
   optionsTable[#optionsTable+1] = {
     type = "editbox",
     name = "All Allowable Entries",
