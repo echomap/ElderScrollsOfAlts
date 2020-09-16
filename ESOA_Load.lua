@@ -180,12 +180,12 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     local infamy = ElderScrollsOfAlts.altData.players[k].infamy
     if( infamy ~= nil ) then
       playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
+     --d("infamy.displayText='"..tostring(infamy.displayText).."'")
+      playerLines[k].reducedbounty_tooltip = infamy.displayText
+      ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
     else
       playerLines[k].reducedbounty = 0
     end
-   --d("infamy.displayText='"..tostring(infamy.displayText).."'")
-    playerLines[k].reducedbounty_tooltip = infamy.displayText
-    ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
     --
     local locationInfo = ElderScrollsOfAlts.altData.players[k].location
     if( locationInfo ~= nil ) then
@@ -679,12 +679,10 @@ end
 
 --RESEARCH
 function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
-  local research = ElderScrollsOfAlts.altData.players[k].research
-  --if research ==nil then
-  --  return
-  --end
   if k == nil then return end
-    
+  
+  local research = ElderScrollsOfAlts.altData.players[k].research
+  local pName    = ElderScrollsOfAlts.altData.players[k].bio.name
   local rTypes = {"clothier","woodworking","blacksmithing","jewelcrafting"}
   -- Check if player even has this research slot
   --if( research ~= nil ) then 
@@ -695,10 +693,10 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
     playerLines[k]["r"..rtV.."1time"] = "--------"
     playerLines[k]["r"..rtV.."2time"] = "--------"
     playerLines[k]["r"..rtV.."3time"] = "--------"
-    playerLines[k]["r"..rtV.."1S"] = 0
-    playerLines[k]["r"..rtV.."2S"] = 0
-    playerLines[k]["r"..rtV.."3S"] = 0
     playerLines[k]["r"..rtV.."code"] = -1
+    playerLines[k]["r"..rtV.."1s"] = -5
+    playerLines[k]["r"..rtV.."2s"] = -5
+    playerLines[k]["r"..rtV.."3s"] = -5
     --
     local rrLinesMax  = research[rtV].researchNumlines
     local rrLinesDone = research[rtV].researchNumlinesDone
@@ -717,16 +715,20 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
         if(researchMS==nil) then
           playerLines[k][mKye.."time"] = ""
           playerLines[k][mKye.."code"] = 0
+          playerLines[k][mKye.."s"] = -4
         elseif(kkiT<=researchMS) then
           playerLines[k][mKye.."time"] = GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
           playerLines[k][mKye.."code"] = 1
+          playerLines[k][mKye.."s"] = 0
           if(rrLinesMatch) then
             playerLines[k][mKye.."time"] = "[xxxxx]"-- GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
-            playerLines[k][mKye.."tooltip"] = "Already know all traits!"
+            playerLines[k][mKye.."tooltip"] = string.format("%s%s%s%s",pName," knows all traits in ",rtV,"!")
+            playerLines[k][mKye.."s"] = -2
           end
         else
           playerLines[k][mKye.."time"] = "--------"
           playerLines[k][mKye.."code"] = 0
+          playerLines[k][mKye.."s"] = -3
         end
       end
     end
@@ -785,6 +787,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           playerLines[k][mKye.."D"] = timeD
           playerLines[k][mKye.."H"] = timeH
           playerLines[k][mKye.."S"] = timeS
+          playerLines[k][mKye.."s"] = timeS
           --TODO timeTillReady
           --debugMsg("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
           playerLines[k][mKye.."TraitType"] = vv.traitType

@@ -1,98 +1,98 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
-    SI_ESOA_MESSAGE  = " addon is loaded",
-    -- Keybindings
-    SI_BINDING_NAME_ESOA_DISPLAY     = "Display ESOA",
-    SI_BINDING_NAME_ESOA_DISPLAY2    = "Show Home",
-    SI_BINDING_NAME_ESOA_DISPLAY3    = "Show Equip",
-    SI_BINDING_NAME_ESOA_DISPLAY_NEXTVIEW = "Next View",
-    
-    --
-    ESOA_NAME    ="name",
-    ESOA_BAGS    ="Bags",
-    ESOA_Unknown ="Unknown",
+  SI_ESOA_MESSAGE  = " addon is loaded",
+  -- Keybindings
+  SI_BINDING_NAME_ESOA_DISPLAY     = "Display ESOA",
+  SI_BINDING_NAME_ESOA_DISPLAY2    = "Show Home",
+  SI_BINDING_NAME_ESOA_DISPLAY3    = "Show Equip",
+  SI_BINDING_NAME_ESOA_DISPLAY_NEXTVIEW = "Next View",
+  
+  --
+  ESOA_NAME    ="name",
+  ESOA_BAGS    ="Bags",
+  ESOA_Unknown ="Unknown",
 
-    --Views
-    ESOA_VIEW_HOME     ="Home",
-    ESOA_VIEW_EQUIP    ="Equip",
-    ESOA_VIEW_RESEARCH ="Research",
-    ESOA_VIEW_SKILLS   ="Skills",
-    --ESOA_VIEW_OTHER    ="Other",
-    
-    ESOA_GENDER_MALE   = "Male",
-    ESOA_GENDER_FEMALE = "Female",
-    ESOA_GENDER_OTHER  = "Other",
-    ESOA_GENDER_MALE_S   = "M",
-    ESOA_GENDER_FEMALE_S = "F",
-    ESOA_GENDER_OTHER_S  = "O",
+  --Views
+  ESOA_VIEW_HOME     ="Home",
+  ESOA_VIEW_EQUIP    ="Equip",
+  ESOA_VIEW_RESEARCH ="Research",
+  ESOA_VIEW_SKILLS   ="Skills",
+  --ESOA_VIEW_OTHER    ="Other",
+  
+  ESOA_GENDER_MALE   = "Male",
+  ESOA_GENDER_FEMALE = "Female",
+  ESOA_GENDER_OTHER  = "Other",
+  ESOA_GENDER_MALE_S   = "M",
+  ESOA_GENDER_FEMALE_S = "F",
+  ESOA_GENDER_OTHER_S  = "O",
 
-    ESOA_CLASS_DEFAULT      = "UK",
-    ESOA_CLASS_DRAGONKNIGHT = "Dragonknight",
-    ESOA_CLASS_SORCERER     = "Sorcerer",
-    ESOA_CLASS_NIGHTBLADE   = "Nightblade",
-    ESOA_CLASS_TEMPLAR      = "Templar",
-    ESOA_CLASS_WARDEN       = "Warden",
-    ESOA_CLASS_NECRO        = "Necromancer",
-    
-    ESOA_CLASS_DEFAULT_ABBREV      = "UK",
-    ESOA_CLASS_DRAGONKNIGHT_ABBREV = "DK",
-    ESOA_CLASS_SORCERER_ABBREV     = "Sorc",
-    ESOA_CLASS_NIGHTBLADE_ABBREV   = "Night",
-    ESOA_CLASS_TEMPLAR_ABBREV      = "Temp",
-    ESOA_CLASS_WARDEN_ABBREV       = "Ward",
-    ESOA_CLASS_NECRO_ABBREV        = "Necr",
+  ESOA_CLASS_DEFAULT      = "UK",
+  ESOA_CLASS_DRAGONKNIGHT = "Dragonknight",
+  ESOA_CLASS_SORCERER     = "Sorcerer",
+  ESOA_CLASS_NIGHTBLADE   = "Nightblade",
+  ESOA_CLASS_TEMPLAR      = "Templar",
+  ESOA_CLASS_WARDEN       = "Warden",
+  ESOA_CLASS_NECRO        = "Necromancer",
+  
+  ESOA_CLASS_DEFAULT_ABBREV      = "UK",
+  ESOA_CLASS_DRAGONKNIGHT_ABBREV = "DK",
+  ESOA_CLASS_SORCERER_ABBREV     = "Sorc",
+  ESOA_CLASS_NIGHTBLADE_ABBREV   = "Night",
+  ESOA_CLASS_TEMPLAR_ABBREV      = "Temp",
+  ESOA_CLASS_WARDEN_ABBREV       = "Ward",
+  ESOA_CLASS_NECRO_ABBREV        = "Necr",
 
-    ESOA_RACE_UNKNOWN  = "UK",
-    ESOA_RACE_HIGHELF  = "High Elf",    
-    ESOA_RACE_WOODELF  = "Wood Elf",
-    ESOA_RACE_KHAJIIT  = "Khajiit",
-    ESOA_RACE_ARGONIAN = "Argonian",
-    ESOA_RACE_DARKELF  = "Dark Elf",
-    ESOA_RACE_NORD     = "Nord",
-    ESOA_RACE_BRETON   = "Breton",
-    ESOA_RACE_ORC      = "Orc",
-    ESOA_RACE_REDGUARD = "Redguard",
-    
-    ESOA_RACE_HIGHELF_ABBREV   = "H.Elf",
-    ESOA_RACE_HIGHELF_ABBREV2  = "High",
-    ESOA_RACE_WOODELF_ABBREV   = "W.Elf",
-    ESOA_RACE_WOODELF_ABBREV2  = "Wood",
-    ESOA_RACE_KHAJIIT_ABBREV   = "Kaji",
-    ESOA_RACE_KHAJIIT_ABBREV2  = "Kaj",
-    ESOA_RACE_ARGONIAN_ABBREV  = "Argon",
-    ESOA_RACE_ARGONIAN_ABBREV2 = "Argo",
-    ESOA_RACE_NORD_ABBREV      = "Nord",
-    ESOA_RACE_DARKELF_ABBREV   = "D.Elf",      
-    ESOA_RACE_DARKELF_ABBREV2  = "Dark",
-    ESOA_RACE_BRETON_ABBREV    = "Breton",
-    ESOA_RACE_ORC_ABBREV       = "Orc",
-    ESOA_RACE_REDGUARD_ABBREV  = "Red",
-     
-    --Abbrevs
-    ESOA_ABBR_ALLY = "Aly",
-    ESOA_ABBR_CLASS="Class",
-    ESOA_ABBR_LVL  ="Lvl",
-    ESOA_ABBR_G    ="G",
-    ESOA_ABBR_RACE ="Race",
-    ESOA_ABBR_ALC  ="Alc",
-    ESOA_ABBR_SMTH ="Smth",
-    ESOA_ABBR_CLTH ="Clth",
-    ESOA_ABBR_ENCH ="Ench",
-    ESOA_ABBR_JC   ="JC",
-    ESOA_ABBR_PROV ="Prov",
-    ESOA_ABBR_WOOD ="Wood",
-    
-    ESOA_INFAMY_DISREPUTABLE = "Dispreputable",
-    ESOA_INFAMY_FUGITIVE     = "Fugitive",
-    ESOA_INFAMY_NOTORIOUS    = "Notorious",
-    ESOA_INFAMY_UPSTANDING   = "Upstanding",
+  ESOA_RACE_UNKNOWN  = "UK",
+  ESOA_RACE_HIGHELF  = "High Elf",    
+  ESOA_RACE_WOODELF  = "Wood Elf",
+  ESOA_RACE_KHAJIIT  = "Khajiit",
+  ESOA_RACE_ARGONIAN = "Argonian",
+  ESOA_RACE_DARKELF  = "Dark Elf",
+  ESOA_RACE_NORD     = "Nord",
+  ESOA_RACE_BRETON   = "Breton",
+  ESOA_RACE_ORC      = "Orc",
+  ESOA_RACE_REDGUARD = "Redguard",
+  
+  ESOA_RACE_HIGHELF_ABBREV   = "H.Elf",
+  ESOA_RACE_HIGHELF_ABBREV2  = "High",
+  ESOA_RACE_WOODELF_ABBREV   = "W.Elf",
+  ESOA_RACE_WOODELF_ABBREV2  = "Wood",
+  ESOA_RACE_KHAJIIT_ABBREV   = "Kaji",
+  ESOA_RACE_KHAJIIT_ABBREV2  = "Kaj",
+  ESOA_RACE_ARGONIAN_ABBREV  = "Argon",
+  ESOA_RACE_ARGONIAN_ABBREV2 = "Argo",
+  ESOA_RACE_NORD_ABBREV      = "Nord",
+  ESOA_RACE_DARKELF_ABBREV   = "D.Elf",      
+  ESOA_RACE_DARKELF_ABBREV2  = "Dark",
+  ESOA_RACE_BRETON_ABBREV    = "Breton",
+  ESOA_RACE_ORC_ABBREV       = "Orc",
+  ESOA_RACE_REDGUARD_ABBREV  = "Red",
+   
+  --Abbrevs
+  ESOA_ABBR_ALLY = "Aly",
+  ESOA_ABBR_CLASS="Class",
+  ESOA_ABBR_LVL  ="Lvl",
+  ESOA_ABBR_G    ="G",
+  ESOA_ABBR_RACE ="Race",
+  ESOA_ABBR_ALC  ="Alc",
+  ESOA_ABBR_SMTH ="Smth",
+  ESOA_ABBR_CLTH ="Clth",
+  ESOA_ABBR_ENCH ="Ench",
+  ESOA_ABBR_JC   ="JC",
+  ESOA_ABBR_PROV ="Prov",
+  ESOA_ABBR_WOOD ="Wood",
+  
+  ESOA_INFAMY_DISREPUTABLE = "Dispreputable",
+  ESOA_INFAMY_FUGITIVE     = "Fugitive",
+  ESOA_INFAMY_NOTORIOUS    = "Notorious",
+  ESOA_INFAMY_UPSTANDING   = "Upstanding",
 
-    ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
-    ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
-    ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
-    ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
+  ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
+  ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
+  ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
+  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
 
-    ESOA_RESEARCH_AVAIL = "[avail]",
+  ESOA_RESEARCH_AVAIL = "[avail]",
     
   --
   ESOA_KEY_SETTINGS_NOCONFIRM       = "No confirmation if you do this!",
@@ -101,7 +101,81 @@ local localization_strings = {
   ESOA_KEY_SETTINGS_SAVE_MSG        = "Save these as settings so they can be used later? (only the above settings)",  
   ESOA_KEY_SETTINGS_LOAD_TITLE      = "Load saved settings",
   ESOA_KEY_SETTINGS_LOAD_MSG        = "Load settings from saved profile? (only the above settings)",
-
+  --
+  ESOA_SETTINGS_DD_VIEWENTRIES1_NAME   = "Select Entry(1)",
+  ESOA_SETTINGS_DD_VIEWENTRIES2_NAME   = "Select Entry(2)",
+  ESOA_SETTINGS_DD_VIEWENTRIES3_NAME   = "Select Entry(3)",
+  ESOA_SETTINGS_DD_VIEWENTRIES_TT      = "Selected entry from (1) or (2) or (3) is copied to the nearby text field where you can copy and paste into a view.",
+  ESOA_SETTINGS_ED_VIEWENTRIES_NAME    = "Copyable Entry for View",
+  ESOA_SETTINGS_ED_VIEWENTRIES_TT      = "For easy copy and paste this into a the 'Edit View Data' field above.",
+  ESOA_SETTINGS_ED_ALLVIEWENTRIES_NAME = "All Allowable Entries List",
+  
+  ESOA_SETTINGS_SAVEBUTTON_NAME = "Save",
+  ESOA_SETTINGS_SAVEBUTTON_TT   = "Save selected View!",
+  ESOA_SETTINGS_TESTBUTTON_NAME = "Test",
+  ESOA_SETTINGS_TESTBUTTON_TT   = "Test selected View",
+  
+  ESOA_SETTINGS_EDITVIEWDATA_NAME = "Edit View Data",
+  ESOA_SETTINGS_EDITVIEWDATA_TT   = "Edit selected View's data here.",
+  ESOA_SETTINGS_EDITVIEWNAME_NAME = "Edit View Name",
+  ESOA_SETTINGS_EDITVIEWNAME_TT   = "Edit selected View's name here.",
+  ESOA_SETTINGS_EDITVIEWDELETE_NAME = "Delete",
+  ESOA_SETTINGS_EDITVIEWDELETE_TT = "Press to delete the selected 'Select View'!",
+  ESOA_SETTINGS_EDITVIEWEDIT_NAME = "Edit",
+  ESOA_SETTINGS_EDITVIEWEDIT_TT   = "Press to edit the selected 'Select View'!",
+  ESOA_SETTINGS_EDITVIEWSELECT_NAME = "Select View for 'Edit' or 'Delete':",
+  ESOA_SETTINGS_EDITVIEWSELECT_TT = "Select a View to edit or delete here.",
+  ESOA_SETTINGS_NFT_NAME          = "New From Template",
+  ESOA_SETTINGS_NFT_TT            = "Create a new View based on the template selected.",
+  ESOA_SETTINGS_NFT_SELECT_NAME   = "Select View Name for 'New from Template':",
+  ESOA_SETTINGS_NFT_SELECT_TT     = "Select a View to do 'New from Template' .",
+  ESOA_SETTINGS_DELETE_NAME       = "Delete",
+  ESOA_SETTINGS_DELETE_NTT        = "Delete selected Character's Data!",
+  ESOA_SETTINGS_CHAR_NAME         = "Character",
+  ESOA_SETTINGS_CHAR_TT           = "Select Character.",
+  ESOA_SETTINGS_SELECT            = "Select",
+  ESOA_SETTINGS_RESET_VIEWS_BTN_NT = "RESET all views to defaults",
+  ESOA_SETTINGS_RESET_VIEWS_BTN_TT = "Will remove all views and replace them with the defaults",
+  
+  ESOA_SETTINGS_MAINT_HDR_NAME    = "Character Maintanance",
+  ESOA_SETTINGS_MAINT_HDR_TEXT    = "Character Maintanance",
+  ESOA_SETTINGS_MAINT_HDR_TT      = "Character Maintanance Utils",
+    
+  ESOA_SETTINGS_SKILLCOLOR_NearMax_NAME = "Skill at nearly MAX Color",
+  ESOA_SETTINGS_SKILLCOLOR_NearMax_TT   = "What Color to use when a skill is near the current MAX.",
+  
+  ESOA_SETTINGS_SKILLCOLOR_Max_NAME = "Skill at MAX Color",
+  ESOA_SETTINGS_SKILLCOLOR_Max_TT   = "What Color to use when a skill is at the current MAX.",
+  
+  ESOA_SETTINGS_SKILLCOLOR_na_NAME = "Timer N/A or not set Color",
+  ESOA_SETTINGS_SKILLCOLOR_na_TT   = "What Color to use when a timer is NOT set or n/a.",
+  
+  ESOA_SETTINGS_SKILLCOLOR_done_NAME = "Timer Done Color",
+  ESOA_SETTINGS_SKILLCOLOR_done_TT   = "What Color to use when a timer is at completion.",
+    
+  ESOA_SETTINGS_SKILLCOLOR_sooner_NAME = "Timer Done Sooner Color",
+  ESOA_SETTINGS_SKILLCOLOR_sooner_TT   = "What Color to use when a timer is nearer(!) to completion.",
+  
+  ESOA_SETTINGS_SKILLCOLOR_soon_NAME = "Timer Done Soon Color",
+  ESOA_SETTINGS_SKILLCOLOR_soon_TT   = "What Color to use when a timer is near to completion.",
+  
+  ESOA_SETTINGS_OPTIONS = "Options",
+  ESOA_SETTINGS_CHAR_SETTINGS = "Character Settings",
+  ESOA_SETTINGS_ACCOUNTWIDE = "Account Wide Settings",
+  
+  ESOA_SETTINGS_MOUSEHIGHLIGHT_NAME = "Mouse Hightlight On/Off",
+  ESOA_SETTINGS_MOUSEHIGHLIGHT_TT   = "On or off.",
+  ESOA_SETTINGS_SHOWBUTTON_NAME = "Show Button",
+  ESOA_SETTINGS_SHOWBUTTON_TT   = "On or off.",
+  
+  ESOA_SETTINGS_CHARNAMEFIELD_NAME = "Char name field width",
+  ESOA_SETTINGS_CHARNAMEFIELD_TT   = "Width of Name field displayed.",
+  ESOA_SETTINGS_CHARNAMEFIELD_WARNING = "Don't set this to a negative number or too big, that's on you!",
+  
+  
+  
+  --
+  --
   --
   --
 }

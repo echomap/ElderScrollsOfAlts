@@ -418,7 +418,13 @@ end
 ------------------------------
 --SETTINGS For use by Settings dropdown
 function ElderScrollsOfAlts:SetSelectedAllowedViewEntry(choiceText)
-  ElderScrollsOfAlts.savedVariables.selected.viewentry = choiceText
+  local choiceText2 = choiceText
+  if(choiceText==nil) then
+    choiceText2 = " "
+  else
+    choiceText2 = string.format("%s%s%s","{",choiceText,"}")
+  end
+  ElderScrollsOfAlts.savedVariables.selected.viewentry = choiceText2
 end
 
 ------------------------------

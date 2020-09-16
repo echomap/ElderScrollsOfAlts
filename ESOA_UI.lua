@@ -1040,6 +1040,22 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
       return aVal > bVal or aVal == bVal and a.playerLine.name < b.playerLine.name
     end
   end
+  local gSearch2b = function (a,b)
+    local skey = ElderScrollsOfAlts.view.currentSortKey.."_rank"
+    local aVal = a.playerLine[skey]
+    local bVal = b.playerLine[skey]
+    local value1Type = type(aVal)
+    if(bVal == nil) then 
+        if(value1Type=="string") then bVal = "nil"  end
+    end
+    --if(aVal == nil) then aVal = "nil" end
+    --if(bVal == nil) then bVal = "nil" end    
+    if(ElderScrollsOfAlts.view.currentSortOrder) then
+      return bVal > aVal or bVal == aVal and b.playerLine.name < a.playerLine.name
+    else
+      return aVal > bVal or aVal == bVal and a.playerLine.name < b.playerLine.name
+    end
+  end
   local gSearch3 = function (a,b)
     local skey = ElderScrollsOfAlts.view.currentSortKey:gsub(" ","_")
     local aVal = a.playerLine[skey]
@@ -1069,6 +1085,8 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
       gSearch = nil
     elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"] ~=nil ) then
       gSearch = gSearch2
+    elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_rank"] ~=nil ) then
+      gSearch = gSearch2b
     --elseif( testEntry1[ ElderScrollsOfAlts.view.currentSortKey:gsub(" ","_") ] ~=nil ) then
     --  gSearch = gSearch3
     end
@@ -1588,14 +1606,17 @@ end
 ------------------------------
 -- UI: TOOLTIPS
 function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
-  ElderScrollsOfAlts.debugMsg("ResearchTipEnter: equipName='",equipName,"'","myLabel:'",myLabel,"'")
+  ElderScrollsOfAlts.debugMsg("ResearchTipEnter: equipName='",equipName,"' ","myLabel:'",myLabel,"'")
   local itemLink = myLabel.name
-  if(itemLink==nil) then
+  if( itemLink==nil and myLabel.tooltip==nil ) then
     return
   end
   InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
-  InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
-  
+  if( itemLink~=nil ) then
+    InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
+  end
+  ElderScrollsOfAlts.debugMsg("ResearchTipEnter: myLabel.traitType='",myLabel.traitType)
+  ElderScrollsOfAlts.debugMsg("ResearchTipEnter: myLabel.tooltip='",myLabel.tooltip)
   if(myLabel.traitType~=nil) then
     InformationTooltip:AddLine(string.format("(%s)"     , myLabel.traitType), "ZoFontGame")
     InformationTooltip:AddLine(string.format("Trait: %s", myLabel.traitDesc), "ZoFontGame")

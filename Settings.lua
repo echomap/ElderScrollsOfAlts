@@ -19,7 +19,7 @@ function ElderScrollsOfAlts.LoadSettings()
       registerForRefresh  = true,
       registerForDefaults = true,
   }
-  LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
+  ElderScrollsOfAlts.view.LAMPanel = LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
   local optionsTable = {}
   
   ---- -- --- -- --- ----
@@ -27,12 +27,12 @@ function ElderScrollsOfAlts.LoadSettings()
   ---- -- --- -- --- ----
   optionsTable[1] = {
     type  = "header",
-    name  = "Account Wide Settings",
+    name  = GetString(ESOA_SETTINGS_ACCOUNTWIDE),
     width = "full",	--or "half" (optional)
   }
   optionsTable[#optionsTable+1] = {
     type = "slider",
-    name = "Char name field width", -- or string id or function returning a string
+    name = GetString(ESOA_SETTINGS_CHARNAMEFIELD_NAME),
     getFunc = function() return ElderScrollsOfAlts.altData.fieldWidthForName end,
     setFunc = function(value) ElderScrollsOfAlts.altData.fieldWidthForName = value end,
     min = 50,
@@ -42,9 +42,9 @@ function ElderScrollsOfAlts.LoadSettings()
     decimals = 0, -- when specified the input value is rounded to the specified number of decimals (optional)
     autoSelect = false, -- boolean, automatically select everything in the text input field when it gains focus (optional)
     inputLocation = "below", -- or "right", determines where the input field is shown. This should not be used within the addon menu and is for custom sliders (optional) 
-    tooltip = "Width of Name field displayed.", -- or string id or function returning a string (optional)
+    tooltip = GetString(ESOA_SETTINGS_CHARNAMEFIELD_TT),
     width = "full", --or "half" (optional)
-    warning = "Don't set this to a negative number or too big, that's on you!", -- or string id or function returning a string (optional)
+    warning = GetString(ESOA_SETTINGS_CHARNAMEFIELD_WARNING),
     requiresReload = false, -- boolean, if set to true, the warning text will contain a notice that changes are only applied after an UI reload and any change to the value will make the "Apply Settings" button appear on the panel which will reload the UI when pressed (optional)
     default = 160, -- default value or function that returns the default value (optional)
     reference = "ESOA_NameSlider" -- unique global reference to control (optional)
@@ -58,21 +58,21 @@ function ElderScrollsOfAlts.LoadSettings()
   ---- -- --- -- --- ----
   optionsTable[#optionsTable+1] = {
     type  = "header",
-    name  = "Character Settings",
+    name  = GetString(ESOA_SETTINGS_CHAR_SETTINGS),
     width = "full",	--or "half" (optional)
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
-    name    = "Show Button",
-    tooltip = "On or off.",
+    name    = GetString(ESOA_SETTINGS_SHOWBUTTON_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SHOWBUTTON_TT),
     getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
     setFunc = function(value)   ElderScrollsOfAlts.SetUIButtonShown(value)  end,
     width   = "half",	--or "half" (optional)
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
-    name    = "Mouse Hightlight On/Off",
-    tooltip = "On or off.",
+    name    = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_TT),
     getFunc = function() return ElderScrollsOfAlts.GetUIViewMouseHighlightShown() end,
     setFunc = function(value)   ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
     width   = "half",	--or "half" (optional)
@@ -80,13 +80,13 @@ function ElderScrollsOfAlts.LoadSettings()
   
   optionsTable[#optionsTable+1] = {
     type  = "header",
-    name  = "Options",
+    name  = GetString(ESOA_SETTINGS_OPTIONS),
     width = "full",	--or "half" (optional)
   }
   optionsTable[#optionsTable+1] = {
     type    = "colorpicker",
-    name    = "Timer Done Soon Color",
-    tooltip = "What Color to use when a timer is near to completion.",
+    name    = GetString(ESOA_SETTINGS_SKILLCOLOR_soon_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_soon_TT),
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
           ElderScrollsOfAlts.SetupDefaultColors()
@@ -112,8 +112,8 @@ function ElderScrollsOfAlts.LoadSettings()
   }
   optionsTable[#optionsTable+1] = {
     type = "colorpicker",
-    name = "Timer Done Sooner Color",
-    tooltip = "What Color to use when a timer is nearer(!) to completion.",
+    name = GetString(ESOA_SETTINGS_SKILLCOLOR_sooner_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_sooner_TT),
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer==nil) then
           ElderScrollsOfAlts.SetupDefaultColors()
@@ -140,8 +140,8 @@ function ElderScrollsOfAlts.LoadSettings()
   
   optionsTable[#optionsTable+1] = {
     type = "colorpicker",
-    name = "Timer Done Color",
-    tooltip = "What Color to use when a timer is at completion.",
+    name = GetString(ESOA_SETTINGS_SKILLCOLOR_done_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_done_TT),
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerDone==nil) then
           ElderScrollsOfAlts.SetupDefaultColors()
@@ -167,9 +167,9 @@ function ElderScrollsOfAlts.LoadSettings()
   }
   
   optionsTable[#optionsTable+1] = {
-    type = "colorpicker",
-    name = "Timer N/A or not set Color",
-    tooltip = "What Color to use when a timer is NOT set or n/a.",
+    type    = "colorpicker",
+    name    = GetString(ESOA_SETTINGS_SKILLCOLOR_na_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_na_TT),
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
           ElderScrollsOfAlts.SetupDefaultColors()
@@ -197,8 +197,8 @@ function ElderScrollsOfAlts.LoadSettings()
   
   optionsTable[#optionsTable+1] = {
     type    = "colorpicker",
-    name    = "Skill at MAX Color",
-    tooltip = "What Color to use when a skill is at the current MAX.",
+    name    = GetString(ESOA_SETTINGS_SKILLCOLOR_Max_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_Max_TT),
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
           ElderScrollsOfAlts.SetupDefaultColors()
@@ -220,8 +220,8 @@ function ElderScrollsOfAlts.LoadSettings()
   }
   optionsTable[#optionsTable+1] = {
     type    = "colorpicker",
-    name    = "Skill at nearly MAX Color",
-    tooltip = "What Color to use when a skill is near the current MAX.",
+    name    = GetString(ESOA_SETTINGS_SKILLCOLOR_NearMax_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_NearMax_TT),
     getFunc = function()               
       if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
           ElderScrollsOfAlts.SetupDefaultColors()
@@ -268,35 +268,36 @@ function ElderScrollsOfAlts.LoadSettings()
   
   optionsTable [#optionsTable+1] = {
     type = "header",
-    name = "Character Maintanance",
-    text = "Character Maintanance",
-    tooltip = "Character Maintanance Utils",	--(optional)
+    name = GetString(ESOA_SETTINGS_MAINT_HDR_NAME),
+    text = GetString(ESOA_SETTINGS_MAINT_HDR_TEXT),
+    tooltip = GetString(ESOA_SETTINGS_MAINT_HDR_TT),
   }
   optionsTable[#optionsTable+1] = {
     type = "dropdown",
-    name = "Character",
-    tooltip = "Select Character.",
+    name = GetString(ESOA_SETTINGS_CHAR_NAME),
+    tooltip = GetString(ESOA_SETTINGS_CHAR_TT),
     choices = ElderScrollsOfAlts:ListOfCharacterNames(),
-    getFunc = function() return "Select" end,
+    getFunc = function() return GetString(ESOA_SETTINGS_SELECT) end,
     setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
     width = "half",	--or "half" (optional)
     reference = "ESOA_SETTINGS_CHARMAIN_Select",--TODO refresh me
   }
   optionsTable[#optionsTable+1] = {
     type = "button",
-    name = "Delete",
-    tooltip = "Delete selected Character's Data!",
+    name = GetString(ESOA_SETTINGS_DELETE_NAME),
+    tooltip = GetString(ESOA_SETTINGS_DELETE_TT),
     func  = function()  ElderScrollsOfAlts:DoDeleteSelectedCharacter() end,
     width = "half",	--or "half" (optional)
-    warning = "No confirmation if you do this!",	--(optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
   -- Character Maintanance Options --
   
   optionsTable[#optionsTable+1] = {
-    type = "header",
-    name = "Views",
+    type  = "header",
+    name  = "Views",
     width = "full",	--or "half" (optional)
   }    
+  --[[
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
     name    = "Use dropdown for Views, instead of buttons.",
@@ -305,30 +306,39 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)   ElderScrollsOfAlts.SetUIViewDropDownShown(value)  end,
     width   = "full",	--or "half" (optional)
   }
+  --]]
+  optionsTable[#optionsTable+1] = {
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_RESET_VIEWS_BTN_NT),
+    tooltip = GetString(ESOA_SETTINGS_RESET_VIEWS_BTN_TT),
+    func    = function()  ElderScrollsOfAlts:ResetUIViews() end,
+    width   = "half",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
+  } 
   --New from template
   --TODO template dropdown to pick from
   optionsTable[#optionsTable+1] = {
-    type = "dropdown",
-    name = "Select View Name:",
-    tooltip = "Select one of these to do 'New from Template' .",
+    type    = "dropdown",
+    name    = GetString(ESOA_SETTINGS_NFT_SELECT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_NFT_SELECT_TT),
     choices = ElderScrollsOfAlts:SettingsListOfViewTemplateNames(),
     getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewTemplate) end,
     setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewTemplate = (var) end,
-    width = "half",	--or "half" (optional)
+    width = "full",	--or "half" (optional)
     reference = "ESOA_SETTINGS_TV_SelectView",
   }    
   optionsTable[#optionsTable+1] = {
-    type = "button",
-    name = "New From Template",
-    tooltip = "New View!",
-    func = function()  ElderScrollsOfAlts:DoAddNewViewData() end,
-    width = "half",	--or "half" (optional)
-    warning = "No confirmation if you do this!",	--(optional)
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_NFT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_NFT_TT),
+    func    = function()  ElderScrollsOfAlts:DoAddNewViewData() end,
+    width   = "half",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
   optionsTable[#optionsTable+1] = {
-    type = "dropdown",
-    name = "SelectView",
-    tooltip = "Select View.",
+    type    = "dropdown",
+    name    = GetString(ESOA_SETTINGS_EDITVIEWSELECT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_EDITVIEWSELECT_TT),
     choices = ElderScrollsOfAlts:SettingsListOfViews(),
     getFunc = function() return tostring(ElderScrollsOfAlts.savedVariables.selected.viewidx) end,
     setFunc = function(var) ElderScrollsOfAlts.savedVariables.selected.viewidx = tonumber(var) end,
@@ -336,59 +346,59 @@ function ElderScrollsOfAlts.LoadSettings()
     reference = "ESOA_SETTINGS_DD_SelectView",
   }
   optionsTable[#optionsTable+1] = {
-    type = "button",
-    name = "Edit",
-    tooltip = "Edit selected View!",
-    func = function()  ElderScrollsOfAlts:DoEditSelectedView() end,
-    width = "half",	--or "half" (optional)
-    warning = "No confirmation if you do this!",	--(optional)
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_EDITVIEWEDIT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_EDITVIEWEDIT_TT),
+    func    = function()  ElderScrollsOfAlts:DoEditSelectedView() end,
+    width   = "half",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
   optionsTable[#optionsTable+1] = {
-    type = "button",
-    name = "Delete",
-    tooltip = "Delete selected View!",
-    func = function()  ElderScrollsOfAlts:DoDeleteSelectedView() end,
-    width = "half",	--or "half" (optional)
-    warning = "No confirmation if you do this!",	--(optional)
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_EDITVIEWDELETE_NAME),
+    tooltip = GetString(ESOA_SETTINGS_EDITVIEWDELETE_TT),
+    func    = function()  ElderScrollsOfAlts:DoDeleteSelectedView() end,
+    width   = "half",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
   optionsTable[#optionsTable+1] = {
-    type = "editbox",
-    name = "Edit View Name",
-    tooltip = "Edit selected View!",
+    type    = "editbox",
+    name    = GetString(ESOA_SETTINGS_EDITVIEWNAME_NAME),
+    tooltip = GetString(ESOA_SETTINGS_EDITVIEWNAME_TT),
     getFunc = function() return ElderScrollsOfAlts:GetEditSelectedViewName() end,
-    --setFunc = function(text) ElderScrollsOfAlts:SetEditSelectedViewName(text) end,
-    width = "half",	--or "half" (optional)
+    setFunc = function(text)    end,
+    width   = "half",	--or "half" (optional)
     isMultiline = false,
     isExtraWide = false,
     default = "", -- default value or function that returns the default value (optional)      
     reference = "ESOASettingsTitleEditbox" -- unique global reference to control (optional)
   }
   optionsTable[#optionsTable+1] = {
-    type = "editbox",
-    name = "Edit View Data",
-    tooltip = "Edit selected View!",
+    type    = "editbox",
+    name    = GetString(ESOA_SETTINGS_EDITVIEWDATA_NAME),
+    tooltip = GetString(ESOA_SETTINGS_EDITVIEWDATA_TT),
     getFunc = function() return ElderScrollsOfAlts.GetEditSelectedViewText() end,
     setFunc = function(text) ElderScrollsOfAlts.SetEditSelectedViewText(text) end,
-    width = "full",	--or "half" (optional)
+    width   = "full",	--or "half" (optional)
     isMultiline = true,
     isExtraWide = true,
     reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
   }
   optionsTable[#optionsTable+1] = {
-    type = "button",
-    name = "Test",
-    tooltip = "Test selected View",
-    func = function()  ElderScrollsOfAlts:DoTestSelectedView() end,
-    width = "half",	--or "half" (optional)
-    warning = "No confirmation if you do this!",	--(optional)
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_TESTBUTTON_NAME),
+    tooltip = GetString(ESOA_SETTINGS_TESTBUTTON_TT),
+    func    = function()  ElderScrollsOfAlts:DoTestSelectedView() end,
+    width   = "half",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
   optionsTable[#optionsTable+1] = {
-    type = "button",
-    name = "Save",
-    tooltip = "Save selected View!",
-    func = function()  ElderScrollsOfAlts:DoSaveSelectedView() end,
-    width = "half",	--or "half" (optional)
-    warning = "No confirmation if you do this!",	--(optional)
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_SAVEBUTTON_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SAVEBUTTON_TT),
+    func    = function()  ElderScrollsOfAlts:DoSaveSelectedView() end,
+    width   = "half",	--or "half" (optional)
+    warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
   --https://github.com/sirinsidiator/ESO-LibAddonMenu/blob/master/LibAddonMenu-2.0/exampleoptions.lua
   --optionsTable[#optionsTable+1] = {
@@ -400,42 +410,42 @@ function ElderScrollsOfAlts.LoadSettings()
   --      }  
   --}
   optionsTable[#optionsTable+1] = {
-    type = "dropdown",
-    name = "Select Entry",
-    tooltip = "Select Entry.",
+    type    = "dropdown",
+    name    = GetString(ESOA_SETTINGS_DD_VIEWENTRIES1_NAME),
+    tooltip = GetString(ESOA_SETTINGS_DD_VIEWENTRIES_TT),
     choices = ElderScrollsOfAlts:ListOfViewEntries1(),
-    getFunc = function() return "Select" end,
+    getFunc = function() return GetString(ESOA_SETTINGS_SELECT) end,
     setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
     width = "half",	--or "half" (optional)
     reference = "ESOA_SETTINGS_ENTRIES_Select1",--TODO refresh me
   }
   optionsTable[#optionsTable+1] = {
-    type = "dropdown",
-    name = "Select Entry",
-    tooltip = "Select Entry.",
+    type    = "dropdown",
+    name    = GetString(ESOA_SETTINGS_DD_VIEWENTRIES2_NAME),
+    tooltip = GetString(ESOA_SETTINGS_DD_VIEWENTRIES_TT),
     choices = ElderScrollsOfAlts:ListOfViewEntries2(),
-    getFunc = function() return "Select" end,
+    getFunc = function() return GetString(ESOA_SETTINGS_SELECT) end,
     setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
     width = "half",	--or "half" (optional)
     reference = "ESOA_SETTINGS_ENTRIES_Select2",--TODO refresh me
   }
   optionsTable[#optionsTable+1] = {
-    type = "dropdown",
-    name = "Select Entry",
-    tooltip = "Select Entry.",
+    type    = "dropdown",
+    name    = GetString(ESOA_SETTINGS_DD_VIEWENTRIES3_NAME),
+    tooltip = GetString(ESOA_SETTINGS_DD_VIEWENTRIES_TT),
     choices = ElderScrollsOfAlts:ListOfViewEntries3(),
-    getFunc = function() return "Select" end,
+    getFunc = function() return GetString(ESOA_SETTINGS_SELECT) end,
     setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
     width = "half",	--or "half" (optional)
     reference = "ESOA_SETTINGS_ENTRIES_Select3",--TODO refresh me
   }
   optionsTable[#optionsTable+1] = {
-    type = "editbox",
-    name = "Select Entry",
-    --tooltip = "Edit selected View!",
+    type    = "editbox",
+    name    = GetString(ESOA_SETTINGS_ED_VIEWENTRIES_NAME),
+    tooltip = GetString(ESOA_SETTINGS_ED_VIEWENTRIES_TT),
     getFunc = function() return ElderScrollsOfAlts.GetSelectedAllowedViewEntry() end,
-    setFunc = function(text) ElderScrollsOfAlts.SetSelectedAllowedViewEntry(text) end,
-    width = "half",	--or "half" (optional)
+    setFunc = function(text)    end,
+    width   = "half",	--or "half" (optional)
     isMultiline = false,
     isExtraWide = false,
     --reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
@@ -443,21 +453,26 @@ function ElderScrollsOfAlts.LoadSettings()
   
   optionsTable[#optionsTable+1] = {
     type = "editbox",
-    name = "All Allowable Entries",
+    name = GetString(ESOA_SETTINGS_ED_ALLVIEWENTRIES_NAME),
     --tooltip = "Edit selected View!",
     getFunc = function() return ElderScrollsOfAlts.GetAllAllowedViewEntries() end,
-    setFunc = function(text) ElderScrollsOfAlts.SetAllAllowedViewEntries(text) end,
-    width = "full",	--or "half" (optional)
+    setFunc = function(text)    ElderScrollsOfAlts.SetAllAllowedViewEntries(text) end,
+    width   = "full",	--or "half" (optional)
     isMultiline = true,
     isExtraWide = true,
     --reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
   }
-  
-  
+
   -- VIEWS --
+  
   --
+  LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
+end
+
+------------------------------
+-- 
+function ElderScrollsOfAlts.LoadSettings2()
   --
-    LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end
 
 --EOF

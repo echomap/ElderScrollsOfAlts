@@ -81,12 +81,19 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline:SetText( genderText )
     eline.tooltip = playerLine.name .. " is a ".. ElderScrollsOfAlts:GetGenderFullText(playerLine["gender"])
   --
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" and playerLine[viewKey.."_Rank"]~=nil ) then
-    eline:SetText( playerLine[viewKey.."_Rank"]  )
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" and playerLine[viewKey.."_Rank"] ~=nil ) then
     eline.value = playerLine[viewKey.."_Rank"] 
     eline.sort_data = eline.value
     eline.sort_numeric =  true
     eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. playerLine[viewKey.."_Rank"] 
+   
+    --eline:SetText( playerLine[viewKey.."_Rank"]  )
+    if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
+      eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )
+    else
+      eline:SetText( eline.value  )
+    end
+   
    
     if( playerLine[viewKey.."_XPCode"]~=nil )then
       if( playerLine[viewKey.."_XPCode"]==0 )then
@@ -255,7 +262,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
     end
     eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, eline:GetText() ) )
-    -- Riding Timer
+  -- Riding ^^
   elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed")then
     eline:SetText( playerLine[string.lower(viewKey)]  )
     eline.tooltip = zo_strformat("<<1>> has played for <<2>> (account total=<<3>>s)",
@@ -272,13 +279,16 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltip = zo_strformat("<<1>> has <<2>> <<3>>",
         playerLine.name, playerLine[string.lower(viewKey)], viewKey2
       )
-  
   --
   --
   else
-    if( playerLine[viewKey.."_Rank"] ~=nil ) then
-      eline:SetText( playerLine[viewKey.."_Rank"]  )
-      eline.value = playerLine[viewKey.."_Rank"]  
+    if( playerLine[viewKey.."_Rank"] ~= nil ) then
+      eline.value = playerLine[viewKey.."_Rank"]
+      --if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
+      --  eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )
+      --else
+      eline:SetText( eline.value  )
+      --end
       return
     end
     local newKey = string.lower(viewKey)
@@ -411,8 +421,10 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
       return 1
     end
   elseif( viewKey=="Alchemy") then
-    if( eline.value == 50  and eline.data_sunk == 7 ) then
+    if( eline.value == 50  and eline.data_sunk == 8 ) then
       return 1
+    elseif( eline.value == 50  ) then
+      return 2
     end
   elseif( viewKey=="Jewelry") then
     if( eline.value == 50  and eline.data_sunk == 4 ) then
@@ -497,6 +509,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   local mKyeTD = string.format("%s%s%s%s","r",tradeName,numkey,"TraitDesc")  
   local mKyeTK = string.format("%s%s%s%s","r",tradeName,numkey,"Traitknown")           
   --local mKye1 = zo_strformat("<<1>><<2>><<3>><<4>>", "r",tradeName,numkey,"time")
+  local mTooltip = string.format("%s%s%s%s","r",tradeName,numkey,"tooltip")           
   
   eline.data_val = playerLine[mKye1]
   eline.sort_data = playerLine[mKyeMS]
@@ -506,6 +519,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   eline.traitType  = playerLine[mKyeTT]
   eline.traitDesc  = playerLine[mKyeTD]
   eline.traitKnown = playerLine[mKyeTK]
+  eline.tooltip    = playerLine[mTooltip]
   
   --https://en.wikipedia.org/wiki/Web_colors
   --red  |cFF0000 |r

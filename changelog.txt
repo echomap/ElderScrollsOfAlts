@@ -17,16 +17,30 @@ extractions/hirelings
 feature: traits
 
 ==Unpublished ESOA==
+1.00.28
+[list]
+[*] 
+[/list]
+
+1.00.27
+[list]
+[*] Updated default views
+[*] small bug fixes
+[*] Updates to settings text and flow
+[*] removed {Reduced Bounty}, but keeping {ReducedBounty}
+[*] fix for research timer sorting
+[*] update localization strings
+[/list]
+
+==ESOA Published V1.0.X==
 1.00.26
 [list]
 [*] fixed some max skill levels
 [*] added {ZoneName} and {SubzoneName}
 [*] when all traits have been learned, [avail] turns into [xxxxx]
 [*] saving traits known/unknown
-[*] added drop down(s) with some of the valid choices for view in settings
+[*] added drop down(s) with some of the valid choices for view in settings (Ui might change, but just another way to help with view options)
 [/list]
-
-==ESOA Published V1.0.X==
 1.00.25 - version update
 1.00.24
 [list]
