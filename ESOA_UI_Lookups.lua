@@ -530,8 +530,10 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   if(codeS==3) then
     --eline:SetText( "[Refresh]" )   
     eline.traitDesc = "Old data! Refresh asap!!"
-  elseif( (tradeTimeS==nil or codeS < 1) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil) then
+  elseif( (codeS <= -2) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil) then  
     eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, playerLine[mKye1]) )
+  elseif( (tradeTimeS==nil or codeS < 1) and ElderScrollsOfAlts.savedVariables.colors.colorTimerDone~=nil) then
+    eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerDone, playerLine[mKye1]) )
   elseif( codeS == 1 and ElderScrollsOfAlts.savedVariables.colors.colorTimerDone~=nil ) then
     eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerDone,playerLine[mKye1]) )
   elseif( tradeTimeS < 43200 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil ) then

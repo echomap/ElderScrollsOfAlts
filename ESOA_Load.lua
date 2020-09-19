@@ -723,12 +723,13 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           if(rrLinesMatch) then
             playerLines[k][mKye.."time"] = "[xxxxx]"-- GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
             playerLines[k][mKye.."tooltip"] = string.format("%s%s%s%s",pName," knows all traits in ",rtV,"!")
-            playerLines[k][mKye.."s"] = -2
+            playerLines[k][mKye.."code"] = -3
+            playerLines[k][mKye.."s"] = -3
           end
         else
           playerLines[k][mKye.."time"] = "--------"
           playerLines[k][mKye.."code"] = 0
-          playerLines[k][mKye.."s"] = -3
+          playerLines[k][mKye.."s"] = -2
         end
       end
     end
