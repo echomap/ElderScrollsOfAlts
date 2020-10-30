@@ -15,13 +15,20 @@ feature: copy views to account, from account
 feature: Selection/ UnSelection / DeselectOnReselect
 extractions/hirelings
 feature: traits
+[*] Need to fix sorting
 
 ==Unpublished ESOA==
 1.00.28
 [list]
-[*] 
+[*] Greymoor, 10032. Markath, 100033
+[*] update col width for avarank
+[*] Sorting for riding_speed
+[*] fixed SubzoneName/ZoneName and some others with case issues
+[*] updated skills to show 'near' max better and report max level in tooltip
 [/list]
 
+
+==ESOA Published V1.00.XX==
 1.00.27
 [list]
 [*] Updated default views
@@ -30,9 +37,8 @@ feature: traits
 [*] removed {Reduced Bounty}, but keeping {ReducedBounty}
 [*] fix for research timer sorting
 [*] update localization strings
+[*] fix to timer colors
 [/list]
-
-==ESOA Published V1.0.X==
 1.00.26
 [list]
 [*] fixed some max skill levels

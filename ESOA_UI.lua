@@ -1686,7 +1686,7 @@ end
 
 ------------------------------
 -- UI: TOOLTIPS ESOACraftTooltip CRAFT Tooltip
-function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)  
+function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName, playerLine)  
   ElderScrollsOfAlts.debugMsg("CraftTipEnter: myLabel='",myLabel," craftName='", tostring(craftName).."'")
   if( craftName == nil ) then return end 
   local nVal = tonumber(myLabel.data_sunk)
@@ -1716,6 +1716,12 @@ function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName)
   
   InitializeTooltip(ESOATooltip, myLabel, TOPLEFT, 5, -66, TOPRIGHT)
   
+    --Name? TODO
+  if(playerLine~=nil)then
+    ESOATooltip:AddLine(playerLine.name, "ZoFontGameLargeBold")
+    --underscore??
+  end
+
   ESOATooltip:AddLine(hdrStr, "ZoFontGameBold")
   ESOATooltip:AddLine(tDesc, "ZoFontGame")
   if( tDesc2 ~= nil ) then

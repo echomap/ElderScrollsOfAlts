@@ -106,7 +106,7 @@
             />
   </Button>   
           
-  <TopLevelControl name="ESOA_GUI2" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
+  <TopLevelControl name="ESOA_GUI2" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" clampedToScreen="true" >
     <DimensionConstraints minX="100" minY="50" maxY="1400"/>
     <Dimensions x="820" y="325" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />

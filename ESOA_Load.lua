@@ -152,16 +152,16 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
 
     -- MISC
     local misc = ElderScrollsOfAlts.altData.players[k].misc
-    playerLines[k].backpackSize  = 0
-    playerLines[k].backpackUsed  = 0
-    playerLines[k].backpackFree  = 0
+    playerLines[k].backpacksize  = 0
+    playerLines[k].backpackused  = 0
+    playerLines[k].backpackfree  = 0
     playerLines[k].skillpoints   = 0
     playerLines[k].secondsplayed = 0
     playerLines[k].timeplayed    = "---"
     if misc ~=nil then
-      playerLines[k].backpackSize  = misc.backpackSize
-      playerLines[k].backpackUsed  = misc.backpackUsed
-      playerLines[k].backpackFree  = misc.backpackFree
+      playerLines[k].backpacksize  = misc.backpackSize
+      playerLines[k].backpackused  = misc.backpackUsed
+      playerLines[k].backpackfree  = misc.backpackFree
       playerLines[k].skillpoints   = misc.skillpoints
       playerLines[k].secondsplayed = misc.secondsPlayed
     end
@@ -189,12 +189,12 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     --
     local locationInfo = ElderScrollsOfAlts.altData.players[k].location
     if( locationInfo ~= nil ) then
-      playerLines[k].subzoneName = locationInfo.subzoneName
-      playerLines[k].zoneName    = locationInfo.zoneName
+      playerLines[k].subzonename = locationInfo.subzoneName
+      playerLines[k].zonename    = locationInfo.zoneName
     else
-      playerLines[k].subzoneName = ""
-      playerLines[k].zoneName    = ""
-    end    
+      playerLines[k].subzonename = ""
+      playerLines[k].zonename    = ""
+    end
     
     --local skills = ElderScrollsOfAlts.altData.players[k].skills
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
@@ -500,12 +500,12 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
   playerLines[k].riding_speed     = -1
   playerLines[k].riding_stamina   = -1
   --playerLines[k].riding_cantrain  = false
-  playerLines[k].riding_timeMs    = -1
   playerLines[k].riding_timems    = -1
   playerLines[k].riding_totalDurationMs = -1
   --playerLines[k].riding_timedisplay     = "--"
   playerLines[k].riding_trainingready   = nil   
   playerLines[k].riding_maxed = false
+  playerLines[k].riding_trainer_ready = false
     
   if(misc~=nil)then
     local riding = misc.riding
@@ -513,20 +513,25 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
       playerLines[k].riding_inventory = riding.inventory
       playerLines[k].riding_speed     = riding.speed
       playerLines[k].riding_stamina   = riding.stamina
-      playerLines[k].riding_timeMs          = riding.timeMs
       playerLines[k].riding_timems          = riding.timeMs
       playerLines[k].riding_totalDurationMs = riding.totalDurationMs
       playerLines[k].riding_trainingready   = riding.trainingReadyAt
       
       if( riding.inventory==60 and riding.speed==60 and riding.stamina==60 ) then
         playerLines[k].riding_maxed = true
+        playerLines[k].riding_timems = -1;
+      else
+        local timeDiff = GetDiffBetweenTimeStamps(playerLines[k].riding_trainingready , GetTimeStamp())
+        if( timeDiff ~= nil and timeDiff <= 0 ) then
+          playerLines[k].riding_trainer_ready = true
+          playerLines[k].riding_timems = 0;
+        end
       end
-      
       --if(riding.timeMs~=nil and riding.timeMs>-1)then
         --playerLines[k].riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )
       --end
-    end
-  end  
+    end--riding element
+  end  --misc element
 end
 
 --

@@ -85,24 +85,31 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.value = playerLine[viewKey.."_Rank"] 
     eline.sort_data = eline.value
     eline.sort_numeric =  true
-    eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. playerLine[viewKey.."_Rank"] 
-   
-    --eline:SetText( playerLine[viewKey.."_Rank"]  )
+    local skillMax = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
+    
+    --
     if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
       eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )
     else
       eline:SetText( eline.value  )
     end
    
-   
+    local rankStr = nil
+    if(skillMax~=nil)then
+      rankStr = playerLine[viewKey.."_Rank"] .. "/"..skillMax
+    else
+      rankStr = playerLine[viewKey.."_Rank"]
+    end
+    eline.tooltip = playerLine.name .." has ".. viewKey .." skill of ".. rankStr
+    --
     if( playerLine[viewKey.."_XPCode"]~=nil )then
       if( playerLine[viewKey.."_XPCode"]==0 )then
         local sHint = zo_strformat("<<1>> has <<2>> skill of <<3>> <<4>>",
-            playerLine.name, viewKey, playerLine[viewKey.."_Rank"], "(MAX)" )
+            playerLine.name, viewKey, rankStr, "(MAX)" )
         eline.tooltip = sHint        
       elseif( playerLine[viewKey.."_Percentage"]~=nil and playerLine[viewKey.."_Percentage"]>0) then
         local sHint = zo_strformat("<<1>> <<2>> skill of <<3>> (<<4>>/<<5>>) <<6>>%",
-            playerLine.name, viewKey, playerLine[viewKey.."_Rank"], playerLine[viewKey.."_CurrentXP"], playerLine[viewKey.."_NextRankXP"], playerLine[viewKey.."_Percentage"])
+            playerLine.name, viewKey, rankStr, playerLine[viewKey.."_CurrentXP"], playerLine[viewKey.."_NextRankXP"], playerLine[viewKey.."_Percentage"])
         eline.tooltip = sHint    
       end
     end
@@ -163,9 +170,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --
   --
   elseif(viewKey=="BagSpace") then
-    local bu = playerLine["backpackUsed"] 
-    local bs = playerLine["backpackSize"]
-    local bf = playerLine["backpackFree"]
+    local bu = playerLine["backpackused"] 
+    local bs = playerLine["backpacksize"]
+    local bf = playerLine["backpackfree"]
     if bs == nil then bs = "---" end
     local bagText = string.format("%3d/%3d",bu, bs)
     eline:SetText(bagText)
@@ -173,9 +180,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.tooltip = playerLine.name .. " has a ".. bf .. " free bag slots"
     end
   elseif(viewKey=="BagSpaceFree") then
-    local bu = playerLine["backpackUsed"] 
-    local bs = playerLine["backpackSize"]
-    local bf = playerLine["backpackFree"]
+    local bu = playerLine["backpackused"] 
+    local bs = playerLine["backpacksize"]
+    local bf = playerLine["backpackfree"]
     if bs == nil then bs = "---" end
     if( bf==nil or bf=="" ) then bf = tonumber(bs-bu) end    
     eline.tooltip = playerLine.name .. " has a ".. bf .. " free bag slots"
@@ -224,6 +231,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         eline.tooltip = "Riding Skills Maxed"
         eline:SetText("Max")
         eline.sort_data = -1
+        eline.value = -1
         rtType = 2
     else
       if(expireTime~=nil)then
@@ -237,6 +245,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
           eline.tooltip = "Now"
           eline:SetText("Now")
           eline.sort_data = 0
+          eline.value = 0
           rtType = 1
         else
           local timeD = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000),false,true)
@@ -263,6 +272,10 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
     eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, eline:GetText() ) )
   -- Riding ^^
+  --elseif( string.lower(viewKey)==("zonename") )then
+  --  eline:SetText( playerLine["zoneName"]  )
+  --elseif( string.lower(viewKey)==("subzonename") )then
+  --  eline:SetText( playerLine["subzoneName"]  )
   elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed")then
     eline:SetText( playerLine[string.lower(viewKey)]  )
     eline.tooltip = zo_strformat("<<1>> has played for <<2>> (account total=<<3>>s)",
@@ -394,33 +407,25 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
   end
   local viewKey  = eline.viewKey
   local lviewKey = viewKey:lower()
-  if(viewKey=="Level" and eline.value == 50 ) then
-    return 1
-  elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
-    if( eline.value == 60 ) then 
-      return 1
+  --Use chart values to determine if max or near max
+  local amaxSL = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
+  local nmaxSL = ElderScrollsOfAlts.SkillsLevelNearMaximum[viewKey]
+  local retv = nil
+  if(nmaxSL~=nil) then
+    if( eline.value >= nmaxSL) then
+      retv = 2
     end
-  elseif ( viewKey=="Dark Brotherhood" or viewKey=="Thieves Guild" ) then
-    if( eline.value == 12 ) then 
-      return 1
+  end
+  if(amaxSL~=nil) then
+    if( eline.value >= amaxSL) then
+      retv = 1
     end
-  elseif ( viewKey=="Legerdemain" ) then
-    if( eline.value == 20 ) then 
-      return 1
-    end
-  elseif ( viewKey=="Soul Magic" ) then
-    if( eline.value == 6 ) then 
-      return 1
-    end    
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Werewolf" or viewKey=="Vampire" ) then
-    if( eline.value == 10 ) then 
-      return 1
-    end
-  elseif(viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" ) then
-    if( eline.value == 10 ) then 
-      return 1
-    end
-  elseif( viewKey=="Alchemy") then
+  end
+  if(retv~=nil) then
+    return retv
+  end
+  --Use specific logic to determine if max or near max
+  if( viewKey=="Alchemy") then
     if( eline.value == 50  and eline.data_sunk == 8 ) then
       return 1
     elseif( eline.value == 50  ) then
@@ -451,7 +456,6 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
     elseif( eline.value == 50  ) then
       return 2
     end
-  else
   end
   return 0
 end
@@ -563,7 +567,7 @@ end
 function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,playerLine,tradeName)
   eline.data_val    = playerLine[tradeName]
   eline.data_sunk   = playerLine[tradeName.."_sunk"] 
-  eline.data_sunk2  = playerLine[tradeName.."_sunk2"] 
+  eline.data_sunk2  = playerLine[tradeName.."_sunk2"]
   if eline.data_sunk ~=nil and eline.data_sunk > 0 then
     eline:SetText(eline.data_val.."("..eline.data_sunk..")" )      
   else
@@ -572,7 +576,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
   eline.data_subskills= playerLine[tradeName.."_subskills"]
   --eline:SetMouseEnabled(true)
   eline:SetHandler('OnMouseEnter',function(self)
-    ElderScrollsOfAlts:CraftTipEnter(self, viewKey )
+    ElderScrollsOfAlts:CraftTipEnter(self, viewKey, playerLine )
   end)
   eline:SetHandler('OnMouseExit',function(self)
     ElderScrollsOfAlts:CraftTipExit(self)
@@ -638,9 +642,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
   elseif(viewKey=="Jewelcrafting Research 3") then
     return "rjewelcrafting3S"
   elseif(viewKey=="bagspaceFree" or viewKey=="bagspacefree" or viewKey=="BagSpaceFree") then
-    return "backpackFree"
+    return "backpackfree"
   elseif(viewKey=="bagspace" or viewKey=="BagSpace" or viewKey=="backpackfree") then
-    return "backpackSize"
+    return "backpacksize"
   elseif(viewKey=="Head" or viewKey=="Shoulders" or viewKey=="Chest" or viewKey=="Waist" or viewKey=="Legs" or viewKey=="Hands" or viewKey=="Feet" ) then
     return viewKey
   elseif(viewKey=="Neck" or viewKey=="Ring1" or viewKey=="Ring2" ) then
@@ -688,14 +692,15 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="Gender") then
     return 25
   elseif(viewKey=="ReducedBounty") then
-    return 50
-    
+    return 50    
   elseif(viewKey=="Alchemy" or lviewKey=="blacksmithing" or lviewKey == "smithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="JC" or viewKey=="Jewelry" or viewKey=="Woodworking" or viewKey=="Provisioning") then
     return 45
+  --
   elseif(viewKey=="BagSpace") then
     return 60
-  elseif(viewKey=="BagSpaceFree") then
+  elseif(viewKey=="BagSpaceFree" or viewKey=="BackpackUsed" or viewKey=="BackpackSize" or viewKey=="BackpackFree") then
     return 45
+  --
   elseif(viewKey=="Skillpoints") then
     return 45
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
@@ -710,9 +715,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 65
   elseif(viewKey=="Alliance Name" or viewKey=="AllianceName" or viewKey == "HomeCampaignName" ) then
     return 150
-  elseif(viewKey=="UnitAvARank" or viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
+  elseif(viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
     return 165
-  elseif(viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId") then
+  elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId") then
     return 45
   elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
     return 65
@@ -773,13 +778,15 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "Wood"
   elseif(viewKey=="Enchanting") then
     return "Ench"    
-  elseif(viewKey=="BagSpace") then
+  elseif(viewKey=="BagSpace" or viewKey=="BackpackSize") then
     return "Bags"
-  elseif(viewKey=="BagSpaceFree") then
+  elseif(viewKey=="BagSpaceFree" or viewKey=="BackpackFree") then
     return "B.Free"
+  elseif(viewKey=="BackpackUsed" or viewKey=="BackpackUsed") then
+      return "B.Used"
   elseif(viewKey=="Skillpoints") then
     return "SkPt"
-    
+  --
   elseif(viewKey=="Assault") then
     return "Asslt"
   elseif(viewKey=="Support") then

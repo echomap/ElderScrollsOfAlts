@@ -23,8 +23,11 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Provisioning"] = 1, 
   ["Woodworking"] = 1,    
   
-  ["BagSpace"] = 1,         
-  ["BagSpaceFree"] = 1,         
+  ["BagSpace"] = 1,
+  ["BagSpaceFree"] = 1,
+  ["BackpackUsed"] = 1,
+  ["BackpackSize"] = 1,
+  ["BackpackFree"] = 1,    
   ["Skillpoints"] = 1, 
   
   ["Head"] = 1, 
@@ -223,6 +226,48 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [21] = "AssignedCampaignName",
     }
   },
+}
+
+-- VIEWS
+ElderScrollsOfAlts.SkillsLevelNearMaximum = {
+  ["Riding Speed"]     = 55,
+  ["Riding Stamina"]   = 55,
+  ["Riding Inventory"] = 55,
+  ["Dark Brotherhood"] = 10,
+  ["Thieves Guild"]    = 10,
+  ["Legerdemain"] = 17,
+  ["Assault"]  = 8,
+  ["Support"]  = 8,
+  ["Werewolf"] = 8,
+  ["Vampire"]  = 8,
+  ["Fighters Guild"] = 8,
+  ["Mages Guild"]    = 8,
+  ["Undaunted"]      = 8,
+  ["Psijic Order"]   = 8,
+  ["Scrying"]        = 8,
+  ["Excavation"]     = 8,
+}
+
+-- VIEWS
+ElderScrollsOfAlts.SkillsLevelMaximum = {
+  ["Level"] = 50,
+  ["Riding Speed"]     = 60,
+  ["Riding Stamina"]   = 60,
+  ["Riding Inventory"] = 60,
+  ["Dark Brotherhood"] = 12,
+  ["Thieves Guild"]    = 12,
+  ["Legerdemain"] = 20,
+  ["Soul Magic"]  = 6,
+  ["Assault"]  = 10,
+  ["Support"]  = 10,
+  ["Werewolf"] = 10,
+  ["Vampire"]  = 10,
+  ["Fighters Guild"] = 10,
+  ["Mages Guild"]    = 10,
+  ["Undaunted"]      = 10,
+  ["Psijic Order"]   = 10,
+  ["Scrying"]        = 10,
+  ["Excavation"]     = 10,
 }
 
 -----------
