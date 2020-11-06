@@ -337,6 +337,9 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.altData.players[playerKey].misc.skillpointstotal = GetAvailableSkillPoints() 
   ElderScrollsOfAlts.altData.players[playerKey].misc.secondsPlayed = GetSecondsPlayed()
   --GetUnitZone("player")
+  local earnedAchievePts = GetEarnedAchievementPoints()
+  ElderScrollsOfAlts.altData.players[playerKey].misc.achieve = {}
+  ElderScrollsOfAlts.altData.players[playerKey].misc.achieve.earned = earnedAchievePts
   
   --Currency
   if(ElderScrollsOfAlts.altData.players[playerKey].currency==nil) then

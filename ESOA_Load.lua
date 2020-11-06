@@ -174,6 +174,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       ElderScrollsOfAlts.view.accountData.secondsplayed = ElderScrollsOfAlts.view.accountData.secondsplayed+playerLines[k].secondsplayed
       playerLines[k].timeplayed = ElderScrollsOfAlts:timeToDisplay( (playerLines[k].secondsplayed*1000) ,true,false)
     end
+    playerLines[k].achieveearned = "-1"
+    if( misc.achieve~=nil and misc.achieve.earned~=nil ) then
+      playerLines[k].achieveearned = ZO_CommaDelimitNumber(misc.achieve.earned)
+    end
     
     -- Infamy
     --
@@ -831,6 +835,8 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].AllianceName         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.allianceName        ,"")
   playerLines[k].UnitAvARank          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARank         ,"")
   playerLines[k].UnitAvARankPoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
+  playerLines[k].unitavarank          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARank         ,"")
+  playerLines[k].unitavarankpoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
   playerLines[k].SubRankStartsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.subRankStartsAt     ,"")
   playerLines[k].NextSubRankAt        = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextSubRankAt       ,"")
   playerLines[k].RankStartsAt         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.rankStartsAt        ,"")

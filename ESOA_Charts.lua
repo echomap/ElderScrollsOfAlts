@@ -124,6 +124,8 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["subzoneName"] = 1, 
   ["ZoneName"] = 1, 
   ["SubzoneName"] = 1, 
+  
+  ["achieveearned"] = 1, 
 }
 
 -----------
@@ -150,6 +152,9 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [16] = "BagSpaceFree",        
       [17] = "Skillpoints",
       [18] = "Riding Timer",
+      [19] = "Riding Speed",
+      [20] = "Riding Stamina",
+      [21] = "Riding Inventory",
     }
   },
   ["Equip"] = {
@@ -202,28 +207,29 @@ ElderScrollsOfAlts.view.guiTemplates = {
     ["name"] = "Skills",
     ["view"] = {
       [1] = "Level",
-      [2] = "Assault",
-      [3] = "Support",
-      [4] = "Legerdemain",
-      [5] = "Soul Magic",
-      [6] = "Werewolf",
-      [7] = "Vampire",
-      [8] = "Fighters Guild",
-      [9] = "Mages Guild",
-      [10] = "Undaunted",
-      [11] = "Thieves Guild",
-      [12] = "Dark Brotherhood",
-      [13] = "Psijic Order",
-      [14] = "Scrying",
-      [15] = "Excavation",
+      [2] = "Alliance",
+      [3] = "Assault",
+      [4] = "Support",
+      [5] = "Legerdemain",
+      [6] = "Soul Magic",
+      [7] = "Werewolf",
+      [8] = "Vampire",
+      [9] = "Fighters Guild",
+      [10] = "Mages Guild",
+      [11] = "Undaunted",
+      [12] = "Thieves Guild",
+      [13] = "Dark Brotherhood",
+      [14] = "Psijic Order",
+      [15] = "Scrying",
+      [16] = "Excavation",
       
-      [16] = "Riding Speed",
-      [17] = "Riding Stamina",
-      [18] = "Riding Inventory",
-      [19] = "Riding Timer",
+      [17] = "Riding Speed",
+      [18] = "Riding Stamina",
+      [19] = "Riding Inventory",
+      [20] = "Riding Timer",
       
-      [20] = "ReducedBounty",
-      [21] = "AssignedCampaignName",
+      [21] = "ReducedBounty",
+      [22] = "AssignedCampaignName",
     }
   },
 }

@@ -18,6 +18,12 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
+1.00.29
+[list]
+[*] added {achieveearned}, lowercase {unitavarank} and {unitavarankpoints}
+[/list]
+
+==ESOA Published V1.00.XX==
 1.00.28
 [list]
 [*] Greymoor, 10032. Markath, 100033
@@ -26,9 +32,6 @@ feature: traits
 [*] fixed SubzoneName/ZoneName and some others with case issues
 [*] updated skills to show 'near' max better and report max level in tooltip
 [/list]
-
-
-==ESOA Published V1.00.XX==
 1.00.27
 [list]
 [*] Updated default views
