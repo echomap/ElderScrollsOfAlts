@@ -86,6 +86,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["SpecialBiteTimer"] = 1, 
   ["SecondsPlayed"] = 1, 
   ["TimePlayed"] = 1, 
+  ["lastlogin"] = 1,
   
   ["Alliance Name"] = 1,
   ["InCampaign"] = 1,

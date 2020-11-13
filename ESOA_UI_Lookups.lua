@@ -870,6 +870,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "AP"
   elseif(viewKey=="currency_tel var stone" or viewKey=="Currency_Tel Var Stone") then
     return "TelVar"
+    elseif(viewKey=="achieveearned") then
+    return "AchievePts"
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then
     local viewKey2 = viewKey
     local pos = string.find(viewKey, "_")

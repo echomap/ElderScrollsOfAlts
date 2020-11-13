@@ -178,6 +178,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     if( misc.achieve~=nil and misc.achieve.earned~=nil ) then
       playerLines[k].achieveearned = ZO_CommaDelimitNumber(misc.achieve.earned)
     end
+    playerLines[k].lastlogin = misc.now
     
     -- Infamy
     --
