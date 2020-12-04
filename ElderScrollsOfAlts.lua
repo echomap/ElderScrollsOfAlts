@@ -124,24 +124,41 @@ function ElderScrollsOfAlts.OnChampionPerksStateChange(oldState,newState)
     end
 end
 
-
+--------------------------------
 -- SETUP  setup event handling
+-- Called from OnAddOnLoaded
 function ElderScrollsOfAlts.DelayedStart()
-    ElderScrollsOfAlts.SetupDefaultColors()
-    --ElderScrollsOfAlts:InitializeCharts()
-    ElderScrollsOfAlts.SavePlayerDataForGui() -- DATA
-    ElderScrollsOfAlts.InitializeGui()
-    ElderScrollsOfAlts:RestoreUI()
-    -- LMM Settings menu in Settings.lua.
-    ElderScrollsOfAlts.LoadSettings()
-    ElderScrollsOfAlts.LoadSettings2()
-    --fix
-    ElderScrollsOfAlts.savedVariables.selected.character = nil
-    
-    CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
-    ElderScrollsOfAlts.debugMsg(ElderScrollsOfAlts.name , GetString(SI_ESOA_MESSAGE)) 
-    ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
-        ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
+  ElderScrollsOfAlts.SetupDefaultColors()
+  --ElderScrollsOfAlts:InitializeCharts()
+  ElderScrollsOfAlts.SavePlayerDataForGui() -- DATA
+  ElderScrollsOfAlts.InitializeGui()
+  ElderScrollsOfAlts:RestoreUI()
+  -- LMM Settings menu in Settings.lua.
+  ElderScrollsOfAlts.LoadSettings()
+  ElderScrollsOfAlts.LoadSettings2()
+  --fix
+  ElderScrollsOfAlts.savedVariables.selected.character = nil
+  
+  --[[	Bandits User Interface Side Panel ]]--
+  if(BUI~=nil and not ElderScrollsOfAlts.view.buisetup) then
+    ElderScrollsOfAlts.view.buisetup= true
+    local content = {
+      {
+      icon		= "/esoui/art/tutorial/inventory_tabicon_quickslot_up.dds",
+      tooltip	=  GetString(SI_ESOA_SHOW),
+      --context	= Context menu function (optional),
+      func		= function() ElderScrollsOfAlts:DoUiButtonClicked() end,
+      enabled	= function() return not ElderScrollsOfAlts end,
+      },
+      --{icon="",tooltip="",func=function()end,enabled=true},	--Button 2, etc.
+    }
+    BUI.PanelAdd(content)
+  end
+  --Unregistrer and move on  
+  CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
+  ElderScrollsOfAlts.debugMsg(ElderScrollsOfAlts.name , GetString(SI_ESOA_MESSAGE)) 
+  ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
+      ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
 end
 
 
@@ -171,6 +188,12 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   --(savedVariableTable, version, namespace, defaults, profile, displayName)
   ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
 
+  --
+  ElderScrollsOfAlts.allowedViewEntriesLC = {}
+  for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do
+    ElderScrollsOfAlts.allowedViewEntriesLC[kName] = kVal
+  end
+  
   --check/setup a bit earlier
   ElderScrollsOfAlts.CheckData()
   ElderScrollsOfAlts.SetupDefaultColors()
@@ -192,3 +215,7 @@ EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_ADD_ON_LOADED, Eld
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_DEACTIVATED, ElderScrollsOfAlts.OnPlayerUnloaded)
 -- When player is ready, after everything has been loaded. (after addon loaded)
 EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_PLAYER_ACTIVATED, ElderScrollsOfAlts.OnPlayerLoaded)
+
+--------------------------------
+--EOF
+--------------------------------

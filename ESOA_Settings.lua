@@ -193,7 +193,12 @@ function ElderScrollsOfAlts:DoTestSelectedView()
     if(fEntry~=nil)then
       table.insert(goodEntries, tostring(vv) )
     else
-      ElderScrollsOfAlts.outputMsg("Failed test: entry failed as k="..tostring(kk).." v="..tostring(vv))
+      fEntry = ElderScrollsOfAlts.allowedViewEntriesLC[string.lower(vv)]
+      if(fEntry~=nil)then
+        table.insert( goodEntries, tostring(vv) )
+      else
+        ElderScrollsOfAlts.outputMsg("Failed test: entry failed as k="..tostring(kk).." v="..tostring(vv))
+      end
     end
   end
 end

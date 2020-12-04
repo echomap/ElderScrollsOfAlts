@@ -1545,12 +1545,25 @@ end
 
 ------------------------------
 -- UI: 
-function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
-  ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: Called")
-  if button == MOUSE_BUTTON_INDEX_LEFT then
-		if control.itemLink~=nil and control.itemLink ~= "" then
-      --show itemlink
-			ZO_ChatWindowTextEntryEditBox:SetText(ZO_ChatWindowTextEntryEditBox:GetText() .. zo_strformat(SI_TOOLTIP_ITEM_NAME, control.itemLink))
+function ElderScrollsOfAlts:GUILineDoubleClick(button,buttonnum)
+  --ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: Called")
+  ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: Called"
+    , " buttonnum:".. tostring(buttonnum)
+    , " button:".. tostring(button)
+    --, " line:".. tostring(line)
+  )
+  local charKey = button.charKey
+  ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: charKey: " .. tostring(charKey) )
+  
+  if buttonnum == 1 then
+		if button.itemLink~=nil and button.itemLink ~= "" then
+      ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: show itemlink")
+			ZO_ChatWindowTextEntryEditBox:SetText( ZO_ChatWindowTextEntryEditBox:GetText() .. zo_strformat(SI_TOOLTIP_ITEM_NAME, button.itemLink) )
+    else
+      local lineName = "ESOA_GUI2_Body_ListHolder_Line_" .. charKey  
+      local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..charKey)
+      ElderScrollsOfAlts:ShowHightlight(line)
+      ElderScrollsOfAlts.debugMsg("Selected player to hightlight c")
 		end
     --[[
     if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil)then
@@ -1564,11 +1577,18 @@ function ElderScrollsOfAlts:GUILineDoubleClick(control, button)
       --unselect ESOA_RowTemplate_Highlight
     end    
     --control:SetTexture(ESOA_RowTemplate_Highlight) TODO
-    ESOA_GUI2_Body_ListHolder.selectedHighlight = control
-  elseif button == MOUSE_BUTTON_INDEX_RIGHT and control.charKey then  
-    ElderScrollsOfAlts.savedVariables.selected.charactername = control.charKey
-    ElderScrollsOfAlts.view.selectedPlayerRow = control
-    ElderScrollsOfAlts:ShowCharacterNote(control)
+    ESOA_GUI2_Body_ListHolder.selectedHighlight = button
+  elseif buttonnum == 2 and button.charKey then  
+    ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: show rightclick")
+    ElderScrollsOfAlts.savedVariables.selected.charactername = button.charKey
+    ElderScrollsOfAlts.view.selectedPlayerRow = button
+    ElderScrollsOfAlts:ShowCharacterNote(button)
+  else
+    ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: show else")
+    local lineName = "ESOA_GUI2_Body_ListHolder_Line_" .. charKey  
+    local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..charKey)
+    ElderScrollsOfAlts:ShowHightlight(line)
+    ElderScrollsOfAlts.debugMsg("Selected player to hightlight c")
 	end
 end
 

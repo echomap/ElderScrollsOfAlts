@@ -43,7 +43,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltipHdr = "Note: " .. playerLine["name"]
     if( playerLine["note"]==nil or playerLine["note"]=="") then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
-      eline.tooltip = "Double Right Click to set a Note"
+      eline.tooltip = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
     else
       eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")      
       eline.tooltip = playerLine["note"]
@@ -661,6 +661,12 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "special_bitetimer"
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
     return viewKey.."_Rank"
+  elseif( viewKey=="achieveearned") then  
+    return "achieveearnedraw"
+  elseif( viewKey=="lastlogin") then  
+    return "lastloginraw"
+  --elseif( viewKey=="assignedcampaignrewardearnedtier") then  
+  --return "assignedcampaignrewardearnedtier " 
   end
   return viewKey:lower()
 end
@@ -675,7 +681,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 24
   elseif(viewKey=="SpecialBiteTimer") then
     return 70
-  elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed") then  
+  elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed" or viewKey=="achieveearned" ) then  
     return 60
   elseif(viewKey=="Alliance") then
     return 28
@@ -717,7 +723,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 150
   elseif(viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
     return 165
-  elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId") then
+  elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
     return 45
   elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
     return 65
@@ -879,6 +885,14 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return viewKey2
   elseif(viewKey=="ReducedBounty") then
     return "Bounty"
+ elseif(viewKey=="zoneName") then
+    return "Zone"
+  elseif(viewKey=="subzoneName") then
+    return "SubZone"
+  elseif(viewKey=="lastlogin") then
+    return "LoginTime"
+  elseif(viewKey=="lastlogindiff") then
+    return "LastLogin"
   --
 
   --

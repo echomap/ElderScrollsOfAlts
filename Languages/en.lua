@@ -1,6 +1,8 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
   SI_ESOA_MESSAGE  = " addon is loaded",
+  SI_ESOA_SHOW = "Display ESOA",
+  
   -- Keybindings
   SI_BINDING_NAME_ESOA_DISPLAY     = "Display ESOA",
   SI_BINDING_NAME_ESOA_DISPLAY2    = "Show Home",
@@ -8,9 +10,9 @@ local localization_strings = {
   SI_BINDING_NAME_ESOA_DISPLAY_NEXTVIEW = "Next View",
   
   --
-  ESOA_NAME    ="name",
-  ESOA_BAGS    ="Bags",
-  ESOA_Unknown ="Unknown",
+  ESOA_NAME    = "name",
+  ESOA_BAGS    = "Bags",
+  ESOA_Unknown = "Unknown",
 
   --Views
   ESOA_VIEW_HOME     ="Home",

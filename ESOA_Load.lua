@@ -176,12 +176,16 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     end
     playerLines[k].achieveearned = "-1"
     if( misc.achieve~=nil and misc.achieve.earned~=nil ) then
-      playerLines[k].achieveearned = ZO_CommaDelimitNumber(misc.achieve.earned)
+      playerLines[k].achieveearned    = ZO_CommaDelimitNumber(misc.achieve.earned)
+      playerLines[k].achieveearnedraw = misc.achieve.earned
     end
-    playerLines[k].lastlogin = misc.now
+    playerLines[k].lastlogin = ZO_FormatTime(misc.now, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+    playerLines[k].lastloginraw = misc.now
+    
+     local lastlogindiff = GetDiffBetweenTimeStamps(GetTimeStamp(), misc.now)
+     playerLines[k].lastlogindiff = ZO_FormatTime(lastlogindiff, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
     
     -- Infamy
-    --
     local infamy = ElderScrollsOfAlts.altData.players[k].infamy
     if( infamy ~= nil ) then
       playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
@@ -828,8 +832,11 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].CurrentCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
   
   playerLines[k].GuestCampaignName    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
-  playerLines[k].CurrentCampaignName     = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
+  playerLines[k].CurrentCampaignName  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
   playerLines[k].AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  playerLines[k].guestcampaignname    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
+  playerLines[k].currentcampaignname  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
+  playerLines[k].assignedcampaignname = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
   
   playerLines[k].IsInCampaign         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.isInCampaign        ,"")  
   playerLines[k].UnitAlliance         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAlliance        ,"")
@@ -844,9 +851,17 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].NextRankAt           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
   playerLines[k].AvaRankName          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.avaRankName         ,"")
   
-  playerLines[k].CurrentCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignRewardEarnedTier ,"")
-  playerLines[k].GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier ,"")  
-   
+  playerLines[k].AssignedCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignRewardEarnedTier, 0 )
+  playerLines[k].CurrentCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignRewardEarnedTier, 0 )
+  playerLines[k].GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier, 0 )
+  --
+  playerLines[k].assignedcampaignrewardearnedtier = playerLines[k].AssignedCampaignRewardEarnedTier
+  playerLines[k].currentCampaignrewardearnedTier  = playerLines[k].CurrentCampaignRewardEarnedTier
+  playerLines[k].guestCampaignrewardearnedTier    = playerLines[k].GuestCampaignRewardEarnedTier
+  --
+  --playerLines[k].assignedcampaignrewardearnedtier_rank = playerLines[k].AssignedCampaignRewardEarnedTier
+  --playerLines[k].currentCampaignrewardearnedTier_rank  = playerLines[k].CurrentCampaignRewardEarnedTier
+  --playerLines[k].guestCampaignrewardearnedTier_rank    = playerLines[k].GuestCampaignRewardEarnedTier
 end
 
 --

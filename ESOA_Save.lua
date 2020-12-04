@@ -362,7 +362,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar = {}
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.inCampaign = IsInCampaign()
   
-  local currentCampaignId     = GetCurrentCampaignId()
+  local currentCampaignId  = GetCurrentCampaignId()--this not the best one?
   local guestCampaignId    = GetGuestCampaignId()
   local assignedCampaignId = GetAssignedCampaignId()
   local isInCampaign       = currentCampaignId ~= 0
@@ -379,7 +379,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.debugMsg("guestCampaignId="..tostring(guestCampaignId) )
   --d("(" .. ElderScrollsOfAlts.name .. ") " .. "guestCampaignId: "..guestCampaignId )
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignName    = GetCampaignName(guestCampaignId)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignName     = GetCampaignName(currentCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignName  = GetCampaignName(currentCampaignId)
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.assignedCampaignName = GetCampaignName(assignedCampaignId)
   --ElderScrollsOfAlts.outputMsg("save.currentCampaignId="..tostring(currentCampaignId) )  
   --ElderScrollsOfAlts.outputMsg("save.currentCampaignName="..tostring( GetCampaignName(currentCampaignId) ) )  
@@ -403,10 +403,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.avaRankName = avaRankName
   
   --Returns: number earnedTier, number nextTierProgress, number nextTierTotal 
-  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(currentCampaignId)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
+  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(assignedCampaignId)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier = tonumber(earnedTier)
+  --ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
   earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = earnedTier  
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
   
   --GetLargeAvARankIcon(rank))
   --GetAllianceColor(alliance):UnpackRGBA())

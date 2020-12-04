@@ -87,6 +87,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["SecondsPlayed"] = 1, 
   ["TimePlayed"] = 1, 
   ["lastlogin"] = 1,
+  ["lastlogindiff"] = 1,
   
   ["Alliance Name"] = 1,
   ["InCampaign"] = 1,
@@ -108,6 +109,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["RankStartsAt"] = 1,
   ["NextRankAt"] = 1,
   ["AvaRankName"] = 1,
+  ["AssignedCampaignRewardEarnedTier"] = 1,
   ["CurrentCampaignRewardEarnedTier"] = 1,
   ["GuestCampaignRewardEarnedTier"] = 1,
   

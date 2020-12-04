@@ -21,6 +21,10 @@ feature: traits
 1.00.29
 [list]
 [*] added {achieveearned}, lowercase {unitavarank} and {unitavarankpoints}
+[*] added {lastlogin}, {lastlogindiff}
+[*] Fixed, {AssignedCampaignRewardEarnedTier} -- it seems assigned is working, where "current" is not in api?
+[*] Note tooltip now: "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
+[*] bandit's ui sidepanel button
 [/list]
 
 ==ESOA Published V1.00.XX==
