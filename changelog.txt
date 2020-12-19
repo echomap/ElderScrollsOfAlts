@@ -18,6 +18,12 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
+1.00.30
+[list]
+[*] 
+[/list]
+
+==ESOA Published V1.00.XX==
 1.00.29
 [list]
 [*] added {achieveearned}, lowercase {unitavarank} and {unitavarankpoints}
@@ -26,8 +32,6 @@ feature: traits
 [*] Note tooltip now: "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
 [*] bandit's ui sidepanel button
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.28
 [list]
 [*] Greymoor, 10032. Markath, 100033

@@ -665,6 +665,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "achieveearnedraw"
   elseif( viewKey=="lastlogin") then  
     return "lastloginraw"
+  elseif( viewKey=="lastlogindiff") then  
+    return "lastloginraw"
   --elseif( viewKey=="assignedcampaignrewardearnedtier") then  
   --return "assignedcampaignrewardearnedtier " 
   end

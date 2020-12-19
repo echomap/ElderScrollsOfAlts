@@ -192,6 +192,11 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   else
     ESOA_GUI2:SetHidden(true)
   end
+  
+  ElderScrollsOfAlts.view.playersexisting = {}
+  local numchars = ZO_AddOnManager:GetNumCharacters()
+  ElderScrollsOfAlts.debugMsg("ESOA, numchars: '", numchars , "'")
+  -- not callable here??
 end
 
 ------------------------------

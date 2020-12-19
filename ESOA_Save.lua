@@ -44,6 +44,8 @@ end
 
 -- Read all data from the game Player Object into this Addon
 function ElderScrollsOfAlts:DataSaveLivePlayer()
+  ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: called")
+  ----Section: Statup section
 	local pName     = GetUnitName("player")
   local rName     = GetRawUnitName("player")   
   local pID       = GetCurrentCharacterId()
@@ -57,14 +59,45 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	if ElderScrollsOfAlts.altData.players == nil then
 		ElderScrollsOfAlts.altData.players = {}
 	end
-
-  --Protect note data if not saved to disk in this session
-  if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
-      ElderScrollsOfAlts.altData.players[pName].note ~= nil ) then
-    ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[pName].note
-    ElderScrollsOfAlts.debugMsg("ESOA, saved current note, as '", tostring(ElderScrollsOfAlts.altData.players[pName].note) , "'")
-  end
   
+  --[[ not callable here?
+  ElderScrollsOfAlts.view.playersexisting = {}
+  local numchars = ZO_AddOnManager:GetNumCharacters()
+  for characterIndex = 1, numchars do
+    --local name, _, _, _, _, _, characterId = GetCharacterInfo(i)
+    local name, gender, level, championPoints, class, race, alliance, id, locationId, order, needsRename = GetCharacterInfo(characterIndex)
+    ElderScrollsOfAlts.view.playersexisting[name] = {}
+    ElderScrollsOfAlts.view.playersexisting[name].order = order
+    ElderScrollsOfAlts.debugMsg("ESOA, playersexisting: '", ElderScrollsOfAlts.view.playersexisting[name] , "'")
+  end
+  --]]
+  
+  ----Section: Protect section
+  --Protect data not loaded from player data API
+  if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
+    ElderScrollsOfAlts.debugMsg("Checking preexisting data to preserve")
+    --Protect note data if not saved to disk in this session
+    if( ElderScrollsOfAlts.altData.players[playerKey].note ~= nil  ) then
+      ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[playerKey].note
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current note, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].note) , "'")
+    end
+    if( ElderScrollsOfAlts.altData.players[playerKey].playersorder ~= nil  ) then
+      ElderScrollsOfAlts.view.currentorder = ElderScrollsOfAlts.altData.players[playerKey].playersorder
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) , "'")
+    else
+      ElderScrollsOfAlts.altData.playersorderlast           = ElderScrollsOfAlts.altData.playersorderlast + 1
+      ElderScrollsOfAlts.altData.players[playerKey].playersorder = ElderScrollsOfAlts.altData.playersorderlast
+      ElderScrollsOfAlts.view.currentorder = ElderScrollsOfAlts.altData.players[playerKey].playersorder
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) , "'")
+    end
+    if( ElderScrollsOfAlts.altData.players[playerKey].category~=nil ) then
+      ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[playerKey].category
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
+    end
+  else
+    ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
+  end
+  --[[
   if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
       ElderScrollsOfAlts.altData.players[pName].category~=nil ) then
     ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[pName].category
@@ -76,34 +109,32 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[playerKey].note
     ElderScrollsOfAlts.debugMsg("ESOA, saved current note, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].note) , "'")
   end
-  
   if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil and 
       ElderScrollsOfAlts.altData.players[playerKey].category~=nil ) then
     ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[playerKey].category
     ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
   end
-
+  --]]
+  
+  --
   ElderScrollsOfAlts.view.previousversion = nil
   if(ElderScrollsOfAlts.altData.players[playerKey] ~= nil and ElderScrollsOfAlts.altData.players[playerKey].version~=nil)then
     ElderScrollsOfAlts.view.previousversion = ElderScrollsOfAlts.altData.players[playerKey].version
   end
   
-  --- Reset Old Data Format
-  --Resets all my data to current data
+  --- Reset Old Data Format infavor of new format
 	ElderScrollsOfAlts.altData.players[pName] = nil
   
-  --- Reset New Data Format
-  --Resets all my data to current data
+  --- Initialize New Data Format (to reset all my data to current data)
 	ElderScrollsOfAlts.altData.players[playerKey] = {}
   ElderScrollsOfAlts.altData.players[playerKey].category = "A"  
   ElderScrollsOfAlts.altData.players[playerKey].version = ElderScrollsOfAlts.version
   ElderScrollsOfAlts.altData.players[playerKey].previousversion = ElderScrollsOfAlts.view.previousversion
 
-  -- BIO section
+  ----Section: BIO section
 	if ElderScrollsOfAlts.altData.players[playerKey].bio == nil then
 		ElderScrollsOfAlts.altData.players[playerKey].bio = {}
 	end  
-  
   ElderScrollsOfAlts.altData.players[playerKey].bio.server  = pServer
   ElderScrollsOfAlts.altData.players[playerKey].bio.id      = pID
   ElderScrollsOfAlts.altData.players[playerKey].bio.name    = pName
@@ -151,12 +182,10 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	--POWERTYPE_CHARGES
 	--POWERTYPE_MOUNT_STAMINA
 
-	--ABILITIES/SKILLS
+  ----Section: Abilities/Skills section
 	if ElderScrollsOfAlts.altData.players[playerKey].skills == nil then
 		ElderScrollsOfAlts.altData.players[playerKey].skills = {}
 	end
-
-  -- SKILLS
   local baseElem = nil
   local outputUndiscovered = false
   --
@@ -166,31 +195,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscovered)
-  
-  --[[
-  local skillType = SKILL_TYPE_ARMOR
-	ElderScrollsOfAlts.altData.players[playerKey].skills.armor = {}
-	ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist = {}
-  baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.armor.typelist
-	local numSkillLines = GetNumSkillLines(skillType)
-  for ii = 1, numSkillLines do
-		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
-		--name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
-		if name == nil then
-			name = ii;
-		end
-		baseElem[name]	= {}
-		local baseElemTable = baseElem[name]
-		local numAbilities = GetNumSkillAbilities(skillType, ii)
-		baseElemTable.name = name
-		baseElemTable.idx = ii
-		baseElemTable.numAbilities = numAbilities
-		baseElemTable.rank = rank
-		baseElemTable.skillLineId = skillLineId
-		--ElderScrollsOfAlts.loadPlayerArmorDetails(skillType,skillLineId,ii,name,playerKey)
-	end
-  --]]
-    
   --
   skillType = SKILL_TYPE_WORLD 
   outputUndiscovered = false
@@ -198,7 +202,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	ElderScrollsOfAlts.altData.players[playerKey].skills.world.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.world.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
-  
   --
   skillType = SKILL_TYPE_CLASS 
   outputUndiscovered = false
@@ -206,7 +209,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	ElderScrollsOfAlts.altData.players[playerKey].skills.class.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.class.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
-  
   --
   skillType = SKILL_TYPE_GUILD  
   outputUndiscovered = false
@@ -214,7 +216,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	ElderScrollsOfAlts.altData.players[playerKey].skills.guild.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.guild.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
-  
   --
   skillType = SKILL_TYPE_RACIAL  
   outputUndiscovered = false
@@ -222,7 +223,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	ElderScrollsOfAlts.altData.players[playerKey].skills.racial.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.racial.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
-  
   --
   skillType = SKILL_TYPE_WEAPON  
   outputUndiscovered = false
@@ -230,7 +230,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	ElderScrollsOfAlts.altData.players[playerKey].skills.weapon.typelist = {}
   baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.weapon.typelist
   ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
-    
   --
   skillType = SKILL_TYPE_AVA  
   outputUndiscovered = false
@@ -290,7 +289,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     end
   end  
   
-  --Misc
+ ----Section: Misc section
   if(ElderScrollsOfAlts.altData.players[playerKey].misc==nil) then
     ElderScrollsOfAlts.altData.players[playerKey].misc = {}
   end
@@ -341,7 +340,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].misc.achieve = {}
   ElderScrollsOfAlts.altData.players[playerKey].misc.achieve.earned = earnedAchievePts
   
-  --Currency
+  ----Section: Currency section
   if(ElderScrollsOfAlts.altData.players[playerKey].currency==nil) then
     ElderScrollsOfAlts.altData.players[playerKey].currency = {}
   end  
@@ -358,6 +357,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].currency[cType].amount       = amount
   end
   
+  ----Section: PVP section
   --PVP Ava Campaign Cyrodil PVP (TODO) --
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar = {}
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.inCampaign = IsInCampaign()
@@ -419,7 +419,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     --local campaignName = GetCampaignName(campaignId)    
   end
     
-  --Infamy/ Bounty 
+  ----Section: Infamy/Bounty section
   --infamy = GetInfamy()
   --heat, bounty GetPlayerInfamyData()
   --infamyThresholdType = getInfamyLevel( infamy )
@@ -446,6 +446,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.bounty = bounty  
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.thresholdType = thresholdType  
   
+  ----Section: Location section  
   ElderScrollsOfAlts.altData.players[playerKey].location = {}
   local subzoneNamePL = zo_strformat("<<1>>",  GetPlayerActiveSubzoneName() )
   local zoneNamePL    =  zo_strformat("<<1>>", GetPlayerActiveZoneName() )
@@ -470,7 +471,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   end 
   --]]
 
-  -- Equipment
+  ----Section: Equipment section
   ElderScrollsOfAlts:SavaDataPlayerEquipment(playerKey)
   
   --Research
@@ -485,7 +486,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts:SaveDataPlayerResearchData(CRAFTING_TYPE_JEWELRYCRAFTING, "jewelcrafting",
         ElderScrollsOfAlts.altData.players[playerKey].research)
   
-  --Bags/ Bank
+  ----Section: Bags/Bank section
   ElderScrollsOfAlts.altData.data = {}
   ElderScrollsOfAlts.altData.data.server = {}
   ElderScrollsOfAlts.altData.data.server[pServer] = {}
@@ -496,7 +497,8 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.data.server[pServer].bankUsed = bagUsedB
   ElderScrollsOfAlts.altData.data.server[pServer].bankFree = tonumber( bagSizeB-bagUsedB )
   
-  -- Reload Note if not saved properly
+  ----Section: Protect section
+  --Protect data not loaded from player data API
   if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
     ElderScrollsOfAlts.altData.players[playerKey].note = ElderScrollsOfAlts.view.currentnote
     ElderScrollsOfAlts.debugMsg("ESOA, restored current note, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].note) ,"'")
@@ -505,9 +507,12 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].category = ElderScrollsOfAlts.view.currentcategory
     ElderScrollsOfAlts.debugMsg("ESOA, restored current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) ,"'")
   end
+  if( ElderScrollsOfAlts.view.currentorder ~= nil) then    
+    ElderScrollsOfAlts.altData.players[playerKey].playersorder = ElderScrollsOfAlts.view.currentorder
+    ElderScrollsOfAlts.debugMsg("ESOA, restored current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) ,"'")
+  end
   
-  --TODO more?
-  
+  ----Section: Buffs section
   --BUFFS
   ElderScrollsOfAlts.altData.players[playerKey].buffs = {}  
   local numBuffs = GetNumBuffs("player") 
@@ -550,7 +555,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --STATS
   --ElderScrollsOfAlts:SaveDataPlayerStatsData(ElderScrollsOfAlts.altData.players[playerKey])
 
-  --
+  ----Section: Special section
   if( ElderScrollsOfAlts.altData.players[playerKey].bio.Vampire == true) then
     ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata = {}
     ElderScrollsOfAlts:SaveDataVampire( playerKey, ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata )
@@ -565,6 +570,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
   --ElderScrollsOfAlts.debugMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
 	-- Fetch the saved variables
+  ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: done")
 end
 
 function ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem,skillineName,specialSkillName,abilityname,buffcooldown)
@@ -907,9 +913,11 @@ end
 ------------------------------
 --NEW BETA/ALPHA
 function ElderScrollsOfAlts.DataSaveLivePlayerNew()
-    if (EchoESOADatastore ~= nil) then
-      EchoESOADatastore.saveCurrentPlayerData()
-    end
+  if (EchoESOADatastore ~= nil) then
+    EchoESOADatastore.saveCurrentPlayerData()
+  else 
+    ElderScrollsOfAlts:DataSaveLivePlayer()
+  end
 end
 
 

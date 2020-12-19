@@ -49,6 +49,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     end
     playerLines[k].note = ElderScrollsOfAlts.altData.players[k].note
     if(playerLines[k].note ==nil)then playerLines[k].note  = "" end
+    playerLines[k].order = ElderScrollsOfAlts.altData.players[k].order
 		local bio = ElderScrollsOfAlts.altData.players[k].bio
     playerLines[k].gender = -1
     playerLines[k].level = -1
@@ -61,6 +62,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].special_bitetimer = -1
     --playerLines[k].special_bitetimer2 = "n/a"
     playerLines[k].special_bitetimerDisplay = "[n/a]"
+    playerLines[k].playersorder = ElderScrollsOfAlts.altData.players[k].playersorder
+    if(playerLines[k].playersorder == nil) then 
+      playerLines[k].playersorder = -1
+    end
     --
 		if bio ~=nil then
 			playerLines[k].gender   = bio.gender

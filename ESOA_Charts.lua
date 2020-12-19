@@ -129,6 +129,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["SubzoneName"] = 1, 
   
   ["achieveearned"] = 1, 
+  ["playersorder"] = 1,
 }
 
 -----------

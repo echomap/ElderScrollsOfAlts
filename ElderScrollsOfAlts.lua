@@ -127,8 +127,18 @@ end
 --------------------------------
 -- SETUP  setup event handling
 -- Called from OnAddOnLoaded
+function ElderScrollsOfAlts.SetupDefaultDefaults()
+  if(ElderScrollsOfAlts.altData.playersorderlast == nil) then
+    ElderScrollsOfAlts.altData.playersorderlast = 0
+  end
+end
+
+--------------------------------
+-- SETUP  setup event handling
+-- Called from OnAddOnLoaded
 function ElderScrollsOfAlts.DelayedStart()
   ElderScrollsOfAlts.SetupDefaultColors()
+  ElderScrollsOfAlts.SetupDefaultDefaults()
   --ElderScrollsOfAlts:InitializeCharts()
   ElderScrollsOfAlts.SavePlayerDataForGui() -- DATA
   ElderScrollsOfAlts.InitializeGui()
@@ -196,6 +206,7 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   
   --check/setup a bit earlier
   ElderScrollsOfAlts.CheckData()
+  ElderScrollsOfAlts.SetupDefaultDefaults()
   ElderScrollsOfAlts.SetupDefaultColors()
   zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
 
