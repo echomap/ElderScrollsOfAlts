@@ -3,6 +3,31 @@ local localization_strings = {
 	SI_NEW_ADDON_MESSAGE = " ist aktiv!",
 	-- Keybindings.
 	SI_BINDING_NAME_NEWADDON_DISPLAY = "Zeigen Sie das NewAddon an",
+  
+  -- Trade Skills
+  ESOA_FULL_SMTH = "Schmiedekunst",
+  ESOA_FULL_ALC  = "Alchemie",
+  ESOA_FULL_WOOD = "Schreinerei",
+  ESOA_FULL_JC   = "Schmuckhandwerk",
+  ESOA_FULL_ENCH = "Verzaubern",
+  ESOA_FULL_PROV = "Versorgen",
+  ESOA_FULL_CLTH = "Schneiderei",
+  -- Skills
+  ESOA_FULL_ASSAULT   = "Sturmangriff",
+  ESOA_FULL_SUPPORT   = "Unterstützung",
+  ESOA_FULL_LEGER     = "Lug und Trug",
+  ESOA_FULL_SOUL      = "Seelenmagie",
+  ESOA_FULL_WERE      = "Werewolf",
+  ESOA_FULL_VAMP      = "Vampire",
+  ESOA_FULL_FIGHT     = "die Kriegergilde",
+  ESOA_FULL_MAGE      = "die Magiergilde",
+  ESOA_FULL_UNDAUNTED = "die Unerschrockenen",
+  ESOA_FULL_THIEF     = "die Diebesgilde",
+  ESOA_FULL_DARK      = "die Dunkle Bruderschaft",
+  ESOA_FULL_PSIJ      = "der Psijik-Orden",
+  ESOA_FULL_SCRY      = "Spähen",
+  ESOA_FULL_EXCAV     = "Ausgrabung",
+  --
 }
 
 for stringId, stringValue in pairs(localization_strings) do

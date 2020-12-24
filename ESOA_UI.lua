@@ -650,7 +650,7 @@ function ElderScrollsOfAlts.RefreshViewableTable()
       table.insert( ESOA_GUI2_Body_ListHolder.displayedLines, dataHolderLine )
       --Check Max
       dataHolderLine:SetHidden(dHL > ESOA_GUI2_Body_ListHolder.maxLines)
-      ElderScrollsOfAlts.debugMsg("RefreshViewableTable: Hidden="..tostring(dHL > ESOA_GUI2_Body_ListHolder.maxLines))
+      --ElderScrollsOfAlts.debugMsg("RefreshViewableTable: Hidden="..tostring(dHL > ESOA_GUI2_Body_ListHolder.maxLines))
       --dataHolderLine:SetHidden(false)
       lineParent = dataHolderLine
     else
@@ -1711,11 +1711,17 @@ end
 
 ------------------------------
 -- UI: TOOLTIPS ESOACraftTooltip CRAFT Tooltip
-function ElderScrollsOfAlts:CraftTipEnter(myLabel,craftName, playerLine)  
+function ElderScrollsOfAlts:CraftTipEnter(myLabel, craftName, playerLine)  
   ElderScrollsOfAlts.debugMsg("CraftTipEnter: myLabel='",myLabel," craftName='", tostring(craftName).."'")
-  if( craftName == nil ) then return end 
+  if( craftName == nil ) then 
+    ElderScrollsOfAlts.debugMsg("CraftTipEnter: error, no craft name!")
+    return 
+  end 
   local nVal = tonumber(myLabel.data_sunk)
-  if( nVal == nil ) then return end 
+  if( nVal == nil ) then
+    ElderScrollsOfAlts.debugMsg("CraftTipEnter: error, no sunk value for craftname ", craftName )
+      return
+  end 
   local nVal2 = nil  
   if( myLabel.data_sunk ~= nil ) then
     nVal2 = tonumber(myLabel.data_sunk2)

@@ -373,6 +373,16 @@ function ElderScrollsOfAlts.LoadSettings()
     default = "", -- default value or function that returns the default value (optional)      
     reference = "ESOASettingsTitleEditbox" -- unique global reference to control (optional)
   }
+  --xxx
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_EDITVIEWSAVEALLOWODD_NM),
+    tooltip = GetString(ESOA_SETTINGS_EDITVIEWSAVEALLOWODD_TT),
+    getFunc = function() return ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames end,
+    setFunc = function(value)   ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames = value end,
+    width   = "half",	--or "half" (optional)
+  }
+  --
   optionsTable[#optionsTable+1] = {
     type    = "editbox",
     name    = GetString(ESOA_SETTINGS_EDITVIEWDATA_NAME),

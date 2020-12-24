@@ -283,7 +283,7 @@ ElderScrollsOfAlts.SkillsLevelMaximum = {
 -----------
 -- VIEWS: Lookup CRAFT
 function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
-  if(craftName=="JC" or craftName=="Jewelry" )then
+  if(craftName=="JC" or craftName=="Jewelry" or craftName==GetString(ESOA_FULL_JC) )then
     if(sunkVal == 0) then
       return "Allows the use of |c00FFFFPewter|r Ounces."
     elseif(sunkVal == 1) then
@@ -317,7 +317,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 9) then  
       return "Allows the use of |c00FFFFRubedite|r Ingots (Create gear up to CP |c00FFFF160|r)."
     end
-  elseif(craftName=="Alchemy")then
+  elseif(craftName=="Alchemy" or craftName==GetString(ESOA_FULL_ALC) )then
     if(sunkVal == 0) then  
       return "Allows the use of |c00FFFFNatural Water and Grease, Clear Water and Ichor|r (Makes a level |c00FFFF3 or 10|r concoction)."
     elseif(sunkVal == 1) then  
@@ -335,7 +335,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 7) then  
      return "Allows the use of |c00FFFFLorkhan's Tears and Alkhest|r (Makes a level |c00FFFFCP150|r concoction)."
     end
-  elseif(craftName=="Enchanting")then
+  elseif(craftName=="Enchanting" or craftName==GetString(ESOA_ABBR_ENCH) )then
     if(sunkVal == 0) then
       return "Allows the use of Common(|c00FFFFwhite|r) and Standard(green) Aspect Runestones."
     elseif(sunkVal == 1) then
@@ -345,7 +345,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 3) then
       return "Allows the use of Legendary (|cFFFF00gold|r) Aspect Runestones."
     end
-  elseif(craftName=="Enchanting2")then
+  elseif(craftName=="Enchanting2" or craftName==GetString(ESOA_ABBR_ENCH).."2" )then
     if(sunkVal == 0) then
       return "Allows the use of Jora, Porade, Jode and Notade Potency Runestones to make Glyphs of levels 1-15."
     elseif(sunkVal == 1) then
@@ -367,7 +367,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
      elseif(sunkVal == 9) then   
       return"Allows the use of Rejera, Repora, Jehade, and Itade Potency Runestones to make Glyphs of Champion 150 and 160."
     end
-  elseif(craftName=="Woodworking")then
+  elseif(craftName=="Woodworking" or craftName==GetString(ESOA_ABBR_WOOD) )then
     if(sunkVal == 0) then  
       return "Allows the use of Sanded |c00FFFFMaple|r wood (Create gear up to Lvl |c00FFFF14|r)."
     elseif(sunkVal == 1) then  
@@ -389,7 +389,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 9) then        
       return "Allows the use of Sanded |c00FFFFRuby Ash|r (Create gear up to CP |c00FFFF160|r)."
     end
-  elseif(craftName=="Clothing")then
+  elseif(craftName=="Clothing" or craftName==GetString(ESOA_FULL_CLTH) )then
     if(sunkVal == 0) then  
       return "Allows the use of |c00FFFFJute and Rawhide|r (Create gear up to Lvl |c00FFFF14|r)."
     elseif(sunkVal == 1) then  
@@ -411,7 +411,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 9) then
       return "Allows the use of |c00FFFFAncestor Silk and Rubedo Leather|r (Create gear up to CP |c00FFFF160|r)."
     end
-  elseif(craftName=="Provisioning")then
+  elseif(craftName=="Provisioning" or craftName==GetString(ESOA_ABBR_PROV) )then
     if(sunkVal == 0) then  
       return "Allows the use of Standard (|c00FF00green|r) Recipies."
     elseif(sunkVal == 1) then  
@@ -421,7 +421,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 3) then  
       return "Allows the use of Legendary (|cFFFF00yellow|r) Recipies."
     end
-  elseif(craftName=="Provisioning2")then
+  elseif(craftName=="Provisioning2" or craftName==GetString(ESOA_ABBR_PROV).."2" )then
     if(sunkVal == 0) then  
       return "Allows the making of up to level |c00FFFF19|r Recipes."
     elseif(sunkVal == 1) then  
@@ -466,65 +466,65 @@ end
 -----------
 -- VIEWS
 function ElderScrollsOfAlts:GetClassText(className)
-  local classX = GetString(ESOA_CLASS_DEFAULT_ABBREV)
-    if className == GetString(ESOA_CLASS_DRAGONKNIGHT) then
-      classX = GetString(ESOA_CLASS_DRAGONKNIGHT_ABBREV)
-    elseif className == GetString(ESOA_CLASS_SORCERER) then
-      classX = GetString(ESOA_CLASS_SORCERER_ABBREV)
-    elseif className == GetString(ESOA_CLASS_NIGHTBLADE) then
-      classX = GetString(ESOA_CLASS_NIGHTBLADE_ABBREV) 
-    elseif className == GetString(ESOA_CLASS_TEMPLAR) then
-      classX = GetString(ESOA_CLASS_TEMPLAR_ABBREV)
-    elseif className == GetString(ESOA_CLASS_WARDEN) then
-      classX = GetString(ESOA_CLASS_WARDEN_ABBREV)
-    elseif className == GetString(ESOA_CLASS_NECRO) then
-      classX = GetString(ESOA_CLASS_NECRO_ABBREV)
-    end
-    return classX
+  local classX = zo_strformat( "<<1>>", className ) -- get rid of links and junk. --GetString(ESOA_CLASS_DEFAULT_ABBREV)
+  if className == GetString(ESOA_CLASS_DRAGONKNIGHT) then
+    classX = GetString(ESOA_CLASS_DRAGONKNIGHT_ABBREV)
+  elseif className == GetString(ESOA_CLASS_SORCERER) then
+    classX = GetString(ESOA_CLASS_SORCERER_ABBREV)
+  elseif className == GetString(ESOA_CLASS_NIGHTBLADE) then
+    classX = GetString(ESOA_CLASS_NIGHTBLADE_ABBREV) 
+  elseif className == GetString(ESOA_CLASS_TEMPLAR) then
+    classX = GetString(ESOA_CLASS_TEMPLAR_ABBREV)
+  elseif className == GetString(ESOA_CLASS_WARDEN) then
+    classX = GetString(ESOA_CLASS_WARDEN_ABBREV)
+  elseif className == GetString(ESOA_CLASS_NECRO) then
+    classX = GetString(ESOA_CLASS_NECRO_ABBREV)
+  end
+  return classX
 end
 
 -----------
 -- VIEWS
 function ElderScrollsOfAlts:GetRaceText1(raceName)
-  local raceX = raceName
-    if raceName == GetString(ESOA_RACE_HIGHELF) then
-      raceX = GetString(ESOA_RACE_HIGHELF_ABBREV) 
-    elseif raceName == GetString(ESOA_RACE_WOODELF) then
-      raceX = GetString(ESOA_RACE_WOODELF_ABBREV)
-    elseif raceName == GetString(ESOA_RACE_KHAJIIT) then
-      raceX = GetString(ESOA_RACE_KHAJIIT_ABBREV)
-    elseif raceName == GetString(ESOA_RACE_ARGONIAN) then
-      raceX = GetString(ESOA_RACE_ARGONIAN_ABBREV)
-    elseif raceName == GetString(ESOA_RACE_DARKELF) then
-      raceX = GetString(ESOA_RACE_DARKELF_ABBREV)
-    end
-    return raceX
+  local raceX = zo_strformat( "<<1>>", raceName ) -- get rid of links and junk.
+  if raceName == GetString(ESOA_RACE_HIGHELF) then
+    raceX = GetString(ESOA_RACE_HIGHELF_ABBREV) 
+  elseif raceName == GetString(ESOA_RACE_WOODELF) then
+    raceX = GetString(ESOA_RACE_WOODELF_ABBREV)
+  elseif raceName == GetString(ESOA_RACE_KHAJIIT) then
+    raceX = GetString(ESOA_RACE_KHAJIIT_ABBREV)
+  elseif raceName == GetString(ESOA_RACE_ARGONIAN) then
+    raceX = GetString(ESOA_RACE_ARGONIAN_ABBREV)
+  elseif raceName == GetString(ESOA_RACE_DARKELF) then
+    raceX = GetString(ESOA_RACE_DARKELF_ABBREV)
+  end
+  return raceX
 end
 
 -----------
 -- VIEWS
 function ElderScrollsOfAlts:GetRaceText2(raceName)
-  local raceX = GetString(ESOA_RACE_UNKNOWN)
-    if raceName == GetString(ESOA_RACE_HIGHELF) then
-      raceX = GetString(ESOA_RACE_HIGHELF_ABBREV2)
-    elseif raceName == GetString(ESOA_RACE_WOODELF) then
-      raceX = GetString(ESOA_RACE_WOODELF_ABBREV2)
-    elseif raceName == GetString(ESOA_RACE_KHAJIIT) then
-      raceX = GetString(ESOA_RACE_KHAJIIT_ABBREV2)
-    elseif raceName == GetString(ESOA_RACE_ARGONIAN) then
-      raceX = GetString(ESOA_RACE_ARGONIAN_ABBREV2)
-    elseif raceName == GetString(ESOA_RACE_NORD) then
-      raceX = GetString(ESOA_RACE_NORD_ABBREV)
-    elseif raceName == GetString(ESOA_RACE_DARKELF) then
-      raceX = GetString(ESOA_RACE_DARKELF_ABBREV2)
-    elseif raceName == GetString(ESOA_RACE_BRETON) then
-      raceX = GetString(ESOA_RACE_BRETON_ABBREV)
-    elseif raceName == GetString(ESOA_RACE_ORC) then
-      raceX = GetString(ESOA_RACE_ORC_ABBREV)
-    elseif raceName == GetString(ESOA_RACE_REDGUARD) then
-      raceX = GetString(ESOA_RACE_REDGUARD_ABBREV)   
-    end
-    return raceX
+  local raceX = zo_strformat( "<<1>>", raceName ) -- get rid of links and junk. --GetString(ESOA_RACE_UNKNOWN)
+  if raceName == GetString(ESOA_RACE_HIGHELF) then
+    raceX = GetString(ESOA_RACE_HIGHELF_ABBREV2)
+  elseif raceName == GetString(ESOA_RACE_WOODELF) then
+    raceX = GetString(ESOA_RACE_WOODELF_ABBREV2)
+  elseif raceName == GetString(ESOA_RACE_KHAJIIT) then
+    raceX = GetString(ESOA_RACE_KHAJIIT_ABBREV2)
+  elseif raceName == GetString(ESOA_RACE_ARGONIAN) then
+    raceX = GetString(ESOA_RACE_ARGONIAN_ABBREV2)
+  elseif raceName == GetString(ESOA_RACE_NORD) then
+    raceX = GetString(ESOA_RACE_NORD_ABBREV)
+  elseif raceName == GetString(ESOA_RACE_DARKELF) then
+    raceX = GetString(ESOA_RACE_DARKELF_ABBREV2)
+  elseif raceName == GetString(ESOA_RACE_BRETON) then
+    raceX = GetString(ESOA_RACE_BRETON_ABBREV)
+  elseif raceName == GetString(ESOA_RACE_ORC) then
+    raceX = GetString(ESOA_RACE_ORC_ABBREV)
+  elseif raceName == GetString(ESOA_RACE_REDGUARD) then
+    raceX = GetString(ESOA_RACE_REDGUARD_ABBREV)   
+  end
+  return raceX
 end
 
 -----------

@@ -56,6 +56,7 @@ local defaultSettings = {
   selected = {
     --["charactername"] = nil,
   },
+  allowsaveoddviewnames = false,
 }
 
 local defaultSettingsGlobal = {
@@ -131,6 +132,35 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
   if(ElderScrollsOfAlts.altData.playersorderlast == nil) then
     ElderScrollsOfAlts.altData.playersorderlast = 0
   end
+  if(ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames == nil) then
+    ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames = false
+  end
+  if(ElderScrollsOfAlts.view.viewkeyXlate==nil) then
+    ElderScrollsOfAlts.view.viewkeyXlate = {}
+    ElderScrollsOfAlts.view.viewkeyXlate["Assault"]       = GetString(ESOA_FULL_ASSAULT)
+    ElderScrollsOfAlts.view.viewkeyXlate["Support"]       = GetString(ESOA_FULL_SUPPORT)
+    ElderScrollsOfAlts.view.viewkeyXlate["Legerdemain"]   = GetString(ESOA_FULL_LEGER)
+    ElderScrollsOfAlts.view.viewkeyXlate["Soul Magic"]    = GetString(ESOA_FULL_SOUL)
+    ElderScrollsOfAlts.view.viewkeyXlate["Werewolf"]      = GetString(ESOA_FULL_WERE)
+    ElderScrollsOfAlts.view.viewkeyXlate["Vampire"]       = GetString(ESOA_FULL_VAMP)
+    ElderScrollsOfAlts.view.viewkeyXlate["Fighters Guild"] = GetString(ESOA_FULL_FIGHT)
+    ElderScrollsOfAlts.view.viewkeyXlate["Mages Guild"]    = GetString(ESOA_FULL_MAGE)
+    ElderScrollsOfAlts.view.viewkeyXlate["Undaunted"]      = GetString(ESOA_FULL_UNDAUNTED)
+    ElderScrollsOfAlts.view.viewkeyXlate["Thieves Guild"]  = GetString(ESOA_FULL_THIEF)
+    ElderScrollsOfAlts.view.viewkeyXlate["Dark Brotherhood"] = GetString(ESOA_FULL_DARK)
+    ElderScrollsOfAlts.view.viewkeyXlate["Psijic Order"]   = GetString(ESOA_FULL_PSIJ)
+    ElderScrollsOfAlts.view.viewkeyXlate["Scrying"]        = GetString(ESOA_FULL_SCRY)
+    ElderScrollsOfAlts.view.viewkeyXlate["Excavation"]     = GetString(ESOA_FULL_EXCAV)  
+    
+    ElderScrollsOfAlts.view.viewkeyXlate["blacksmithing"] = GetString(ESOA_FULL_SMTH)  
+    ElderScrollsOfAlts.view.viewkeyXlate["alchemy"]       = GetString(ESOA_FULL_ALC)  
+    ElderScrollsOfAlts.view.viewkeyXlate["woodworking"]   = GetString(ESOA_FULL_WOOD)  
+    ElderScrollsOfAlts.view.viewkeyXlate["jewelry"]       = GetString(ESOA_FULL_JC)  
+    ElderScrollsOfAlts.view.viewkeyXlate["enchanting"]    = GetString(ESOA_FULL_ENCH)  
+    ElderScrollsOfAlts.view.viewkeyXlate["provisioning"]  = GetString(ESOA_FULL_PROV)  
+    ElderScrollsOfAlts.view.viewkeyXlate["clothing"]      = GetString(ESOA_FULL_CLTH)
+  end
+    
 end
 
 --------------------------------

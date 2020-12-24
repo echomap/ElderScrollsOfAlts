@@ -533,7 +533,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
       
       if( riding.inventory==60 and riding.speed==60 and riding.stamina==60 ) then
         playerLines[k].riding_maxed = true
-        playerLines[k].riding_timems = -1;
+        playerLines[k].riding_timems = 99999999;
       else
         local timeDiff = GetDiffBetweenTimeStamps(playerLines[k].riding_trainingready , GetTimeStamp())
         if( timeDiff ~= nil and timeDiff <= 0 ) then
@@ -549,15 +549,20 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
 end
 
 --
+--tradeKeyName uppercase (Woodworking)
+--destTradeName lowercase (woodworking)
 function ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeElem, tradeSkillElem, tplayerLine, destTradeName, tradeKeyName)
-  if tradeElem ~=nil then
+  ElderScrollsOfAlts.debugMsg("Trade2: ", " tradeKeyName=", tradeKeyName, " destTradeName=", destTradeName )
+  if tradeElem ~=nil and tplayerLine[destTradeName.."_setup"]==nil and tradeElem.rank > 0 then
     tplayerLine[destTradeName]               = tradeElem.rank
     tplayerLine[destTradeName.."_sunk"]      = tradeElem.sunk
+    tplayerLine[destTradeName.."_sunk2"]     = tradeElem.sunk2
     tplayerLine[destTradeName.."_sinkmax"]   = tradeElem.sinkmax    
     tplayerLine[destTradeName.."_sinkmax2"]  = tradeElem.sinkmax2
     tplayerLine[destTradeName.."_subskills"] = nil
-    
-    -- tradeElem subskills in tooltip?
+    tplayerLine[destTradeName.."_setup"]     = true    
+    ElderScrollsOfAlts.debugMsg("Trade2: ", " VALUE=", tplayerLine[destTradeName], " SUNK=", tplayerLine[destTradeName.."_sunk"] )  
+    -- tradeElem subskills in tooltip
     local sstext = ""
     if( tradeSkillElem~=nil and ElderScrollsOfAlts:istable(tradeSkillElem) ) then
       for k, v in pairs( tradeSkillElem ) do
@@ -630,6 +635,22 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
     return
   end
   
+  -- Dynamic Names?
+  --function ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeElem, tradeSkillElem, tplayerLine, destTradeName, tradeKeyName)
+  for iName, dbItem in pairs(tradeL) do
+    local ffirst = iName:find(" ")
+    if(ffirst~=nil and ffirst>0) then
+      ElderScrollsOfAlts.debugMsg("Load: trade as: iName="..iName)
+      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName] ,playerLines[k],string.lower(iName),iName)  
+      iName = string.sub(iName,1,ffirst)      
+      ElderScrollsOfAlts.debugMsg("Load: trade as: iName="..iName)
+      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName] ,playerLines[k],string.lower(iName),iName)  
+    else
+      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName] ,playerLines[k],string.lower(iName),iName)  
+    end
+  end
+  --yyyy ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Jewelry Crafting"],tradeS["Jewelry Crafting"],playerLines[k],"jewelry","Jewelry Crafting")  
+  --[[
   ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Alchemy"],tradeS["Alchemy"] ,playerLines[k],"alchemy","Alchemy")
   ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Blacksmithing"],tradeS["Blacksmithing"],playerLines[k],"blacksmithing","Blacksmithing")
   ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Blacksmithing"],tradeS["Blacksmithing"],playerLines[k],"smithing","smithing")
@@ -638,62 +659,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
   ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Enchanting"],tradeS["Enchanting"],playerLines[k],"enchanting","Enchanting")  
   ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Jewelry Crafting"],tradeS["Jewelry Crafting"],playerLines[k],"jewelry","Jewelry Crafting")  
   
-  --[[
-  local enchanting = tradeL["Enchanting"] 
-  if enchanting ~=nil then
-    playerLines[k].enchanting = enchanting.rank 
-    playerLines[k].enchanting_sunk     = enchanting.sunk
-    playerLines[k].enchanting_sinkmax  = enchanting.sinkmax
-    playerLines[k].enchanting_sunk2    = enchanting.sunk2
-    playerLines[k].enchanting_sinkmax2 = enchanting.sinkmax2
-  else
-    playerLines[k].enchanting = 0
-    playerLines[k].enchanting_sunk     = 0
-    playerLines[k].enchanting_sinkmax  = 0 
-    playerLines[k].enchanting_sunk2    = 0
-    playerLines[k].enchanting_sinkmax2 = 0             
-  end 
-  local jewelry = tradeL["Jewelry Crafting"] 
-  if jewelry ~=nil then
-    playerLines[k].jewelry = jewelry.rank   
-    playerLines[k].jewelry_sunk    = jewelry.sunk
-    playerLines[k].jewelry_sinkmax = jewelry.sinkmax
-  else
-    playerLines[k].jewelry = 0
-    playerLines[k].jewelry_sunk    = 0
-    playerLines[k].jewelry_sinkmax = 0 
-  end                  
-  --]]
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Provisioning"],tradeS["Provisioning"],playerLines[k],"provisioning","Provisioning")  
---[[
-  local provisioning = tradeL["Provisioning"]          
-  if provisioning ~=nil then
-    playerLines[k].provisioning = provisioning.rank   
-    playerLines[k].provisioning_sunk     = provisioning.sunk
-    playerLines[k].provisioning_sinkmax  = provisioning.sinkmax
-    playerLines[k].provisioning_sunk2    = provisioning.sunk2
-    playerLines[k].provisioning_sinkmax2 = provisioning.sinkmax2
-  else
-    playerLines[k].provisioning = 0
-    playerLines[k].provisioning_sunk     = 0
-    playerLines[k].provisioning_sinkmax  = 0              
-    playerLines[k].provisioning_sunk2    = 0
-    playerLines[k].provisioning_sinkmax2 = 0              
-  end              
-  --]]
-    ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Woodworking"],tradeS["Woodworking"],playerLines[k],"woodworking","Woodworking")  
-    --[[
-  local woodworking = tradeL["Woodworking"] 
-  if woodworking ~=nil then
-    playerLines[k].woodworking = woodworking.rank   
-    playerLines[k].woodworking_sunk    = woodworking.sunk
-    playerLines[k].woodworking_sinkmax = woodworking.sinkmax
-  else
-    playerLines[k].woodworking = 0
-    playerLines[k].woodworking_sunk    = 0
-    playerLines[k].woodworking_sinkmax = 0              
-  end
-  --]]
+    ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Woodworking"],tradeS["Woodworking"],playerLines[k],"woodworking","Woodworking")  --]]
 end
 
 --RESEARCH

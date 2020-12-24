@@ -250,8 +250,12 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
     for kk,vv in pairs(tempTable) do
       local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
       --ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
-      if(fEntry~=nil)then
-        --ElderScrollsOfAlts.outputMsg( "Validated")
+      if(ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames)then
+        validated = true
+        table.insert(goodEntries, tostring(vv) )
+        --goodEntryKeys[tostring(vv)] = true
+      elseif(fEntry~=nil) then 
+        --ElderScrollsOfAlts.outputMsg( "Validated")        
         if(goodEntryKeys[tostring(vv)]~=nil) then
           ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: Had to remove element per already in view as k="..tostring(kk).." v="..tostring(vv))
         else

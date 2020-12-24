@@ -151,13 +151,16 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].bio.champion = GetUnitChampionPoints("player")   
   end  
 	local pRace = GetUnitRace("player")
+  pRace = zo_strformat("<<1>>", pRace )
 	ElderScrollsOfAlts.altData.players[playerKey].bio.race = pRace
 	--GetUnitRaceId(string unitTag)
 	local pClass = GetUnitClass("player")
+  pClass = zo_strformat("<<1>>", pClass )
 	ElderScrollsOfAlts.altData.players[playerKey].bio.class = pClass
 	local pClassId = GetUnitClassId("player")
 	ElderScrollsOfAlts.altData.players[playerKey].bio.classId = pClassId
   local pAlliance = GetUnitAlliance("player")
+  pAlliance = zo_strformat("<<1>>", pAlliance )
   ElderScrollsOfAlts.altData.players[playerKey].bio.alliance = pAlliance
 
 	--local value = GetPlayerStat(self.statType, STAT_BONUS_OPTION_APPLY_BONUS)
@@ -243,13 +246,6 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --
   skillType = SKILL_TYPE_TRADESKILL 
   outputUndiscovered = true
-  --[[
-	ElderScrollsOfAlts.altData.players[playerKey].skills.trade = {}
-	ElderScrollsOfAlts.altData.players[playerKey].skills.trade.typelist = {}
-  baseElem = ElderScrollsOfAlts.altData.players[playerKey].skills.trade.typelist
-  ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem)
-  --]]
-  
 	ElderScrollsOfAlts.altData.players[playerKey].skills.trade = {}
 	local baseTableElem = ElderScrollsOfAlts.altData.players[playerKey].skills.trade
 	baseTableElem.typelist = {}
@@ -261,6 +257,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 		if name == nil then
 			name = ii;
 		end
+    name = zo_strformat( "<<1>>", name ) -- get rid of links and junk?
 		baseTableElem.typelist[name]	= {}
 		local selElemTable = baseTableElem.typelist[name]
 		local numAbilities = GetNumSkillAbilities(skillType, ii)
@@ -639,6 +636,7 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscove
 		if name == nil then
 			name = ii;
 		end
+    name = zo_strformat( "<<1>>", name ) -- get rid of links and junk?
     if discovered or outputUndiscovered then
       --ElderScrollsOfAlts.debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
       baseElem[name]	= {}
@@ -661,8 +659,8 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscove
       baseElemTable.abilities = {}
       local baseAbilityElem = baseElemTable.abilities
       for abilityIndex = 1, numAbilities do
-        local ABname, ABtextureName, ABearnedRank, ABpassive, ABultimate, ABpurchased, ABprogressionIndex, ABrankIndex =
-        GetSkillAbilityInfo(skillType, ii, abilityIndex)
+        local ABname, ABtextureName, ABearnedRank, ABpassive, ABultimate, ABpurchased, ABprogressionIndex, ABrankIndex = GetSkillAbilityInfo(skillType, ii, abilityIndex)
+        ABname = zo_strformat( "<<1>>", ABname ) -- get rid of links and junk?
         baseAbilityElem[ABname] = {}
         baseAbilityElem[ABname].name        = ABname
         baseAbilityElem[ABname].textureName = ABtextureName

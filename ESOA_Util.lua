@@ -5,12 +5,6 @@
 ----------------------------------------
 
 ------------------------------
--- 
-function ElderScrollsOfAlts.outputMsg(text)
-  d("(" .. ElderScrollsOfAlts.name .. ") " .. text )
-end
-
-------------------------------
 --
 function ElderScrollsOfAlts.errorMsg(text)
   d("(" .. ElderScrollsOfAlts.name .. ") " .. text )
@@ -46,6 +40,30 @@ function ElderScrollsOfAlts.debugMsg(...)
   --  debugMsg("(" .. ElderScrollsOfAlts.name .. ") " .. arg );
   --  return
   --end
+  if(arg~=nil)then
+    for i,v in ipairs(arg) do
+      if(v==nil) then 
+        printResult = printResult .. "nil"
+      else
+        printResult = printResult .. tostring(v) --.. " "
+      end
+    end
+  end
+
+  if printResult == nil then
+    return
+  end  
+	d("(" .. ElderScrollsOfAlts.name .. ") " .. printResult )
+end
+
+------------------------------
+--
+function ElderScrollsOfAlts.outputMsg(...)
+  local arg={...}
+  if arg == nil then
+    return
+  end
+  local printResult = ""
   if(arg~=nil)then
     for i,v in ipairs(arg) do
       if(v==nil) then 
