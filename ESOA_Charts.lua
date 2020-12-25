@@ -282,8 +282,10 @@ ElderScrollsOfAlts.SkillsLevelMaximum = {
 
 -----------
 -- VIEWS: Lookup CRAFT
-function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
-  if(craftName=="JC" or craftName=="Jewelry" or craftName==GetString(ESOA_FULL_JC) )then
+function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal) 
+  craftName = string.lower(craftName)
+  ElderScrollsOfAlts.debugMsg("GetCraftSunkText: craftName=",craftName, " sunkVal=", sunkVal)
+  if(craftName=="jc" or craftName=="jewelry" or craftName==string.lower(GetString(ESOA_FULL_JC)) )then
     if(sunkVal == 0) then
       return "Allows the use of |c00FFFFPewter|r Ounces."
     elseif(sunkVal == 1) then
@@ -295,7 +297,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 4) then
       return "Allows the use of |c00FFFFPlatinum|r Ounces."
     end
-  elseif(craftName=="Smithing" or craftName=="Blacksmithing")then
+  elseif(craftName=="smithing" or craftName=="blacksmithing" or craftName==string.lower(GetString(ESOA_FULL_SMTH)) )then
     if(sunkVal == 0) then
       return "Allows the use of |c00FFFFIron|r Ingots (Create gear up to Lvl |c00FFFF14|r)."
     elseif(sunkVal == 1) then
@@ -317,7 +319,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 9) then  
       return "Allows the use of |c00FFFFRubedite|r Ingots (Create gear up to CP |c00FFFF160|r)."
     end
-  elseif(craftName=="Alchemy" or craftName==GetString(ESOA_FULL_ALC) )then
+  elseif(craftName=="alchemy" or craftName==string.lower(GetString(ESOA_FULL_ALC)) )then
     if(sunkVal == 0) then  
       return "Allows the use of |c00FFFFNatural Water and Grease, Clear Water and Ichor|r (Makes a level |c00FFFF3 or 10|r concoction)."
     elseif(sunkVal == 1) then  
@@ -335,7 +337,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 7) then  
      return "Allows the use of |c00FFFFLorkhan's Tears and Alkhest|r (Makes a level |c00FFFFCP150|r concoction)."
     end
-  elseif(craftName=="Enchanting" or craftName==GetString(ESOA_ABBR_ENCH) )then
+  elseif(craftName=="enchanting" or craftName==string.lower(GetString(ESOA_FULL_ENCH)) )then
     if(sunkVal == 0) then
       return "Allows the use of Common(|c00FFFFwhite|r) and Standard(green) Aspect Runestones."
     elseif(sunkVal == 1) then
@@ -345,7 +347,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 3) then
       return "Allows the use of Legendary (|cFFFF00gold|r) Aspect Runestones."
     end
-  elseif(craftName=="Enchanting2" or craftName==GetString(ESOA_ABBR_ENCH).."2" )then
+  elseif(craftName=="enchanting2" or craftName==string.lower(GetString(ESOA_FULL_ENCH)).."2" )then
     if(sunkVal == 0) then
       return "Allows the use of Jora, Porade, Jode and Notade Potency Runestones to make Glyphs of levels 1-15."
     elseif(sunkVal == 1) then
@@ -367,7 +369,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
      elseif(sunkVal == 9) then   
       return"Allows the use of Rejera, Repora, Jehade, and Itade Potency Runestones to make Glyphs of Champion 150 and 160."
     end
-  elseif(craftName=="Woodworking" or craftName==GetString(ESOA_ABBR_WOOD) )then
+  elseif(craftName=="woodworking" or craftName==string.lower(GetString(ESOA_FULL_WOOD)) )then
     if(sunkVal == 0) then  
       return "Allows the use of Sanded |c00FFFFMaple|r wood (Create gear up to Lvl |c00FFFF14|r)."
     elseif(sunkVal == 1) then  
@@ -389,7 +391,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 9) then        
       return "Allows the use of Sanded |c00FFFFRuby Ash|r (Create gear up to CP |c00FFFF160|r)."
     end
-  elseif(craftName=="Clothing" or craftName==GetString(ESOA_FULL_CLTH) )then
+  elseif(craftName=="clothing" or craftName==string.lower(GetString(ESOA_FULL_CLTH)) )then
     if(sunkVal == 0) then  
       return "Allows the use of |c00FFFFJute and Rawhide|r (Create gear up to Lvl |c00FFFF14|r)."
     elseif(sunkVal == 1) then  
@@ -411,7 +413,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 9) then
       return "Allows the use of |c00FFFFAncestor Silk and Rubedo Leather|r (Create gear up to CP |c00FFFF160|r)."
     end
-  elseif(craftName=="Provisioning" or craftName==GetString(ESOA_ABBR_PROV) )then
+  elseif(craftName=="Provisioning" or craftName==string.lower(GetString(ESOA_FULL_PROV)) )then
     if(sunkVal == 0) then  
       return "Allows the use of Standard (|c00FF00green|r) Recipies."
     elseif(sunkVal == 1) then  
@@ -421,7 +423,7 @@ function ElderScrollsOfAlts:GetCraftSunkText(craftName,sunkVal)
     elseif(sunkVal == 3) then  
       return "Allows the use of Legendary (|cFFFF00yellow|r) Recipies."
     end
-  elseif(craftName=="Provisioning2" or craftName==GetString(ESOA_ABBR_PROV).."2" )then
+  elseif(craftName=="Provisioning2" or craftName==string.lower(GetString(ESOA_FULL_PROV)).."2" )then
     if(sunkVal == 0) then  
       return "Allows the making of up to level |c00FFFF19|r Recipes."
     elseif(sunkVal == 1) then  

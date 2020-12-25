@@ -27,6 +27,16 @@ local localization_strings = {
   ESOA_FULL_PSIJ      = "der Psijik-Orden",
   ESOA_FULL_SCRY      = "Spähen",
   ESOA_FULL_EXCAV     = "Ausgrabung",
+  -- Sub Skills
+  ESOA_FULL_SUB_SOLV    = "Lösungsmittelkenntnis",
+  ESOA_FULL_SUB_METAL   = "Schmiedehandwerk",
+  ESOA_FULL_SUB_TAIL    = "Schneiderei",
+  ESOA_FULL_SUB_ASPIMP  = "Aspektverbesserung",
+  ESOA_FULL_SUB_RECQUA  = "Rezeptqualität",
+  ESOA_FULL_SUB_WOOD    = "Schreinerhandwerk",
+  ESOA_FULL_SUB_ENGRAV  = "Graveur",
+  ESOA_FULL_SUB_POTIMPR = "Machtverbesserung",
+  ESOA_FULL_SUB_RECIMPR = "Rezeptverbesserung",
   --
 }
 

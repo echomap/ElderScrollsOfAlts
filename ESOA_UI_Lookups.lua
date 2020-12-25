@@ -324,7 +324,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       return
     end
       
-    if( playerLine[string.lower(viewKey)] ~=nil) then
+    if( playerLine[string.lower(viewKey)] ~= nil) then
       eline:SetText( playerLine[string.lower(viewKey)]  )
       eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
       eline.value = playerLine[string.lower(viewKey)]

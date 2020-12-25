@@ -18,12 +18,16 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
-1.00.30
+1.00.31
 [list]
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.30
+[list]
+[*] Trying to get skills to work for non en clients
+[/list]
 1.00.29
 [list]
 [*] added {achieveearned}, lowercase {unitavarank} and {unitavarankpoints}

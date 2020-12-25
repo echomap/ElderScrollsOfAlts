@@ -1,8 +1,10 @@
 -- Save Player Data to Saved Variables
 
 --Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
-local matchNameList1 = {"Solvent Proficiency", "Metalworking", "Tailoring", "Aspect Improvement", "Recipe Quality", "Woodworking", "Engraver" }
-local matchNameList2 = {"Potency Improvement", "Recipe Improvement", }
+local matchNameList1 = {GetString(ESOA_FULL_SUB_SOLV),  GetString(ESOA_FULL_SUB_METAL),  GetString(ESOA_FULL_SUB_TAIL),  GetString(ESOA_FULL_SUB_ASPIMP),  GetString(ESOA_FULL_SUB_RECQUA),  GetString(ESOA_FULL_SUB_WOOD),  GetString(ESOA_FULL_SUB_ENGRAV) }
+
+local matchNameList2 = {GetString(ESOA_FULL_SUB_POTIMPR), GetString(ESOA_FULL_SUB_RECIMPR) }
+
 
 local SLOT_TYPE_REV = {
   EQUIP_SLOT_HEAD      = "Head",

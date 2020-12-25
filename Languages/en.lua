@@ -1,7 +1,7 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
   SI_ESOA_MESSAGE  = " addon is loaded",
-  SI_ESOA_SHOW = "Display ESOA",
+  SI_ESOA_SHOW     = "Display ESOA",
   
   -- Keybindings
   SI_BINDING_NAME_ESOA_DISPLAY     = "Display ESOA",
@@ -107,6 +107,16 @@ local localization_strings = {
   ESOA_FULL_PSIJ      = "Psijic Order",
   ESOA_FULL_SCRY      = "Scrying",
   ESOA_FULL_EXCAV     = "Excavation",
+  -- Sub Skills
+  ESOA_FULL_SUB_SOLV    = "Solvent Proficiency",
+  ESOA_FULL_SUB_METAL   = "Metalworking",
+  ESOA_FULL_SUB_TAIL    = "Tailoring",
+  ESOA_FULL_SUB_ASPIMP  = "Aspect Improvement",
+  ESOA_FULL_SUB_RECQUA  = "Recipe Quality",
+  ESOA_FULL_SUB_WOOD    = "Woodworking",
+  ESOA_FULL_SUB_ENGRAV  = "Engraver",
+  ESOA_FULL_SUB_POTIMPR = "Potency Improvement",
+  ESOA_FULL_SUB_RECIMPR = "Recipe Improvement",
   --
   
   ESOA_INFAMY_DISREPUTABLE = "Dispreputable",
