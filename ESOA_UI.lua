@@ -1021,7 +1021,7 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
           bVal = 0
         end
     end
-    ElderScrollsOfAlts.debugMsg("ESOA: aVal="..tostring(aVal).." bVal="..tostring(bVal))
+    ElderScrollsOfAlts.debugMsg("ESOA: aVal="..tostring(aVal).." bVal="..tostring(bVal), " aname:'", a.playerLine.name, "' bname:'",b.playerLine.name, "'")
     --debugMsg("ESOA: a.name="..a.name.." b.name="..b.name)
     if(currentSortOrder) then
       return bVal > aVal or bVal == aVal and b.playerLine.name < a.playerLine.name

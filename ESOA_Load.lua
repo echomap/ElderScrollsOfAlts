@@ -69,10 +69,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     --
 		if bio ~=nil then
 			playerLines[k].gender   = bio.gender
-      playerLines[k].level    = bio.level
+      playerLines[k].level    = tonumber(bio.level)
 			playerLines[k].race     = bio.race
       playerLines[k].class    = bio.class
-      playerLines[k].alliance = bio.alliance
+      playerLines[k].alliance = tonumber(bio.alliance)
       playerLines[k].name     = bio.name --rewrite name
       playerLines[k].id       = bio.id      
       --

@@ -153,16 +153,13 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].bio.champion = GetUnitChampionPoints("player")   
   end  
 	local pRace = GetUnitRace("player")
-  pRace = zo_strformat("<<1>>", pRace )
 	ElderScrollsOfAlts.altData.players[playerKey].bio.race = pRace
 	--GetUnitRaceId(string unitTag)
 	local pClass = GetUnitClass("player")
-  pClass = zo_strformat("<<1>>", pClass )
 	ElderScrollsOfAlts.altData.players[playerKey].bio.class = pClass
 	local pClassId = GetUnitClassId("player")
 	ElderScrollsOfAlts.altData.players[playerKey].bio.classId = pClassId
   local pAlliance = GetUnitAlliance("player")
-  pAlliance = zo_strformat("<<1>>", pAlliance )
   ElderScrollsOfAlts.altData.players[playerKey].bio.alliance = pAlliance
 
 	--local value = GetPlayerStat(self.statType, STAT_BONUS_OPTION_APPLY_BONUS)

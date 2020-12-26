@@ -20,7 +20,7 @@ feature: traits
 ==Unpublished ESOA==
 1.00.31
 [list]
-[*] 
+[*] Fixed alliance and level sorting (dang sorting, I need to redo you from scratch!)
 [/list]
 
 ==ESOA Published V1.00.XX==
