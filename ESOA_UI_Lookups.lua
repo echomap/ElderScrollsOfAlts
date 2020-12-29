@@ -689,6 +689,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "lastloginraw"
   elseif( viewKey=="lastlogindiff") then  
     return "lastloginraw"
+  elseif( viewKey=="AssignedCampaignEndsAt") then  
+    return "AssignedCampaignEndsSeconds"
+    
+    
   --elseif( viewKey=="assignedcampaignrewardearnedtier") then  
   --return "assignedcampaignrewardearnedtier " 
   end
@@ -731,6 +735,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="BagSpaceFree" or viewKey=="BackpackUsed" or viewKey=="BackpackSize" or viewKey=="BackpackFree") then
     return 45
   --
+  elseif( viewKey=="lastlogin" ) then
+    return 75
+  elseif(viewKey=="lastlogindiff") then
+    return 70
   elseif(viewKey=="Skillpoints") then
     return 45
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
@@ -743,8 +751,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 65
   elseif(viewKey=="Blacksmithing Research 1" or viewKey=="Blacksmithing Research 2" or viewKey=="Blacksmithing Research 3") then
     return 65
-  elseif(viewKey=="Alliance Name" or viewKey=="AllianceName" or viewKey == "HomeCampaignName" ) then
-    return 150
+  elseif(viewKey=="Alliance Name" or viewKey=="AllianceName" or viewKey == "HomeCampaignName" or viewKey=="AssignedCampaignName" ) then
+    return 120
   elseif(viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
     return 165
   elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
@@ -879,7 +887,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "JC3"
     
   elseif(viewKey=="AssignedCampaignId") then
-    return "AssignedId"
+    return "AvA(A)ID"
   elseif(viewKey=="GuestCampaignId") then
     return "GuestId"
   elseif(viewKey=="HomeCampaignId") then
@@ -888,6 +896,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "Guest Campaign"
   elseif(viewKey=="HomeCampaignName") then
     return "Home Campaign"
+  elseif(viewKey=="AssignedCampaignName") then
+    return "AvA(A)Name"
   elseif(viewKey=="UnitAvARank") then
     return "AvARank"
   elseif(viewKey=="UnitAvARankPoints") then
@@ -896,6 +906,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "HomeRewardTier"
   elseif(viewKey=="GuestCampaignRewardEarnedTier") then
     return "GuestRewardTier"
+  elseif(viewKey=="AssignedCampaignRewardEarnedTier") then
+    return "AvA(A)IDRewardTier"
+
   elseif(viewKey=="currency_alliance point" or viewKey=="Currency_Alliance Point") then
     return "AP"
   elseif(viewKey=="currency_tel var stone" or viewKey=="Currency_Tel Var Stone") then
@@ -913,9 +926,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "Zone"
   elseif(viewKey=="subzoneName") then
     return "SubZone"
-  elseif(viewKey=="lastlogin") then
-    return "LoginTime"
-  elseif(viewKey=="lastlogindiff") then
+  elseif(string.lower(viewKey)=="lastlogin") then
+    return "Login"
+  elseif(viewKey=="lastlogindiff" or viewKey=="Lastlogindiff") then
     return "LastLogin"
   elseif(viewKey=="playersorder") then
     return "Order"

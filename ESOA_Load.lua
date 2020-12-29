@@ -801,7 +801,24 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
   playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
   playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
-  playerLines[k].CurrentCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
+  playerLines[k].CurrentCampaignAssigned   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
+  playerLines[k].AssignedCampaignEndsSeconds = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsSeconds,0) 
+  playerLines[k].AssignedCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsAt,"") 
+  --ElderScrollsOfAlts.outputMsg("AssignedCampaignEndsAt: " , alliancewar.AssignedCampaignEndsAt)
+  if(alliancewar.AssignedCampaignEndsAt~=nil and alliancewar.AssignedCampaignEndsAt~="") then
+    local timeDiff  = GetDiffBetweenTimeStamps( playerLines[k].AssignedCampaignEndsAt,    GetTimeStamp() )
+    --local timeDiff2 = GetDiffBetweenTimeStamps( playerLines[k].AssignedCampaignIdSeconds, GetTimeStamp() )
+    --playerLines[k].AssignedCampaignEndsAt = timeDiff -- playerLines[k].AssignedCampaignEndsAt - GetTimeStamp() 
+    playerLines[k].AssignedCampaignEndsAt = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+    ElderScrollsOfAlts.debugMsg("AssignedCampaignEndsAt=", playerLines[k].AssignedCampaignEndsAt )
+    if(timeDiff<1) then
+      playerLines[k].AssignedCampaignEndsAtOver = true
+    else
+      playerLines[k].AssignedCampaignEndsAtOver = false
+    end
+    ElderScrollsOfAlts.debugMsg("name:", playerLines[k].name, " AssignedCampaignEndsAtOver=", playerLines[k].AssignedCampaignEndsAtOver )
+    --playerLines[k].AssignedCampaignEndsAt = ZO_FormatTime( alliancewar.AssignedCampaignEndsAt, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  end
   
   playerLines[k].GuestCampaignName    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
   playerLines[k].CurrentCampaignName  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
@@ -831,6 +848,12 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].currentCampaignrewardearnedTier  = playerLines[k].CurrentCampaignRewardEarnedTier
   playerLines[k].guestCampaignrewardearnedTier    = playerLines[k].GuestCampaignRewardEarnedTier
   --
+  if(playerLines[k].AssignedCampaignEndsAtOver) then
+    --playerLines[k].assignedcampaignrewardearnedtier = "("..playerLines[k].assignedcampaignrewardearnedtier..")"
+    --playerLines[k].currentCampaignrewardearnedTier  = "("..playerLines[k].currentCampaignrewardearnedTier..")"
+    --playerLines[k].guestCampaignrewardearnedTier    = "("..playerLines[k].guestCampaignrewardearnedTier..")"
+  end
+  
   --playerLines[k].assignedcampaignrewardearnedtier_rank = playerLines[k].AssignedCampaignRewardEarnedTier
   --playerLines[k].currentCampaignrewardearnedTier_rank  = playerLines[k].CurrentCampaignRewardEarnedTier
   --playerLines[k].guestCampaignrewardearnedTier_rank    = playerLines[k].GuestCampaignRewardEarnedTier

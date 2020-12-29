@@ -21,6 +21,7 @@ feature: traits
 1.00.31
 [list]
 [*] Fixed alliance and level sorting (dang sorting, I need to redo you from scratch!)
+[*] Added view entry {AssignedCampaignEndsAt}, {AssignedCampaignEndsSeconds}
 [/list]
 
 ==ESOA Published V1.00.XX==

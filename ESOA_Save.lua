@@ -405,6 +405,28 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
   
+  local avaAEnd = GetSecondsUntilCampaignEnd(assignedCampaignId)
+  ElderScrollsOfAlts.outputMsg("avaAEnd: '", avaAEnd, "'")
+  if(avaAEnd~=nil and avaAEnd~=0) then
+    ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsSeconds = GetSecondsUntilCampaignEnd(assignedCampaignId)
+    local AC_expiresAt = GetTimeStamp() + ( ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsSeconds )
+    ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt = AC_expiresAt
+    if(ElderScrollsOfAlts.altData.ava==nil) then
+      ElderScrollsOfAlts.altData.ava = {}
+      ElderScrollsOfAlts.altData.ava.campaigns = {}
+    end
+    ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId] = {}
+    ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignEndsAt = AC_expiresAt
+    ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignId     = assignedCampaignId
+    ElderScrollsOfAlts.outputMsg("avaAEnd saved to cache '", AC_expiresAt, "'")
+  else
+    if(ElderScrollsOfAlts.altData.ava~=nil and ElderScrollsOfAlts.altData.ava.campaigns ~= nil and  ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId]~=nil and ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignEndsAt~=nil) then
+      ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt = ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignEndsAt
+      ElderScrollsOfAlts.outputMsg("avaAEnd loaded from cache '", ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt, "'")
+    end
+  end
+
+
   --GetLargeAvARankIcon(rank))
   --GetAllianceColor(alliance):UnpackRGBA())
   
