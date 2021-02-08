@@ -1633,22 +1633,25 @@ end
 function ElderScrollsOfAlts:ResearchTipEnter(myLabel,equipName)
   ElderScrollsOfAlts.debugMsg("ResearchTipEnter: equipName='",equipName,"' ","myLabel:'",myLabel,"'")
   local itemLink = myLabel.name
-  if( itemLink==nil and myLabel.tooltip==nil ) then
-    return
-  end
+  --if( itemLink==nil and myLabel.tooltip==nil ) then
+  --  return
+  --end
   InitializeTooltip(InformationTooltip, myLabel, TOPLEFT, 5, -56, TOPRIGHT)
-  if( itemLink~=nil ) then
-    InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
+  if( itemLink==nil and myLabel.tooltip==nil ) then
+    if( itemLink~=nil ) then
+      InformationTooltip:AddLine(string.format("(%s)",itemLink), "ZoFontGame")
+    end
   end
   ElderScrollsOfAlts.debugMsg("ResearchTipEnter: myLabel.traitType='",myLabel.traitType)
   ElderScrollsOfAlts.debugMsg("ResearchTipEnter: myLabel.tooltip='",myLabel.tooltip)
   if(myLabel.traitType~=nil) then
     InformationTooltip:AddLine(string.format("(%s)"     , myLabel.traitType), "ZoFontGame")
     InformationTooltip:AddLine(string.format("Trait: %s", myLabel.traitDesc), "ZoFontGame")
-    InformationTooltip:AddLine(string.format("(Known? %s)"     , tostring(myLabel.traitknown)), "ZoFontGame")
+    --InformationTooltip:AddLine(string.format("(Known? %s)"     , tostring(myLabel.traitknown)), "ZoFontGame")
   elseif( myLabel.tooltip~=nil ) then
     InformationTooltip:AddLine(string.format("(%s)"     , myLabel.tooltip), "ZoFontGame")
   end
+  --InformationTooltip:AddLine(string.format("(#Known: %s)"     , tostring(myLabel.NumTraitsKnown)), "ZoFontGame")
 end
 
 ------------------------------
@@ -1892,9 +1895,9 @@ function ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName)
   --ElderScrollsOfAlts.debugMsg("TooltipEnter: ttkey='"..tostring(ttkey).."'")
   --ElderScrollsOfAlts.debugMsg("TooltipEnter: ttval='"..tostring(ttval).."'")
   if(ttval~=nil) then    
-    if( tooltipDesc == nil and tooltipTitle == nil) then
+    --if( tooltipDesc == nil and tooltipTitle == nil) then
       InitializeTooltip(ESOATooltip, mySelf, TOPLEFT, 5, -76, TOPRIGHT)
-    end
+    --end
     ESOATooltip:AddLine(ttval, "ZoFontGame")
   end
 end--TooltipEnter

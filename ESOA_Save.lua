@@ -146,12 +146,22 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
 	local pLvl = GetUnitLevel("player")
 	ElderScrollsOfAlts.altData.players[playerKey].bio.level = pLvl
   local canChampPts = CanUnitGainChampionPoints("player")
-  ElderScrollsOfAlts.altData.players[playerKey].bio.CanChampPts = canChampPts  
-  if CanChampPts then
+  ElderScrollsOfAlts.altData.players[playerKey].bio.canchamppts = canChampPts  
+  ElderScrollsOfAlts.altData.players[playerKey].bio.champion = nil
+  if canChampPts then
     --TODO Not sure what effective level means
     --ElderScrollsOfAlts.altData.players[playerKey].bio.level    = GetUnitEffectiveLevel("player") 
     ElderScrollsOfAlts.altData.players[playerKey].bio.champion = GetUnitChampionPoints("player")   
-  end  
+  end
+  local xpleft    = GetNumExperiencePointsInLevel(pLvl)
+  if not xpleft then
+    --d("You can't level up any further.")
+  else
+    ElderScrollsOfAlts.altData.players[playerKey].bio.xpleft = xpleft
+    --d("It takes " .. xpleft .. " XP to get from the start of this level to the next level.")
+  end
+  ElderScrollsOfAlts.altData.players[playerKey].bio.unitxp    = GetUnitXP("player")
+  ElderScrollsOfAlts.altData.players[playerKey].bio.unitxpmax = GetUnitXPMax("player")
 	local pRace = GetUnitRace("player")
 	ElderScrollsOfAlts.altData.players[playerKey].bio.race = pRace
 	--GetUnitRaceId(string unitTag)
@@ -406,8 +416,10 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
   
   local avaAEnd = GetSecondsUntilCampaignEnd(assignedCampaignId)
-  ElderScrollsOfAlts.outputMsg("avaAEnd: '", avaAEnd, "'")
-  if(avaAEnd~=nil and avaAEnd~=0) then
+  ElderScrollsOfAlts.debugMsg("avaAEnd: '", avaAEnd, "'")
+  if(avaAEnd~=nil and avaAEnd<0) then
+    ElderScrollsOfAlts.debugMsg("avaAEnded???: '", avaAEnd, "'")  
+  elseif(avaAEnd~=nil and avaAEnd~=0) then
     ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsSeconds = GetSecondsUntilCampaignEnd(assignedCampaignId)
     local AC_expiresAt = GetTimeStamp() + ( ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsSeconds )
     ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt = AC_expiresAt
@@ -418,11 +430,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId] = {}
     ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignEndsAt = AC_expiresAt
     ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignId     = assignedCampaignId
-    ElderScrollsOfAlts.outputMsg("avaAEnd saved to cache '", AC_expiresAt, "'")
+    ElderScrollsOfAlts.debugMsg("avaAEnd saved to cache '", AC_expiresAt, "'")
   else
     if(ElderScrollsOfAlts.altData.ava~=nil and ElderScrollsOfAlts.altData.ava.campaigns ~= nil and  ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId]~=nil and ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignEndsAt~=nil) then
       ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt = ElderScrollsOfAlts.altData.ava.campaigns[assignedCampaignId].campaignEndsAt
-      ElderScrollsOfAlts.outputMsg("avaAEnd loaded from cache '", ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt, "'")
+      ElderScrollsOfAlts.debugMsg("avaAEnd loaded from cache '", ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignEndsAt, "'")
     end
   end
 
@@ -588,6 +600,39 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
   --ElderScrollsOfAlts.debugMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
 	-- Fetch the saved variables
+  
+  --Test TRAITS
+  if(ElderScrollsOfAlts.altData.players[playerKey].researchtraits == nil) then
+    ElderScrollsOfAlts.altData.players[playerKey].researchtraits = {}
+    ElderScrollsOfAlts.altData.players[playerKey].researchtraits.unknown         = {}
+    ElderScrollsOfAlts.altData.players[playerKey].researchtraits.blacksmithing   = {}
+    ElderScrollsOfAlts.altData.players[playerKey].researchtraits.clother         = {}
+    ElderScrollsOfAlts.altData.players[playerKey].researchtraits.woodworking     = {}
+    ElderScrollsOfAlts.altData.players[playerKey].researchtraits.jewelrycrafting = {}
+  end
+  local baseRTElem = ElderScrollsOfAlts.altData.players[playerKey].researchtraits
+  for patternIndex = 1, GetNumSmithingPatterns() do
+    local patternName, baseName, _, numMaterials, numTraitsRequired, numTraitsKnown, resultingItemFilterType = GetSmithingPatternInfo(patternIndex)
+    local craftingType = GetCraftingInteractionType()-- ONLY valid when crafting table OPEN!
+    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: Trait: patternName: ", patternName , " numMaterials: " , numMaterials, " numTraitsKnown: ", numTraitsKnown, " TYPE=", craftingType )  
+    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: TYPElIST: BLACKSMITHING: ", CRAFTING_TYPE_BLACKSMITHING , " CLOTHIER: " , CRAFTING_TYPE_CLOTHIER, " WOODWORKING: ", CRAFTING_TYPE_WOODWORKING)
+    local baseTTElem = baseRTElem.unknown
+    if craftingType == CRAFTING_TYPE_BLACKSMITHING then
+      baseTTElem = baseRTElem.blacksmithing
+    elseif craftingType == CRAFTING_TYPE_CLOTHIER then
+      baseTTElem = baseRTElem.clother
+    elseif craftingType == CRAFTING_TYPE_WOODWORKING then
+      baseTTElem = baseRTElem.woodworking
+    elseif craftingType == CRAFTING_TYPE_JEWELRYCRAFTING then
+      baseTTElem = baseRTElem.jewelrycrafting
+    end
+    if(baseTTElem[patternName]==nil) then
+      baseTTElem[patternName] = {}
+    end
+    baseTTElem[patternName].numTraitsKnown = numTraitsKnown    
+  end
+  --Test TRAITS
+  
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: done")
 end
 
@@ -849,8 +894,20 @@ function ElderScrollsOfAlts:SaveDataPlayerResearchData(tradeSkillType, keyProfNa
     if( numTraits == dataResearchElem[keyProfName].lines[name].numTraitsKnown ) then
       dataResearchElem[keyProfName].researchNumlinesDone = dataResearchElem[keyProfName].researchNumlinesDone + 1
     end
-    --
-  end    
+  end -- research
+  --[[ TODO: get num traints known?
+  for i = 1, GetMaxTraits() do
+    local known, name = GetItemLinkReagentTraitInfo(itemLink, i)
+    if known then
+      d(zo_strformat("Trait <<1>> is known; it's <<2>>.", i, name))
+    end
+     boolean known = IsSmithingTraitKnownForResult(number patternIndex, number materialIndex, number materialQuantity, number itemStyleId, number traitIndex)
+  end
+  number numTraitItems = GetNumSmithingTraitItems()
+  Returns: number:nilable ItemTraitType traitType, string itemName, textureName icon, number sellPrice, boolean meetsUsageRequirement, number itemStyleId, number ItemQuality quality
+  GetSmithingTraitItemInfo(number traitItemIndex)
+Returns: string link = GetSmithingTraitItemLink(number traitItemIndex, number LinkStyle linkStyle)
+  --]]
 end
 
 --

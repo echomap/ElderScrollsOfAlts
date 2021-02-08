@@ -9,7 +9,7 @@
 ------------------------------
 -- View Lookup, show data
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
-  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: viewKey:" .. tostring(viewKey) )
+  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: viewKey:" , tostring(viewKey) )
   eline.viewKey = viewKey
   if(eline==nil) then return end
   if(viewKey=="Special") then
@@ -57,29 +57,45 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.alliance = pAlliance
     if pAlliance ~= nil then
       local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
-      eline:SetTexture(pAllIcon)      
+      eline:SetTexture(pAllIcon)  
+      eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  pAlliance )
     end
-  elseif(viewKey=="Alliance Name") then
+  elseif(viewKey=="Alliance Name" or viewKey=="alliance name") then
     local pAlliance = playerLine["alliance"]
     eline.allianceid = pAlliance
     --TODO alliance name
     eline.alliance = GetAllianceName(pAlliance) 
-  elseif(viewKey=="Class") then
+    eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  pAlliance )
+  elseif(viewKey=="Class" or viewKey=="class") then
     eline:SetText( ElderScrollsOfAlts:GetClassText(playerLine["class"]) )
     eline.tooltip = playerLine.name .. " is a ".. ElderScrollsOfAlts:GetClassText(playerLine["class"])
-  elseif(viewKey=="Level") then
+  elseif(viewKey=="Level" or viewKey=="level") then
+    eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]
+    eline:SetText( playerLine["level"] )
     if playerLine["champion"] == nil then
-      eline:SetText( playerLine["level"])
+      --eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]    
+      local uxm = playerLine["unitxpmax"]
+      local ux  = playerLine["unitxp"]
+      if ( ux~=nil and ux >0 and uxm~=nil and uxm>0) then
+        eline.tooltip = zo_strformat("<<1>> is level <<2>> (<<3>>/<<4>>)", playerLine.name, playerLine["level"], ZO_CommaDelimitNumber(ux), ZO_CommaDelimitNumber(uxm) )
+      end
     else
-      eline:SetText( playerLine["level"] .."("..playerLine["champion"]..")" )      
+      --eline:SetText( playerLine["level"] .."("..playerLine["champion"]..")" )
+      eline.tooltip = playerLine.name .. " is level ".. playerLine["level"] .." ("..playerLine["champion"].."cp)"
     end
-  elseif(viewKey=="Race") then
+  elseif(viewKey=="Race" or viewKey=="race") then
     eline:SetText( ElderScrollsOfAlts:GetRaceText1(playerLine["race"]) )
     eline.tooltip = playerLine.name .. " is a ".. playerLine["race"] 
   elseif(viewKey=="Gender") then
     local genderText = ElderScrollsOfAlts:GetGenderText(playerLine["gender"])
     eline:SetText( genderText )
     eline.tooltip = playerLine.name .. " is a ".. ElderScrollsOfAlts:GetGenderFullText(playerLine["gender"])
+  elseif(viewKey=="Level") then    
+    eline:SetText( playerLine["level"] )
+    eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]
+    if (playerLine["unitxp"]~=nil and playerLine["unitxp"]>0) then
+      eline.tooltip = zo_strformat("<<1>> (<<2>>/<<3>>)",eline.tooltip, playerLine["unitxp"], playerLine["unitxpmax"] )
+    end
   --
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" and playerLine[viewKey.."_Rank"] ~=nil ) then
     local viewXlate = viewKey
@@ -220,12 +236,21 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     newKey = newKey:gsub(" ","_")
     if( playerLine[ newKey ] ~=nil ) then
       eline.value = playerLine[newKey]
-      eline:SetText( playerLine[newKey]  )
-      eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[newKey], viewKey )      
+      eline.key   = newKey
+      eline:SetText( playerLine[newKey] )
+      eline.maxvalue = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
+      --eline.tooltip = zo_strformat("<<1>> has <<2>> in '<<3>>'", playerLine.name,  playerLine[newKey], viewKey, eline.maxvalue )      
     else
       eline:SetText(playerLine[viewKey])
       eline.value = playerLine[viewKey]
-      eline.tooltip = zo_strformat("<<1>> has <<2>> in <<3>> skill", playerLine.name,  playerLine[viewKey], viewKey )
+      eline.key   = viewKey
+      eline.maxvalue = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
+      --eline.tooltip = zo_strformat("<<1>> has <<2>> in '<<3>>'", playerLine.name,  eline.value, eline.key, eline.maxvalue )
+    end
+    if(eline.maxvalue~=nil) then
+      eline.tooltip = zo_strformat("<<1>> has <<2>>/<<4>> in '<<3>>'", playerLine.name,  eline.value, viewKey, eline.maxvalue )
+    else
+      eline.tooltip = zo_strformat("<<1>> has <<2>> in '<<3>>'", playerLine.name,  eline.value, viewKey, eline.maxvalue )
     end
   elseif(viewKey=="Riding Timer") then
     local timeMS     = playerLine["riding_timems"]
@@ -236,6 +261,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.sort_data    = timeMS
     eline.sort_numeric =  true
     eline.value        = timeMS
+    eline.maxvalue = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
       
     if(playerLine["riding_maxed"]) then
         eline.tooltip = "Riding Skills Maxed"
@@ -268,6 +294,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         eline:SetText("--")  
       end
     end--max check
+    eline.tooltip = zo_strformat("<<1>> has '<<2>>' as <<3>>",
+        playerLine.name, viewKey, eline.tooltip )
     
     --Riding Timer
     local noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
@@ -305,6 +333,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --
   --
   else
+  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered else case")
     if( playerLine[viewKey.."_Rank"] ~= nil ) then
       eline.value = playerLine[viewKey.."_Rank"]
       --if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
@@ -318,19 +347,26 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     newKey = newKey:gsub(" ","_")
     --debugMsg("Newkey='"..newKey.."'")
     if( playerLine[ newKey ] ~=nil ) then
+      ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered lower case check")
       eline:SetText( playerLine[newKey]  )
-      eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+        playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
+      --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
       eline.value = playerLine[ newKey ] 
       return
     end
       
     if( playerLine[string.lower(viewKey)] ~= nil) then
       eline:SetText( playerLine[string.lower(viewKey)]  )
-      eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+        playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
+      --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
       eline.value = playerLine[string.lower(viewKey)]
     elseif( playerLine[(viewKey)] ~=nil ) then
       eline:SetText( tostring(playerLine[(viewKey)])  )
-      eline.tooltip = viewKey .. " is " .. tostring(playerLine[(viewKey)])
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+        playerLine.name, viewKey, playerLine[viewKey] )
+      --eline.tooltip = viewKey .. " is " .. tostring(playerLine[(viewKey)])
       eline.value = playerLine[(viewKey)]
     end
   end

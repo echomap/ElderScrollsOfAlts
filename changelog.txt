@@ -18,13 +18,21 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
+1.00.32
+[list]
+[*] update to 100034 "Flames of Ambition"
+[*] Added view entry {achieveearned}, {playersorder}, {unitxpmax}, {unitxp}, {champion}
+[*] Fixed {level} tooltip
+[/list]
+
+==ESOA Published V1.00.XX==
 1.00.31
 [list]
 [*] Fixed alliance and level sorting (dang sorting, I need to redo you from scratch!)
 [*] Added view entry {AssignedCampaignEndsAt}, {AssignedCampaignEndsSeconds}
+[*] Fixed recent race, gender, alliance sorting
+[*] Working on traits
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.30
 [list]
 [*] Trying to get skills to work for non en clients

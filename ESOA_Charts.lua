@@ -131,6 +131,10 @@ ElderScrollsOfAlts.allowedViewEntries = {
   
   ["achieveearned"] = 1, 
   ["playersorder"] = 1,
+  
+  ["unitxpmax"] = 1,
+  ["unitxp"] = 1,
+  ["champion"] = 1,
 }
 
 -----------

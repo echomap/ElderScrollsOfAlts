@@ -53,6 +53,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
 		local bio = ElderScrollsOfAlts.altData.players[k].bio
     playerLines[k].gender = -1
     playerLines[k].level = -1
+    playerLines[k].xpleft = -1
     playerLines[k].race = "Unk"
     playerLines[k].class = "Unk"
     playerLines[k].Werewolf = false
@@ -70,6 +71,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
 		if bio ~=nil then
 			playerLines[k].gender   = bio.gender
       playerLines[k].level    = tonumber(bio.level)
+      playerLines[k].xpleft   = bio.xpleft
+      playerLines[k].unitxp   = bio.unitxp
+      playerLines[k].unitxpmax= bio.unitxpmax      
 			playerLines[k].race     = bio.race
       playerLines[k].class    = bio.class
       playerLines[k].alliance = tonumber(bio.alliance)
@@ -149,10 +153,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       return
     end
     --
-    if bio.CanChampPts then
+    if bio.canchamppts then
       playerLines[k].champion = bio.champion
     else 
-      playerLines[k].champion = nil
+      playerLines[k].champion = -1
     end
 
     -- MISC
@@ -780,6 +784,7 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
           playerLines[k][mKye.."TraitType"] = vv.traitType
           playerLines[k][mKye.."TraitDesc"] = vv.traitDescription
           playerLines[k][mKye.."Traitknown"] = vv.known
+          playerLines[k][mKye.."NumTraitsKnown"] = vv.numTraitsKnown
           --        
           kki = kki+1
         end 
