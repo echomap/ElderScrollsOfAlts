@@ -427,13 +427,13 @@ end
 ------------------------------
 --SETTINGS For use by Settings dropdown
 function ElderScrollsOfAlts:SetSelectedAllowedViewEntry(choiceText)
-  local choiceText2 = choiceText
   if(choiceText==nil) then
-    choiceText2 = " "
+    ElderScrollsOfAlts.savedVariables.selected.viewentry = " "
   else
-    choiceText2 = string.format("%s%s%s","{",choiceText,"}")
-  end
-  ElderScrollsOfAlts.savedVariables.selected.viewentry = choiceText2
+    --choiceText2 = zo_strformat("<<1>> {<<2>>},", printEntries, kName )
+    --choiceText2 = string.format("%s%s%s","{",choiceText,"}")
+    ElderScrollsOfAlts.savedVariables.selected.viewentry = zo_strformat("{<<1>>}", choiceText )
+  end  
 end
 
 ------------------------------

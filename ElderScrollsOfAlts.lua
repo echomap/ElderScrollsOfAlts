@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.32",			-- A nuisance to match to the Manifest.
+    version         = "1.00.33",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -180,7 +180,7 @@ function ElderScrollsOfAlts.DelayedStart()
   ElderScrollsOfAlts.savedVariables.selected.character = nil
   
   --[[	Bandits User Interface Side Panel ]]--
-  if(BUI~=nil and not ElderScrollsOfAlts.view.buisetup) then
+  if(BUI~=nil and BUI.Vars~=nil and not ElderScrollsOfAlts.view.buisetup) then
     ElderScrollsOfAlts.view.buisetup= true
     local content = {
       {

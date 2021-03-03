@@ -72,7 +72,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif(viewKey=="Level" or viewKey=="level") then
     eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]
     eline:SetText( playerLine["level"] )
-    if playerLine["champion"] == nil then
+    if playerLine["champion"] == nil or playerLine["champion"] < 0 then
       --eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]    
       local uxm = playerLine["unitxpmax"]
       local ux  = playerLine["unitxp"]
@@ -754,7 +754,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="Note") then
     return 35
   elseif(viewKey=="Class") then
-    return 60
+    return 52
   elseif(viewKey=="Level") then
     return 40
   elseif(viewKey=="Race") then
@@ -774,7 +774,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif( viewKey=="lastlogin" ) then
     return 75
   elseif(viewKey=="lastlogindiff") then
-    return 70
+    return 75
   elseif(viewKey=="Skillpoints") then
     return 45
   elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then

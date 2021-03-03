@@ -18,14 +18,24 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
+1.00.34
+[list]
+[*] 
+[*] 
+[/list]
+
+==ESOA Published V1.00.XX==
+1.00.33
+[list]
+[*] Bug fix
+[*] Width fixes
+[/list]
 1.00.32
 [list]
 [*] update to 100034 "Flames of Ambition"
 [*] Added view entry {achieveearned}, {playersorder}, {unitxpmax}, {unitxp}, {champion}
 [*] Fixed {level} tooltip
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.31
 [list]
 [*] Fixed alliance and level sorting (dang sorting, I need to redo you from scratch!)
