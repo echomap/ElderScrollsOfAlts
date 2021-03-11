@@ -96,6 +96,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
       ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[playerKey].category
       ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
     end
+    if( ElderScrollsOfAlts.altData.players[playerKey].championpointsactive~=nil ) then
+      ElderScrollsOfAlts.view.championpointsactive = ElderScrollsOfAlts.altData.players[playerKey].championpointsactive
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current cp active, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) , "'")    
+      
+    end
   else
     ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
   end
@@ -542,6 +547,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.debugMsg("ESOA, restored current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) ,"'")
   end
   
+  if( ElderScrollsOfAlts.view.championpointsactive ~= nil) then    
+    ElderScrollsOfAlts.altData.players[playerKey].championpointsactive = ElderScrollsOfAlts.view.championpointsactive
+    ElderScrollsOfAlts.debugMsg("ESOA, restored current cp actrive, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) ,"'")
+  end
+  
   ----Section: Buffs section
   --BUFFS
   ElderScrollsOfAlts.altData.players[playerKey].buffs = {}  
@@ -666,6 +676,67 @@ function ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem,skillineName
   --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
   --local timeTillReady = GetTimeStamp() + timeRemainingSecs
   --UUU
+end
+
+--
+function ElderScrollsOfAlts:CollectCP()
+  ElderScrollsOfAlts.debugMsg("CollectCP: called")
+  ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  
+  --local timeTotalStart = GetFrameTimeSeconds()
+  --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
+  
+  --debugMsg("pName='"..tostring(pName).."'" )
+	if ElderScrollsOfAlts.altData.players == nil then
+		ElderScrollsOfAlts.altData.players = {}
+	end
+  if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey] = {}
+  end
+  
+  ----Section: Collect section
+  --if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
+  --end  
+  
+  ----Section: Save section
+  if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].championpoints = {}
+    ElderScrollsOfAlts.altData.players[playerKey].championpointsactive = {}
+    
+    --d("[start] TestCP...")
+    local CP = CHAMPION_PERKS
+    local championBar = CHAMPION_PERKS:GetChampionBar() 
+    local CPData = CHAMPION_DATA_MANAGER
+        
+    for i=1, 12 do
+      local championSkillData = CHAMPION_PERKS:GetChampionBar():GetSlot(i).championSkillData
+      if championSkillData then -- If anything is slotted into that index
+        --d("Slot number "..i.." id: ".. championSkillData:GetId() .. " data: " .. tostring(championSkillData) )
+        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i] = {}
+        local cpskid = championSkillData:GetId()
+        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].id   = cpskid
+        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].name = GetChampionSkillName(cpskid)
+        
+        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplineid = championSkillData:GetChampionDisciplineData():GetId()
+        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplinetype = championSkillData:GetChampionDisciplineData():GetType()
+        
+        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].numspentpoints = GetNumPointsSpentOnChampionSkill(cpskid)
+
+        --GetNumPendingChampionPoints(*luaindex* _disciplineIndex_, *luaindex* _skillIndex_)
+        --** _Returns:_ *integer* _numPendingPoints_
+        
+        --GetChampionSkillCurrentBonusText(cpskid)
+        --:GetRawName
+        --GetChampionSkillType
+      else
+      end
+    end
+    --d("TestCP...[end]")
+  end
+  ElderScrollsOfAlts.debugMsg("CollectCP: done")
 end
 
   

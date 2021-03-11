@@ -106,7 +106,7 @@
             />
   </Button>   
           
-  <TopLevelControl name="ESOA_GUI2" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" clampedToScreen="true" >
+  <TopLevelControl name="ESOA_GUI2" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" clampedToScreen="true" layer="1" >
     <DimensionConstraints minX="100" minY="50" maxY="1400"/>
     <Dimensions x="820" y="325" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
@@ -474,6 +474,114 @@
 
     </Controls>
   </TopLevelControl>     
-      
+
+<!-- ======================================================================================================================= -->
+
+  <TopLevelControl name="ESOA_ChampionAssignableActionBar" topmost="false" hidden="true" mouseEnabled="true" movable="true"  resizeToFitDescendents="false"  clampedToScreen="false" virtual="false">
+      <Dimensions x="400" y="35" />
+      <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" offsetX="100" offsetY="100"/>
+      <Controls>
+        <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000">
+             <AnchorFill/>
+             <Edge edgeSize="2"/>
+        </Backdrop>
+      </Controls>
+      <OnMoveStop> ElderScrollsOfAlts.SavePosition_CAAB() </OnMoveStop>      
+  </TopLevelControl>
+
+  <Control name="ESOA_ChampionAssignableActionSlot" virtual="true">
+      <Dimensions x="35" y="35" />
+      <Controls>
+          <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="">
+            <Dimensions x="13"/>
+            <Anchor point="TOPLEFT" offsetX="0" offsetY="0" />
+          </Label>
+          <Texture name="$(parent)Icon" level="1" pixelRoundingEnabled="true" mouseEnabled="true" >
+              <AnchorFill />
+              <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"champion") </OnMouseEnter>
+              <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self,"champion")  </OnMouseExit>
+              <OnMouseUp>ElderScrollsOfAlts:DoCAAB_MouseUp(...)</OnMouseUp>
+          </Texture>
+      </Controls>
+  </Control>
+
+  <TopLevelControl name="ESOA_ChampionAssignableTextListBar" hidden="true" mouseEnabled="true" movable="true"  resizeToFitDescendents="true" clampedToScreen="true" virtual="false" >
+      <Dimensions x="50" y="200" />
+      <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" offsetX="10" offsetY="200"/>
+      <Controls>
+        <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" >
+             <AnchorFill/>
+             <Edge edgeSize="2"/>
+        </Backdrop>
+      </Controls>
+      <OnMoveStop>
+        ElderScrollsOfAlts.SavePosition_CATLB()
+      </OnMoveStop>
+      <OnShow>
+      ElderScrollsOfAlts.RestorePosition_CATLB()
+      </OnShow>
+  </TopLevelControl>
+
+  <Control name="ESOA_ChampionAssignableTextListBarSlot" virtual="true">
+      <Dimensions x="40" y="24" />
+      <Controls>
+          <Texture name="$(parent)Icon" level="1" pixelRoundingEnabled="true" mouseEnabled="true" >
+            <Anchor point="TOPLEFT" offsetX="-2" offsetY="0" />
+            <AnchorFill />
+            <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"champion",true) </OnMouseEnter>
+            <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self,"champion",true)  </OnMouseExit>
+            <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuShow(self)</OnMouseUp>
+          </Texture>
+          <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true">
+            <Dimensions x="130"/>
+            <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT" offsetY="8" />
+          </Label>          
+      </Controls>      
+  </Control>
+  
+  <TopLevelControl name="ESOA_ChampionAssignableTextListMenuBar" hidden="true" mouseEnabled="true" resizeToFitDescendents="true" clampedToScreen="false" >
+      <Dimensions x="110" y="60" />
+      <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" offsetX="10" offsetY="200"/>
+      <Controls>
+        <Backdrop name="$(parent)Border" centerColor="rgba(1,1,1,0)" layer="0" level="2" edgeColor="ffFFFF" alpha="0.5">
+		       <AnchorFill />
+          <Anchor point="CENTER" relativeTo="$(parent)" />
+          <Edge edgeSize="3" />
+        </Backdrop>
+        <Backdrop name="$(parent)Background" centerColor="75000000" edgeColor="88000000" >
+          <AnchorFill/>
+          <Edge edgeSize="3"/>
+        </Backdrop>
+        <Button name="$(parent)_hidewindow" text="Hide Window" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+          <Dimensions x="100" y="20"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="0" />      
+          <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Close(self)</OnMouseUp>
+        </Button>
+        <Button name="$(parent)_showwindow" text="Show Window" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+          <Dimensions x="100" y="20"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_hidewindow" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
+          <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Show(self)</OnMouseUp>
+        </Button>
+        <Button name="$(parent)_hidetext" text="Hide Text" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+          <Dimensions x="100" y="20"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_showwindow" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
+          <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Collapse(self)</OnMouseUp>
+        </Button>
+        <Button name="$(parent)_showtext" text="Show Text" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+          <Dimensions x="100" y="20"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_hidetext" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
+          <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Expand(self)</OnMouseUp>
+        </Button>
+        <Button name="$(parent)_closemenu" text="Close Menu" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+          <Dimensions x="100" y="20"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_showtext" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
+          <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuClose(self)</OnMouseUp>
+        </Button>
+      </Controls>
+      <OnMouseExit>
+        ElderScrollsOfAlts.DoChampionAssignedTextBar_MenuClose()
+      </OnMouseExit>
+  </TopLevelControl>
+  
 </Controls>
 </GuiXml>

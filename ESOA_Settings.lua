@@ -447,6 +447,31 @@ function ElderScrollsOfAlts:GetSelectedAllowedViewEntry()
 end
 
 ------------------------------
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:SetUIHIdeInMenues(value)
+  ElderScrollsOfAlts.savedVariables.hideinmenus = value  
+  HUD_SCENE:AddFragment(ElderScrollsOfAlts.view.esoagui2fragment)
+  --HUD_UI_SCENE:AddFragment(ElderScrollsOfAlts.view.esoagui2fragment)
+   
+  if(ElderScrollsOfAlts.savedVariables.hideinmenus) then
+    HUD_SCENE:Hide(ElderScrollsOfAlts.view.esoagui2fragment)
+  else
+    HUD_SCENE:RemoveFragment(ElderScrollsOfAlts.view.esoagui2fragment)
+    --HUD_UI_SCENE:RemoveFragment(ElderScrollsOfAlts.view.esoagui2fragment)
+  end
+end
+ 
+------------------------------
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:GetSelectedAllowedViewEntry()
+  local viewentry = ElderScrollsOfAlts.savedVariables.selected.viewentry
+  if(viewentry~=nil)then
+     return viewentry
+  end
+  return ""
+end
+  
+------------------------------
 -- UNUSED?
 function ElderScrollsOfAlts:SetAllAllowedViewEntries(newName)
   --
@@ -465,9 +490,14 @@ function ElderScrollsOfAlts:DoSaveProfileSettings()
   ElderScrollsOfAlts.altData.defaults.uiButtonShow       = ElderScrollsOfAlts:GetUIButtonShown()
   ElderScrollsOfAlts.altData.defaults.uiMouseHighlight   = ElderScrollsOfAlts.GetUIViewMouseHighlightShown()
   ElderScrollsOfAlts.altData.defaults.uiViewDropDown     = ElderScrollsOfAlts.GetUIViewDropDownShown()
+  
+  ElderScrollsOfAlts.altData.defaults.hideinmenus      = ElderScrollsOfAlts.savedVariables.hideinmenus
+  ElderScrollsOfAlts.altData.defaults.cpactivebar1Show = ElderScrollsOfAlts.savedVariables.cpactivebar1.show
+  ElderScrollsOfAlts.altData.defaults.cpactivebar2Show = ElderScrollsOfAlts.savedVariables.cpactivebar2.show
+  
   ElderScrollsOfAlts.altData.defaults.colorTimerNear     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
   ElderScrollsOfAlts.altData.defaults.colorTimerNearer   = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
-  ElderScrollsOfAlts.altData.defaults.colorTimerDone   = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
+  ElderScrollsOfAlts.altData.defaults.colorTimerDone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
   ElderScrollsOfAlts.altData.defaults.colorTimerNone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
   ElderScrollsOfAlts.altData.defaults.colorSkillsMax     = ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax
   ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax = ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax
@@ -489,6 +519,12 @@ function ElderScrollsOfAlts:DoLoadProfileSettings()
     ElderScrollsOfAlts.SetUIButtonShown(ElderScrollsOfAlts.altData.defaults.uiButtonShow)
     ElderScrollsOfAlts.SetUIViewMouseHighlightShown(ElderScrollsOfAlts.altData.defaults.uiMouseHighlight)
     ElderScrollsOfAlts.SetUIViewDropDownShown(ElderScrollsOfAlts.altData.defaults.uiViewDropDown)
+    
+    ElderScrollsOfAlts.savedVariables.hideinmenus       = ElderScrollsOfAlts.altData.defaults.hideinmenus
+    ElderScrollsOfAlts.savedVariables.cpactivebar1.show = ElderScrollsOfAlts.altData.defaults.cpactivebar1Show
+    ElderScrollsOfAlts.savedVariables.cpactivebar2.show = ElderScrollsOfAlts.altData.defaults.cpactivebar2Show
+    
+    
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNear     = ElderScrollsOfAlts.altData.defaults.colorTimerNear
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer
     ElderScrollsOfAlts.savedVariables.colors.colorTimerDone     = ElderScrollsOfAlts.altData.defaults.colorTimerDone

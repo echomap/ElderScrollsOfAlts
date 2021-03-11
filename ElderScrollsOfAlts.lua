@@ -106,6 +106,10 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts.SavePlayerDataForGui()
   elseif options[1] == "forceloaddata" then
     ElderScrollsOfAlts:LoadPlayerDataForGui()
+  elseif options[1] == "showcpbar" then
+    ElderScrollsOfAlts:SetupCPBar(true)
+  elseif options[1] == "hidecpbar" then
+    ElderScrollsOfAlts:HideCPBar()
   else
     ElderScrollsOfAlts.ShowHelp()
 	end
@@ -122,8 +126,26 @@ function ElderScrollsOfAlts.OnChampionPerksStateChange(oldState,newState)
       ElderScrollsOfAlts.HideAll()--ESOA_ButtonFrame
     elseif newState == SCENE_HIDDEN then
       ElderScrollsOfAlts.ShowUIButton()--ESOA_ButtonFrame
+      ElderScrollsOfAlts.CollectCP()
+      ElderScrollsOfAlts.SetupCPBar()
     end
 end
+
+-- EVENT
+--EVENT_CHAMPION_PURCHASE_RESULT (number eventCode, ChampionPurchaseResult result)
+function ElderScrollsOfAlts.OnChampionPurchaseResult(eventCode, result)
+  ElderScrollsOfAlts:CollectCP()
+  ElderScrollsOfAlts:SetupCPBar()
+end
+--EVENT_CHAMPION_POINT_UPDATE (number eventCode, string unitTag, number oldChampionPoints, number currentChampionPoints)
+function ElderScrollsOfAlts.OnChampionPointUpdate(eventCode, unitTag, oldChampionPoints, currentChampionPoints)
+  d("CPU: " .. tostring(unitTag))
+end
+--EVENT_UNSPENT_CHAMPION_POINTS_CHANGED (number eventCode)
+function ElderScrollsOfAlts.OnChampionUnspentPointsChange(eventCode)
+  d("CUPC: " .. tostring(eventCode))
+end
+
 
 --------------------------------
 -- SETUP  setup event handling
@@ -193,9 +215,9 @@ function ElderScrollsOfAlts.DelayedStart()
       --{icon="",tooltip="",func=function()end,enabled=true},	--Button 2, etc.
     }
     BUI.PanelAdd(content)
-  end
-  --Unregistrer and move on  
-  CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)
+  end  
+  CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)  
+  
   ElderScrollsOfAlts.debugMsg(ElderScrollsOfAlts.name , GetString(SI_ESOA_MESSAGE)) 
   ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
       ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
@@ -239,6 +261,13 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   ElderScrollsOfAlts.SetupDefaultDefaults()
   ElderScrollsOfAlts.SetupDefaultColors()
   zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
+  
+  --EVENT_CHAMPION_PURCHASE_RESULT (number eventCode, ChampionPurchaseResult result)
+  EVENT_MANAGER:RegisterForEvent("ElderScrollsOfAlts.EVENT_CHAMPION_PURCHASE_RESULT",	EVENT_CHAMPION_PURCHASE_RESULT, ElderScrollsOfAlts.OnChampionPurchaseResult)
+  --EVENT_CHAMPION_POINT_UPDATE (number eventCode, string unitTag, number oldChampionPoints, number currentChampionPoints)
+  --EVENT_MANAGER:RegisterForEvent("ElderScrollsOfAlts.EVENT_CHAMPION_POINT_UPDATE",	EVENT_CHAMPION_POINT_UPDATE, ElderScrollsOfAlts.OnChampionPointUpdate)
+  --EVENT_UNSPENT_CHAMPION_POINTS_CHANGED (number eventCode)
+  --EVENT_MANAGER:RegisterForEvent("ElderScrollsOfAlts.EVENT_UNSPENT_CHAMPION_POINTS_CHANGED",	EVENT_UNSPENT_CHAMPION_POINTS_CHANGED, ElderScrollsOfAlts.OnChampionUnspentPointsChange)
 
   -- Slash commands must be lowercase. Set to nil to disable.
   SLASH_COMMANDS["/elderScrollsOfAlts"] = ElderScrollsOfAlts.SlashCommandHandler

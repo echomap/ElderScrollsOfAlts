@@ -67,7 +67,7 @@ function ElderScrollsOfAlts.LoadSettings()
     tooltip = GetString(ESOA_SETTINGS_SHOWBUTTON_TT),
     getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
     setFunc = function(value)   ElderScrollsOfAlts.SetUIButtonShown(value)  end,
-    width   = "half",	--or "half" (optional)
+    width   = "half",
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -75,9 +75,43 @@ function ElderScrollsOfAlts.LoadSettings()
     tooltip = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_TT),
     getFunc = function() return ElderScrollsOfAlts.GetUIViewMouseHighlightShown() end,
     setFunc = function(value)   ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
+    width   = "half",
+  }
+  --[[
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_HIDEUIMENUS_NM),
+    tooltip = GetString(ESOA_SETTINGS_HIDEUIMENUS_TT),
+    getFunc = function() return ElderScrollsOfAlts.savedVariables.hideinmenus end,
+    setFunc = function(value)   ElderScrollsOfAlts.SetUIHIdeInMenues(value) end,
+    width   = "full",
+  }--]]
+  
+  --
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_CPACTIVEBAR1_NM),
+    tooltip = GetString(ESOA_SETTINGS_CPACTIVEBAR1_TT),
+    getFunc = function() return ElderScrollsOfAlts.savedVariables.cpactivebar1.show end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.savedVariables.cpactivebar1.show = value
+      ElderScrollsOfAlts:SetupCPBar()
+      end,
+    width   = "half",	--or "half" (optional)
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_CPACTIVEBAR2_NM),
+    tooltip = GetString(ESOA_SETTINGS_CPACTIVEBAR2_TT),
+    getFunc = function() return ElderScrollsOfAlts.savedVariables.cpactivebar2.show end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.savedVariables.cpactivebar2.show = value
+      ElderScrollsOfAlts:SetupCPBar()
+      end,
     width   = "half",	--or "half" (optional)
   }
   
+  --
   optionsTable[#optionsTable+1] = {
     type  = "header",
     name  = GetString(ESOA_SETTINGS_OPTIONS),

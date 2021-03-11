@@ -206,11 +206,17 @@ local localization_strings = {
   ESOA_SETTINGS_MOUSEHIGHLIGHT_TT   = "On or off.",
   ESOA_SETTINGS_SHOWBUTTON_NAME = "Show Button",
   ESOA_SETTINGS_SHOWBUTTON_TT   = "On or off.",
+  ESOA_SETTINGS_HIDEUIMENUS_NM = "Hide ESOA when menues are opened?",
+  ESOA_SETTINGS_HIDEUIMENUS_TT   = "On to hide when things like the map or character screen are opened.",
   
   ESOA_SETTINGS_CHARNAMEFIELD_NAME = "Char name field width",
   ESOA_SETTINGS_CHARNAMEFIELD_TT   = "Width of Name field displayed.",
   ESOA_SETTINGS_CHARNAMEFIELD_WARNING = "Don't set this to a negative number or too big, that's on you!",
   
+  ESOA_SETTINGS_CPACTIVEBAR1_NM = "Show champion active bar #1?",
+  ESOA_SETTINGS_CPACTIVEBAR1_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
+  ESOA_SETTINGS_CPACTIVEBAR2_NM = "Show champion active bar? #2?",
+  ESOA_SETTINGS_CPACTIVEBAR2_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
   
   
   --

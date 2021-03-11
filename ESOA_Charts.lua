@@ -562,6 +562,7 @@ function ElderScrollsOfAlts:getInfamyLevelText(infamyLevel)
   end  
   return GetString(ESOA_INFAMY_UPSTANDING)
 end
+
 -----------
 -- VIEWS
 function ElderScrollsOfAlts:ListAllAllowedViewEntries()
@@ -572,6 +573,99 @@ function ElderScrollsOfAlts:ListAllAllowedViewEntries()
   printEntries = "Allowable entry names: " .. printEntries
   ElderScrollsOfAlts.outputMsg(printEntries)
 end
+
+-- ESOA_ChampionAssignableActionBar
+function ElderScrollsOfAlts:XlateChampionNameToShort(cpid)
+  local txt = ""
+  txt = ElderScrollsOfAlts.ChampionPointActiveSimpleNameLookup[cpid]
+  --[[
+  --d("ID: ".. tostring(cpid) )
+  if(cpid==nil) then
+    txt  = ""
+    
+  elseif(cpid==2) then
+    txt  = "VIT"
+  elseif(cpid==3) then
+    txt  = "ARC"
+  elseif(cpid==5) then
+    txt  = "END"
+  elseif(cpid==25) then
+    txt  = "DA"
+  elseif(cpid==27) then
+    txt  = "DOT"
+  elseif(cpid==30) then
+    txt  = "REAV"
+  elseif(cpid==32) then
+    txt  = "OCC"
+  elseif(cpid==35) then
+    txt  = "REJ"
+    
+  elseif(cpid==51) then
+    txt  = "EVA"
+  elseif(cpid==52) then
+    txt  = "SLI"
+  elseif(cpid==57) then
+    txt  = "SI"
+  elseif(cpid==65) then
+    txt  = "SHA"
+  elseif(cpid==66) then
+    txt  = "MOV"
+  elseif(cpid==79) then
+    txt  = "TREA"
+    
+  elseif(cpid==85) then
+    txt  = "RAT"
+  elseif(cpid==86) then
+    txt  = "LIQ"
+  elseif(cpid==134) then
+    txt  = "DR"
+  end
+  --]]
+  return txt
+end
+
+
+-- VIEWS
+ElderScrollsOfAlts.ChampionPointActiveSimpleNameLookup = {
+  [2]   = "VIT",
+  [3]   = "ARC",
+  [4]   = "??",
+  [5]   = "END",
+  [8]   = "WRA",
+  [11]   = "SLIP",
+  [25]  = "DA",
+  [26]  = "??",
+  [27]  = "DOT",
+  [28]  = "??",
+  [29]  = "??",
+  [30]  = "REAV",
+  [31]  = "??",
+  [32]  = "OCC",
+  [33]  = "??",
+  [34]  = "??",
+  [35]  = "REJ",
+  [47]  = "SIPH",
+  [51]  = "EVA",
+  [52]  = "SLI",
+  [57]  = "SI",
+  [65]  = "SHA",
+  [66]  = "MOV",
+  [76]  = "LOW",
+  [77]  = "INF",
+  [78]  = "GATH",
+  [79]  = "TREA",
+  [80]  = "??",
+  [81]  = "HARV",
+  [82]  = "??",
+  [83]  = "DIS",
+  [84]  = "FADE",
+  [85]  = "RAT",
+  [86]  = "LIQ",
+  [91]  = "HOM",
+  [133]  = "AOEDR",
+  [134]  = "DR",
+  [136]  = "ER",
+}
 
 -----------
 -- EOF   --
