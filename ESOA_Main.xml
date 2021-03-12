@@ -522,7 +522,7 @@
       </OnShow>
   </TopLevelControl>
 
-  <Control name="ESOA_ChampionAssignableTextListBarSlot" virtual="true">
+  <Control name="ESOA_ChampionAssignableTextListBarSlot" virtual="true" mouseenabled="true" movable="true">
       <Dimensions x="40" y="24" />
       <Controls>
           <Texture name="$(parent)Icon" level="1" pixelRoundingEnabled="true" mouseEnabled="true" >
@@ -534,20 +534,34 @@
           </Texture>
           <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true">
             <Dimensions x="130"/>
-            <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT" offsetY="8" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+          </Label>   
+          <Texture name="$(parent)IconRev" level="1" pixelRoundingEnabled="true" mouseEnabled="true">
+            <Anchor point="TOPRIGHT" offsetX="-2" offsetY="0" />
+            <AnchorFill />
+            <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"champion",true) </OnMouseEnter>
+            <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self,"champion",true)  </OnMouseExit>
+            <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuShow(self)</OnMouseUp>
+          </Texture>
+          <Label name="$(parent)LabelRev" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true">
+            <Dimensions x="130"/>
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)IconRev" relativePoint="TOPLEFT" offsetX="0" offsetY="0" />
           </Label>          
-      </Controls>      
+      </Controls>
+      <OnMoveStop>
+        ElderScrollsOfAlts.SavePosition_CATLB2()
+      </OnMoveStop>
   </Control>
   
   <TopLevelControl name="ESOA_ChampionAssignableTextListMenuBar" hidden="true" mouseEnabled="true" resizeToFitDescendents="true" clampedToScreen="false" >
       <Dimensions x="110" y="60" />
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" offsetX="10" offsetY="200"/>
       <Controls>
-        <Backdrop name="$(parent)Border" centerColor="rgba(1,1,1,0)" layer="0" level="2" edgeColor="ffFFFF" alpha="0.5">
+        <!--
+        <Backdrop name="$(parent)Border" centerColor="rgba(1,1,1,0)" layer="0" level="2" edgeColor="000000" alpha="0.5">
 		       <AnchorFill />
-          <Anchor point="CENTER" relativeTo="$(parent)" />
           <Edge edgeSize="3" />
-        </Backdrop>
+        </Backdrop>-->
         <Backdrop name="$(parent)Background" centerColor="75000000" edgeColor="88000000" >
           <AnchorFill/>
           <Edge edgeSize="3"/>
@@ -572,9 +586,14 @@
           <Anchor point="TOPLEFT" relativeTo="$(parent)_hidetext" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
           <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Expand(self)</OnMouseUp>
         </Button>
-        <Button name="$(parent)_closemenu" text="Close Menu" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+        <Button name="$(parent)_reversetext" text="Reverse Text" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
           <Dimensions x="100" y="20"/>
           <Anchor point="TOPLEFT" relativeTo="$(parent)_showtext" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
+          <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_ReverseText(self)</OnMouseUp>
+        </Button>
+        <Button name="$(parent)_closemenu" text="Close Menu" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+          <Dimensions x="100" y="20"/>
+          <Anchor point="TOPLEFT" relativeTo="$(parent)_reversetext" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
           <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuClose(self)</OnMouseUp>
         </Button>
       </Controls>

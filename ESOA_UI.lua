@@ -1984,6 +1984,7 @@ function ElderScrollsOfAlts:CreateObjectsCPBar()
     ElderScrollsOfAlts.view.cpbar2.slots = {}
     ElderScrollsOfAlts.view.cpbar1:SetHidden(true)
     ElderScrollsOfAlts.view.cpbar2:SetHidden(true)
+    ElderScrollsOfAlts.view.cpbar2.direction = true
     
     local fragment1 = ZO_HUDFadeSceneFragment:New(ElderScrollsOfAlts.view.cpbar1, nil, 0)
     ElderScrollsOfAlts.view.cpbarfragment1 = fragment1
@@ -2009,9 +2010,11 @@ function ElderScrollsOfAlts:CreateObjectsCPBar()
       local slotControl2 = CreateControlFromVirtual("$(parent)Slot", ElderScrollsOfAlts.view.cpbar2, "ESOA_ChampionAssignableTextListBarSlot", actionSlotIndex)
       slotControl2:SetHidden(true)
       ElderScrollsOfAlts.view.cpbar2.slots[actionSlotIndex] = slotControl2
-      local backgroundTexture2 = "EsoUI/Art/Champion/ActionBar/champion_bar_combat_slotted.dds"
+      local backgroundTexture2 = "EsoUI/Art/Champion/ActionBar/champion_bar_combat_slotted.dds"      
       local icon2 = slotControl2:GetNamedChild("Icon")
       icon2:SetTexture(backgroundTexture2)
+      local icon2Rev = slotControl2:GetNamedChild("IconRev")
+      icon2Rev:SetTexture(backgroundTexture2)
 
       --TODO GetRequiredChampionDisciplineIdForSlot
       if lastSlotControl then
@@ -2056,20 +2059,26 @@ function ElderScrollsOfAlts:SetupCPBar()
       local slotControl = ElderScrollsOfAlts.view.cpbar1.slots[actionSlotIndex]
       local icon = slotControl:GetNamedChild("Icon")
       local lbl  = slotControl:GetNamedChild("Label")
+      --local lblR = slotControl:GetNamedChild("LabelRev")
     
       local slotControl2 = ElderScrollsOfAlts.view.cpbar2.slots[actionSlotIndex]
       local icon2 = slotControl2:GetNamedChild("Icon")
+      local icon2Rev = slotControl2:GetNamedChild("IconRev")
       local lbl2  = slotControl2:GetNamedChild("Label")
+      local lbl2R = slotControl2:GetNamedChild("LabelRev")
 
       local slotDisciplineId  = GetRequiredChampionDisciplineIdForSlot(actionSlotIndex, HOTBAR_CATEGORY_CHAMPION)
       --d("slotDisciplineId:" .. tostring(slotDisciplineId) )
       backgroundTexture = GetChampionDisciplineBackgroundTexture(slotDisciplineId)
       icon.tooltip = "none"
       lbl:SetText( "" )
+      --lblR:SetText( "" )
       
       backgroundTexture2 = GetChampionDisciplineBackgroundTexture(slotDisciplineId)
       icon2.tooltip = "none"
+      icon2Rev.tooltip = "none"
       lbl2:SetText( "" )
+      lbl2R:SetText( "" )
 
       local ca = ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[actionSlotIndex]
       if(ca and ca.disciplineid) then
@@ -2079,9 +2088,12 @@ function ElderScrollsOfAlts:SetupCPBar()
         icon.tooltip = sVal1
         --lbl:SetText( GetChampionSkillCurrentBonusText(ca.id,ca.numspentpoints) )
         lbl:SetText( ElderScrollsOfAlts:XlateChampionNameToShort(ca.id) )
+        --lblR:SetText( ElderScrollsOfAlts:XlateChampionNameToShort(ca.id) )
         --
         icon2.tooltip = sVal1
+        icon2Rev.tooltip = sVal1
         lbl2:SetText( ca.name ) -- ElderScrollsOfAlts:XlateChampionNameToShort(ca.id) )
+        lbl2R:SetText( ca.name )
         --
         slotControl.id   = ca.id
         slotControl.name = ca.name
@@ -2095,11 +2107,13 @@ function ElderScrollsOfAlts:SetupCPBar()
       if(backgroundTexture~=nil) then
         icon:SetTexture(backgroundTexture)
         icon2:SetTexture(backgroundTexture)
+        icon2Rev:SetTexture(backgroundTexture)
       end
     end --for
   end
     
   --SHOW/HIDE
+  --1
   if(ElderScrollsOfAlts.savedVariables.cpactivebar1.show) then
     if(ElderScrollsOfAlts.savedVariables.cpactivebar1.x) then
       ElderScrollsOfAlts.view.cpbar1:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, ElderScrollsOfAlts.savedVariables.cpactivebar1.x, ElderScrollsOfAlts.savedVariables.cpactivebar1.y)
@@ -2110,8 +2124,6 @@ function ElderScrollsOfAlts:SetupCPBar()
     if( ElderScrollsOfAlts.view.cpbar1.slots ~= nil) then
       for kkiT = 1, #ElderScrollsOfAlts.view.cpbar1.slots do
         ElderScrollsOfAlts.view.cpbar1.slots[kkiT]:SetHidden(false)
-        --ElderScrollsOfAlts.view.cpbar1.slots[kkiT]:GetNamedChild("Label"):SetHidden(false)
-        --ElderScrollsOfAlts.view.cpbar1.slots[kkiT]:GetNamedChild("Icon"):SetHidden(false)
       end
     end
   else
@@ -2121,11 +2133,10 @@ function ElderScrollsOfAlts:SetupCPBar()
     if( ElderScrollsOfAlts.view.cpbar1.slots ~= nil) then
       for kkiT = 1, #ElderScrollsOfAlts.view.cpbar1.slots do
         ElderScrollsOfAlts.view.cpbar1.slots[kkiT]:SetHidden(true)
-        --ElderScrollsOfAlts.view.cpbar1.slots[kkiT]:GetNamedChild("Label"):SetHidden(true)
-        --ElderScrollsOfAlts.view.cpbar1.slots[kkiT]:GetNamedChild("Icon"):SetHidden(true)
       end
     end
   end
+  --2
   if(ElderScrollsOfAlts.savedVariables.cpactivebar2.show) then
     --ElderScrollsOfAlts.view.cpbarfragment2:Show()
     if(ElderScrollsOfAlts.savedVariables.cpactivebar2.x) then
@@ -2133,29 +2144,14 @@ function ElderScrollsOfAlts:SetupCPBar()
     end
     ElderScrollsOfAlts.view.cpbar2:SetHidden(false)
     ElderScrollsOfAlts.view.cpbar2:GetNamedChild("Backdrop"):SetHidden(false)
-    if( ElderScrollsOfAlts.view.cpbar2.slots ~= nil) then
-      for kkiT = 1, #ElderScrollsOfAlts.view.cpbar2.slots do
-        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:SetHidden(false)
-        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(false)
-        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetHidden(false)
-      end
-    end
-    --ElderScrollsOfAlts.view.cpbarfragment2:Show()
+    ElderScrollsOfAlts:DoChampionAssignedTextBar_Expand()
   else
-    --ElderScrollsOfAlts.view.cpbarfragment2:Hide()
     ElderScrollsOfAlts.view.cpbar2:SetHidden(true)
     ElderScrollsOfAlts.view.cpbar2:GetNamedChild("Backdrop"):SetHidden(true)
-    if( ElderScrollsOfAlts.view.cpbar2.slots ~= nil) then
-      for kkiT = 1, #ElderScrollsOfAlts.view.cpbar2.slots do
-        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:SetHidden(true)
-        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(true)
-        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetHidden(true)
-      end
-    end
-    --ElderScrollsOfAlts:DoChampionAssignedTextBar_Collapse()
+    ElderScrollsOfAlts:DoChampionAssignedTextBar_Collapse()
   end
   --xxx
-  if( ElderScrollsOfAlts.savedVariables.cpactivebar2.show or ElderScrollsOfAlts.savedVariables.cpactivebar2.show ) then
+  if( ElderScrollsOfAlts.savedVariables.cpactivebar1.show or ElderScrollsOfAlts.savedVariables.cpactivebar2.show ) then
     ElderScrollsOfAlts.outputMsg("CPBar(s) updated")
   end
 end
@@ -2196,6 +2192,13 @@ function ElderScrollsOfAlts:SavePosition_CATLB()
 end
 
 -- 
+function ElderScrollsOfAlts:SavePosition_CATLB2()
+  ElderScrollsOfAlts.savedVariables.cpactivebar2.x = ElderScrollsOfAlts.view.cpbar2:GetLeft()
+  ElderScrollsOfAlts.savedVariables.cpactivebar2.y = ElderScrollsOfAlts.view.cpbar2:GetTop()
+end
+
+
+-- 
 function ElderScrollsOfAlts:RestorePosition_CATLB()
   --d("RestorePosition_CATLB: show? " .. tostring( ElderScrollsOfAlts.savedVariables.cpactivebar1.show) )
   --if( ElderScrollsOfAlts.savedVariables.cpactivebar1.show ) then
@@ -2220,6 +2223,7 @@ function ElderScrollsOfAlts:DoChampionAssignedTextBar_Collapse()
   if( ElderScrollsOfAlts.view.cpbar2.slots ~= nil) then
     for kkiT = 1, #ElderScrollsOfAlts.view.cpbar2.slots do
       ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(true)
+      ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("LabelRev"):SetHidden(true)
     end
   end
   ElderScrollsOfAlts.view.cpbar2:SetDimensions(30,230)
@@ -2230,12 +2234,37 @@ end
 function ElderScrollsOfAlts:DoChampionAssignedTextBar_Expand()
   if( ElderScrollsOfAlts.view.cpbar2.slots ~= nil) then
     for kkiT = 1, #ElderScrollsOfAlts.view.cpbar2.slots do
-      ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(false)
+      ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:SetHidden(false)
+      --d("direction:" .. tostring(ElderScrollsOfAlts.view.cpbar2.direction) )
+      if( ElderScrollsOfAlts.view.cpbar2.direction ) then
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(false)
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("LabelRev"):SetHidden(true) 
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetHidden(false)
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("IconRev"):SetHidden(true) 
+        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetAnchor(TOPLEFT, ElderScrollsOfAlts.view.cpbar2.slots[kkiT], TOPLEFT, 0, 0)
+      else
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(true)
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("LabelRev"):SetHidden(false)    
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetHidden(true)
+        ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("IconRev"):SetHidden(false)   
+        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):ClearAnchors()
+        --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetAnchor(TOPRIGHT, ElderScrollsOfAlts.view.cpbar2.slots[kkiT], TOPRIGHT, 0, 0)
+      end
+      --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(false)
+      --ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetHidden(false)
     end
   end
+  
   ElderScrollsOfAlts.view.cpbar2:SetDimensions(170,230)
   ElderScrollsOfAlts.DoChampionAssignedTextBar_MenuClose()
 end
+
+-- 
+function ElderScrollsOfAlts:DoChampionAssignedTextBar_ReverseText()
+  ElderScrollsOfAlts.view.cpbar2.direction = not ElderScrollsOfAlts.view.cpbar2.direction
+  ElderScrollsOfAlts:SetupCPBar()  
+end
+
 
 -- 
 function ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuClose()
