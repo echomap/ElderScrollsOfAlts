@@ -18,13 +18,17 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
-1.00.34
+1.00.35
 [list]
 [*] 
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.34
+[list]
+[*] Tryng out a Bar to show the Active Champion point passives
+[/list]
 1.00.33
 [list]
 [*] Bug fix
