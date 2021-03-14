@@ -135,6 +135,14 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["unitxpmax"] = 1,
   ["unitxp"] = 1,
   ["champion"] = 1,
+  
+  ["Clothier Writ"] = 1,
+  ["Blacksmithing Writ"] = 1,
+  ["Woodworker Writ"] = 1,
+  ["Jewelry Crafting Writ"] = 1,
+  ["Alchemist Writ"] = 1,
+  ["Provisioner Writ"] = 1,
+  ["Enchanter Writ"] = 1,
 }
 
 -----------
@@ -244,6 +252,18 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [23] = "AssignedCampaignName",
       [24] = "AssignedCampaignRewardEarnedTier",
       [25] = "AssignedCampaignEndsAt",
+    }
+  },
+  ["Writs"] = {
+    ["name"] = "Writs",
+    ["view"] = {
+      [1] = "Clothier Writ",
+      [2] = "Blacksmithing Writ",
+      [3] = "Woodworker Writ",
+      [4] = "Jewelry Crafting Writ",
+      [5] = "Alchemist Writ",
+      [6] = "Provisioner Writ",
+      [7] = "Enchanter Writ",
     }
   },
 }

@@ -18,16 +18,21 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
-1.00.35
+1.00.36
 [list]
 [*] 
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.35
+[list]
+[*] CP Bar bug fixes
+[/list]
 1.00.34
 [list]
 [*] Tryng out a Bar to show the Active Champion point passives
+  (Should be totally optional, just don't use the checkboxes to enable them)
 [/list]
 1.00.33
 [list]

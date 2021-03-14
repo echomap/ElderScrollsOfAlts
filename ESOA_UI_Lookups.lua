@@ -330,6 +330,58 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltip = zo_strformat("<<1>> has <<2>> <<3>>",
         playerLine.name, playerLine[string.lower(viewKey)], viewKey2
       )
+  --"tracking_writs_Jewelry Crafting Writ"
+  elseif( ElderScrollsOfAlts.ends_with(viewKey, " Writ") or ElderScrollsOfAlts.ends_with(viewKey, " writ")  ) then
+    --d("<viewKey: " .. tostring(viewKey) )
+    local tempn = string.format("tracking_writs_%s",viewKey)
+    tempn = string.lower(tempn)
+    --d("<tempn: " .. tostring(tempn) )
+    local comp = playerLine[ tempn .. "_done" ]
+    if(comp) then
+      local time = playerLine[ tempn .. "_time" ]    
+      local timestring = GetDateStringFromTimestamp(time)
+      local now       = GetTimeStamp()
+      local timediff  = GetDiffBetweenTimeStamps(now,time)
+      local fieldText = "0"
+      local ago = ElderScrollsOfAlts:timeToDisplay( (timediff*1000) ,true,false)
+      local extratooltiptext = ""
+      
+      local resetTime = playerLine[ tempn .. "_reset" ]
+      --d(" Now: " ..now.. " resetTime: " .. tostring(resetTime) )
+      if(resetTime) then
+        local timediffReset = GetDiffBetweenTimeStamps(resetTime,now)
+        --d(" timediffReset(): " .. tostring(timediffReset)  )
+        if(timediffReset>0) then
+          fieldText = ElderScrollsOfAlts:timeToDisplay( (timediffReset*1000) , false,true)
+          extratooltiptext = zo_strformat("<<1>> done at <<2>>, was <<3>> ago, will reset in <<4>>.", viewKey, timestring, ago, fieldText )
+        else
+          fieldText = "Prev"
+          extratooltiptext = zo_strformat("<<1>> should be reset and able to be done again.", viewKey, timestring, ago, fieldText )
+        end
+      else
+        local hour, minute = ElderScrollsOfAlts:dailyReset()
+        local timeToReset = hour*3600 + minute*60
+        --
+        fieldText = ago
+        extratooltiptext = zo_strformat("<<1>> done at <<2>>, was <<3>> ago.", viewKey, timestring, ago )
+      end      
+      --local hour, minute = ElderScrollsOfAlts:dailyReset()
+      --local timeToWarning = hour*3600 + minute*60 -- - warnTime*60
+      --d("<hour: " .. tostring(hour) .. " minute: " ..tostring(minute) )-- .. " timeToWarning: " .. tostring(timeToWarning) )
+      --d("<comp: " .. tostring(comp) .. " time: " ..tostring(time) )
+      eline:SetText( fieldText )
+      eline.tooltip = extratooltiptext
+    else
+      eline:SetText( "0" )
+    end
+    
+    --playerLines[k][tempn.."_time"] = rtKV2.completedtime
+    --playerLines[k][tempn.."_done"] = rtKV2.completed
+    --d("timestring: " .. GetDateStringFromTimestamp(rtKV2.completedtime) )
+    --d("timediff: " .. GetDiffBetweenTimeStamps(GetTimeStamp(),rtKV2.completedtime) )
+    --if diff is negative, it was previous
+    -- so what time to compare to to get if it was done today?
+    --[15:32] [15:32] >tempn: "tracking_writs_Jewelry Crafting Writ"
   --
   --
   else

@@ -99,8 +99,11 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     if( ElderScrollsOfAlts.altData.players[playerKey].championpointsactive~=nil ) then
       ElderScrollsOfAlts.view.championpointsactive = ElderScrollsOfAlts.altData.players[playerKey].championpointsactive
       ElderScrollsOfAlts.debugMsg("ESOA, saved current cp active, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) , "'")    
-      
     end
+    if( ElderScrollsOfAlts.altData.players[playerKey].tracking ~=nil ) then
+      ElderScrollsOfAlts.view.tracking = ElderScrollsOfAlts.altData.players[playerKey].tracking
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current tracking, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].tracking) , "'")
+    end    
   else
     ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
   end
@@ -546,11 +549,14 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].playersorder = ElderScrollsOfAlts.view.currentorder
     ElderScrollsOfAlts.debugMsg("ESOA, restored current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) ,"'")
   end
-  
   if( ElderScrollsOfAlts.view.championpointsactive ~= nil) then    
     ElderScrollsOfAlts.altData.players[playerKey].championpointsactive = ElderScrollsOfAlts.view.championpointsactive
     ElderScrollsOfAlts.debugMsg("ESOA, restored current cp actrive, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) ,"'")
   end
+  if( ElderScrollsOfAlts.view.tracking ~= nil) then    
+    ElderScrollsOfAlts.altData.players[playerKey].tracking = ElderScrollsOfAlts.view.tracking
+    ElderScrollsOfAlts.debugMsg("ESOA, restored current tracking, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].tracking) ,"'")
+  end  
   
   ----Section: Buffs section
   --BUFFS
@@ -676,6 +682,46 @@ function ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem,skillineName
   --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
   --local timeTillReady = GetTimeStamp() + timeRemainingSecs
   --UUU
+end
+
+--
+function ElderScrollsOfAlts:InitTrackingData(trackingType,trackingName)
+   ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )
+  ----Section: Save section
+	if ElderScrollsOfAlts.altData.players == nil then
+		ElderScrollsOfAlts.altData.players = {}
+	end
+  if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey] = {}
+  end
+  if( ElderScrollsOfAlts.altData.players[playerKey].tracking == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].tracking = {}
+  end
+  if( ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType] = {}
+  end
+  if( ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType][trackingName] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType][trackingName] = {}
+  end
+  return ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType][trackingName]
+end
+
+--
+function ElderScrollsOfAlts:SaveTrackingDataComplete(trackingType,trackingName,isCompleted)
+  ElderScrollsOfAlts.debugMsg("SaveTrackingDataComplete: called")
+  d("trackingType: "..tostring(trackingType) .. " trackingName: " ..tostring(trackingName) )
+  local trackElem = ElderScrollsOfAlts:InitTrackingData(trackingType,trackingName)
+  trackElem.name          = trackingName
+  trackElem.cat           = trackingType
+  trackElem.completed     = isCompleted
+  trackElem.completedtime = GetTimeStamp()
+  local hour, minute = ElderScrollsOfAlts:dailyReset()
+  local timeToReset = hour*3600 + minute*60
+  trackElem.resettime     = trackElem.completedtime + timeToReset
+  --trackElem.resettime     = GetTimeStamp() -- today at 2am?
 end
 
 --

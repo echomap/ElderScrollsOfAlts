@@ -175,6 +175,8 @@ function ElderScrollsOfAlts.InitializeGui()
   if(ElderScrollsOfAlts.savedVariables.hideinmenus==nil) then
     ElderScrollsOfAlts.savedVariables.hideinmenus = false
   end
+  --TODO temp fix
+  ElderScrollsOfAlts.savedVariables.hideinmenus = false
   
   --
   local fragment1 = ZO_HUDFadeSceneFragment:New(ESOA_GUI2, nil, 0)
@@ -2224,6 +2226,8 @@ function ElderScrollsOfAlts:DoChampionAssignedTextBar_Collapse()
     for kkiT = 1, #ElderScrollsOfAlts.view.cpbar2.slots do
       ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Label"):SetHidden(true)
       ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("LabelRev"):SetHidden(true)
+      ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("Icon"):SetHidden(true)
+      ElderScrollsOfAlts.view.cpbar2.slots[kkiT]:GetNamedChild("IconRev"):SetHidden(true) 
     end
   end
   ElderScrollsOfAlts.view.cpbar2:SetDimensions(30,230)

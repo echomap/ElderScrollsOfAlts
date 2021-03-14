@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.34",			-- A nuisance to match to the Manifest.
+    version         = "1.00.35",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -146,6 +146,16 @@ function ElderScrollsOfAlts.OnChampionUnspentPointsChange(eventCode)
   d("CUPC: " .. tostring(eventCode))
 end
 
+--TODO ElderScrollsOfAlts.view.writskey = "writs"
+
+-- EVENT
+--EVENT_QUEST_COMPLETE (number eventCode, string questName, number level, number previousExperience, number currentExperience, number championPoints, QuestType questType, InstanceDisplayType instanceDisplayType)
+function ElderScrollsOfAlts.OnQuestComplete(eventCode, questName, level, previousExperience, currentExperience, championPoints, questType, instanceDisplayType)
+  if(QUEST_TYPE_CRAFTING==questType) then
+    d("Finished Crafting Quest with name='"..questName.."'")
+    ElderScrollsOfAlts:SaveTrackingDataComplete("writs",questName,true)
+  end
+end
 
 --------------------------------
 -- SETUP  setup event handling
@@ -216,8 +226,9 @@ function ElderScrollsOfAlts.DelayedStart()
     }
     BUI.PanelAdd(content)
   end  
-  CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)  
-  
+  --
+  CHAMPION_PERKS_SCENE:RegisterCallback('StateChange',ElderScrollsOfAlts.OnChampionPerksStateChange)    
+  --
   ElderScrollsOfAlts.debugMsg(ElderScrollsOfAlts.name , GetString(SI_ESOA_MESSAGE)) 
   ZO_AlertNoSuppression(UI_ALERT_CATEGORY_ALERT, nil,
       ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
@@ -263,12 +274,17 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
   
   --EVENT_CHAMPION_PURCHASE_RESULT (number eventCode, ChampionPurchaseResult result)
-  EVENT_MANAGER:RegisterForEvent("ElderScrollsOfAlts.EVENT_CHAMPION_PURCHASE_RESULT",	EVENT_CHAMPION_PURCHASE_RESULT, ElderScrollsOfAlts.OnChampionPurchaseResult)
-  --EVENT_CHAMPION_POINT_UPDATE (number eventCode, string unitTag, number oldChampionPoints, number currentChampionPoints)
-  --EVENT_MANAGER:RegisterForEvent("ElderScrollsOfAlts.EVENT_CHAMPION_POINT_UPDATE",	EVENT_CHAMPION_POINT_UPDATE, ElderScrollsOfAlts.OnChampionPointUpdate)
-  --EVENT_UNSPENT_CHAMPION_POINTS_CHANGED (number eventCode)
-  --EVENT_MANAGER:RegisterForEvent("ElderScrollsOfAlts.EVENT_UNSPENT_CHAMPION_POINTS_CHANGED",	EVENT_UNSPENT_CHAMPION_POINTS_CHANGED, ElderScrollsOfAlts.OnChampionUnspentPointsChange)
-
+  EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name,	EVENT_CHAMPION_PURCHASE_RESULT, ElderScrollsOfAlts.OnChampionPurchaseResult)
+  
+  --EVENT_QUEST_COMPLETE (number eventCode, string questName, number level, number previousExperience, number currentExperience, number championPoints, QuestType questType, InstanceDisplayType instanceDisplayType)
+  EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_COMPLETE, ElderScrollsOfAlts.OnQuestComplete)
+  --EVENT_QUEST_ADDED (number eventCode, number journalIndex, string questName, string objectiveName)
+  --EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_ADDED, ElderScrollsOfAlts.OnQuestAdded)
+  --EVENT_QUEST_REMOVED (number eventCode, boolean isCompleted, number journalIndex, string questName, number zoneIndex, number poiIndex, number questID)
+  --EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_REMOVED, ElderScrollsOfAlts.OnQuestRemoved)
+  --EVENT_QUEST_ADVANCED (number eventCode, number journalIndex, string questName, boolean isPushed, boolean isComplete, boolean mainStepChanged)
+  --EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_ADVANCED, ElderScrollsOfAlts.OnQuestAdvanced)
+  
   -- Slash commands must be lowercase. Set to nil to disable.
   SLASH_COMMANDS["/elderScrollsOfAlts"] = ElderScrollsOfAlts.SlashCommandHandler
   SLASH_COMMANDS["/esoa"] = ElderScrollsOfAlts.SlashCommandHandler

@@ -399,8 +399,8 @@ function ElderScrollsOfAlts.LoadSettings()
     type    = "editbox",
     name    = GetString(ESOA_SETTINGS_EDITVIEWNAME_NAME),
     tooltip = GetString(ESOA_SETTINGS_EDITVIEWNAME_TT),
-    getFunc = function() return ElderScrollsOfAlts:GetEditSelectedViewName() end,
-    setFunc = function(text)    end,
+    getFunc = function() return ElderScrollsOfAlts.view.SettingsViewName end,
+    setFunc = function(value)   ElderScrollsOfAlts.view.SettingsViewName = value  end,
     width   = "half",	--or "half" (optional)
     isMultiline = false,
     isExtraWide = false,

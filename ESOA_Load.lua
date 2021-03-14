@@ -221,6 +221,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
     ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
     ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
+    ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
+    --
   end--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 
   -- PlayerLines to table
@@ -890,8 +892,36 @@ function ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
     ElderScrollsOfAlts.debugMsg("currency "..rtK.." as="..tostring(rtKV))    
     ElderScrollsOfAlts.debugMsg("currency "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
     playerLines[k]["currency_"..string.lower(rtKV.currencyName)] = ZO_CommaDelimitNumber(rtKV.amount)
-  end
+  end  
+end
+
+--
+function ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
+  local tracking = ElderScrollsOfAlts.altData.players[k].tracking
+  if k == nil then return end
+  if tracking == nil then return end
   
+  --Defaults
+  --Values
+  for rtK, rtKV in pairs(tracking) do
+    ElderScrollsOfAlts.debugMsg("tracking "..rtK.." as="..tostring(rtKV) )    
+    ElderScrollsOfAlts.debugMsg("tracking "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
+    for rtK2, rtKV2 in pairs(rtKV) do
+      if(rtKV2~=nil) then
+        local tempn = string.format("tracking_%s_%s",rtK, rtK2)
+        tempn = string.lower(tempn)
+        --d(">tempn: " .. tostring(tempn) .. " comp: " .. tostring(rtKV2.completed) )
+        playerLines[k][tempn.."_time"]  = rtKV2.completedtime
+        playerLines[k][tempn.."_done"]  = rtKV2.completed
+        playerLines[k][tempn.."_reset"] = rtKV2.resettime
+        --d("timestring: " .. GetDateStringFromTimestamp(rtKV2.completedtime) )
+        --d("timediff: " .. GetDiffBetweenTimeStamps(GetTimeStamp(),rtKV2.completedtime) )
+        --if diff is negative, it was previous
+        -- so what time to compare to to get if it was done today?
+        --[15:32] [15:32] >tempn: "tracking_writs_Jewelry Crafting Writ"
+      end
+    end
+  end  
 end
 
 --

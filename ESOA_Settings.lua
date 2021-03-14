@@ -225,7 +225,7 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
   --TODO
   local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
   if(guiLine~=nil)then
-    guiLine["name"] = ElderScrollsOfAlts.view.SettingsViewName
+    guiLine["name"] = tostring(ElderScrollsOfAlts.view.SettingsViewName)
     --guiLine["view"] = ElderScrollsOfAlts.view.SettingsViewData 
     local viewText = (ElderScrollsOfAlts.view.SettingsViewData)
     ElderScrollsOfAlts.debugMsg("DoSaveSelectedView: viewText=", viewText)
@@ -314,29 +314,16 @@ end
 ------------------------------
 --
 function ElderScrollsOfAlts:GetEditSelectedViewName()
-  local retVal = ElderScrollsOfAlts.view.SettingsViewName
-  --[[
-  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-  if(guiLine~=nil)then
-    --ElderScrollsOfAlts.outputMsg("Edit view name as <".. tostring(guiLine.name)..">" )
-    retVal = (guiLine.name)
-  end
-  --]]
-  return retVal
+  return tostring(ElderScrollsOfAlts.view.SettingsViewName)
 end
 
 ------------------------------
---
-function ElderScrollsOfAlts:SetEditSelectedViewName(newName)
-  --[[
-  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-  if(guiLine~=nil)then
-    guiLine["name"] = newName
-    ElderScrollsOfAlts.view.newViewName = newName
-  end 
-  --]]
-  ElderScrollsOfAlts.view.SettingsViewName = newName
+--Called when Box looses focus
+function ElderScrollsOfAlts.SetEditSelectedViewName(newText)
+  ElderScrollsOfAlts.view.SettingsViewName = tostring(newText)
+  ElderScrollsOfAlts.debugMsg("SetEditSelectedViewName: set text as=",newText)
 end
+
 
 ------------------------------
 --Called when Box looses focus

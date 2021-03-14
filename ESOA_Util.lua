@@ -18,6 +18,12 @@ end
 
 ------------------------------
 -- 
+function ElderScrollsOfAlts.ends_with(str, ending)
+   return ending == "" or str:sub(-#ending) == ending
+end
+
+------------------------------
+-- 
 function ElderScrollsOfAlts:istable(t)
   return type(t) == 'table'
 end
@@ -168,15 +174,18 @@ function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   end
   --debugMsg("GetTimeMS="..tostring(GetFrameTimeMilliseconds()) .. " timeDataTaken="..tostring(timeDataTaken))
   --debugMsg("nowDiff="..tostring(nowDiff) .. " timeMS="..tostring(timeMS) )
-
-  local timeS  = math.floor(timeMS/1000)
-  local timeM  = math.floor(timeS/60)
+  local totalS = math.floor(timeMS/1000)
+  local timeM  = math.floor(totalS/60)
   local timeH  = math.floor(timeM/60)
   local timeD  = math.floor(timeH/24)
+  local timeS  = math.floor(timeMS/1000)
+  if(timeM>0) then
+    timeS = math.floor( totalS - (timeM*60) )
+  end  
   if(timeH>0) then
     timeM = timeM - (timeH*60)
-    timeS = timeS - (timeM*60)
-    if(timeS<0) then timeS=0 end
+    totalS = totalS - (timeM*60)
+    if(totalS<0) then totalS=0 end
   end
   if(timeD>0) then
     timeH = timeH - (timeD*24)
@@ -187,11 +196,33 @@ function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   elseif(incDay)then
     hdrStr = string.format("%sd%sh%sm",    timeD, timeH, timeM)
   elseif(incSec)then
-    hdrStr = string.format("%sh%sm",    timeH, timeM, timeS)
+    hdrStr = string.format("%sh%sm%ss",    timeH, timeM, timeS)
   else
     hdrStr = string.format("%sh%sm",       timeH, timeM)
   end
   return hdrStr
+end
+
+-- HOW the HECK does this work??? TODO
+function ElderScrollsOfAlts:dailyReset()
+	stamp = GetTimeStamp()
+	local date = {}
+	local day = 86400
+	local hour = 3600
+	local till = {}
+	stamp = stamp-1451606400
+	stamp = stamp%day
+	date["hour"] = math.floor(stamp/3600)
+	stamp = stamp%hour
+	date["minute"] = math.floor(stamp/60)
+	stamp = stamp%60
+	if date["hour"]>5 then 
+		till["hour"] = 24-date["hour"]+5
+	else
+		till["hour"] = 6- date["hour"] -1
+	end
+	till["minute"] = 60-date["minute"]
+	return till["hour"], till["minute"]
 end
 
 ------------------------------
