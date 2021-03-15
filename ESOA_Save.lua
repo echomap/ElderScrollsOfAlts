@@ -73,25 +73,37 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.debugMsg("ESOA, playersexisting: '", ElderScrollsOfAlts.view.playersexisting[name] , "'")
   end
   --]]
-  
+  local dataToProtect = {
+    "category", "championpointsactive", "championpoints", "tracking", "note"
+  }
+  ElderScrollsOfAlts.view.tempsave = {}
+
   ----Section: Protect section
   --Protect data not loaded from player data API
   if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
     ElderScrollsOfAlts.debugMsg("Checking preexisting data to preserve")
     --Protect note data if not saved to disk in this session
-    if( ElderScrollsOfAlts.altData.players[playerKey].note ~= nil  ) then
+    --[[if( ElderScrollsOfAlts.altData.players[playerKey].note ~= nil  ) then
       ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[playerKey].note
       ElderScrollsOfAlts.debugMsg("ESOA, saved current note, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].note) , "'")
-    end
+    end--]]
     if( ElderScrollsOfAlts.altData.players[playerKey].playersorder ~= nil  ) then
       ElderScrollsOfAlts.view.currentorder = ElderScrollsOfAlts.altData.players[playerKey].playersorder
       ElderScrollsOfAlts.debugMsg("ESOA, saved current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) , "'")
     else
-      ElderScrollsOfAlts.altData.playersorderlast           = ElderScrollsOfAlts.altData.playersorderlast + 1
+      ElderScrollsOfAlts.altData.playersorderlast                = ElderScrollsOfAlts.altData.playersorderlast + 1
       ElderScrollsOfAlts.altData.players[playerKey].playersorder = ElderScrollsOfAlts.altData.playersorderlast
       ElderScrollsOfAlts.view.currentorder = ElderScrollsOfAlts.altData.players[playerKey].playersorder
       ElderScrollsOfAlts.debugMsg("ESOA, saved current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) , "'")
     end
+    --    
+    for key,value in pairs(dataToProtect) do
+      if( ElderScrollsOfAlts.altData.players[playerKey][value]~=nil ) then
+        ElderScrollsOfAlts.view.tempsave[value] = ElderScrollsOfAlts.altData.players[playerKey][value]
+        ElderScrollsOfAlts.debugMsg("ESOA, saved current '" .. value.."', as '", tostring(ElderScrollsOfAlts.altData.players[playerKey][value]) , "'") 
+      end
+    end
+    --[[
     if( ElderScrollsOfAlts.altData.players[playerKey].category~=nil ) then
       ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[playerKey].category
       ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
@@ -100,10 +112,15 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
       ElderScrollsOfAlts.view.championpointsactive = ElderScrollsOfAlts.altData.players[playerKey].championpointsactive
       ElderScrollsOfAlts.debugMsg("ESOA, saved current cp active, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) , "'")    
     end
+    if( ElderScrollsOfAlts.altData.players[playerKey].championpoints~=nil ) then
+      ElderScrollsOfAlts.view.championpoints = ElderScrollsOfAlts.altData.players[playerKey].championpoints
+      ElderScrollsOfAlts.debugMsg("ESOA, saved current cp, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpoints) , "'")    
+    end    
     if( ElderScrollsOfAlts.altData.players[playerKey].tracking ~=nil ) then
       ElderScrollsOfAlts.view.tracking = ElderScrollsOfAlts.altData.players[playerKey].tracking
       ElderScrollsOfAlts.debugMsg("ESOA, saved current tracking, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].tracking) , "'")
-    end    
+    end 
+    --]]
   else
     ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
   end
@@ -537,6 +554,18 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   ----Section: Protect section
   --Protect data not loaded from player data API
+  --"category", "championpointsactive", "championpoints", "tracking", "note"
+  for key,value in pairs(dataToProtect) do
+    if( ElderScrollsOfAlts.view.tempsave[value] ~= nil ) then
+      ElderScrollsOfAlts.altData.players[playerKey][value] = ElderScrollsOfAlts.view.tempsave[value]
+      ElderScrollsOfAlts.debugMsg("ESOA, restored current '"..value.."', as '", tostring(ElderScrollsOfAlts.altData.players[playerKey][value]) ,"'")
+    end
+  end
+  if( ElderScrollsOfAlts.view.currentorder ~= nil) then    
+    ElderScrollsOfAlts.altData.players[playerKey].playersorder = ElderScrollsOfAlts.view.currentorder
+    ElderScrollsOfAlts.debugMsg("ESOA, restored current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) ,"'")
+  end
+  --[[
   if( ElderScrollsOfAlts.view.currentnote ~= nil) then    
     ElderScrollsOfAlts.altData.players[playerKey].note = ElderScrollsOfAlts.view.currentnote
     ElderScrollsOfAlts.debugMsg("ESOA, restored current note, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].note) ,"'")
@@ -545,18 +574,19 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
     ElderScrollsOfAlts.altData.players[playerKey].category = ElderScrollsOfAlts.view.currentcategory
     ElderScrollsOfAlts.debugMsg("ESOA, restored current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) ,"'")
   end
-  if( ElderScrollsOfAlts.view.currentorder ~= nil) then    
-    ElderScrollsOfAlts.altData.players[playerKey].playersorder = ElderScrollsOfAlts.view.currentorder
-    ElderScrollsOfAlts.debugMsg("ESOA, restored current order, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].playersorder) ,"'")
-  end
   if( ElderScrollsOfAlts.view.championpointsactive ~= nil) then    
     ElderScrollsOfAlts.altData.players[playerKey].championpointsactive = ElderScrollsOfAlts.view.championpointsactive
-    ElderScrollsOfAlts.debugMsg("ESOA, restored current cp actrive, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) ,"'")
+    ElderScrollsOfAlts.debugMsg("ESOA, restored current cp active, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) ,"'")
+  end
+  if( ElderScrollsOfAlts.view.championpoints ~= nil) then    
+    ElderScrollsOfAlts.altData.players[playerKey].championpoints = ElderScrollsOfAlts.view.championpoints
+    ElderScrollsOfAlts.debugMsg("ESOA, restored current cp, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpoints) ,"'")
   end
   if( ElderScrollsOfAlts.view.tracking ~= nil) then    
     ElderScrollsOfAlts.altData.players[playerKey].tracking = ElderScrollsOfAlts.view.tracking
     ElderScrollsOfAlts.debugMsg("ESOA, restored current tracking, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].tracking) ,"'")
   end  
+  --]]
   
   ----Section: Buffs section
   --BUFFS
@@ -749,14 +779,13 @@ function ElderScrollsOfAlts:CollectCP()
   
   ----Section: Save section
   if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].championpoints = {}
     ElderScrollsOfAlts.altData.players[playerKey].championpointsactive = {}
     
     --d("[start] TestCP...")
     local CP = CHAMPION_PERKS
     local championBar = CHAMPION_PERKS:GetChampionBar() 
     local CPData = CHAMPION_DATA_MANAGER
-        
+    
     for i=1, 12 do
       local championSkillData = CHAMPION_PERKS:GetChampionBar():GetSlot(i).championSkillData
       if championSkillData then -- If anything is slotted into that index
@@ -779,9 +808,39 @@ function ElderScrollsOfAlts:CollectCP()
         --GetChampionSkillType
       else
       end
+    end -- for
+    
+    --
+    ElderScrollsOfAlts.altData.players[playerKey].championpoints = {}
+    local numDisciplines = GetNumChampionDisciplines()
+    d("numDisciplines: " .. tostring(numDisciplines) )
+    for disciplineIndex = 1, numDisciplines do
+      ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex] = {}
+      ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].name = GetChampionDisciplineName(disciplineIndex)
+      --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].id = disciplineIndex
+      for championSkillIndex = 1, GetNumChampionDisciplineSkills(disciplineIndex) do
+        local championSkillId = GetChampionSkillId(disciplineIndex, championSkillIndex)
+        --local numPendingPoints =  GetNumPendingChampionPoints(disciplineIndex, championSkillIndex)
+        local name = GetChampionSkillName(championSkillId)
+        local ptsspent = GetNumPointsSpentOnChampionSkill(championSkillId)
+        local abilityId = GetChampionAbilityId(championSkillId)
+        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId] = {}
+        --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
+        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].name = name
+        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
+        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].abilityId = abilityId
+        
+        --d("championSkillId: " .. tostring(championSkillId) )
+        --local championSkillData = ZO_ChampionSkillData:New(self, skillIndex)
+        --d("championSkillData: " .. tostring(championSkillData) )
+        --if championSkillData:IsClusterRoot() then
+        --   table.insert(self.championClusterDatas, ZO_ChampionClusterData:New(championSkillData))
+        --end
+        --self.championSkillDatas[skillIndex] = championSkillData
+      end
     end
     --d("TestCP...[end]")
-  end
+  end -- if player line exists
   ElderScrollsOfAlts.debugMsg("CollectCP: done")
 end
 

@@ -73,10 +73,16 @@ end
 -- SETUP:
 function ElderScrollsOfAlts:ResetUIViews(self)
     ElderScrollsOfAlts.savedVariables.gui = {}
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])    )
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])   )
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]))
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])  )
+    -- Would, but lack of order
+    --[[local guiTCopy = ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates)
+    for viewIdx, guiLine in pairs(guiTCopy) do
+      table.insert( ElderScrollsOfAlts.savedVariables.gui, guiLine )
+    end--]]
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])     )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])    )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]) )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])   )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Writs"])    )
     ElderScrollsOfAlts.savedVariables.currentView = nil
 end
 
@@ -387,7 +393,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
   local viewCnt = 0
   local mhminWidth = ElderScrollsOfAlts.view.headerWinWidth
   if(ElderScrollsOfAlts.savedVariables.gui==nil)then
-    ElderScrollsOfAlts.outputMsg("InitializeGui wasn't called first")
+    --ElderScrollsOfAlts.outputMsg("InitializeGui wasn't called first, calling now")
     ElderScrollsOfAlts.InitializeGui()
   end 
   for viewIdx = 1, #ElderScrollsOfAlts.savedVariables.gui do
@@ -2121,6 +2127,7 @@ function ElderScrollsOfAlts:SetupCPBar()
       ElderScrollsOfAlts.view.cpbar1:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, ElderScrollsOfAlts.savedVariables.cpactivebar1.x, ElderScrollsOfAlts.savedVariables.cpactivebar1.y)
     end
     ElderScrollsOfAlts.view.cpbarfragment1:Show()
+    ESOA_ChampionAssignableActionBar:SetMouseEnabled(true)
     ElderScrollsOfAlts.view.cpbar1:SetHidden(false)    
     ElderScrollsOfAlts.view.cpbar1:GetNamedChild("Backdrop"):SetHidden(false)
     if( ElderScrollsOfAlts.view.cpbar1.slots ~= nil) then
@@ -2130,6 +2137,7 @@ function ElderScrollsOfAlts:SetupCPBar()
     end
   else
     ElderScrollsOfAlts.view.cpbarfragment1:Hide()
+    ESOA_ChampionAssignableActionBar:SetMouseEnabled(false)
     ElderScrollsOfAlts.view.cpbar1:SetHidden(true)
     ElderScrollsOfAlts.view.cpbar1:GetNamedChild("Backdrop"):SetHidden(true)
     if( ElderScrollsOfAlts.view.cpbar1.slots ~= nil) then

@@ -20,8 +20,13 @@ feature: traits
 ==Unpublished ESOA==
 1.00.36
 [list]
-[*] 
-[*] 
+[*] Added view items for Writs:
+[*] -- {Clothier Writ}, {Blacksmith Writ}, {Woodworker Writ}, {Jewelry Crafting Writ}
+[*] -- {Alchemist Writ}, {Provisioner Writ} {Enchanter Writ}
+[*] update writs view
+[*] CP Bar bug fixes
+[*] fix bar1 mouse taking focus when hidden
+[*] Saving champion points
 [/list]
 
 ==ESOA Published V1.00.XX==
