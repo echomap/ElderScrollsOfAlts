@@ -354,9 +354,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         if(timediffReset>0) then
           fieldText = ElderScrollsOfAlts:timeToDisplay( (timediffReset*1000) , false,true)
           extratooltiptext = zo_strformat("<<1>> done at <<2>>, was <<3>> ago, will reset in <<4>>.", viewKey, timestring, ago, fieldText )
+          fieldText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerDone, fieldText )
         else
           fieldText = "Prev"
           extratooltiptext = zo_strformat("<<1>> should be reset and able to be done again.", viewKey, timestring, ago, fieldText )
+          fieldText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, fieldText )
         end
       else
         local hour, minute = ElderScrollsOfAlts:dailyReset()
@@ -524,7 +526,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
   end
   --Use specific logic to determine if max or near max
   if( viewKey=="Alchemy" ) then
-    if( eline.value == 50  and eline.data_sunk == 8 ) then
+    if( eline.value == 50  and eline.data_sunk == 7 ) then
       return 1
     elseif( eline.value == 50  ) then
       return 2

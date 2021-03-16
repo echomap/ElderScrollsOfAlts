@@ -239,7 +239,7 @@
 
           <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
             text="WhoAmI?" maxLineCount="180" >
-            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Label" relativePoint="TOPLEFT" offsetX="-10" offsetY="0" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Label" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
           </Label>
 
         </Controls>            
@@ -505,52 +505,64 @@
       </Controls>
   </Control>
 
-  <TopLevelControl name="ESOA_ChampionAssignableTextListBar" hidden="true" mouseEnabled="true" movable="true"  resizeToFitDescendents="true" clampedToScreen="true" virtual="false" >
+  <TopLevelControl name="ESOA_ChampionAssignableTextListBar" hidden="true" mouseEnabled="true" movable="true" resizeToFitDescendents="true" clampedToScreen="true" virtual="false" >
       <Dimensions x="50" y="200" />
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" offsetX="10" offsetY="200"/>
+      <!--
       <Controls>
         <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" >
              <AnchorFill/>
              <Edge edgeSize="2"/>
         </Backdrop>
       </Controls>
-      <OnMoveStop>
-        ElderScrollsOfAlts.SavePosition_CATLB()
-      </OnMoveStop>
-      <OnShow>
-      ElderScrollsOfAlts.RestorePosition_CATLB()
-      </OnShow>
+      -->
+      <OnMoveStop> ElderScrollsOfAlts.SavePosition_CATLB() </OnMoveStop>
+      <OnShow> ElderScrollsOfAlts.RestorePosition_CATLB() </OnShow>
   </TopLevelControl>
 
-  <Control name="ESOA_ChampionAssignableTextListBarSlot" virtual="true" mouseenabled="true" movable="true">
-      <Dimensions x="40" y="24" />
+  <Control name="ESOA_ChampionAssignableTextListBarSlot" virtual="true" mouseenabled="true" movable="true" >
+      <Dimensions x="170" y="24" />
       <Controls>
-          <Texture name="$(parent)Icon" level="1" pixelRoundingEnabled="true" mouseEnabled="true" >
-            <Anchor point="TOPLEFT" offsetX="-2" offsetY="0" />
-            <AnchorFill />
+          <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" >
+               <AnchorFill/>
+               <Edge edgeSize="2"/>
+          </Backdrop>
+          <Texture name="$(parent)Icon" level="1" pixelRoundingEnabled="true" mouseEnabled="true"  >
+            <Anchor point="TOPLEFT" offsetX="0" offsetY="0" />
+            <Dimensions x="40" y="24" />
             <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"champion",true) </OnMouseEnter>
             <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self,"champion",true)  </OnMouseExit>
-            <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuShow(self)</OnMouseUp>
+            <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuShow(...)</OnMouseUp>
+            <Controls>            
+              <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" >
+                   <AnchorFill/>
+                   <Edge edgeSize="2"/>
+              </Backdrop>
+            </Controls>
           </Texture>
-          <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true">
-            <Dimensions x="130"/>
+          <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true" >
+            <Dimensions x="110"/>
             <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
           </Label>   
-          <Texture name="$(parent)IconRev" level="1" pixelRoundingEnabled="true" mouseEnabled="true">
+          <Texture name="$(parent)IconRev" level="1" pixelRoundingEnabled="true" mouseEnabled="true"  >
             <Anchor point="TOPRIGHT" offsetX="-2" offsetY="0" />
-            <AnchorFill />
+            <Dimensions x="40" y="24" />
             <OnMouseEnter> ElderScrollsOfAlts:TooltipEnter(self,"champion",true) </OnMouseEnter>
             <OnMouseExit>  ElderScrollsOfAlts:TooltipExit(self,"champion",true)  </OnMouseExit>
-            <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuShow(self)</OnMouseUp>
+            <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_MenuShow(...)</OnMouseUp>
+            <Controls>
+              <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" >
+                   <AnchorFill/>
+                   <Edge edgeSize="2"/>
+              </Backdrop>
+            </Controls>
           </Texture>
-          <Label name="$(parent)LabelRev" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true">
-            <Dimensions x="130"/>
+          <Label name="$(parent)LabelRev" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true" >
+            <Dimensions x="110"/>
             <Anchor point="TOPRIGHT" relativeTo="$(parent)IconRev" relativePoint="TOPLEFT" offsetX="0" offsetY="0" />
-          </Label>          
+          </Label>
       </Controls>
-      <OnMoveStop>
-        ElderScrollsOfAlts.SavePosition_CATLB2()
-      </OnMoveStop>
+      <OnMoveStop> ElderScrollsOfAlts.SavePosition_CATLB2() </OnMoveStop>
   </Control>
   
   <TopLevelControl name="ESOA_ChampionAssignableTextListMenuBar" hidden="true" mouseEnabled="true" resizeToFitDescendents="true" clampedToScreen="false" >
@@ -576,7 +588,7 @@
           <Anchor point="TOPLEFT" relativeTo="$(parent)_hidewindow" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
           <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Show(self)</OnMouseUp>
         </Button>
-        <Button name="$(parent)_hidetext" text="Hide Text" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" >
+        <Button name="$(parent)_hidetext" text="Hide Text" font="ZoFontGame" verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true">
           <Dimensions x="100" y="20"/>
           <Anchor point="TOPLEFT" relativeTo="$(parent)_showwindow" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />      
           <OnMouseUp>ElderScrollsOfAlts:DoChampionAssignedTextBar_Collapse(self)</OnMouseUp>

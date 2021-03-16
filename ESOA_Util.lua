@@ -152,6 +152,9 @@ function ElderScrollsOfAlts.ColorText(colors,text)
   if(colors==nil) then
     return text
   end
+  if(text==nil) then
+    return text
+  end
   local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
   local text2 = cCD:Colorize(text)
   return text2
@@ -203,6 +206,7 @@ function ElderScrollsOfAlts:timeToDisplay(timeMS,incDay,incSec)
   return hdrStr
 end
 
+--From DolgubonsWritCrafter!!!
 -- HOW the HECK does this work??? TODO
 function ElderScrollsOfAlts:dailyReset()
 	stamp = GetTimeStamp()

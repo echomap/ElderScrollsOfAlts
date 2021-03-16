@@ -18,6 +18,12 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
+1.00.37
+[list]
+[*] 
+[/list]
+
+==ESOA Published V1.00.XX==
 1.00.36
 [list]
 [*] Added view items for Writs:
@@ -27,9 +33,8 @@ feature: traits
 [*] CP Bar bug fixes
 [*] fix bar1 mouse taking focus when hidden
 [*] Saving champion points
+[*] Alchemy max lvl fix
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.35
 [list]
 [*] CP Bar bug fixes

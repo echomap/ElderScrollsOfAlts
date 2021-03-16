@@ -810,10 +810,10 @@ function ElderScrollsOfAlts:CollectCP()
       end
     end -- for
     
-    --
+    --xxx
     ElderScrollsOfAlts.altData.players[playerKey].championpoints = {}
     local numDisciplines = GetNumChampionDisciplines()
-    d("numDisciplines: " .. tostring(numDisciplines) )
+    --d("numDisciplines: " .. tostring(numDisciplines) )
     for disciplineIndex = 1, numDisciplines do
       ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex] = {}
       ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].name = GetChampionDisciplineName(disciplineIndex)
@@ -821,22 +821,24 @@ function ElderScrollsOfAlts:CollectCP()
       for championSkillIndex = 1, GetNumChampionDisciplineSkills(disciplineIndex) do
         local championSkillId = GetChampionSkillId(disciplineIndex, championSkillIndex)
         --local numPendingPoints =  GetNumPendingChampionPoints(disciplineIndex, championSkillIndex)
-        local name = GetChampionSkillName(championSkillId)
-        local ptsspent = GetNumPointsSpentOnChampionSkill(championSkillId)
-        local abilityId = GetChampionAbilityId(championSkillId)
-        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId] = {}
-        --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
-        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].name = name
-        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
-        ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].abilityId = abilityId
-        
-        --d("championSkillId: " .. tostring(championSkillId) )
-        --local championSkillData = ZO_ChampionSkillData:New(self, skillIndex)
-        --d("championSkillData: " .. tostring(championSkillData) )
-        --if championSkillData:IsClusterRoot() then
-        --   table.insert(self.championClusterDatas, ZO_ChampionClusterData:New(championSkillData))
-        --end
-        --self.championSkillDatas[skillIndex] = championSkillData
+        local ptsspent  = GetNumPointsSpentOnChampionSkill(championSkillId)
+        if(ptsspent>0) then
+          local name      = GetChampionSkillName(championSkillId)
+          local abilityId = GetChampionAbilityId(championSkillId)
+          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId] = {}
+          --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
+          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].name = name
+          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
+          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].abilityId = abilityId
+          
+          --d("championSkillId: " .. tostring(championSkillId) )
+          --local championSkillData = ZO_ChampionSkillData:New(self, skillIndex)
+          --d("championSkillData: " .. tostring(championSkillData) )
+          --if championSkillData:IsClusterRoot() then
+          --   table.insert(self.championClusterDatas, ZO_ChampionClusterData:New(championSkillData))
+          --end
+          --self.championSkillDatas[skillIndex] = championSkillData
+        end--spent points
       end
     end
     --d("TestCP...[end]")
