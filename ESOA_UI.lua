@@ -605,7 +605,7 @@ function ElderScrollsOfAlts:ShowSetView()
   ESOA_GUI2_Body_ListHolder.rowHeight = 22
   ESOA_GUI2_Body_ListHolder.maxLines = ElderScrollsOfAlts.view.playerLineCount
   ESOA_GUI2_Body_ListHolder.dataOffset = 0
-    
+  
   --for category (from ESOA_GUI2_Body_ListHolder.dataHolderLines to ESOA_GUI2_Body_ListHolder.dataLines)
   local selCategory = ElderScrollsOfAlts.savedVariables.selected.category
   for dHL = 1, #ESOA_GUI2_Body_ListHolder.dataHolderLines do
@@ -647,8 +647,9 @@ function ElderScrollsOfAlts:ShowSetView()
   ----Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)
 	ElderScrollsOfAlts:UpdateDataScroll()
   --Set max, and Hide lines out of the max display
-  ElderScrollsOfAlts:GuiResizeScroll()
-  
+  --ElderScrollsOfAlts:GuiResizeScroll()
+  --Show Viewable
+  --ElderScrollsOfAlts.RefreshViewableTable()
   --
 end--ShowSetView
 
@@ -1166,8 +1167,8 @@ function ElderScrollsOfAlts:GuiResizeScroll()
 	if ESOA_GUI2_Body_ListHolder.maxLines == nil or ESOA_GUI2_Body_ListHolder.maxLines ~= newLines then
 		ESOA_GUI2_Body_ListHolder.maxLines = newLines
   end    
-    --Hide lines out of the max display
-		ElderScrollsOfAlts:GuiResizeLines()
+  --Hide lines out of the max display
+  ElderScrollsOfAlts:GuiResizeLines()
 	--end
   ElderScrollsOfAlts.debugMsg("GuiResizeScroll: Done")
 end
@@ -1201,13 +1202,13 @@ function ElderScrollsOfAlts:GuiOnScroll(control, delta)
 	if delta == 0 then return end
 
 	local slider = ESOA_GUI2_Body_ListHolder_Slider
-	local value = (ESOA_GUI2_Body_ListHolder.dataOffset - delta)
+	local value  = (ESOA_GUI2_Body_ListHolder.dataOffset - delta)
   --TODO use ESOA_GUI2_Body_ListHolder.displayedLines?
 	local total = #ESOA_GUI2_Body_ListHolder.displayedLines - ESOA_GUI2_Body_ListHolder.maxLines
 
 	if value < 0 then value = 0 end
 	if value > total then value = total end
-	ESOA_GUI2_Body_ListHolder.dataOffset  = value
+	ESOA_GUI2_Body_ListHolder.dataOffset = value
   ElderScrollsOfAlts.debugMsg("GuiOnScroll: set dataOffset="..tostring(value) )
 
   ----Setup max lines, and slider (calls RefreshViewableTable: create show lines based on offset)

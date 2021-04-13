@@ -209,6 +209,9 @@ local localization_strings = {
   ESOA_SETTINGS_HIDEUIMENUS_NM = "Hide ESOA when menues are opened?",
   ESOA_SETTINGS_HIDEUIMENUS_TT   = "On to hide when things like the map or character screen are opened.",
   
+  ESOA_SETTINGS_AUTOUSEDEF_NM   = "Automatically use saved settings on new character?",
+  ESOA_SETTINGS_AUTOUSEDEF_TT   = "If checked, this addon will use the saved default settings when a new character is loaded.",
+  
   ESOA_SETTINGS_CHARNAMEFIELD_NAME = "Char name field width",
   ESOA_SETTINGS_CHARNAMEFIELD_TT   = "Width of Name field displayed.",
   ESOA_SETTINGS_CHARNAMEFIELD_WARNING = "Don't set this to a negative number or too big, that's on you!",

@@ -58,8 +58,9 @@ function ElderScrollsOfAlts.debugMsg(...)
 
   if printResult == nil then
     return
-  end  
-	d("(" .. ElderScrollsOfAlts.name .. ") " .. printResult )
+  end
+  local val = zo_strformat( "(<<1>>) <<2>>",ElderScrollsOfAlts.name,printResult)
+  d(val)
 end
 
 ------------------------------

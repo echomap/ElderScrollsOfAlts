@@ -435,6 +435,10 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   --Returns: number earnedTier, number nextTierProgress, number nextTierTotal 
   local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(assignedCampaignId)
+  ElderScrollsOfAlts.debugMsg( 
+      "earnedTier: '",earnedTier,
+      "' nextTierProgress: '",nextTierProgress,
+      "' nextTierTotal: '",nextTierTotal,"'" )
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier = tonumber(earnedTier)
   --ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
   earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
@@ -742,7 +746,7 @@ end
 --
 function ElderScrollsOfAlts:SaveTrackingDataComplete(trackingType,trackingName,isCompleted)
   ElderScrollsOfAlts.debugMsg("SaveTrackingDataComplete: called")
-  d("trackingType: "..tostring(trackingType) .. " trackingName: " ..tostring(trackingName) )
+  ElderScrollsOfAlts.debugMsg("trackingType: "..tostring(trackingType) .. " trackingName: " ..tostring(trackingName) )
   local trackElem = ElderScrollsOfAlts:InitTrackingData(trackingType,trackingName)
   trackElem.name          = trackingName
   trackElem.cat           = trackingType

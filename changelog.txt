@@ -20,7 +20,7 @@ feature: traits
 ==Unpublished ESOA==
 1.00.37
 [list]
-[*] 
+[*] Removing debug msg about crafting quests (as now assuming things look good for ppl)
 [/list]
 
 ==ESOA Published V1.00.XX==

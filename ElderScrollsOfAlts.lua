@@ -152,7 +152,7 @@ end
 --EVENT_QUEST_COMPLETE (number eventCode, string questName, number level, number previousExperience, number currentExperience, number championPoints, QuestType questType, InstanceDisplayType instanceDisplayType)
 function ElderScrollsOfAlts.OnQuestComplete(eventCode, questName, level, previousExperience, currentExperience, championPoints, questType, instanceDisplayType)
   if(QUEST_TYPE_CRAFTING==questType) then
-    d("Finished Crafting Quest with name='"..questName.."'")
+    ElderScrollsOfAlts.debugMsg("Finished Crafting Quest with name='"..questName.."'")
     ElderScrollsOfAlts:SaveTrackingDataComplete("writs",questName,true)
   end
 end

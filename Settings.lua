@@ -110,6 +110,18 @@ function ElderScrollsOfAlts.LoadSettings()
       end,
     width   = "half",	--or "half" (optional)
   }
+  --[[TODO
+  optionsTable[#optionsTable+1] = {
+      type = "checkbox",
+      name    = GetString(ESOA_SETTINGS_AUTOUSEDEF_NM),
+      tooltip = GetString(ESOA_SETTINGS_AUTOUSEDEF_TT), 
+      getFunc = function() return ElderScrollsOfAlts.altData.automaticallyusedefaults end,
+      setFunc = function(value)
+        ElderScrollsOfAlts.altData.automaticallyusedefaults = value
+      end,
+      width = "half",	--or "half" (optional)
+  }
+  --]]
   
   --
   optionsTable[#optionsTable+1] = {
@@ -309,11 +321,11 @@ function ElderScrollsOfAlts.LoadSettings()
   optionsTable[#optionsTable+1] = {
     type = "dropdown",
     name = GetString(ESOA_SETTINGS_CHAR_NAME),
-    tooltip = GetString(ESOA_SETTINGS_CHAR_TT),
+    tooltip = GetString(ESOA_SETTINGS_CHAR_TT) .. tostring(ElderScrollsOfAlts.savedVariables.selected.charactername),
     choices = ElderScrollsOfAlts:ListOfCharacterNames(),
     getFunc = function() return GetString(ESOA_SETTINGS_SELECT) end,
     setFunc = function(var) ElderScrollsOfAlts:SelectCharacterName(var) end,
-    width = "half",	--or "half" (optional)
+    width = "full",	--or "half" (optional)
     reference = "ESOA_SETTINGS_CHARMAIN_Select",--TODO refresh me
   }
   optionsTable[#optionsTable+1] = {
