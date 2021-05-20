@@ -59,7 +59,7 @@ function ElderScrollsOfAlts:ResetNote()
   end
   local catH = tplayer.category
   if(catH == nil) then
-    catH = "All"
+    catH = ElderScrollsOfAlts.CATEGORY_ALL
   end
   ESOA_GUI2_Notes_Category_Edit:SetText(catH)
  
@@ -82,7 +82,7 @@ function ElderScrollsOfAlts:SaveNote()
   
   local selCat = ESOA_GUI2_Notes_Category_Edit:GetText()
   if(selCat==nil or selCat=="")then
-    selCat = "All"
+    selCat = ElderScrollsOfAlts.CATEGORY_ALL
   end
   ElderScrollsOfAlts.outputMsg("ESOA, saved cat="..tostring(selCat))
   tplayer.category = selCat

@@ -21,6 +21,7 @@ feature: traits
 1.00.37
 [list]
 [*] Removing debug msg about crafting quests (as now assuming things look good for ppl)
+[*] updated category to include option for server
 [/list]
 
 ==ESOA Published V1.00.XX==

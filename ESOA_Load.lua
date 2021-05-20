@@ -56,6 +56,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].xpleft = -1
     playerLines[k].race = "Unk"
     playerLines[k].class = "Unk"
+    playerLines[k].server = "Unk"
     playerLines[k].Werewolf = false
     playerLines[k].Vampire = false
     playerLines[k].special    = 0    
@@ -79,6 +80,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
       playerLines[k].alliance = tonumber(bio.alliance)
       playerLines[k].name     = bio.name --rewrite name
       playerLines[k].id       = bio.id      
+      playerLines[k].server   = bio.server
       --
       if bio.Werewolf then
         playerLines[k].Werewolf = true

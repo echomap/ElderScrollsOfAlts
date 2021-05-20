@@ -362,7 +362,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].misc.backpackUsed = bagUsed
   ElderScrollsOfAlts.altData.players[playerKey].misc.backpackFree = tonumber( bagSize-bagUsed )
   --
-  ElderScrollsOfAlts.altData.players[playerKey].misc.skillpoints = GetAvailableSkillPoints() 
+  ElderScrollsOfAlts.altData.players[playerKey].misc.skillpoints     = GetAvailableSkillPoints() 
   ElderScrollsOfAlts.altData.players[playerKey].misc.skillpointsfree = GetAvailableSkillPoints() 
   --ElderScrollsOfAlts.altData.players[playerKey].misc.skillpointstotal = GetAvailableSkillPoints() 
   ElderScrollsOfAlts.altData.players[playerKey].misc.secondsPlayed = GetSecondsPlayed()

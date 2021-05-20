@@ -613,8 +613,19 @@ function ElderScrollsOfAlts:ShowSetView()
     local charKey = dataHolderLine.charKey
     local playerLine = ElderScrollsOfAlts.view.playerLines[charKey]
     local pCategory = playerLine.category
+    local pServer   = playerLine.server
     if(pCategory==selCategory or ElderScrollsOfAlts.CATEGORY_ALL==selCategory )then
-      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine) --ESOA_RowTemplate
+      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
+    elseif( 
+      ElderScrollsOfAlts.starts_with(selCategory, ElderScrollsOfAlts.CATEGORY_US) and 
+      ElderScrollsOfAlts.starts_with(pServer, ElderScrollsOfAlts.CATEGORY_US)
+    ) then
+      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
+    elseif(
+      ElderScrollsOfAlts.starts_with(selCategory, ElderScrollsOfAlts.CATEGORY_EU) and 
+      ElderScrollsOfAlts.starts_with(pServer, ElderScrollsOfAlts.CATEGORY_EU) 
+    ) then
+      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
     end
     dataHolderLine:SetHidden(true)
   end
@@ -1461,6 +1472,10 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
   local validChoices =  {}
   if(forDisplayOnly~=nil and forDisplayOnly==true)then
     table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_ALL )
+  end
+  if(forDisplayOnly~=nil) then
+    table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_EU  )
+    table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_US  )
   end
   
   local tCount = 0
