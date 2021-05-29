@@ -9,7 +9,7 @@
 ------------------------------
 -- View Lookup, show data
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
-  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: viewKey:" , tostring(viewKey) )
+  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: viewKey: '" , tostring(viewKey), "'" )
   eline.viewKey = viewKey
   if(eline==nil) then return end
   if(viewKey=="Special") then
@@ -146,9 +146,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif(viewKey=="Enchanting") then
     ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(string.lower(viewKey),eline,playerLine,string.lower(GetString(ESOA_FULL_ENCH)) ) --"enchanting")
   elseif(viewKey=="JC") then
-    ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(string.lower(viewKey),eline,playerLine,string.lower(GetString(ESOA_FULL_JC)) ) --"jewelry")
+    ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(string.lower(viewKey) ,eline,playerLine,string.lower(GetString(ESOA_FULL_JC)) ) --"jewelry")
   elseif(viewKey=="Jewelry") then
-    ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(string.lower(viewKey),eline,playerLine,string.lower(GetString(ESOA_FULL_JC)) ) --"jewelry")
+    ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(string.lower(viewKey), eline,playerLine, string.lower(GetString(ESOA_FULL_JC)) ) --"jewelry")
  elseif(viewKey=="Provisioning") then
     ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(string.lower(viewKey),eline,playerLine,string.lower(GetString(ESOA_FULL_PROV)) ) --"provisioning")
   elseif(viewKey=="Woodworking") then
@@ -668,7 +668,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
   eline.data_val    = playerLine[tradeName]
   eline.data_sunk   = playerLine[tradeName.."_sunk"] 
   eline.data_sunk2  = playerLine[tradeName.."_sunk2"]
-  ElderScrollsOfAlts.debugMsg("POP Trade Data: tradeName='", tradeName, " viewKey='", viewKey, "' data_val='", eline.data_val, "' data_sunk='", eline.data_sunk, "'")
+  ElderScrollsOfAlts.debugMsg("POP Trade Data: tradeName='", tradeName, "' viewKey='", viewKey, "' data_val='", eline.data_val, "' data_sunk='", eline.data_sunk, "'")
   if( eline.data_sunk == nil ) then
     eline.data_sunk   = playerLine[viewKey.."_sunk"] 
     eline.data_sunk2  = playerLine[viewKey.."_sunk2"]
@@ -677,7 +677,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
   if eline.data_sunk ~=nil and eline.data_sunk > 0 and eline.data_val~=nil then
     eline:SetText(eline.data_val.."("..eline.data_sunk..")" )      
   elseif( eline.data_val==nil) then
-    ElderScrollsOfAlts.debugMsg("POP error Key="..tostring(viewKey), " tradeName=", tradeName, " playerLine=" , playerLine  )
+    ElderScrollsOfAlts.debugMsg("POP error Key='"..tostring(viewKey), "' tradeName='", tradeName, "' playerLine=" , playerLine  )
     eline:SetText(" ")
   else
     eline:SetText(eline.data_val .. "  ")
@@ -694,7 +694,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateTradeData(viewKey,eline,pla
     ElderScrollsOfAlts:CraftTipExit(self)
   end)
   eline.datatype = "Trade"
-  eline.value = playerLine[tradeName]
+  eline.value    = playerLine[tradeName]
 end
 
 ------------------------------
@@ -781,7 +781,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "lastloginraw"
   elseif( viewKey=="AssignedCampaignEndsAt") then  
     return "AssignedCampaignEndsSeconds"
-    
+  elseif(viewKey=="Jewelry") then
+    return "jewelry crafting"
+  elseif(viewKey=="Jewelry Crafting") then
+    return "jewelry crafting"
     
   --elseif( viewKey=="assignedcampaignrewardearnedtier") then  
   --return "assignedcampaignrewardearnedtier " 

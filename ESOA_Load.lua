@@ -568,7 +568,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeElem, tradeSkillElem,
     tplayerLine[destTradeName.."_sinkmax"]   = tradeElem.sinkmax    
     tplayerLine[destTradeName.."_sinkmax2"]  = tradeElem.sinkmax2
     tplayerLine[destTradeName.."_subskills"] = nil
-    tplayerLine[destTradeName.."_setup"]     = true    
+    tplayerLine[destTradeName.."_setup"]     = true
     ElderScrollsOfAlts.debugMsg("Trade2: ", " VALUE=", tplayerLine[destTradeName], " SUNK=", tplayerLine[destTradeName.."_sunk"] )  
     -- tradeElem subskills in tooltip
     local sstext = ""

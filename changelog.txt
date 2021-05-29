@@ -18,13 +18,19 @@ feature: traits
 [*] Need to fix sorting
 
 ==Unpublished ESOA==
-1.00.37
+1.00.38
 [list]
-[*] Removing debug msg about crafting quests (as now assuming things look good for ppl)
-[*] updated category to include option for server
+[*] update jc sort
+[*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.37
+[list]
+[*] update api to 100035 
+[*] Removing debug msg about crafting quests (as now assuming things look good for ppl)
+[*] updated category to include option for server
+[/list]
 1.00.36
 [list]
 [*] Added view items for Writs:

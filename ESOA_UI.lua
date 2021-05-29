@@ -1122,8 +1122,10 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   
   --
   gSearch =  gSearch1
+  ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #1")
   if(ESOA_GUI2_Body_ListHolder.dataLines[1]==nil) then
     gSearch = nil
+    ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #0")
   else
     --[[
     setmetatable(t,{
@@ -1134,10 +1136,13 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
     local testEntry1 = ESOA_GUI2_Body_ListHolder.dataLines[1].playerLine
     if(testEntry1==nil) then
       gSearch = nil
+      ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #0")
     elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"] ~=nil ) then
       gSearch = gSearch2
+      ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #2")
     elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_rank"] ~=nil ) then
       gSearch = gSearch2b
+      ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #2b")
     --elseif( testEntry1[ ElderScrollsOfAlts.view.currentSortKey:gsub(" ","_") ] ~=nil ) then
     --  gSearch = gSearch3
     end
