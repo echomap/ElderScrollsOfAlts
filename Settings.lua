@@ -16,12 +16,12 @@ function ElderScrollsOfAlts.LoadSettings()
       author       = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.author, "AAF0BB"),
       version      = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.version, "AA00FF"),
       slashCommand = "/ElderScrollsOfAlts",
-      registerForRefresh  = true,
-      registerForDefaults = true,
+      registerForRefresh  = false,
+      registerForDefaults = false,
   }
   ElderScrollsOfAlts.view.LAMPanel = LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
   local optionsTable = {}
-  
+  ElderScrollsOfAlts.view.pauseactivesave = false
   ---- -- --- -- --- ----
   -- ACCOUNT SETTINGS  --
   ---- -- --- -- --- ----
@@ -77,6 +77,18 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)   ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
     width   = "half",
   }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_STOPACTIVE_NAME),
+    tooltip = GetString(ESOA_SETTINGS_STOPACTIVE_TT),
+    getFunc = function() return ElderScrollsOfAlts.view.pauseactivesave end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.view.pauseactivesave = value
+      --ElderScrollsOfAlts:SetupCPBar()
+    end,
+    width   = "full",
+  }
+  
   --[[
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -96,7 +108,7 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)
       ElderScrollsOfAlts.savedVariables.cpactivebar1.show = value
       ElderScrollsOfAlts:SetupCPBar()
-      end,
+    end,
     width   = "half",	--or "half" (optional)
   }
   optionsTable [#optionsTable+1] = {

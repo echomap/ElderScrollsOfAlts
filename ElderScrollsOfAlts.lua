@@ -149,7 +149,7 @@ function ElderScrollsOfAlts.OnChampionUnspentPointsChange(eventCode)
 end
 
 --TODO ElderScrollsOfAlts.view.writskey = "writs"
-
+    
 -- EVENT
 --EVENT_QUEST_COMPLETE (number eventCode, string questName, number level, number previousExperience, number currentExperience, number championPoints, QuestType questType, InstanceDisplayType instanceDisplayType)
 function ElderScrollsOfAlts.OnQuestComplete(eventCode, questName, level, previousExperience, currentExperience, championPoints, questType, instanceDisplayType)
@@ -158,6 +158,61 @@ function ElderScrollsOfAlts.OnQuestComplete(eventCode, questName, level, previou
     ElderScrollsOfAlts:SaveTrackingDataComplete("writs",questName,true)
   end
 end
+
+
+-- COMPANIONS --
+------------------------------
+-- EVENT_COMPANION_ACTIVATED (*integer* _companionId_)
+function ElderScrollsOfAlts.OnCompanionActivated(eventCode, companionId)
+  ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: eventCode: '", eventCode, "' companionId='", tostring(companionId), "'")
+  local cname = GetCompanionName(companionId)
+  local defcompanionId = GetActiveCompanionDefId() -- this right ID?
+  ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: defcompanionId: '", defcompanionId, "'") 
+  local level, currentExperience = GetActiveCompanionLevelInfo()
+  --local [CompanionRapportLevel|#CompanionRapportLevel]* _rapportLevel_ = GetActiveCompanionRapportLevel()
+  --GetActiveCompanionRapportLevelDescription
+  local currentRapport = GetActiveCompanionRapport()  
+  ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, tostring(cname), currentRapport)
+  ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, tostring(cname), level, currentExperience)
+end
+  
+------------------------------
+-- EVENT_COMPANION_DEACTIVATED ( )
+function ElderScrollsOfAlts.OnCompanionDeactivated(eventCode)
+  ElderScrollsOfAlts.debugMsg( "OnCompanionDeactivated: eventCode: '", tostring(eventCode), "'")
+  --
+end
+
+------------------------------
+-- EVENT_COMPANION_RAPPORT_UPDATE (*integer* _companionId_, *integer* _previousRapport_, *integer* _currentRapport_)
+function ElderScrollsOfAlts.OnCompanionRapportUpdate(eventCode, companionId, previousRapport, currentRapport )
+  ElderScrollsOfAlts.debugMsg( "OnCompanionRapportUpdate: eventCode: '", eventCode, 
+    "' companionId='", tostring(companionId), "' warningType: '" , tostring(warningType), 
+    "' previousRapport: '", (previousRapport), "' currentRapport: '", (currentRapport), "'" )
+  local cname = GetCompanionName(companionId)
+  ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, tostring(cname), currentRapport)
+end
+
+------------------------------
+-- EVENT_COMPANION_SKILL_LINE_ADDED (** _skillLineId_)
+function ElderScrollsOfAlts.OnCompanionSkilllineAdded(eventCode, skillLineId)
+  ElderScrollsOfAlts.debugMsg( "OnCompanionSkilllineAdded: eventCode: '", eventCode, "' skillLineId='", tostring(skillLineId), "'")  
+  local companionId = GetActiveCompanionDefId() -- this right ID?
+  local cname       = GetCompanionName(companionId)
+  local slName      = GetSkillLineNameById(skillLineId)
+  ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, tostring(cname), skillLineId, slName )
+end
+
+------------------------------
+-- EVENT_COMPANION_SKILL_RANK_UPDATE (*integer* _skillLineId_, *luaindex* _rank_)
+function ElderScrollsOfAlts.OnCompanionSkillRankUpdate(eventCode, skillLineId, rank )
+  ElderScrollsOfAlts.debugMsg( "OnCompanionSkillRankUpdate: eventCode: '", eventCode, "' skillLineId='", tostring(skillLineId), "' rank: '", (rank), "'" )
+  local companionId = GetActiveCompanionDefId() -- this right ID?
+  local cname       = GetCompanionName(companionId)
+  local slName      = GetSkillLineNameById(skillLineId)
+  ElderScrollsOfAlts:CollectCompanionDataSkillRank(companionId, tostring(cname), skillLineId, slName, rank )
+end
+-- COMPANIONS --
 
 --------------------------------
 -- SETUP  setup event handling
@@ -169,6 +224,7 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
   if(ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames == nil) then
     ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames = false
   end
+  ElderScrollsOfAlts.view.pauseactivesave = false
   if(ElderScrollsOfAlts.view.viewkeyXlate==nil) then
     ElderScrollsOfAlts.view.viewkeyXlate = {}
     ElderScrollsOfAlts.view.viewkeyXlate["Assault"]       = GetString(ESOA_FULL_ASSAULT)
@@ -194,7 +250,7 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
     ElderScrollsOfAlts.view.viewkeyXlate["provisioning"]  = GetString(ESOA_FULL_PROV)  
     ElderScrollsOfAlts.view.viewkeyXlate["clothing"]      = GetString(ESOA_FULL_CLTH)
   end
-    
+  
 end
 
 --------------------------------
@@ -274,10 +330,11 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   ElderScrollsOfAlts.SetupDefaultDefaults()
   ElderScrollsOfAlts.SetupDefaultColors()
   zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)
-  
+  local eventNamespace = nil
+  ------------------------------
   --EVENT_CHAMPION_PURCHASE_RESULT (number eventCode, ChampionPurchaseResult result)
   EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name,	EVENT_CHAMPION_PURCHASE_RESULT, ElderScrollsOfAlts.OnChampionPurchaseResult)
-  
+    ------------------------------
   --EVENT_QUEST_COMPLETE (number eventCode, string questName, number level, number previousExperience, number currentExperience, number championPoints, QuestType questType, InstanceDisplayType instanceDisplayType)
   EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_COMPLETE, ElderScrollsOfAlts.OnQuestComplete)
   --EVENT_QUEST_ADDED (number eventCode, number journalIndex, string questName, string objectiveName)
@@ -286,6 +343,20 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   --EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_REMOVED, ElderScrollsOfAlts.OnQuestRemoved)
   --EVENT_QUEST_ADVANCED (number eventCode, number journalIndex, string questName, boolean isPushed, boolean isComplete, boolean mainStepChanged)
   --EVENT_MANAGER:RegisterForEvent(ElderScrollsOfAlts.name, EVENT_QUEST_ADVANCED, ElderScrollsOfAlts.OnQuestAdvanced)
+  --companions
+  --OnCompanionXX
+  ------------------------------
+  eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_ACTIVATED"
+  EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_ACTIVATED, ElderScrollsOfAlts.OnCompanionActivated )
+  eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_DEACTIVATED"
+  EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_DEACTIVATED, ElderScrollsOfAlts.OnCompanionDeactivated )
+  eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_RAPPORT_UPDATE"
+  EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_RAPPORT_UPDATE, ElderScrollsOfAlts.OnCompanionRapportUpdate )
+  eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_SKILL_LINE_ADDED"
+  EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_SKILL_LINE_ADDED, ElderScrollsOfAlts.OnCompanionSkilllineAdded )
+  eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_SKILL_RANK_UPDATE"
+  EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_SKILL_RANK_UPDATE, ElderScrollsOfAlts.OnCompanionSkillRankUpdate )
+  ------------------------------
   
   -- Slash commands must be lowercase. Set to nil to disable.
   SLASH_COMMANDS["/elderScrollsOfAlts"] = ElderScrollsOfAlts.SlashCommandHandler

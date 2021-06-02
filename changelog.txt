@@ -16,12 +16,17 @@ feature: Selection/ UnSelection / DeselectOnReselect
 extractions/hirelings
 feature: traits
 [*] Need to fix sorting
+[*] companion data
+activecompanionname
+activecompanionlevel
+activecompanionrapport
+activecompanionskills?
 
 ==Unpublished ESOA==
 1.00.38
 [list]
 [*] update jc sort
-[*] 
+[*] Companions
 [/list]
 
 ==ESOA Published V1.00.XX==

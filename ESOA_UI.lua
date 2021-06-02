@@ -2106,12 +2106,12 @@ function ElderScrollsOfAlts:SetupCPBar()
 
       local slotDisciplineId  = GetRequiredChampionDisciplineIdForSlot(actionSlotIndex, HOTBAR_CATEGORY_CHAMPION)
       --d("slotDisciplineId:" .. tostring(slotDisciplineId) )
-      backgroundTexture = GetChampionDisciplineBackgroundTexture(slotDisciplineId)
+      backgroundTexture = GetChampionDisciplineZoomedInBackground(slotDisciplineId)--changed in api35??
       icon.tooltip = "none"
       lbl:SetText( "" )
       --lblR:SetText( "" )
       
-      backgroundTexture2 = GetChampionDisciplineBackgroundTexture(slotDisciplineId)
+      backgroundTexture2 = GetChampionDisciplineZoomedInBackground(slotDisciplineId) --changed in api35??
       icon2.tooltip    = "none"
       icon2Rev.tooltip = "none"
       lbl2:SetText( "" )
@@ -2119,7 +2119,7 @@ function ElderScrollsOfAlts:SetupCPBar()
 
       local ca = ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[actionSlotIndex]
       if(ca and ca.disciplineid) then
-        backgroundTexture = GetChampionDisciplineBackgroundSelectedTexture(ca.disciplineid)
+        backgroundTexture = GetChampionDisciplineZoomedInBackground(ca.disciplineid)--changed in api35??
         local sVal1 = zo_strformat("(<<1>>) <<2>>", ca.name , GetChampionSkillCurrentBonusText(ca.id,ca.numspentpoints) )
         local sVal2 = zo_strformat("(<<1>>) <<2>>", ca.name , GetChampionSkillDescription(ca.id,ca.numspentpoints) )
         ElderScrollsOfAlts.debugMsg("tooltip1: " , tostring(sVal1) , "tooltip2: " , tostring(sVal2) )

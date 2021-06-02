@@ -47,6 +47,12 @@ end
 -- Read all data from the game Player Object into this Addon
 function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: called")
+  if(ElderScrollsOfAlts.view.pauseactivesave) then 
+    ElderScrollsOfAlts.outputMsg( GetString(ESOA_MSG_PAUSED) )
+    return
+  end
+  ElderScrollsOfAlts.outputMsg( GetString(ESOA_MSG_ACTIVE)  )
+  
   ----Section: Statup section
 	local pName     = GetUnitName("player")
   local rName     = GetRawUnitName("player")   
@@ -74,7 +80,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   end
   --]]
   local dataToProtect = {
-    "category", "championpointsactive", "championpoints", "tracking", "note"
+    "category", "championpointsactive", "championpoints", "tracking", "note", "companions"
   }
   ElderScrollsOfAlts.view.tempsave = {}
 
@@ -683,6 +689,35 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   end
   --Test TRAITS
   
+  --COMPANIONS
+  -- Cant get list of companions? have to use only active one?
+  --[[ TODO: So this or events?
+  if( HasActiveCompanion() ) then
+    local companionId              = GetActiveCompanionDefId()
+    local level, currentExperience = GetActiveCompanionLevelInfo()
+    local currentRapport           = GetActiveCompanionRapport()
+    local cname                    = GetCompanionName(companionId)
+    ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience)
+    ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, currentRapport)
+  end
+  --]]
+
+  --[[
+* HasPendingCompanion()
+** _Returns:_ *bool* _hasPendingCompanion_
+  
+* GetActiveCompanionRapportLevel()
+** _Returns:_ *[CompanionRapportLevel|#CompanionRapportLevel]* _rapportLevel_
+
+* GetPendingCompanionDefId()
+** _Returns:_ *integer* _pendingCompanionId_
+  --activecompanionname
+  --activecompanionlevel
+  --activecompanionrapport
+  --activecompanionskills?
+--]]
+  --COMPANION END
+  
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: done")
 end
 
@@ -849,7 +884,91 @@ function ElderScrollsOfAlts:CollectCP()
   end -- if player line exists
   ElderScrollsOfAlts.debugMsg("CollectCP: done")
 end
+--CollectCP()
 
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
+  if ElderScrollsOfAlts.altData.players == nil then
+		ElderScrollsOfAlts.altData.players = {}
+	end
+  if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey] = {}
+  end
+  
+  ----Section: Save section
+  if( ElderScrollsOfAlts.altData.players[playerKey].companions == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].companions = {}
+    ElderScrollsOfAlts.altData.players[playerKey].companions.ids  = {}
+    ElderScrollsOfAlts.altData.players[playerKey].companions.data = {}
+  end
+  if( ElderScrollsOfAlts.altData.players[playerKey].companions.ids[companionId] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].companions.ids[companionId] = companionId
+  end
+  if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId] == nil ) then
+    ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId] = {}
+  end
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = tostring(cname)
+end
+
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience)
+  ElderScrollsOfAlts.debugMsg("CollectCompanionDataLevel: called")
+  ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --
+  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].level             = level
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].currentExperience = currentExperience
+end
+
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataSkillRank(companionId, cname, skillLineId, slName, rank )
+  ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillRank: called")
+  ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --
+  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
+  ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, cname, skillLineId, slName )
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId].rank = rank
+end
+
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, cname, skillLineId, slName )
+  ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillLine: called")
+  ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --
+  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
+  if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline == nil) then
+    ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline = {}
+  end
+  if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId] == nil ) then
+      ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId] = {}
+  end
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId].id   = skillLineId
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId].name = slName
+end
+
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, currentRapport)
+  ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapport: called")
+  ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --
+  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = cname
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].rapport = currentRapport
+end
   
 --ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
 function ElderScrollsOfAlts:SaveDataWerewolf(playerKey, baseElem)

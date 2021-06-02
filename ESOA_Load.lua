@@ -224,6 +224,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
     ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
     ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
+    ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
     --
   end--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 
@@ -895,6 +896,37 @@ function ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
     ElderScrollsOfAlts.debugMsg("currency "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
     playerLines[k]["currency_"..string.lower(rtKV.currencyName)] = ZO_CommaDelimitNumber(rtKV.amount)
   end  
+end
+
+--
+function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
+  local linedata = ElderScrollsOfAlts.altData.players[k].companions
+  if k == nil then return end
+  
+  local tempn1 = string.format("companion_%s",1)
+  local tempn2 = string.format("companion_%s",2)
+  local tempn3 = string.format("companion_%s",3)
+  playerLines[k][tempn1.."_name"]    = "none"
+  playerLines[k][tempn1.."_level"]   = -1
+  playerLines[k][tempn1.."_rapport"] = -1
+  playerLines[k][tempn2.."_name"]    = "none"    
+  playerLines[k][tempn2.."_level"]   = -1
+  playerLines[k][tempn2.."_rapport"] = -1
+  playerLines[k][tempn3.."_name"]    = "none"    
+  playerLines[k][tempn3.."_level"]   = -1
+  playerLines[k][tempn3.."_rapport"] = -1
+  --ElderScrollsOfAlts.debugMsg("setup defalt companion data for 1:",tempn1," 2:", tempn2 )
+  
+  if linedata == nil then return end
+  
+  for rtK, rtKV in pairs(linedata.data) do
+    local tempn = string.format("companion_%s",rtK)
+    playerLines[k][tempn.."_name"]    = rtKV.name
+    playerLines[k][tempn.."_level"]   = rtKV.level
+    playerLines[k][tempn.."_rapport"] = rtKV.rapport
+    ElderScrollsOfAlts.debugMsg("setup  companion data for tempn: '", tempn, "' set '", tempn.."_name", "' as '", rtKV.name, "'" )
+  end
+
 end
 
 --

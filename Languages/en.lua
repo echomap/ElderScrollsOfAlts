@@ -13,7 +13,10 @@ local localization_strings = {
   ESOA_NAME    = "name",
   ESOA_BAGS    = "Bags",
   ESOA_Unknown = "Unknown",
-
+  --
+  ESOA_MSG_PAUSED = "ESOA paused (per settings)",
+  ESOA_MSG_ACTIVE = "ESOA saving player data",
+  
   --Views
   ESOA_VIEW_HOME     ="Home",
   ESOA_VIEW_EQUIP    ="Equip",
@@ -221,7 +224,8 @@ local localization_strings = {
   ESOA_SETTINGS_CPACTIVEBAR2_NM = "Show champion active bar? #2?",
   ESOA_SETTINGS_CPACTIVEBAR2_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
   
-  
+  ESOA_SETTINGS_STOPACTIVE_NAME  = "Check to temporarily stop active collection of data and saving",
+  ESOA_SETTINGS_STOPACTIVE_TT    = "Check to temporarily stop active collection of data and saving",
   --
   --
   --

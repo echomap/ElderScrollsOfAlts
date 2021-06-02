@@ -143,6 +143,16 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Alchemist Writ"] = 1,
   ["Provisioner Writ"] = 1,
   ["Enchanter Writ"] = 1,
+  
+  ["Companion_1_name"] = 1,
+  ["Companion_2_name"] = 1,
+  ["Companion_3_name"] = 1,
+  ["Companion_1_level"] = 1,
+  ["Companion_2_level"] = 1,
+  ["Companion_3_level"] = 1,
+  ["Companion_1_rapoprt"] = 1,
+  ["Companion_2_rapoprt"] = 1,
+  ["Companion_3_rapoprt"] = 1,
 }
 
 -----------
@@ -158,8 +168,8 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [5] = "Level",
       [6] = "Gender",
       [7] = "Race",
-      [8] = "Alchemy",
-      [9] = "Blacksmithing",
+      [8]  = "Alchemy",
+      [9]  = "Blacksmithing",
       [10] = "Clothing",
       [11] = "Enchanting",
       [12] = "Jewelry",
@@ -173,6 +183,11 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [20] = "Riding Stamina",
       [21] = "Riding Inventory",
       [22] = "lastlogindiff",
+      [23] = "achieveearned",
+      [24] = "ReducedBounty",
+      [25] = "AssignedCampaignName",
+      [26] = "AssignedCampaignRewardEarnedTier",
+      [27] = "AssignedCampaignEndsAt",
     }
   },
   ["Equip"] = {
@@ -220,6 +235,13 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [16] = "Jewelcrafting Research 1",
       [17] = "Jewelcrafting Research 2",
       [18] = "Jewelcrafting Research 3",
+      [19] = "Clothier Writ",
+      [20] = "Blacksmith Writ",
+      [21] = "Woodworker Writ",
+      [22] = "Jewelry Crafting Writ",
+      [23] = "Alchemist Writ",
+      [24] = "Provisioner Writ",
+      [25] = "Enchanter Writ",
     }
   },
   ["Skills"] = {
@@ -248,14 +270,16 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [20] = "Riding Inventory",
       [21] = "Riding Timer",
       
-      [22] = "ReducedBounty",
-      [23] = "AssignedCampaignName",
-      [24] = "AssignedCampaignRewardEarnedTier",
-      [25] = "AssignedCampaignEndsAt",
+      [22] = "Companion_1_name",
+      [23] = "Companion_1_level",
+      [24] = "Companion_1_rapport",
+      [25] = "Companion_2_name",
+      [26] = "Companion_2_level",
+      [37] = "Companion_2_rapport",
     }
   },
-  ["Writs"] = {
-    ["name"] = "Writs",
+  ["Crafting"] = {
+    ["name"] = "Craft",
     ["view"] = {
       [1] = "Level",
       [2] = "Note",
@@ -274,8 +298,40 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [15] = "Alchemy",
       [16] = "Provisioning",
       [17] = "Enchanting",
+    },
+  },
+  ["Companions"] = {
+    ["name"] = "Companions",
+    ["view"] = {
+      [1] = "Level",
+      [2] = "Note",
+      [3] = "Alliance",
+      
+      [4] = "Companion_1_name",
+      [5] = "Companion_1_level",
+      [6] = "Companion_1_rapport",
+      [7] = "Companion_2_name",
+      [8] = "Companion_2_level",
+      [9] = "Companion_2_rapport",
     }
   },
+  ["Writs"] = {
+    ["name"] = "Companions",
+    ["view"] = {
+      [1] = "Level",
+      [2] = "Note",
+      [3] = "Alliance",
+      
+      [4] = "Clothier Writ",
+      [5] = "Blacksmith Writ",
+      [6] = "Woodworker Writ",
+      [7] = "Jewelry Crafting Writ",
+      [8] = "Alchemist Writ",
+      [9] = "Provisioner Writ",
+      [10] = "Enchanter Writ",
+    }
+  },
+  
 }
 
 -- VIEWS
