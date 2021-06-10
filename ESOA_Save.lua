@@ -48,10 +48,10 @@ end
 function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: called")
   if(ElderScrollsOfAlts.view.pauseactivesave) then 
-    ElderScrollsOfAlts.outputMsg( GetString(ESOA_MSG_PAUSED) )
+    ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_PAUSED) )
     return
   end
-  ElderScrollsOfAlts.outputMsg( GetString(ESOA_MSG_ACTIVE)  )
+  ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_ACTIVE)  )
   
   ----Section: Statup section
 	local pName     = GetUnitName("player")
@@ -912,7 +912,7 @@ function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cna
 end
 
 --Companions
-function ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience)
+function ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience, experienceForLevel)
   ElderScrollsOfAlts.debugMsg("CollectCompanionDataLevel: called")
   ----Section: Statup section
   local pID       = GetCurrentCharacterId()
@@ -922,6 +922,7 @@ function ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level,
   ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].level             = level
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].currentExperience = currentExperience
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].experienceForLevel = experienceForLevel
 end
 
 --Companions

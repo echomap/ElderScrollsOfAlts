@@ -906,16 +906,23 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
   local tempn1 = string.format("companion_%s",1)
   local tempn2 = string.format("companion_%s",2)
   local tempn3 = string.format("companion_%s",3)
-  playerLines[k][tempn1.."_name"]    = "none"
+  playerLines[k][tempn1.."_name"]    = "-none-"
   playerLines[k][tempn1.."_level"]   = -1
   playerLines[k][tempn1.."_rapport"] = -1
-  playerLines[k][tempn2.."_name"]    = "none"    
+  playerLines[k][tempn1.."_currentexperience"] = -1
+  playerLines[k][tempn1.."_experienceforlevel"] = -1
+  
+  playerLines[k][tempn2.."_name"]    = "-none-"    
   playerLines[k][tempn2.."_level"]   = -1
   playerLines[k][tempn2.."_rapport"] = -1
-  playerLines[k][tempn3.."_name"]    = "none"    
+  playerLines[k][tempn2.."_currentexperience"] = -1
+  playerLines[k][tempn2.."_experienceforlevel"] = -1
+  
+  playerLines[k][tempn3.."_name"]    = "-none-"    
   playerLines[k][tempn3.."_level"]   = -1
   playerLines[k][tempn3.."_rapport"] = -1
-  --ElderScrollsOfAlts.debugMsg("setup defalt companion data for 1:",tempn1," 2:", tempn2 )
+  playerLines[k][tempn3.."_currentexperience"] = -1
+  playerLines[k][tempn3.."_experienceforlevel"] = -1
   
   if linedata == nil then return end
   
@@ -924,6 +931,8 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
     playerLines[k][tempn.."_name"]    = rtKV.name
     playerLines[k][tempn.."_level"]   = rtKV.level
     playerLines[k][tempn.."_rapport"] = rtKV.rapport
+    playerLines[k][tempn.."_currentexperience"] = rtKV.currentExperience
+    playerLines[k][tempn.."_experienceforlevel"] = rtKV.experienceForLevel
     ElderScrollsOfAlts.debugMsg("setup  companion data for tempn: '", tempn, "' set '", tempn.."_name", "' as '", rtKV.name, "'" )
   end
 

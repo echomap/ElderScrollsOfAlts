@@ -1,6 +1,16 @@
 <GuiXml>
 <Controls>
-
+<!--
+  <Font name="ESOAZoFontGame" font="$(ZoFontGame)"/>
+  <Font name="ESOAZoFontGameLargeBold" font="$(ZoFontGameLargeBold)"/>
+  <Font name="ESOAZoFontGameLargeBold" font="$(ZoFontGameLargeBold)"/>
+  <Font name="ESOAZoFontBookPaper" font="$(ZoFontBookPaper)"/>
+  <Font name="ESOAZoFontWinH2" font="$(ZoFontWinH2)"/>
+  <Font name="ESOAZoFontWinH5" font="$(ZoFontWinH5)"/>
+  <Font name="ESOAZoFontChat" font="$(ZoFontChat)"/>
+  <Font name="ESOAZoFontGameSmall" font="$(ZoFontGameSmall)"/>
+-->
+  
    <Texture name="ESOA_RowTemplate_Highlight" textureFile="EsoUI/Art/Contacts/social_list_bgStrip_highlight.dds"
         alpha="0.6" level="1" tier="HIGH" virtual="true">
       <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="8" />

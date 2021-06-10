@@ -16,8 +16,8 @@ function ElderScrollsOfAlts.LoadSettings()
       author       = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.author, "AAF0BB"),
       version      = ElderScrollsOfAlts.Colorize(ElderScrollsOfAlts.version, "AA00FF"),
       slashCommand = "/ElderScrollsOfAlts",
-      registerForRefresh  = false,
-      registerForDefaults = false,
+      registerForRefresh  = true,
+      registerForDefaults = true,
   }
   ElderScrollsOfAlts.view.LAMPanel = LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
   local optionsTable = {}

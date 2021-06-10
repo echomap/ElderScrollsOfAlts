@@ -256,6 +256,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [7] = "Soul Magic",
       [8] = "Werewolf",
       [9] = "Vampire",
+      
       [10] = "Fighters Guild",
       [11] = "Mages Guild",
       [12] = "Undaunted",
@@ -275,7 +276,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [24] = "Companion_1_rapport",
       [25] = "Companion_2_name",
       [26] = "Companion_2_level",
-      [37] = "Companion_2_rapport",
+      [27] = "Companion_2_rapport",
     }
   },
   ["Crafting"] = {
@@ -291,6 +292,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [8] = "Alchemist Writ",
       [9] = "Provisioner Writ",
       [10] = "Enchanter Writ",
+      
       [11] = "Clothing",
       [12] = "Blacksmithing",
       [13] = "Woodworking",     
@@ -316,7 +318,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
     }
   },
   ["Writs"] = {
-    ["name"] = "Companions",
+    ["name"] = "Writs",
     ["view"] = {
       [1] = "Level",
       [2] = "Note",

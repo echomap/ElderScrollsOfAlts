@@ -385,6 +385,28 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     -- so what time to compare to to get if it was done today?
     --[15:32] [15:32] >tempn: "tracking_writs_Jewelry Crafting Writ"
   --
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
+    local num = viewKey:sub( #"Companion_"+1, #"Companion_"+1 )
+    --d("num: "..tostring(num) )
+    local cName = playerLine["companion_"..num.."_name"]
+    if( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
+      eline:SetText(playerLine[string.lower(viewKey)])
+      local cExp = playerLine["companion_"..num.."_currentexperience"]
+      local mExp = playerLine["companion_"..num.."_experienceforlevel"]
+      --d("cExp: "..tostring(cExp) )
+      eline.tooltip = zo_strformat("<<1>>'s companion <<2>> is level <<3>> with <<4>>/<<5>>xp.", playerLine.name, cName, playerLine[viewKey], cExp, mExp )
+    elseif( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
+      eline:SetText( playerLine[string.lower(viewKey)] )
+      eline.tooltip = playerLine[string.lower(viewKey)]
+    elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
+      eline:SetText( playerLine[string.lower(viewKey)] )
+      eline.tooltip = playerLine[string.lower(viewKey)]
+      eline.tooltip = zo_strformat("<<1>>'s companion <<2>> has rapport of <<3>>.", playerLine.name, cName, playerLine[viewKey]  )
+    else
+      eline:SetText(  playerLine[string.lower(viewKey)] )
+      eline.tooltip = playerLine[string.lower(viewKey)]
+    end
+  --
   --
   else
     ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered else case for viewKey='", viewKey, "'")
@@ -880,7 +902,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then    
     return 65        
   elseif(viewKey=="Companion_1_name" or viewKey=="Companion_2_name" or viewKey=="Companion_3_name" ) then
-    return 100   
+    return 110   
   elseif(viewKey=="Companion_1_level" or  viewKey=="Companion_1_rapport" or viewKey=="Companion_2_level" or  viewKey=="companion_2_rapport" or viewKey=="Companion_3_level" or  viewKey=="Companion_3_rapport" ) then
    return 35
   --

@@ -171,9 +171,10 @@ function ElderScrollsOfAlts.OnCompanionActivated(eventCode, companionId)
   local level, currentExperience = GetActiveCompanionLevelInfo()
   --local [CompanionRapportLevel|#CompanionRapportLevel]* _rapportLevel_ = GetActiveCompanionRapportLevel()
   --GetActiveCompanionRapportLevelDescription
-  local currentRapport = GetActiveCompanionRapport()  
+  local currentRapport = GetActiveCompanionRapport()
+  local xplevel = GetNumExperiencePointsInCompanionLevel(level+1)
   ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, tostring(cname), currentRapport)
-  ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, tostring(cname), level, currentExperience)
+  ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, tostring(cname), level, currentExperience, xplevel)
 end
   
 ------------------------------

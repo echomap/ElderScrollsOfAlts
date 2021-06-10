@@ -23,16 +23,22 @@ activecompanionrapport
 activecompanionskills?
 
 ==Unpublished ESOA==
-1.00.38
+1.00.39
 [list]
-[*] update jc sort
-[*] Companions
+[*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.38
+[list]
+[*] minor fixes
+[/list]
 1.00.37
 [list]
+[*] update jc sort
+[*] Companions
 [*] update api to 100035 
+[*] new default views
 [*] Removing debug msg about crafting quests (as now assuming things look good for ppl)
 [*] updated category to include option for server
 [/list]
