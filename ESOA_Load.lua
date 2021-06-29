@@ -821,6 +821,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
     --playerLines[k].AssignedCampaignEndsAt = timeDiff -- playerLines[k].AssignedCampaignEndsAt - GetTimeStamp() 
     playerLines[k].AssignedCampaignEndsAt = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
     ElderScrollsOfAlts.debugMsg("AssignedCampaignEndsAt=", playerLines[k].AssignedCampaignEndsAt )
+    playerLines[k].AssignedCampaignEndsAt_tooltip = playerLines[k].AssignedCampaignEndsAt
     if(timeDiff<1) then
       playerLines[k].AssignedCampaignEndsAtOver = true
     else

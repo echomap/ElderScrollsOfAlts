@@ -1,8 +1,11 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
-	SI_NEW_ADDON_MESSAGE = " ist aktiv!",
+  --
+	SI_ESOA_MESSAGE = " ist aktiv!",
+  SI_ESOA_SHOW     = "Zeigen Sie das ESOA an",
+  
 	-- Keybindings.
-	SI_BINDING_NAME_NEWADDON_DISPLAY = "Zeigen Sie das NewAddon an",
+  --
   
   -- Trade Skills
   ESOA_FULL_SMTH = "Schmiedekunst",
@@ -33,10 +36,15 @@ local localization_strings = {
   ESOA_FULL_SUB_TAIL    = "Schneiderei",
   ESOA_FULL_SUB_ASPIMP  = "Aspektverbesserung",
   ESOA_FULL_SUB_RECQUA  = "Rezeptqualität",
+  ESOA_FULL_SUB_RECIMPR = "Rezeptverbesserung",
   ESOA_FULL_SUB_WOOD    = "Schreinerhandwerk",
   ESOA_FULL_SUB_ENGRAV  = "Graveur",
   ESOA_FULL_SUB_POTIMPR = "Machtverbesserung",
-  ESOA_FULL_SUB_RECIMPR = "Rezeptverbesserung",
+  --
+  ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
+  ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
+  ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
+  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
   --
 }
 

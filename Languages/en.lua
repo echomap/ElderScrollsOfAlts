@@ -1,5 +1,6 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
+  --
   SI_ESOA_MESSAGE  = " addon is loaded",
   SI_ESOA_SHOW     = "Display ESOA",
   

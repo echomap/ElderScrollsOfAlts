@@ -508,6 +508,16 @@ function ElderScrollsOfAlts.LoadSettings()
     reference = "ESOA_SETTINGS_ENTRIES_Select3",--TODO refresh me
   }
   optionsTable[#optionsTable+1] = {
+    type    = "dropdown",
+    name    = GetString(ESOA_SETTINGS_DD_VIEWENTRIES4_NAME),
+    tooltip = GetString(ESOA_SETTINGS_DD_VIEWENTRIES_TT),
+    choices = ElderScrollsOfAlts:ListOfViewEntries4(),
+    getFunc = function() return GetString(ESOA_SETTINGS_SELECT) end,
+    setFunc = function(var) ElderScrollsOfAlts:SetSelectedAllowedViewEntry(var) end,
+    width = "half",	--or "half" (optional)
+    reference = "ESOA_SETTINGS_ENTRIES_Select4",--TODO refresh me
+  }
+  optionsTable[#optionsTable+1] = {
     type    = "editbox",
     name    = GetString(ESOA_SETTINGS_ED_VIEWENTRIES_NAME),
     tooltip = GetString(ESOA_SETTINGS_ED_VIEWENTRIES_TT),

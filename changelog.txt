@@ -23,12 +23,18 @@ activecompanionrapport
 activecompanionskills?
 
 ==Unpublished ESOA==
-1.00.39
+1.00.40
 [list]
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.39
+[list]
+[*] fixes to misc things
+[*] third dropdown list of allowable items
+[*] try at auto translate fr/ru (i doubt its fully correct/ anywhere in fr.lua and ru.lua that is a X is something that needs to be found and matched)
+[/list]
 1.00.38
 [list]
 [*] minor fixes

@@ -403,7 +403,28 @@ function ElderScrollsOfAlts:ListOfViewEntries3()
   local cnt = 0
   for kName, kVal in pairs( ave ) do   
     cnt = cnt+1
+    if(cnt>120) then
+      break
+    end
     if(cnt>80) then
+      table.insert(validChoices, kName )
+    end  end
+  table.sort( validChoices )
+  return validChoices 
+end
+
+------------------------------
+--Returns a list of character names
+function ElderScrollsOfAlts:ListOfViewEntries4()
+  local validChoices =  {}  
+	table.insert(validChoices, "Select")
+  
+  local ave = ElderScrollsOfAlts.allowedViewEntries
+  --table.sort( ave )
+  local cnt = 0
+  for kName, kVal in pairs( ave ) do   
+    cnt = cnt+1
+    if(cnt>120) then
       table.insert(validChoices, kName )
     end
   end

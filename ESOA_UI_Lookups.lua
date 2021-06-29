@@ -885,7 +885,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
     return 45
   elseif( viewKey=="AssignedCampaignEndsAt") then  
-    return 50
+    return 60
   elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
     return 65
   elseif(viewKey=="Jewelcrafting Research 1" or viewKey=="Jewelcrafting Research 2" or viewKey=="Jewelcrafting Research 3") then

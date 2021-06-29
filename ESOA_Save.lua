@@ -908,7 +908,7 @@ function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cna
     ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId] = {}
   end
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = tostring(cname)
+  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = zo_strformat("<<X:1>>", cname )
 end
 
 --Companions
