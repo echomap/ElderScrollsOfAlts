@@ -10,6 +10,7 @@ function ElderScrollsOfAlts:SavePlayerDataForGui()
   --ALPHA ElderScrollsOfAlts.DataSaveLivePlayerNew()
   ElderScrollsOfAlts.view.needToLoadGuiData = true
   ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " called") 
+  ElderScrollsOfAlts:ResetPlayerOrder()
 end
 
 ------------------------------
@@ -21,16 +22,14 @@ function ElderScrollsOfAlts:LoadPlayerDataForGui()
 end
 
 ------------------------------
--- 
+-- MAIN call that calls other functions ot populate PLAYER Data
 function ElderScrollsOfAlts:SetupGuiPlayerLines()
   --local timeTotalStart = GetFrameTimeSeconds()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
-
   --
   ElderScrollsOfAlts.view.accountData = {}
   ElderScrollsOfAlts.view.accountData.secondsplayed = 0
-  --bankspaces
-  --etc
+  --TODO bankspaces
   
   --
 	local playerLines =  {}
@@ -64,159 +63,26 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     playerLines[k].special_bitetimer = -1
     --playerLines[k].special_bitetimer2 = "n/a"
     playerLines[k].special_bitetimerDisplay = "[n/a]"
-    playerLines[k].playersorder = ElderScrollsOfAlts.altData.players[k].playersorder
+    playerLines[k].playersorder      = ElderScrollsOfAlts.altData.players[k].playersorder
+    playerLines[k].playerscreenorder = ElderScrollsOfAlts.altData.players[k].playerscreenorder
     if(playerLines[k].playersorder == nil) then 
       playerLines[k].playersorder = -1
     end
+    if(playerLines[k].playerscreenorder == nil) then 
+      playerLines[k].playerscreenorder = -1
+    end
     --
-		if bio ~=nil then
-			playerLines[k].gender   = bio.gender
-      playerLines[k].level    = tonumber(bio.level)
-      playerLines[k].xpleft   = bio.xpleft
-      playerLines[k].unitxp   = bio.unitxp
-      playerLines[k].unitxpmax= bio.unitxpmax      
-			playerLines[k].race     = bio.race
-      playerLines[k].class    = bio.class
-      playerLines[k].alliance = tonumber(bio.alliance)
-      playerLines[k].name     = bio.name --rewrite name
-      playerLines[k].id       = bio.id      
-      playerLines[k].server   = bio.server
-      --
-      if bio.Werewolf then
-        playerLines[k].Werewolf = true
-        playerLines[k].special    = 1
-        playerLines[k].special_bitetimerDisplay = "[No Skill]"
-        playerLines[k].special_bitetimer = -1
-        
-        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
-        if(foundItem~=nil and foundItem.purchased ) then
-          playerLines[k].special_bitetimerDisplay = "[Unk]"
-          playerLines[k].special_icon = foundItem["textureName"]
-          
-          ----ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
-          if(ElderScrollsOfAlts.altData.players[k].bio.specialdata~=nil)then
-            local expiresAt = ElderScrollsOfAlts.altData.players[k].bio.specialdata.expiresAt
-            if(expiresAt~=nil)then
-              --Time in seconds left till expires
-              local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
-              --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
-              if(timeDiff<0) then
-                playerLines[k].special_bitetimer = 0
-                playerLines[k].special_bitetimerDisplay = "[v.v]"
-              else
-                playerLines[k].special_bitetimer        = timeDiff
-                playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
-              end
-            else
-              playerLines[k].special_bitetimer = 0
-              playerLines[k].special_bitetimerDisplay = "[v.v]"
-            end
-          end--has special data
-        end--foundItem
-      end--ww
-      --
-      if bio.Vampire then
-        playerLines[k].Vampire = true
-        playerLines[k].special    = 1
-        playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
-        playerLines[k].special_bitetimer = -1
-        
-        local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
-        if(foundItem~=nil and foundItem.purchased ) then          
-          playerLines[k].special_bitetimerDisplay = "[Unk]"
-          playerLines[k].special_icon = foundItem["textureName"]
-          
-          ----ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
-          if(ElderScrollsOfAlts.altData.players[k].bio.specialdata~=nil)then
-            local expiresAt = ElderScrollsOfAlts.altData.players[k].bio.specialdata.expiresAt
-            if(expiresAt~=nil)then
-              --Time in seconds left till expires
-              local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
-              --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
-              if(timeDiff<0) then
-                playerLines[k].special_bitetimer = 0
-                playerLines[k].special_bitetimerDisplay = "[v.v]"
-              else
-                playerLines[k].special_bitetimer        = timeDiff
-                playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
-              end
-            else
-              playerLines[k].special_bitetimer = 0
-              playerLines[k].special_bitetimerDisplay = "[v.v]"
-            end
-          end--has special data
-        end--foundItem
-      end--vamp
-      
-		end--if bio ~=nil then
-    
+    ElderScrollsOfAlts:SetupGuiPlayerBioLines(playerLines,k)
+    -- CHECK Data
     if playerLines[k].level == nil or playerLines[k].level < 1 then
       ElderScrollsOfAlts.altData.players[k]  = nil --TODO this working as intended?
       return
     end
     --
-    if bio.canchamppts then
-      playerLines[k].champion = bio.champion
-    else 
-      playerLines[k].champion = -1
-    end
-
-    -- MISC
-    local misc = ElderScrollsOfAlts.altData.players[k].misc
-    playerLines[k].backpacksize  = 0
-    playerLines[k].backpackused  = 0
-    playerLines[k].backpackfree  = 0
-    playerLines[k].skillpoints   = 0
-    playerLines[k].secondsplayed = 0
-    playerLines[k].timeplayed    = "---"
-    if misc ~=nil then
-      playerLines[k].backpacksize  = misc.backpackSize
-      playerLines[k].backpackused  = misc.backpackUsed
-      playerLines[k].backpackfree  = misc.backpackFree
-      playerLines[k].skillpoints   = misc.skillpoints
-      playerLines[k].secondsplayed = misc.secondsPlayed
-    end
-    if(playerLines[k].skillpoints==nil)then
-      playerLines[k].skillpoints = 0 --per recent version
-    end
-    if(playerLines[k].secondsplayed==nil)then
-      playerLines[k].secondsplayed = 0 --per recent version
-    else
-      ElderScrollsOfAlts.view.accountData.secondsplayed = ElderScrollsOfAlts.view.accountData.secondsplayed+playerLines[k].secondsplayed
-      playerLines[k].timeplayed = ElderScrollsOfAlts:timeToDisplay( (playerLines[k].secondsplayed*1000) ,true,false)
-    end
-    playerLines[k].achieveearned = "-1"
-    if( misc.achieve~=nil and misc.achieve.earned~=nil ) then
-      playerLines[k].achieveearned    = ZO_CommaDelimitNumber(misc.achieve.earned)
-      playerLines[k].achieveearnedraw = misc.achieve.earned
-    end
-    playerLines[k].lastlogin = ZO_FormatTime(misc.now, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
-    playerLines[k].lastloginraw = misc.now
-    
-     local lastlogindiff = GetDiffBetweenTimeStamps(GetTimeStamp(), misc.now)
-     playerLines[k].lastlogindiff = ZO_FormatTime(lastlogindiff, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
-    
-    -- Infamy
-    local infamy = ElderScrollsOfAlts.altData.players[k].infamy
-    if( infamy ~= nil ) then
-      playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
-     --d("infamy.displayText='"..tostring(infamy.displayText).."'")
-      playerLines[k].reducedbounty_tooltip = infamy.displayText
-      ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
-    else
-      playerLines[k].reducedbounty = 0
-    end
-    --
-    local locationInfo = ElderScrollsOfAlts.altData.players[k].location
-    if( locationInfo ~= nil ) then
-      playerLines[k].subzonename = locationInfo.subzoneName
-      playerLines[k].zonename    = locationInfo.zoneName
-    else
-      playerLines[k].subzonename = ""
-      playerLines[k].zonename    = ""
-    end
-    
-    --local skills = ElderScrollsOfAlts.altData.players[k].skills
+    ElderScrollsOfAlts:SetupGuiPlayerMiscLines(playerLines,k)   
+    ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
+    ElderScrollsOfAlts:SetupGuiPlayerStatsLines(playerLines,k)    
+    ElderScrollsOfAlts:SetupGuiPlayerLocLines(playerLines,k) 
     ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
     ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)      
     ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)      
@@ -225,6 +91,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
     ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
     ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
     ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
+    ElderScrollsOfAlts:SetupPlayerLinesBuffs(playerLines,k)
+    ElderScrollsOfAlts:SetupPlayerLinesCP(playerLines,k)
     --
   end--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 
@@ -238,6 +106,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLines()
   return playerLines
 end
 
+--
 --("world","Vampire","Blood Ritual")
 function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
   local retVal = nil
@@ -252,6 +121,222 @@ function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
   return retVal
 end
 
+--
+function ElderScrollsOfAlts:SetupGuiPlayerLocLines(playerLines,k)  
+  local locationInfo = ElderScrollsOfAlts.altData.players[k].location
+  if( locationInfo ~= nil ) then
+    playerLines[k].subzonename = locationInfo.subzoneName
+    playerLines[k].zonename    = locationInfo.zoneName
+  else
+    playerLines[k].subzonename = ""
+    playerLines[k].zonename    = ""
+  end
+end
+
+--
+function ElderScrollsOfAlts:SetupGuiPlayerMiscLines(playerLines,k)
+  local misc = ElderScrollsOfAlts.altData.players[k].misc
+  -- DEFAULTS
+  playerLines[k].backpacksize  = 0
+  playerLines[k].backpackused  = 0
+  playerLines[k].backpackfree  = 0
+  playerLines[k].skillpoints   = 0
+  playerLines[k].secondsplayed = 0
+  playerLines[k].timeplayed    = "---"
+  --SETUP
+  if misc ~=nil then
+    playerLines[k].backpacksize  = misc.backpackSize
+    playerLines[k].backpackused  = misc.backpackUsed
+    playerLines[k].backpackfree  = misc.backpackFree
+    playerLines[k].skillpoints   = misc.skillpoints
+    playerLines[k].secondsplayed = misc.secondsPlayed
+  end
+  if(playerLines[k].skillpoints==nil)then
+    playerLines[k].skillpoints = 0 --per recent version
+  end
+  if(playerLines[k].secondsplayed==nil)then
+    playerLines[k].secondsplayed = 0 --per recent version
+  else
+    ElderScrollsOfAlts.view.accountData.secondsplayed = ElderScrollsOfAlts.view.accountData.secondsplayed+playerLines[k].secondsplayed
+    playerLines[k].timeplayed = ElderScrollsOfAlts:timeToDisplay( (playerLines[k].secondsplayed*1000) ,true,false)
+  end
+  playerLines[k].achieveearned = "-1"
+  if( misc.achieve~=nil and misc.achieve.earned~=nil ) then
+    playerLines[k].achieveearned    = ZO_CommaDelimitNumber(misc.achieve.earned)
+    playerLines[k].achieveearnedraw = misc.achieve.earned
+  end
+  -- TIME
+  playerLines[k].lastlogin = ZO_FormatTime(misc.now, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, 
+      TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  playerLines[k].lastloginraw = misc.now
+  -- TIME
+  local lastlogindiff = GetDiffBetweenTimeStamps(GetTimeStamp(), misc.now)
+  playerLines[k].lastlogindiff = ZO_FormatTime(lastlogindiff, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, 
+        TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  
+  -- RIDING
+  playerLines[k].riding_inventory = -1
+  playerLines[k].riding_speed     = -1
+  playerLines[k].riding_stamina   = -1
+  playerLines[k].riding_timems    = -1
+  playerLines[k].riding_totalDurationMs = -1
+  playerLines[k].riding_trainingready   = nil   
+  playerLines[k].riding_maxed           = false
+  playerLines[k].riding_trainer_ready   = false
+  --playerLines[k].riding_cantrain        = false
+  --playerLines[k].riding_timedisplay     = "--"
+    
+  if(misc~=nil)then
+    local riding = misc.riding
+    if(riding~=nil)then
+      playerLines[k].riding_inventory = riding.inventory
+      playerLines[k].riding_speed     = riding.speed
+      playerLines[k].riding_stamina   = riding.stamina
+      playerLines[k].riding_timems          = riding.timeMs
+      playerLines[k].riding_totalDurationMs = riding.totalDurationMs
+      playerLines[k].riding_trainingready   = riding.trainingReadyAt
+      
+      if( riding.inventory==60 and riding.speed==60 and riding.stamina==60 ) then
+        playerLines[k].riding_maxed = true
+        playerLines[k].riding_timems = 99999999;
+      else
+        local timeDiff = GetDiffBetweenTimeStamps(playerLines[k].riding_trainingready , GetTimeStamp())
+        if( timeDiff ~= nil and timeDiff <= 0 ) then
+          playerLines[k].riding_trainer_ready = true
+          playerLines[k].riding_timems = 0;
+        end
+      end
+      --if(riding.timeMs~=nil and riding.timeMs>-1)then
+        --playerLines[k].riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )
+      --end
+    end--riding element
+  end  --misc element
+  --
+end
+
+--
+function ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
+  local infamy = ElderScrollsOfAlts.altData.players[k].infamy
+  if( infamy ~= nil ) then
+    playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
+   --d("infamy.displayText='"..tostring(infamy.displayText).."'")
+    playerLines[k].reducedbounty_tooltip = infamy.displayText
+    ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
+  else
+    playerLines[k].reducedbounty = 0
+  end
+end
+
+--
+function ElderScrollsOfAlts:SetupGuiPlayerBioLines(playerLines,k)   
+  local bio = ElderScrollsOfAlts.altData.players[k].bio 
+  if bio == nil then
+    return
+  end
+  --  
+  playerLines[k].gender   = bio.gender
+  playerLines[k].level    = tonumber(bio.level)
+  playerLines[k].xpleft   = bio.xpleft
+  playerLines[k].unitxp   = bio.unitxp
+  playerLines[k].unitxpmax= bio.unitxpmax      
+  playerLines[k].race     = bio.race
+  playerLines[k].class    = bio.class
+  playerLines[k].alliance = tonumber(bio.alliance)
+  playerLines[k].name     = bio.name --rewrite name
+  playerLines[k].id       = bio.id      
+  playerLines[k].server   = bio.server
+  --
+  if bio.Werewolf then
+    playerLines[k].Werewolf = true
+    playerLines[k].special    = 1
+    playerLines[k].special_bitetimerDisplay = "[No Skill]"
+    playerLines[k].special_bitetimer = -1
+    
+    local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
+    if(foundItem~=nil and foundItem.purchased ) then
+      playerLines[k].special_bitetimerDisplay = "[Unk]"
+      playerLines[k].special_icon = foundItem["textureName"]
+      
+      ----ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+      if(ElderScrollsOfAlts.altData.players[k].bio.specialdata~=nil)then
+        local expiresAt = ElderScrollsOfAlts.altData.players[k].bio.specialdata.expiresAt
+        if(expiresAt~=nil)then
+          --Time in seconds left till expires
+          local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+          --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
+          if(timeDiff<0) then
+            playerLines[k].special_bitetimer = 0
+            playerLines[k].special_bitetimerDisplay = "[v.v]"
+          else
+            playerLines[k].special_bitetimer        = timeDiff
+            playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+          end
+        else
+          playerLines[k].special_bitetimer = 0
+          playerLines[k].special_bitetimerDisplay = "[v.v]"
+        end
+      end--has special data
+    end--foundItem
+  end--ww
+  --
+  if bio.Vampire then
+    playerLines[k].Vampire = true
+    playerLines[k].special    = 1
+    playerLines[k].special_bitetimerDisplay = "[Not Skilled]"
+    playerLines[k].special_bitetimer = -1
+    
+    local foundItem = ElderScrollsOfAlts:FindAbility(ElderScrollsOfAlts.altData.players[k], "world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
+    if(foundItem~=nil and foundItem.purchased ) then          
+      playerLines[k].special_bitetimerDisplay = "[Unk]"
+      playerLines[k].special_icon = foundItem["textureName"]
+      
+      ----ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+      if(ElderScrollsOfAlts.altData.players[k].bio.specialdata~=nil)then
+        local expiresAt = ElderScrollsOfAlts.altData.players[k].bio.specialdata.expiresAt
+        if(expiresAt~=nil)then
+          --Time in seconds left till expires
+          local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+          --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
+          if(timeDiff<0) then
+            playerLines[k].special_bitetimer = 0
+            playerLines[k].special_bitetimerDisplay = "[v.v]"
+          else
+            playerLines[k].special_bitetimer        = timeDiff
+            playerLines[k].special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+          end
+        else
+          playerLines[k].special_bitetimer = 0
+          playerLines[k].special_bitetimerDisplay = "[v.v]"
+        end
+      end--has special data
+    end--foundItem
+  end--vamp
+
+  --
+  if bio.canchamppts then
+    playerLines[k].champion = bio.champion
+  else 
+    playerLines[k].champion = -1
+  end
+end
+
+--
+function ElderScrollsOfAlts:SetupGuiPlayerStatsLines(playerLines,k)    
+  local iInfo = ElderScrollsOfAlts.altData.players[k].stats
+  if( iInfo ~= nil ) then
+    playerLines[k].stamina = iInfo.stamina
+    playerLines[k].magicka = iInfo.magicka
+    playerLines[k].health  = iInfo.health
+    playerLines[k].power   = iInfo.power
+  else
+    playerLines[k].stamina = -1
+    playerLines[k].magicka = -1
+    playerLines[k].health  = -1
+    playerLines[k].power   = -1
+  end
+end
+
+--
 function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)    
   --Set Defaults
   playerLines[k].heavy  = 0
@@ -443,6 +528,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)
   end --pairs(equip)
 end
 
+--
 function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
   --Set Defaults
   --HACK! TODO fix
@@ -516,45 +602,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
       end
     end
   end
-
-  --misc
-  local misc = ElderScrollsOfAlts.altData.players[k].misc
-  playerLines[k].riding_inventory = -1
-  playerLines[k].riding_speed     = -1
-  playerLines[k].riding_stamina   = -1
-  --playerLines[k].riding_cantrain  = false
-  playerLines[k].riding_timems    = -1
-  playerLines[k].riding_totalDurationMs = -1
-  --playerLines[k].riding_timedisplay     = "--"
-  playerLines[k].riding_trainingready   = nil   
-  playerLines[k].riding_maxed = false
-  playerLines[k].riding_trainer_ready = false
-    
-  if(misc~=nil)then
-    local riding = misc.riding
-    if(riding~=nil)then
-      playerLines[k].riding_inventory = riding.inventory
-      playerLines[k].riding_speed     = riding.speed
-      playerLines[k].riding_stamina   = riding.stamina
-      playerLines[k].riding_timems          = riding.timeMs
-      playerLines[k].riding_totalDurationMs = riding.totalDurationMs
-      playerLines[k].riding_trainingready   = riding.trainingReadyAt
-      
-      if( riding.inventory==60 and riding.speed==60 and riding.stamina==60 ) then
-        playerLines[k].riding_maxed = true
-        playerLines[k].riding_timems = 99999999;
-      else
-        local timeDiff = GetDiffBetweenTimeStamps(playerLines[k].riding_trainingready , GetTimeStamp())
-        if( timeDiff ~= nil and timeDiff <= 0 ) then
-          playerLines[k].riding_trainer_ready = true
-          playerLines[k].riding_timems = 0;
-        end
-      end
-      --if(riding.timeMs~=nil and riding.timeMs>-1)then
-        --playerLines[k].riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )
-      --end
-    end--riding element
-  end  --misc element
+--xxx
 end
 
 --
@@ -845,10 +893,10 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].UnitAvARankPoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
   playerLines[k].unitavarank          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARank         ,"")
   playerLines[k].unitavarankpoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
-  playerLines[k].SubRankStartsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.subRankStartsAt     ,"")
-  playerLines[k].NextSubRankAt        = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextSubRankAt       ,"")
-  playerLines[k].RankStartsAt         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.rankStartsAt        ,"")
-  playerLines[k].NextRankAt           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
+  playerLines[k].AvaSubRankStarts      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.subRankStartsAt     ,"")
+  playerLines[k].AvaNextSubRank        = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextSubRankAt       ,"")
+  playerLines[k].AvaRankStarts         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.rankStartsAt        ,"")
+  playerLines[k].AvaNextRank           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
   playerLines[k].AvaRankName          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.avaRankName         ,"")
   
   playerLines[k].AssignedCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignRewardEarnedTier, 0 )
@@ -897,6 +945,54 @@ function ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
     ElderScrollsOfAlts.debugMsg("currency "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
     playerLines[k]["currency_"..string.lower(rtKV.currencyName)] = ZO_CommaDelimitNumber(rtKV.amount)
   end  
+end
+
+--
+function ElderScrollsOfAlts:SetupPlayerLinesCP(playerLines,k)
+  --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].name
+  if k == nil then return end
+  local linedata = ElderScrollsOfAlts.altData.players[k].championpoints
+  if linedata == nil then return end
+  --numDisciplines
+  for rtK1, rtKV1 in pairs(linedata) do
+    --cp
+    for rtK, rtKV in pairs(rtKV1) do
+      local tempn1 = string.format("cp_%s",rtK)
+      local tempn3 = string.lower(tempn1)
+      --local tempn2 = tempn1.."_tooltip"
+      --playerLines[k][tempn1] = "[n.a]"
+      --playerLines[k][tempn2] = "[n.a]"
+      playerLines[k][tempn1] = rtKV1.ptsspent
+      ElderScrollsOfAlts.debugMsg("cp as '"..tempn1.."'="..tostring(rtKV1.ptsspent))    
+      --rtKV1.name
+      --rtKV1.ptsspent
+    end
+  end
+end
+
+--
+function ElderScrollsOfAlts:SetupPlayerLinesBuffs(playerLines,k)
+  if k == nil then return end
+  local linedata = ElderScrollsOfAlts.altData.players[k].buffs
+  if linedata == nil then return end
+  for rtK, rtKV in pairs(linedata) do
+    local tempn1 = string.format("buff_%s",rtK)
+    local tempn3 = string.lower(tempn1)
+    local tempn2 = tempn1.."_tooltip"
+    playerLines[k][tempn1.."_expiresAt"]    = rtKV.expiresAt
+    --Time in seconds left till expires
+    local timeDiff = GetDiffBetweenTimeStamps( rtKV.expiresAt, GetTimeStamp() )
+    if(timeDiff<0) then
+      playerLines[k][tempn1] = "[n.a]"
+      playerLines[k][tempn2] = "[n.a]"
+    else
+      playerLines[k][tempn1] = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,false,true ) --timeMS,incDay,incSec)
+      playerLines[k][tempn2] = playerLines[k][tempn1]
+      playerLines[k][tempn3] = playerLines[k][tempn1]
+    end
+    --
+    ElderScrollsOfAlts.debugMsg("setup  buff data for rtK: '", rtK, "' expires '", rtKV.expiresAt, "'" )
+  end
 end
 
 --

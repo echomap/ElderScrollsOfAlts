@@ -23,12 +23,22 @@ activecompanionrapport
 activecompanionskills?
 
 ==Unpublished ESOA==
-1.00.40
+1.00.41
 [list]
-[*] 
+[*] arrow icon clickable for sort reversal
+[*] can click on name at top bar to select character's row
+[*] view data added {stamina} {magicka} {health} {power}
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.40
+[list]
+[*] Change the default views
+[*] Player Buffs available, ie: {buff_Major Brutality}, prefix has to be "buff_"
+[*] Can use Note interface to set {playersorder}
+[*] Can use {playerscreenorder} to show and sort by char creation order? i think? doesnt seem to be sorted like load screen
+[*] Renamed SubRank... NextRank... etc, to  {AvaSubRankStart}, {AvaNextSubRank}, {AvaRankStarts}, {AvaNextRank}
+[/list]
 1.00.39
 [list]
 [*] fixes to misc things

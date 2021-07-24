@@ -1,5 +1,8 @@
 <GuiXml>
-<Controls>
+  <Font name="ESOAFont"      font="$(MEDIUM_FONT)|18"/>
+  <Font name="ESOAFontSmall" font="$(BOLD_FONT)|14"/>
+  <Font name="ESOAFontBold"  font="$(BOLD_FONT)|22"/>
+  <Font name="ESOAFontLrg"   font="$(BOLD_FONT)|18|soft-shadow-thick"/>
 <!--
   <Font name="ESOAZoFontGame" font="$(ZoFontGame)"/>
   <Font name="ESOAZoFontGameLargeBold" font="$(ZoFontGameLargeBold)"/>
@@ -10,6 +13,7 @@
   <Font name="ESOAZoFontChat" font="$(ZoFontChat)"/>
   <Font name="ESOAZoFontGameSmall" font="$(ZoFontGameSmall)"/>
 -->
+<Controls>
   
    <Texture name="ESOA_RowTemplate_Highlight" textureFile="EsoUI/Art/Contacts/social_list_bgStrip_highlight.dds"
         alpha="0.6" level="1" tier="HIGH" virtual="true">
@@ -337,7 +341,7 @@
   
   
   <TopLevelControl name="ESOA_GUI2_Notes" mouseEnabled="true" movable="true" hidden="true" resizeHandleSize="10" >
-    <Dimensions x="100" y="150" />
+    <Dimensions x="100" y="180" />
     <Anchor point="TOPRIGHT" relativeTo="GUI_ROOT" relativePoint="TOPRIGHT" offsetX="-25" offsetY="80" />
 
     <OnInitialized> </OnInitialized>
@@ -350,6 +354,10 @@
           color="FF0000" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER"
           text="NOTE UI" >
         <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"  offsetX="4" offsetY="4" />
+      </Label>
+      <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
+        text="WhoAmI?" >
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="4"/>
       </Label>
       
       <Backdrop name="$(parent)_Category" inherits="ZO_MultiLineEditBackdrop_Keyboard">
@@ -366,14 +374,24 @@
         <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"  offsetX="-104" offsetY="0" />
       </Label>
       
-      <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ZoFontGame" horizontalAlignment="LEFT"
-        text="WhoAmI?" >
-        <Anchor point="TOPLEFT" relativeTo="$(parent)_Label" relativePoint="BOTTOMLEFT" offsetX="4"/>
+      <Backdrop name="$(parent)_Order" inherits="ZO_MultiLineEditBackdrop_Keyboard">
+        <Dimensions x="80" y="30"/>
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"  offsetX="-4" offsetY="30" />
+        <Controls>
+            <EditBox name="$(parent)_Edit" inherits="ZO_DefaultEditMultiLineForBackdrop"
+              maxInputCharacters="10" multiLine="false" />
+        </Controls>
+      </Backdrop>
+      <Label name="$(parent)_LabelOrder" width="50" height="25" font="ZoFontGame" 
+          wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT"
+          text="Order" >
+        <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"  offsetX="-104" offsetY="30" />
       </Label>
+      
       <Button name="$(parent)_Save" text="Save" font="ZoFontGameLargeBold" 
           verticalAlignment="CENTER" horizontalAlignment="LEFT" mouseEnabled="true" 
           inherits="ZO_ButtonBehaviorClickSound" >
-        <Anchor point="TOPLEFT" relativeTo="$(parent)_WhoAmI" relativePoint="TOPRIGHT" offsetX="12"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)_LabelOrder" relativePoint="BOTTOMLEFT" offsetX="-40" offsetY="6"/>
         <Dimensions x="45" y="25" />
         <Textures
           normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
@@ -414,7 +432,7 @@
       </Button>
       
       <Control name="$(parent)_Index" inherits="ZO_ScrollList">
-        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="60"/>
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="85"/>
         <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetY="0" />
         <Controls>
           <EditBox	name="$(parent)_Note" font="ZoFontChat"

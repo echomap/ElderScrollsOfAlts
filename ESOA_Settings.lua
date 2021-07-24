@@ -243,33 +243,55 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
     --for kk,vv in pairs(tempTable) do
     --  ElderScrollsOfAlts.outputMsg( "tempTable: k="..tostring(kk).." v=",tostring(vv) )
     --end
+    --Test names, check in ElderScrollsOfAlts.allowedViewEntries    
+    --
+    local dataToAllowIfStart = {
+      "companion_", "buff_"
+    }
     --Test names, check in ElderScrollsOfAlts.allowedViewEntries
     local goodEntryKeys = {}
     local goodEntries = {}
-    local validated = true
+    local validated = true -- if any failed...
     for kk,vv in pairs(tempTable) do
-      local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
+      local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]
       --ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
       if(ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames)then
         validated = true
         table.insert(goodEntries, tostring(vv) )
         --goodEntryKeys[tostring(vv)] = true
-      elseif(fEntry~=nil) then 
-        --ElderScrollsOfAlts.outputMsg( "Validated")        
+        ElderScrollsOfAlts.debugMsg("DoSaveSelectedView: allowed '"..tostring(vv) .. "' per all allowed")
+      elseif(fEntry~=nil) then      
         if(goodEntryKeys[tostring(vv)]~=nil) then
-          ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: Had to remove element per already in view as k="..tostring(kk).." v="..tostring(vv))
+          ElderScrollsOfAlts.outputMsg("Had to remove element per already in view, '"..tostring(vv) .. "' #="..tostring(kk) )
         else
           table.insert(goodEntries, tostring(vv) )
           goodEntryKeys[tostring(vv)] = true
+          --validated = true
+          ElderScrollsOfAlts.debugMsg("DoSaveSelectedView: allowed '"..tostring(vv) .. "'")
         end
-      else
-        validated = false
-        ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: entry failed as k="..tostring(kk).." v="..tostring(vv))
+      else 
+        local validatedL = false
+        for key,value in pairs(dataToAllowIfStart) do
+          if( ElderScrollsOfAlts.starts_with( tostring(vv), value ) ) then  
+            if(goodEntryKeys[tostring(vv)]~=nil) then
+              ElderScrollsOfAlts.outputMsg("Had to remove element per already in view, '"..tostring(vv) .. "' #="..tostring(kk) )
+            else
+              validatedL = true
+              table.insert(goodEntries, tostring(vv) )
+              goodEntryKeys[tostring(vv)] = true
+              ElderScrollsOfAlts.debugMsg("DoSaveSelectedView: allowed '"..tostring(vv) .. "' per good start")
+            end
+          end
+        end
+        if(validatedL==false) then
+            validated = false
+            ElderScrollsOfAlts.outputMsg("Saving entry failed '"..tostring(vv).. "' #="..tostring(kk) )
+        end
       end
     end
     guiLine["view"] = goodEntries
     if(validated) then
-      ElderScrollsOfAlts.outputMsg( "All were validated")
+      ElderScrollsOfAlts.outputMsg( "All were validated" )
     end
   
     --[[for k2,v2 in pairs(guiLine.view) do

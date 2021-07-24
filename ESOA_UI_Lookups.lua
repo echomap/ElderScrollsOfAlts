@@ -294,6 +294,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         eline:SetText("--")  
       end
     end--max check
+
     eline.tooltip = zo_strformat("<<1>> has '<<2>>' as <<3>>",
         playerLine.name, viewKey, eline.tooltip )
     
@@ -406,6 +407,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline:SetText(  playerLine[string.lower(viewKey)] )
       eline.tooltip = playerLine[string.lower(viewKey)]
     end
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
+    local viewKey2 = viewKey
+    local pos = string.find(viewKey, "_")
+    viewKey2 = string.sub(viewKey,pos+1)
+    eline:SetText( playerLine[string.lower(viewKey)]  )
+    eline.tooltip = zo_strformat("<<1>> has <<2>> <<3>>",
+        playerLine.name, playerLine[string.lower(viewKey)], viewKey2
+      )    
   --
   --
   else
@@ -419,11 +428,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       --end
       return
     end
-    if( playerLine[ viewKey ] ~=nil ) then
+    if( playerLine[ viewKey ] ~= nil ) then
       ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered normal case check for viewKey='", viewKey, "'")
       eline:SetText( playerLine[viewKey]  )
       eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
-        playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
+        playerLine.name, viewKey, playerLine[(viewKey)] )
       --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
       eline.value = playerLine[ viewKey ] 
       return
@@ -905,6 +914,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     return 110   
   elseif(viewKey=="Companion_1_level" or  viewKey=="Companion_1_rapport" or viewKey=="Companion_2_level" or  viewKey=="companion_2_rapport" or viewKey=="Companion_3_level" or  viewKey=="Companion_3_rapport" ) then
    return 35
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
+    return 45
   --
   else
     return 45
@@ -1053,6 +1064,11 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     local pos = string.find(viewKey, "_")
     viewKey2 = string.sub(viewKey,pos+1)
     return viewKey2
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
+    local viewKey2 = viewKey
+    local pos = string.find(viewKey, "_")
+    viewKey2 = string.sub(viewKey,pos+1)
+    return viewKey2
   elseif(viewKey=="ReducedBounty") then
     return "Bounty"
  elseif(viewKey=="zoneName") then
@@ -1064,6 +1080,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   elseif(viewKey=="lastlogindiff" or viewKey=="Lastlogindiff") then
     return "LastLogin"
   elseif(viewKey=="playersorder") then
+    return "CustomOrder"
+  elseif(viewKey=="playerscreenorder") then
     return "Order"
   elseif(viewKey=="Companion_1_name") then
     return "C1Name"

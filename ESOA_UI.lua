@@ -79,15 +79,27 @@ function ElderScrollsOfAlts:ResetUIViews(self)
       table.insert( ElderScrollsOfAlts.savedVariables.gui, guiLine )
     end--]]
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])     )
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])    )
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]) )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Pvp"])    )
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])   )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]) )
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Crafting"])    )
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Companions"])    )
     table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Writs"])    )
+    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])    )
+    --
     ElderScrollsOfAlts.savedVariables.currentView = nil
 end
-
+--
+function ElderScrollsOfAlts:ResetPlayerOrder()
+  local pServer   = GetWorldName()
+  for i = 1, GetNumCharacters() do
+      local charName, _, _, _, _, _, charID = GetCharacterInfo(i)
+      local playerKey = charID.."_".. pServer:gsub(" ","_")
+      if(ElderScrollsOfAlts.altData.players[playerKey]~=nil) then
+        ElderScrollsOfAlts.altData.players[playerKey].playerscreenorder = i
+      end
+  end
+end
 ------------------------------
 -- SETUP:
 function ElderScrollsOfAlts.CheckData()
@@ -116,11 +128,9 @@ function ElderScrollsOfAlts.InitializeGui()
   
   -- GUI Views Update
   if(ElderScrollsOfAlts.savedVariables.gui==nil) then
-    ElderScrollsOfAlts.savedVariables.gui = {}
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Home"])    )
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Equip"])   )
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Research"]))
-    table.insert( ElderScrollsOfAlts.savedVariables.gui, ElderScrollsOfAlts:deepcopy(ElderScrollsOfAlts.view.guiTemplates["Skills"])  )  
+    --ElderScrollsOfAlts.savedVariables.gui = {}
+    ElderScrollsOfAlts:ResetUIViews(self)
+    --
   end -- GUI Views Update
   
   -- Setup Cat
@@ -186,6 +196,18 @@ function ElderScrollsOfAlts.InitializeGui()
   --TODO temp fix
   ElderScrollsOfAlts.savedVariables.hideinmenus = false
   
+  --ESOA_GUI2_Header_SortUp / ESOA_GUI2_Header_SortDown
+  --DoGuiSort(control, newSort, sortText)
+  ESOA_GUI2_Header_SortUp:SetMouseEnabled(true)
+  ESOA_GUI2_Header_SortUp:SetHandler('OnMouseUp',function(self)
+        ElderScrollsOfAlts:DoGuiSort(self, true, nil)
+        ElderScrollsOfAlts.RefreshViewableTable()
+    end)
+  ESOA_GUI2_Header_SortDown:SetMouseEnabled(true)
+  ESOA_GUI2_Header_SortDown:SetHandler('OnMouseUp',function(self)
+        ElderScrollsOfAlts:DoGuiSort(self, true, nil)
+        ElderScrollsOfAlts.RefreshViewableTable()
+    end)
   --
   local fragment1 = ZO_HUDFadeSceneFragment:New(ESOA_GUI2, nil, 0)
   ElderScrollsOfAlts.view.esoagui2fragment = fragment1
@@ -520,7 +542,13 @@ function ElderScrollsOfAlts:CreateGUI()
     --end
     if(charKey == ElderScrollsOfAlts.view.whoiamplayerKey) then
       ElderScrollsOfAlts:ShowHightlight(line)
-      ElderScrollsOfAlts.debugMsg("Selected player to hightlight")
+      ElderScrollsOfAlts.debugMsg("Selected current player to hightlight")
+      ESOA_GUI2_Header_WhoAmI:SetHandler("OnMouseDoubleClick", function(...) 
+        --ElderScrollsOfAlts:GUILineDoubleClick(...)
+        local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..ElderScrollsOfAlts.view.whoiamplayerKey)
+        ElderScrollsOfAlts:ShowHightlight(line)
+        end )
+      ESOA_GUI2_Header_WhoAmI:SetMouseEnabled(true)
     end
     --
     parent = line
@@ -969,7 +997,7 @@ function ElderScrollsOfAlts:SetupGuiHeaderListing(viewName)
         line = WINDOW_MANAGER:CreateControlFromVirtual("ESOA_GUI2_Body_CharListHeader_SortHdrBtn_"..i, parent, "ESOA_SortBar_SortButton")
       end
       if(line==nil) then
-        ElderScrollsOfAlts.debugMsg("Ack! Virtual control is nil?")
+        ElderScrollsOfAlts.outputMsg("Ack! Virtual control is nil?")
         --return
       else
         line:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(entry) )--TODO get function to get display name
@@ -1005,13 +1033,19 @@ end
 -- SORT: 
 function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/sortText='", tostring(sortText), "'")
-  --ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/sortKey='"..tostring(control.sortKey).."'")
-
-  local sortKey = ElderScrollsOfAlts.GuiSortBarLookupSortText(sortText)
-  ElderScrollsOfAlts.debugMsg("DoGuiSort: sortKey='", tostring(sortKey), "'")
   if(ElderScrollsOfAlts.savedVariables.currentsort==nil)then
     ElderScrollsOfAlts.savedVariables.currentsort = {}
   end
+  ElderScrollsOfAlts.debugMsg("DoGuiSort: called w/currentView='", tostring(ElderScrollsOfAlts.savedVariables.currentView), "'")
+  if(sortText~=nil) then
+    ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["sorttext"] = (sortText)
+  elseif( ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView] ~= nil ) then
+    sortText = ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]["sorttext"]
+  end
+  
+  --
+  local sortKey = ElderScrollsOfAlts.GuiSortBarLookupSortText(sortText)
+  ElderScrollsOfAlts.debugMsg("DoGuiSort: sortKey='", tostring(sortKey), "'")
   if(ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView]==nil)then
     ElderScrollsOfAlts.savedVariables.currentsort[ElderScrollsOfAlts.savedVariables.currentView] = {}
     ElderScrollsOfAlts.debugMsg("DoGuiSort: created struct for view=",ElderScrollsOfAlts.savedVariables.currentView)
@@ -1054,7 +1088,10 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   local gSearch1 = function (a,b)
     local aVal = a.playerLine[ElderScrollsOfAlts.view.currentSortKey]
     local bVal = b.playerLine[ElderScrollsOfAlts.view.currentSortKey]
+    ElderScrollsOfAlts.debugMsg("ESOA: 1) aVal="..tostring(aVal).." bVal="..tostring(bVal), " aname:'", a.playerLine.name, "' bname:'",b.playerLine.name, "'")
     local value1Type = type(aVal)
+    local value2Type = type(bVal)
+    ElderScrollsOfAlts.debugMsg("ESOA: 1) value1Type="..tostring(value1Type).." value2Type="..tostring(value2Type) )
     if(aVal == nil) then 
         if(value1Type=="string") then
           aVal = "nil"
@@ -1069,7 +1106,7 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
           bVal = 0
         end
     end
-    ElderScrollsOfAlts.debugMsg("ESOA: aVal="..tostring(aVal).." bVal="..tostring(bVal), " aname:'", a.playerLine.name, "' bname:'",b.playerLine.name, "'")
+    ElderScrollsOfAlts.debugMsg("ESOA: 2) aVal="..tostring(aVal).." bVal="..tostring(bVal), " aname:'", a.playerLine.name, "' bname:'",b.playerLine.name, "'")
     --debugMsg("ESOA: a.name="..a.name.." b.name="..b.name)
     if(currentSortOrder) then
       return bVal > aVal or bVal == aVal and b.playerLine.name < a.playerLine.name
@@ -1153,6 +1190,8 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
   --local sortedData = 
   table.sort( ESOA_GUI2_Body_ListHolder.dataLines, gSearch )
  
+  ElderScrollsOfAlts.debugMsg("DoGuiSort: Table sorted, refresh...")
+   
   if(newSort~=nil and newSort) then
     ElderScrollsOfAlts:RefreshGuiCharListing(ElderScrollsOfAlts.savedVariables.currentView)  
   end

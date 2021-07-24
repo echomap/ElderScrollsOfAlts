@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.39",			-- A nuisance to match to the Manifest.
+    version         = "1.00.40",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -112,6 +112,8 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts:SetupCPBar(true)
   elseif options[1] == "hidecpbar" then
     ElderScrollsOfAlts:HideCPBar()
+  elseif options[1] == "resetorder" then
+    ElderScrollsOfAlts:ResetPlayerOrder()
   else
     ElderScrollsOfAlts.ShowHelp()
 	end
@@ -165,7 +167,7 @@ end
 -- EVENT_COMPANION_ACTIVATED (*integer* _companionId_)
 function ElderScrollsOfAlts.OnCompanionActivated(eventCode, companionId)
   ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: eventCode: '", eventCode, "' companionId='", tostring(companionId), "'")
-  local cname = GetCompanionName(companionId)
+  local cname = GetCompanionName(companionId) --is there a RawName, so can have w/o the gender ctrl char?
   local defcompanionId = GetActiveCompanionDefId() -- this right ID?
   ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: defcompanionId: '", defcompanionId, "'") 
   local level, currentExperience = GetActiveCompanionLevelInfo()
@@ -251,7 +253,6 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
     ElderScrollsOfAlts.view.viewkeyXlate["provisioning"]  = GetString(ESOA_FULL_PROV)  
     ElderScrollsOfAlts.view.viewkeyXlate["clothing"]      = GetString(ESOA_FULL_CLTH)
   end
-  
 end
 
 --------------------------------

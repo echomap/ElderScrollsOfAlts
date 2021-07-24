@@ -80,7 +80,7 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   end
   --]]
   local dataToProtect = {
-    "category", "championpointsactive", "championpoints", "tracking", "note", "companions"
+    "category", "championpointsactive", "championpoints", "tracking", "note", "companions", "playerscreenorder",
   }
   ElderScrollsOfAlts.view.tempsave = {}
 
@@ -109,45 +109,9 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
         ElderScrollsOfAlts.debugMsg("ESOA, saved current '" .. value.."', as '", tostring(ElderScrollsOfAlts.altData.players[playerKey][value]) , "'") 
       end
     end
-    --[[
-    if( ElderScrollsOfAlts.altData.players[playerKey].category~=nil ) then
-      ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[playerKey].category
-      ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
-    end
-    if( ElderScrollsOfAlts.altData.players[playerKey].championpointsactive~=nil ) then
-      ElderScrollsOfAlts.view.championpointsactive = ElderScrollsOfAlts.altData.players[playerKey].championpointsactive
-      ElderScrollsOfAlts.debugMsg("ESOA, saved current cp active, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpointsactive) , "'")    
-    end
-    if( ElderScrollsOfAlts.altData.players[playerKey].championpoints~=nil ) then
-      ElderScrollsOfAlts.view.championpoints = ElderScrollsOfAlts.altData.players[playerKey].championpoints
-      ElderScrollsOfAlts.debugMsg("ESOA, saved current cp, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].championpoints) , "'")    
-    end    
-    if( ElderScrollsOfAlts.altData.players[playerKey].tracking ~=nil ) then
-      ElderScrollsOfAlts.view.tracking = ElderScrollsOfAlts.altData.players[playerKey].tracking
-      ElderScrollsOfAlts.debugMsg("ESOA, saved current tracking, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].tracking) , "'")
-    end 
-    --]]
   else
     ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
   end
-  --[[
-  if( ElderScrollsOfAlts.altData.players[pName] ~= nil and 
-      ElderScrollsOfAlts.altData.players[pName].category~=nil ) then
-    ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[pName].category
-    ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[pName].category) , "'")    
-  end
-  --Protect note data if not saved to disk in this session
-  if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil and 
-      ElderScrollsOfAlts.altData.players[playerKey].note ~= nil ) then
-    ElderScrollsOfAlts.view.currentnote = ElderScrollsOfAlts.altData.players[playerKey].note
-    ElderScrollsOfAlts.debugMsg("ESOA, saved current note, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].note) , "'")
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil and 
-      ElderScrollsOfAlts.altData.players[playerKey].category~=nil ) then
-    ElderScrollsOfAlts.view.currentcategory = ElderScrollsOfAlts.altData.players[playerKey].category
-    ElderScrollsOfAlts.debugMsg("ESOA, saved current category, as '", tostring(ElderScrollsOfAlts.altData.players[playerKey].category) , "'")    
-  end
-  --]]
   
   --
   ElderScrollsOfAlts.view.previousversion = nil
@@ -431,10 +395,10 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.unitAvARankPoints = unitAvARankPoints
   -- number subRankStartsAt, number nextSubRankAt, number rankStartsAt, number nextRankAt 
   local subRankStartsAt, nextSubRankAt, rankStartsAt, nextRankAt = GetAvARankProgress(unitAvARankPoints)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.subRankStartsAt   = subRankStartsAt
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.nextSubRankAt     = nextSubRankAt
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.rankStartsAt      = rankStartsAt
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.nextRankAt        = nextRankAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AvaSubRankStart   = subRankStartsAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AvaNextSubRank    = nextSubRankAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AvaRankStarts     = rankStartsAt
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AvaNextRank       = nextRankAt
   
   local avaRankName = GetAvARankName( GetUnitGender("player"), avaRank )
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.avaRankName = avaRankName

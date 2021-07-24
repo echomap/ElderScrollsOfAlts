@@ -40,6 +40,7 @@ function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   ESOA_GUI2_Notes_WhoAmI:SetText(sVal)
   ESOA_GUI2_Notes_Index_Note:SetText("")
   ESOA_GUI2_Notes_Category_Edit:SetText("")
+  ESOA_GUI2_Notes_Order_Edit:SetText("")
   ElderScrollsOfAlts:ResetNote()
 end
 
@@ -52,6 +53,7 @@ function ElderScrollsOfAlts:ResetNote()
   
   ESOA_GUI2_Notes_Index_Note:SetText("")
   ESOA_GUI2_Notes_Category_Edit:SetText("")
+  ESOA_GUI2_Notes_Order_Edit:SetText("")
   
   local note = tplayer.note
   if( note ~= nil ) then
@@ -62,10 +64,15 @@ function ElderScrollsOfAlts:ResetNote()
     catH = ElderScrollsOfAlts.CATEGORY_ALL
   end
   ESOA_GUI2_Notes_Category_Edit:SetText(catH)
- 
+  
+  local playersorder = tplayer.playersorder
+  if( playersorder ~= nil ) then
+    ESOA_GUI2_Notes_Order_Edit:SetText(playersorder)
+  end
+  --
 end
 
-
+--
 function ElderScrollsOfAlts:SaveNote()
   local tplayer = ElderScrollsOfAlts.view.selectedPlayerData
   if( tplayer == nil ) then
@@ -73,23 +80,30 @@ function ElderScrollsOfAlts:SaveNote()
     return
   end
   tplayer.note = ESOA_GUI2_Notes_Index_Note:GetText()
-  --local pName = GetUnitName("player")
-  --if(pName==splayer.rawname) then
   ElderScrollsOfAlts.view.currentnote = tplayer.note
   ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "note", tplayer.note)
-  --ElderScrollsOfAlts.view.playerLines[ElderScrollsOfAlts.savedVariables.selected.charactername].note = tplayer.note
-  --end
-  
+  -- ORDER --
+  local selOrder = ESOA_GUI2_Notes_Order_Edit:GetText()
+  if(selOrder==nil or selOrder=="")then
+    selOrder = 0
+  end
+  selOrder = tonumber(selOrder)
+  tplayer.playersorder = selOrder
+  ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "playersorder", tplayer.playersorder)
+  ElderScrollsOfAlts.view.currentorder = tplayer.playersorder
+  -- CATEGORY --
   local selCat = ESOA_GUI2_Notes_Category_Edit:GetText()
   if(selCat==nil or selCat=="")then
     selCat = ElderScrollsOfAlts.CATEGORY_ALL
   end
-  ElderScrollsOfAlts.outputMsg("ESOA, saved cat="..tostring(selCat))
   tplayer.category = selCat
+  -- OUTPUT --
+  ElderScrollsOfAlts.outputMsg( zo_strformat("ESOA, saved note, order=<<1>>/cat=<<2>>", tostring(selOrder) , tostring(selCat) ) )
+  -- FINISH --
   ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "category", tplayer.category)
-  --if(pName==splayer.rawname) then
   ElderScrollsOfAlts.view.currentcategory = tplayer.category
-  --end
+  --  
+  --
   ElderScrollsOfAlts.outputMsg("ESOA, saved note")
   --ElderScrollsOfAlts.RefreshViewableTable()
   ElderScrollsOfAlts:ShowSetView()
@@ -99,6 +113,7 @@ function ElderScrollsOfAlts:CloseNote(self)
   ElderScrollsOfAlts.view.selectedPlayerRow = nil
   ESOA_GUI2_Notes_Index_Note:SetText("")
   ESOA_GUI2_Notes_Category_Edit:SetText("")
+  ESOA_GUI2_Notes_Order_Edit:SetText("")
   ESOA_GUI2_Notes:SetHidden(true)
 end
 
