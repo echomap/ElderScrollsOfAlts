@@ -1,9 +1,9 @@
-## Title: ElderScrollsOfAlts
+## Title: |cC8FBEDEcho|rElderScrollsOfAlts
 ## Version: 1.00.40
 ## AddOnVersion: 10040
 ## APIVersion: 100034 100035
-## Author: Echomap
-## Description: ElderScrollsOfAlts keeps general track of alts v17
+## Author: |cC8FBEDEcho|rmap
+## Description: ElderScrollsOfAlts shows stats/skills/research and riding times for your |c3961ABalts|r!
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData
 ## DependsOn: LibAddonMenu-2.0 
 ## OptionalDependsOn: LibShifterBox

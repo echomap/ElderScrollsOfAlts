@@ -850,19 +850,19 @@ end
 function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   if k == nil then return end
   local alliancewar = ElderScrollsOfAlts.altData.players[k].alliancewar
-  --ElderScrollsOfAlts.outputMsg("alliancewar="..tostring(alliancewar) )  
   if alliancewar == nil then return end
-  --ElderScrollsOfAlts.outputMsg("alliancewar.currentCampaignName="..tostring(alliancewar.currentCampaignName) )  
   --Setup
   playerLines[k].InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
   playerLines[k].GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
+  --
   playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
-  playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
+  playerLines[k].CurrentCampaignAssigned     = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
+  playerLines[k].CurrentCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignEndsAt,"") 
+  --
   playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
-  playerLines[k].CurrentCampaignAssigned   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
   playerLines[k].AssignedCampaignEndsSeconds = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsSeconds,0) 
   playerLines[k].AssignedCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsAt,"") 
-  --ElderScrollsOfAlts.outputMsg("AssignedCampaignEndsAt: " , alliancewar.AssignedCampaignEndsAt)
+  --
   if(alliancewar.AssignedCampaignEndsAt~=nil and alliancewar.AssignedCampaignEndsAt~="") then
     local timeDiff  = GetDiffBetweenTimeStamps( playerLines[k].AssignedCampaignEndsAt,    GetTimeStamp() )
     --local timeDiff2 = GetDiffBetweenTimeStamps( playerLines[k].AssignedCampaignIdSeconds, GetTimeStamp() )

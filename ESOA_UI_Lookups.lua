@@ -9,9 +9,9 @@
 ------------------------------
 -- View Lookup, show data
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
-  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: viewKey: '" , tostring(viewKey), "'" )
-  eline.viewKey = viewKey
+  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: 1viewKey: '" , tostring(viewKey), "'" )
   if(eline==nil) then return end
+  eline.viewKey = viewKey  
   if(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
     local vampire  = playerLine["Vampire"] 
@@ -97,7 +97,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.tooltip = zo_strformat("<<1>> (<<2>>/<<3>>)",eline.tooltip, playerLine["unitxp"], playerLine["unitxpmax"] )
     end
   --
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" and playerLine[viewKey.."_Rank"] ~=nil ) then
+  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation" and playerLine[viewKey.."_Rank"] ~= nil ) then
     local viewXlate = viewKey
     if(ElderScrollsOfAlts.view.viewkeyXlate~=nil) then
       viewXlate = ElderScrollsOfAlts.view.viewkeyXlate[viewKey]
@@ -195,6 +195,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,playerLine, viewKey )
   --
   --
+  --elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
+  --elseif(viewKey=="AssignedCampaignRewardEarnedTier" ) then
+  --  eline.value = playerLine[viewKey]
+  --
+  --
   elseif(viewKey=="BagSpace") then
     local bu = playerLine["backpackused"] 
     local bs = playerLine["backpacksize"]
@@ -273,7 +278,6 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       if(expireTime~=nil)then
         --timeDiff = expireTime - nowTime
         timeDiff = GetDiffBetweenTimeStamps(expireTime , nowTime)
-        --ElderScrollsOfAlts.outputMsg("name="..tostring(playerLine["name"]) .. " timeDiff="..tostring(timeDiff) )
       end
       eline.timeMS = timeMS
       if( timeDiff ~= nil )then
@@ -426,52 +430,59 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       --else
       eline:SetText( eline.value  )
       --end
-      return
-    end
-    if( playerLine[ viewKey ] ~= nil ) then
+      --return
+    elseif( playerLine[ viewKey ] ~= nil ) then
       ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered normal case check for viewKey='", viewKey, "'")
       eline:SetText( playerLine[viewKey]  )
       eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
         playerLine.name, viewKey, playerLine[(viewKey)] )
       --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
       eline.value = playerLine[ viewKey ] 
-      return
-    end
-    
-    local newKey = string.lower(viewKey)
-    newKey = newKey:gsub(" ","_")
-    --debugMsg("Newkey='"..newKey.."'")
-    if( playerLine[ newKey ] ~=nil ) then
-      ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered lower case check for newKey='", newKey, "'")
-      eline:SetText( playerLine[newKey]  )
-      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
-        playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
-      --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
-      eline.value = playerLine[ newKey ] 
-      return
-    end
+      --return
+    else
+        
+      local newKey = string.lower(viewKey)
+      newKey = newKey:gsub(" ","_")
+      --debugMsg("Newkey='"..newKey.."'")
+      if( playerLine[ newKey ] ~=nil ) then
+        ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered lower case check for newKey='", newKey, "'")
+        eline:SetText( playerLine[newKey]  )
+        eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+          playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
+        --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
+        eline.value = playerLine[ newKey ] 
+        return
+      end
+        
+      if( playerLine[string.lower(viewKey)] ~= nil) then
+        ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered last check1 for viewKey='", viewKey, "'")
+        eline:SetText( playerLine[string.lower(viewKey)]  )
+        eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+          playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
+        --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
+        eline.value = playerLine[string.lower(viewKey)]
+      elseif( playerLine[(viewKey)] ~=nil ) then
+        ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered last check2 for viewKey='", viewKey, "'")
+        eline:SetText( tostring(playerLine[(viewKey)])  )
+        eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+          playerLine.name, viewKey, playerLine[viewKey] )
+        --eline.tooltip = viewKey .. " is " .. tostring(playerLine[(viewKey)])
+        eline.value = playerLine[(viewKey)]
+      end
       
-    if( playerLine[string.lower(viewKey)] ~= nil) then
-      ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered last check1 for viewKey='", viewKey, "'")
-      eline:SetText( playerLine[string.lower(viewKey)]  )
-      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
-        playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
-      --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey)]
-      eline.value = playerLine[string.lower(viewKey)]
-    elseif( playerLine[(viewKey)] ~=nil ) then
-       ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered last check2 for viewKey='", viewKey, "'")
-      eline:SetText( tostring(playerLine[(viewKey)])  )
-      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
-        playerLine.name, viewKey, playerLine[viewKey] )
-      --eline.tooltip = viewKey .. " is " .. tostring(playerLine[(viewKey)])
-      eline.value = playerLine[(viewKey)]
     end
+    --
+  end
+  --
+  if( eline.value == nil) then
+    eline.value = playerLine[viewKey]
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: setval:   viewKey: '" , tostring(viewKey), "' to value: '", eline.value, "'" )
+  else
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: nosetval: viewKey: '" , tostring(viewKey), "'" )    
   end
  
   local vcP = ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
-  --ElderScrollsOfAlts.outputMsg("MaxValueCheck:" .. 
-
-  local vc = ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
+  local vc = ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline,viewKey,playerLine)
   if( vc==1 ) then
     ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
   elseif( vc==2 ) then
@@ -483,8 +494,6 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   local sstext1 = playerLine[string.lower(viewKey).."_subskills"]
   local tttext  = playerLine[viewKey.."_tooltip"] 
   local tttext1 = playerLine[string.lower(viewKey).."_tooltip"]
-  --ElderScrollsOfAlts.outputMsg("tttext:" .. tostring(tttext) )
-  --ElderScrollsOfAlts.outputMsg("tttext1:" .. tostring(tttext1) )
   --
   local newTTtext = nil  
   if(sstext~=nil ) then
@@ -517,7 +526,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
   local viewKey = eline.viewKey
   if(viewKey=="Level" or viewKey=="level") then
     local vcP = ElderScrollsOfAlts.LookupPercentCheck(eline.value,50,80) 
-    ElderScrollsOfAlts.outputMsg("MaxValueCheck:" .. tostring(vcP) )
+    ElderScrollsOfAlts.debugMsg("MaxValueCheck:" .. tostring(vcP) )
   end
 end
 
@@ -544,7 +553,8 @@ end
 -- View Lookup, CHECK if value is max of field
 -- Returns true if this value is MAX
 -- Returns 0 if not at max, 1 if at MAX, and 2 if near max
-function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
+function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline, viewKey2, playerLine2)
+  ElderScrollsOfAlts.debugMsg("viewKey='",eline.viewKey,"' viewKey2='",viewKey2,"'")
   if( eline.value==nil) then
     return 0
   end
@@ -581,7 +591,6 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline)
       return 2
     end
   elseif( lviewKey=="blacksmithing" or lviewKey == "smithing" or viewKey=="Clothing" or viewKey=="Woodworking") then
-    --ElderScrollsOfAlts.outputMsg("Skill found, val = ".. tostring(eline.value) .. " sunk="..tostring(eline.data_sunk) )
     if( eline.value == 50  and eline.data_sunk == 9 ) then
       return 1
     elseif( eline.value == 50  ) then
@@ -1050,9 +1059,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "HomeRewardTier"
   elseif(viewKey=="GuestCampaignRewardEarnedTier") then
     return "GuestRewardTier"
-  elseif(viewKey=="AssignedCampaignRewardEarnedTier") then
+  elseif(viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="assignedcampaignrewardearnedtier") then
     return "AvA(A)IDRewardTier"
-
   elseif(viewKey=="currency_alliance point" or viewKey=="Currency_Alliance Point") then
     return "AP"
   elseif(viewKey=="currency_tel var stone" or viewKey=="Currency_Tel Var Stone") then

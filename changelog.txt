@@ -25,9 +25,11 @@ activecompanionskills?
 ==Unpublished ESOA==
 1.00.41
 [list]
+[*] Update api version to 35
 [*] arrow icon clickable for sort reversal
 [*] can click on name at top bar to select character's row
 [*] view data added {stamina} {magicka} {health} {power}
+[*] Color fixes
 [/list]
 
 ==ESOA Published V1.00.XX==

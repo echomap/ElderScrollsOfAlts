@@ -368,6 +368,7 @@ ElderScrollsOfAlts.view.guiTemplates = {
 
 -- VIEWS
 ElderScrollsOfAlts.SkillsLevelNearMaximum = {
+  ["Level"] = 48,
   ["Riding Speed"]     = 55,
   ["Riding Stamina"]   = 55,
   ["Riding Inventory"] = 55,
@@ -384,6 +385,8 @@ ElderScrollsOfAlts.SkillsLevelNearMaximum = {
   ["Psijic Order"]   = 8,
   ["Scrying"]        = 8,
   ["Excavation"]     = 8,
+  ["AssignedCampaignRewardEarnedTier"] = 2,
+  ["assignedcampaignrewardearnedtier"] = 2,
 }
 
 -- VIEWS
@@ -406,6 +409,8 @@ ElderScrollsOfAlts.SkillsLevelMaximum = {
   ["Psijic Order"]   = 10,
   ["Scrying"]        = 10,
   ["Excavation"]     = 10,
+  ["AssignedCampaignRewardEarnedTier"] = 3,
+  ["assignedcampaignrewardearnedtier"] = 3,
 }
 
 -----------
