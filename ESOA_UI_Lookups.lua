@@ -72,6 +72,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif(viewKey=="Level" or viewKey=="level") then
     eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]
     eline:SetText( playerLine["level"] )
+    eline.value = playerLine["level"]
     if playerLine["champion"] == nil or playerLine["champion"] < 0 then
       --eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]    
       local uxm = playerLine["unitxpmax"]
@@ -554,7 +555,7 @@ end
 -- Returns true if this value is MAX
 -- Returns 0 if not at max, 1 if at MAX, and 2 if near max
 function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline, viewKey2, playerLine2)
-  ElderScrollsOfAlts.debugMsg("viewKey='",eline.viewKey,"' viewKey2='",viewKey2,"'")
+  ElderScrollsOfAlts.debugMsg("maxcheck: viewKey='",eline.viewKey,"' viewKey2='",viewKey2,"'")
   if( eline.value==nil) then
     return 0
   end

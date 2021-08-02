@@ -386,7 +386,6 @@ ElderScrollsOfAlts.SkillsLevelNearMaximum = {
   ["Scrying"]        = 8,
   ["Excavation"]     = 8,
   ["AssignedCampaignRewardEarnedTier"] = 2,
-  ["assignedcampaignrewardearnedtier"] = 2,
 }
 
 -- VIEWS
@@ -410,7 +409,6 @@ ElderScrollsOfAlts.SkillsLevelMaximum = {
   ["Scrying"]        = 10,
   ["Excavation"]     = 10,
   ["AssignedCampaignRewardEarnedTier"] = 3,
-  ["assignedcampaignrewardearnedtier"] = 3,
 }
 
 -----------
