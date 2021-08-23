@@ -41,12 +41,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
   elseif(viewKey=="Note" or viewKey=="note") then
     eline.tooltipHdr = "Note: " .. playerLine["name"]
+    local nHint = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
     if( playerLine["note"]==nil or playerLine["note"]=="") then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
-      eline.tooltip = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
+      eline.tooltip = nHint
     else
+      --art\store\pc_crwn_crown_1x1.dds
       eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")      
-      eline.tooltip = playerLine["note"]
+      eline.tooltip = playerLine["note"] .. "    " .. nHint
     end
     eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
     --eline:SetHandler('OnMouseDoubleClick',function(control, button)

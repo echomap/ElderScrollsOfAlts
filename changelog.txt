@@ -23,12 +23,16 @@ activecompanionrapport
 activecompanionskills?
 
 ==Unpublished ESOA==
-1.00.42
+1.00.43
 [list]
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.42
+[list]
+[*] Waking Flame DLC  101031
+[/list]
 1.00.41
 [list]
 [*] Update api version to 35
