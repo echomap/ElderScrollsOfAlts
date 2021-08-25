@@ -25,7 +25,7 @@ activecompanionskills?
 ==Unpublished ESOA==
 1.00.43
 [list]
-[*] 
+[*] bounty timers and fixes
 [/list]
 
 ==ESOA Published V1.00.XX==
