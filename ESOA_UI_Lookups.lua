@@ -234,7 +234,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --
     
   elseif(viewKey=="Skillpoints") then
-    eline:SetText(playerLine["skillpoints"])  
+    eline:SetText(playerLine["skillpoints"])
     eline.tooltip = zo_strformat("<<1>> has <<2>> free skillpoints", playerLine.name,playerLine["skillpoints"])
     --eline.sortKey
   --
@@ -454,7 +454,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
           playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
         --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
         eline.value = playerLine[ newKey ] 
-        return
+        --return
       end
         
       if( playerLine[string.lower(viewKey)] ~= nil) then
@@ -476,12 +476,13 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
     --
   end
+  -- FOR ALL
   --
-  if( eline.value == nil) then
-    eline.value = playerLine[viewKey]
+  if( eline.value == nil ) then
+    eline.value = tonumber(playerLine[viewKey])
     ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: setval:   viewKey: '" , tostring(viewKey), "' to value: '", eline.value, "'" )
   else
-    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: nosetval: viewKey: '" , tostring(viewKey), "'" )    
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: nosetval: viewKey: '" , tostring(viewKey), "' is value: '", eline.value, "'" )
   end
  
   local vcP = ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
@@ -497,6 +498,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   local sstext1 = playerLine[string.lower(viewKey).."_subskills"]
   local tttext  = playerLine[viewKey.."_tooltip"] 
   local tttext1 = playerLine[string.lower(viewKey).."_tooltip"]
+  if( tttext1 ~= nil ) then
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: tttext1: '" , tostring(tttext1), "' key: '", (viewKey), "'" )     
+  end
   --
   local newTTtext = nil  
   if(sstext~=nil ) then
@@ -566,8 +570,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline, viewKey2, play
   --Use chart values to determine if max or near max
   local amaxSL = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
   local nmaxSL = ElderScrollsOfAlts.SkillsLevelNearMaximum[viewKey]
-  local retv = nil
-  if(nmaxSL~=nil) then
+  local retv = nil  
+  local type1 = type(eline.value)
+  local type2 = type(nmaxSL)
+  ElderScrollsOfAlts.debugMsg("maxcheck: type: type1='",type1,"' type2='",type2,"'")  
+  if(type1 == 'string') then
+    return 0
+  end
+  --eline.value = tonumber(eline.value)
+  --
+  if(nmaxSL~=nil and eline.value~=nil) then
+    --ElderScrollsOfAlts.outputMsg("maxcheck: value='",eline.value,"' nmaxSL='",nmaxSL,"'")  
     if( eline.value >= nmaxSL) then
       retv = 2
     end

@@ -468,6 +468,14 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].infamy.fullBounty    = fullBountyPayoffAmount
   ElderScrollsOfAlts.altData.players[playerKey].infamy.reducedBounty = reducedBountyPayoffAmount
 
+  local sBountyDecayZero = GetSecondsUntilBountyDecaysToZero()
+  local sHeatDecayZero   = GetSecondsUntilHeatDecaysToZero()
+  local now = GetTimeStamp() 
+  
+  --local timeTillReady = GetTimeStamp() + sBountyDecayZero
+  ElderScrollsOfAlts.altData.players[playerKey].infamy.bountytozero = now + sBountyDecayZero
+  ElderScrollsOfAlts.altData.players[playerKey].infamy.heattozero   = now + sHeatDecayZero
+
   --local thresholdType = getInfamyLevel( infamy )
   --local heat, bounty = GetPlayerInfamyData()
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.payoffAmount  = payoffAmount  

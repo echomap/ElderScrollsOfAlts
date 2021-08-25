@@ -217,13 +217,24 @@ end
 --
 function ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
   local infamy = ElderScrollsOfAlts.altData.players[k].infamy
+  playerLines[k].reducedbounty      = 0
+  playerLines[k].ReducedBounty_Rank = 0
   if( infamy ~= nil ) then
+    playerLines[k].ReducedBounty_Rank = infamy.reducedBounty
     playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
    --d("infamy.displayText='"..tostring(infamy.displayText).."'")
     playerLines[k].reducedbounty_tooltip = infamy.displayText
+    local timeDiff = GetDiffBetweenTimeStamps( infamy.bountytozero, GetTimeStamp() )
+    if(infamy.reducedBounty>0) then
+      if(timeDiff>0) then
+        playerLines[k].reducedbounty_timeleft = timeDiff
+        playerLines[k].reducedbounty_tooltip  =  playerLines[k].reducedbounty_tooltip.. " and should expire at: " ..ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+      else
+        playerLines[k].reducedbounty_tooltip  =  playerLines[k].reducedbounty_tooltip.. " and should be expired"
+      end
+      --ElderScrollsOfAlts.outputMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
+    end
     ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
-  else
-    playerLines[k].reducedbounty = 0
   end
 end
 
