@@ -26,6 +26,8 @@ activecompanionskills?
 1.00.43
 [list]
 [*] bounty timers and fixes
+[*] note text fix
+[*] and fix bag free sorting
 [/list]
 
 ==ESOA Published V1.00.XX==

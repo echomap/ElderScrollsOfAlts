@@ -48,7 +48,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     else
       --art\store\pc_crwn_crown_1x1.dds
       eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")      
-      eline.tooltip = playerLine["note"] .. "    " .. nHint
+      eline.tooltip = playerLine["note"] .. string.char(10) .. string.char(10) .. nHint
     end
     eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
     --eline:SetHandler('OnMouseDoubleClick',function(control, button)
@@ -213,7 +213,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     if(bf~=nil) then
       eline.tooltip = playerLine.name .. " has a ".. bf .. " free bag slots"
     end
-  elseif(viewKey=="BagSpaceFree") then
+  elseif(viewKey=="BagSpaceFree" or viewKey=="bagspacefree") then
     local bu = playerLine["backpackused"] 
     local bs = playerLine["backpacksize"]
     local bf = playerLine["backpackfree"]
@@ -821,9 +821,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "rjewelcrafting2S"
   elseif(viewKey=="Jewelcrafting Research 3") then
     return "rjewelcrafting3S"
-  elseif(viewKey=="bagspaceFree" or viewKey=="bagspacefree" or viewKey=="BagSpaceFree") then
+  elseif(viewKey=="bagspaceFree" or viewKey=="bagspacefree" or viewKey=="BagSpaceFree" or viewKey=="backpackfree") then
     return "backpackfree"
-  elseif(viewKey=="bagspace" or viewKey=="BagSpace" or viewKey=="backpackfree") then
+  elseif(viewKey=="bagspace" or viewKey=="BagSpace") then
     return "backpacksize"
   elseif(viewKey=="Head" or viewKey=="Shoulders" or viewKey=="Chest" or viewKey=="Waist" or viewKey=="Legs" or viewKey=="Hands" or viewKey=="Feet" ) then
     return viewKey
