@@ -21,16 +21,26 @@ activecompanionname
 activecompanionlevel
 activecompanionrapport
 activecompanionskills?
+banker checkbox to change note icon?
+pause update on dungeon enter
+pause update on pvp enter
+show update notification checkbox
 
 ==Unpublished ESOA==
+1.00.44
+[list]
+[*] Added view terms: ["assignedcampaignrewardprogress"] and ["assignedcampaignrewardtotal"]
+[*] level tooltip shows progress percent
+[*] Fix some cp_XxXX view terms.
+[/list]
+
+==ESOA Published V1.00.XX==
 1.00.43
 [list]
 [*] bounty timers and fixes
 [*] note text fix
 [*] and fix bag free sorting
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.42
 [list]
 [*] Waking Flame DLC  101031

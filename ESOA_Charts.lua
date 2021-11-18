@@ -119,6 +119,9 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["CurrentCampaignRewardEarnedTier"] = 1,
   ["GuestCampaignRewardEarnedTier"] = 1,
   
+  ["assignedcampaignrewardprogress"] = 1,
+  ["assignedcampaignrewardtotal"] = 1,
+  
   ["Currency_Gold"] =1 ,
   ["Currency_Alliance point"] = 1,
   ["Currency_Tel Var Stone"] = 1,

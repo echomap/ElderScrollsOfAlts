@@ -79,8 +79,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       --eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]    
       local uxm = playerLine["unitxpmax"]
       local ux  = playerLine["unitxp"]
-      if ( ux~=nil and ux >0 and uxm~=nil and uxm>0) then
-        eline.tooltip = zo_strformat("<<1>> is level <<2>> (<<3>>/<<4>>)", playerLine.name, playerLine["level"], ZO_CommaDelimitNumber(ux), ZO_CommaDelimitNumber(uxm) )
+      local uxP = (ux / uxm ) * 100 
+      if ( ux~=nil and ux > 1 and uxm~=nil and uxm>0) then
+        eline.tooltip = zo_strformat("<<1>> is level <<2>> <<3>> (<<4>>/<<5>> <<6>>%)", playerLine.name, playerLine["level"], string.char(10), ZO_CommaDelimitNumber(ux), ZO_CommaDelimitNumber(uxm), uxP )
       end
     else
       --eline:SetText( playerLine["level"] .."("..playerLine["champion"]..")" )
@@ -201,6 +202,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
   --elseif(viewKey=="AssignedCampaignRewardEarnedTier" ) then
   --  eline.value = playerLine[viewKey]
+  elseif( viewKey=="AssignedCampaignRewardEarnedTier" or viewKey == "assignedcampaignrewardearnedtier" ) then
+    if(playerLine["assignedcampaignrewardprogress"]~=nil) then
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>> (<<4>>/<<5>>)", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
+    else
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
+    end
+    eline:SetText( playerLine[viewKey] )
+    eline.value = playerLine[viewKey]
   --
   --
   elseif(viewKey=="BagSpace") then
@@ -393,6 +402,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     -- so what time to compare to to get if it was done today?
     --[15:32] [15:32] >tempn: "tracking_writs_Jewelry Crafting Writ"
   --
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "cp_") ) then
+    local newKey = string.lower(viewKey)
+    local newVal = playerLine[newKey]    
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered CP case for viewKey='", newKey, "' ='", tostring(newVal),"'")
+    if(newVal==nil) then
+      newVal = -1
+    end
+    eline:SetText( newVal )
+    eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+        playerLine.name, viewKey, newVal )
+    eline.value = playerLine[ viewKey ] 
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
     local num = viewKey:sub( #"Companion_"+1, #"Companion_"+1 )
     --d("num: "..tostring(num) )
@@ -427,6 +447,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   else
     ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered else case for viewKey='", viewKey, "'")
     if( playerLine[viewKey.."_Rank"] ~= nil ) then
+      ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered rank case check for viewKey='", viewKey, "'")
       eline.value = playerLine[viewKey.."_Rank"]
       --if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
       --  eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )

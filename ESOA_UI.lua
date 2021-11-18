@@ -1859,6 +1859,7 @@ function ElderScrollsOfAlts:CraftTipEnter(myLabel, craftName, playerLine)
   end    
   if( myLabel.data_subskills ~= nil ) then
     local sValSS = myLabel.data_subskills
+    ESOATooltip:AddLine(string.char(10), "ZoFontGameSmall")
     ESOATooltip:AddLine(sValSS, "ZoFontGame")
   end
 

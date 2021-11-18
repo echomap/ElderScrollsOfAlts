@@ -227,6 +227,11 @@ local localization_strings = {
   
   ESOA_SETTINGS_STOPACTIVE_NAME  = "Check to temporarily stop active collection of data and saving",
   ESOA_SETTINGS_STOPACTIVE_TT    = "Check to temporarily stop active collection of data and saving",
+  ESOA_SETTINGS_STOPINSTANCE_NAME  = "XXX Instance",
+  ESOA_SETTINGS_STOPINSTANCE_TT    = "XXX Instance",
+  ESOA_SETTINGS_STOPPVP_NAME  = "XXX PVP",
+  ESOA_SETTINGS_STOPPVP_TT    = "XXX PVP",
+  
   --
   --
   --
