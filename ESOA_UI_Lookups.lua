@@ -79,7 +79,10 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       --eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]    
       local uxm = playerLine["unitxpmax"]
       local ux  = playerLine["unitxp"]
-      local uxP = (ux / uxm ) * 100 
+      local uxP = 0
+      if( ux~=nil and uxm~=nil ) then
+        uxP = ( ux / uxm ) * 100 
+      end
       if ( ux~=nil and ux > 1 and uxm~=nil and uxm>0) then
         eline.tooltip = zo_strformat("<<1>> is level <<2>> <<3>> (<<4>>/<<5>> <<6>>%)", playerLine.name, playerLine["level"], string.char(10), ZO_CommaDelimitNumber(ux), ZO_CommaDelimitNumber(uxm), uxP )
       end
