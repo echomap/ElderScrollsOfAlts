@@ -40,7 +40,7 @@ local localization_strings = {
   ESOA_FULL_SUB_WOOD    = "Столярное дело",
   ESOA_FULL_SUB_ENGRAV  = "Гравер",
   ESOA_FULL_SUB_POTIMPR = "Улучшение силы",
-  ESOA_FULL_SUB_RECIMPR = "Улучшение рецепта",\
+  ESOA_FULL_SUB_RECIMPR = "Улучшение рецепта",
   --
   ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
   ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
