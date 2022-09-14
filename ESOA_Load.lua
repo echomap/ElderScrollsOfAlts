@@ -1023,38 +1023,32 @@ end
 function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
   local linedata = ElderScrollsOfAlts.altData.players[k].companions
   if k == nil then return end
-  
-  local tempn1 = string.format("companion_%s",1)
-  local tempn2 = string.format("companion_%s",2)
-  local tempn3 = string.format("companion_%s",3)
-  playerLines[k][tempn1.."_name"]    = "-none-"
-  playerLines[k][tempn1.."_level"]   = -1
-  playerLines[k][tempn1.."_rapport"] = -1
-  playerLines[k][tempn1.."_currentexperience"] = -1
-  playerLines[k][tempn1.."_experienceforlevel"] = -1
-  
-  playerLines[k][tempn2.."_name"]    = "-none-"    
-  playerLines[k][tempn2.."_level"]   = -1
-  playerLines[k][tempn2.."_rapport"] = -1
-  playerLines[k][tempn2.."_currentexperience"] = -1
-  playerLines[k][tempn2.."_experienceforlevel"] = -1
-  
-  playerLines[k][tempn3.."_name"]    = "-none-"    
-  playerLines[k][tempn3.."_level"]   = -1
-  playerLines[k][tempn3.."_rapport"] = -1
-  playerLines[k][tempn3.."_currentexperience"] = -1
-  playerLines[k][tempn3.."_experienceforlevel"] = -1
-  
-  if linedata == nil then return end
-  
+  --Default data
+  for ii = 1, 6 do
+    local tempn0 = string.format("companion_%s",ii)
+    playerLines[k][tempn0.."_name"]    = "-none-"
+    playerLines[k][tempn0.."_level"]   = -1
+    playerLines[k][tempn0.."_rapport"] = -1
+    playerLines[k][tempn0.."_currentexperience"] = -1
+    playerLines[k][tempn0.."_experienceforlevel"] = -1
+  end
+ 
+  if linedata == nil then return end  
+  local cnt = ElderScrollsOfAlts:tablelength(linedata.ids)
+  if cnt == nil then return end
+  ElderScrollsOfAlts.debugMsg("companion data: cnt: '", cnt, "'" )
+ 
+  --Real data
+  local cInc = 1
   for rtK, rtKV in pairs(linedata.data) do
-    local tempn = string.format("companion_%s",rtK)
+    local tempn = string.format("companion_%s",cInc)
     playerLines[k][tempn.."_name"]    = rtKV.name
     playerLines[k][tempn.."_level"]   = rtKV.level
     playerLines[k][tempn.."_rapport"] = rtKV.rapport
     playerLines[k][tempn.."_currentexperience"] = rtKV.currentExperience
     playerLines[k][tempn.."_experienceforlevel"] = rtKV.experienceForLevel
-    ElderScrollsOfAlts.debugMsg("setup  companion data for tempn: '", tempn, "' set '", tempn.."_name", "' as '", rtKV.name, "'" )
+    ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", rtKV.name, "'" )
+	cInc = cInc +1
   end
 
 end

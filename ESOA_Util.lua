@@ -110,6 +110,15 @@ function ElderScrollsOfAlts:has_value (tab, val)
 end
 
 ------------------------------
+--
+function ElderScrollsOfAlts:tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
+
+------------------------------
 -- Sets my(self)'s text if isnt null, or sets default
 function ElderScrollsOfAlts:InitText(self,textKey,defaultValue)
   local textVal = GetString(textKey)

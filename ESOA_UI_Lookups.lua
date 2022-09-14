@@ -1131,6 +1131,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "CustomOrder"
   elseif(viewKey=="playerscreenorder") then
     return "Order"
+
   elseif(viewKey=="Companion_1_name") then
     return "C1Name"
   elseif(viewKey=="Companion_1_level") then
@@ -1148,7 +1149,19 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   elseif(viewKey=="Companion_3_level") then
     return "C3Lvl"
   elseif(viewKey=="Companion_3_rapport") then
-    return "C3Rap"    
+    return "C3Rap"
+  elseif(viewKey=="Companion_4_name") then
+    return "C4Name"
+  elseif(viewKey=="Companion_4_level") then
+    return "C4Lvl"
+  elseif(viewKey=="Companion_4_rapport") then
+    return "C4Rap"
+  elseif(viewKey=="Companion_5_name") then
+    return "C5Name"
+  elseif(viewKey=="Companion_5_level") then
+    return "C5Lvl"
+  elseif(viewKey=="Companion_5_rapport") then
+    return "C5Rap"
   --
   --
   else

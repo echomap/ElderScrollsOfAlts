@@ -35,6 +35,14 @@ show update notification checkbox
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.47
+[list]
+[*] Test build to store/load/show HighIsle companions
+[/list]
+1.00.46
+[list]
+[*] Test build to store/load/show companions 3 and 4
+[/list]
 1.00.45
 [list]
 [*] Bugfixes
