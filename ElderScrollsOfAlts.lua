@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "1.00.47",			-- A nuisance to match to the Manifest.
+    version         = "1.00.48",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -168,6 +168,15 @@ end
 function ElderScrollsOfAlts.OnCompanionActivated(eventCode, companionId)
   ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: eventCode: '", eventCode, "' companionId='", tostring(companionId), "'")
   local cname = GetCompanionName(companionId) --is there a RawName, so can have w/o the gender ctrl char?
+  local characterGender = GetGenderFromNameDescriptor(cname)
+  if(characterGender~=nil) then
+	local indexstart = string.find(cname,"%^")
+    --d("indexstart:"..indexstart)
+	if(indexstart>0) then
+		cname = cname:sub(1, indexstart-1)
+	end
+  end
+  --d("cname:"..cname)
   local defcompanionId = GetActiveCompanionDefId() -- this right ID?
   ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: defcompanionId: '", defcompanionId, "'") 
   local level, currentExperience = GetActiveCompanionLevelInfo()

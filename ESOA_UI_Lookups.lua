@@ -419,23 +419,31 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
     local num = viewKey:sub( #"Companion_"+1, #"Companion_"+1 )
     --d("num: "..tostring(num) )
-    local cName = playerLine["companion_"..num.."_name"]
+    local cName   = playerLine["companion_"..num.."_name"]
+	local level   = playerLine["companion_"..num.."_level"]
+	local rapport = playerLine["companion_"..num.."_rapport"]
+    local cExp    = playerLine["companion_"..num.."_currentexperience"]
+    local mExp    = playerLine["companion_"..num.."_experienceforlevel"]
+    eline.tooltip = zo_strformat("<<1>>'s has no companion in this slot",
+				playerLine.name)
     if( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
-      eline:SetText(playerLine[string.lower(viewKey)])
-      local cExp = playerLine["companion_"..num.."_currentexperience"]
-      local mExp = playerLine["companion_"..num.."_experienceforlevel"]
-      --d("cExp: "..tostring(cExp) )
-      eline.tooltip = zo_strformat("<<1>>'s companion <<2>> is level <<3>> with <<4>>/<<5>>xp.", playerLine.name, cName, playerLine[viewKey], cExp, mExp )
-    elseif( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
-      eline:SetText( playerLine[string.lower(viewKey)] )
-      eline.tooltip = playerLine[string.lower(viewKey)]
+      eline:SetText(level)
+	  if(level~=nil and level>-1) then
+        eline.tooltip = zo_strformat("<<1>>'s companion <<2>> is level <<3>> with <<4>>/<<5>>xp.",
+				playerLine.name, cName, level, cExp, mExp )
+	  end
     elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
-      eline:SetText( playerLine[string.lower(viewKey)] )
-      eline.tooltip = playerLine[string.lower(viewKey)]
-      eline.tooltip = zo_strformat("<<1>>'s companion <<2>> has rapport of <<3>>.", playerLine.name, cName, playerLine[viewKey]  )
+      eline:SetText( rapport )
+      if(level~=nil and level>-1) then
+        eline.tooltip = zo_strformat("<<1>>'s companion <<2>> has rapport of <<3>>.",
+			playerLine.name, cName, rapport  )
+	  end
     else
       eline:SetText(  playerLine[string.lower(viewKey)] )
-      eline.tooltip = playerLine[string.lower(viewKey)]
+	  if(level~=nil and level>-1) then
+        eline.tooltip = zo_strformat("<<1>>'s companion <<2>> is level <<3>> with <<4>>/<<5>>xp and rapport of <<6>>.", 
+			playerLine.name, cName, level, cExp, mExp, rapport)
+	  end
     end
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
     local viewKey2 = viewKey
@@ -959,12 +967,20 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   --
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then    
     return 65        
-  elseif(viewKey=="Companion_1_name" or viewKey=="Companion_2_name" or viewKey=="Companion_3_name" ) then
-    return 110   
-  elseif(viewKey=="Companion_1_level" or  viewKey=="Companion_1_rapport" or viewKey=="Companion_2_level" or  viewKey=="companion_2_rapport" or viewKey=="Companion_3_level" or  viewKey=="Companion_3_rapport" ) then
-   return 35
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
     return 45
+  --
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
+    if( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
+      return 35
+    elseif( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
+      return 35
+    elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
+      return 35
+    else
+      return 110
+    end
+	--	
   --
   else
     return 45

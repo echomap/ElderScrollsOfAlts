@@ -35,6 +35,11 @@ show update notification checkbox
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.48
+[list]
+[*] HighIsle companions. (1-4) (5 will show on default companion view, just incase
+Hopefully all is okay with other languages, if not, tell me.
+[/list]
 1.00.47
 [list]
 [*] Test build to store/load/show HighIsle companions
