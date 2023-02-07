@@ -119,6 +119,9 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["CurrentCampaignRewardEarnedTier"] = 1,
   ["GuestCampaignRewardEarnedTier"] = 1,
   
+  ["assignedcampaignrewardprogress"] = 1,
+  ["assignedcampaignrewardtotal"] = 1,
+  
   ["Currency_Gold"] =1 ,
   ["Currency_Alliance point"] = 1,
   ["Currency_Tel Var Stone"] = 1,
@@ -386,6 +389,7 @@ ElderScrollsOfAlts.SkillsLevelNearMaximum = {
   ["Scrying"]        = 8,
   ["Excavation"]     = 8,
   ["AssignedCampaignRewardEarnedTier"] = 2,
+  ["ReducedBounty"]     = 1,
 }
 
 -- VIEWS
@@ -409,6 +413,7 @@ ElderScrollsOfAlts.SkillsLevelMaximum = {
   ["Scrying"]        = 10,
   ["Excavation"]     = 10,
   ["AssignedCampaignRewardEarnedTier"] = 3,
+  ["ReducedBounty"]     = 10000,
 }
 
 -----------

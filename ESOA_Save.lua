@@ -47,12 +47,28 @@ end
 -- Read all data from the game Player Object into this Addon
 function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: called")
+  --
   if(ElderScrollsOfAlts.view.pauseactivesave) then 
     ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_PAUSED) )
     return
   end
+  local isInDungeon = IsUnitInDungeon("player")
+  if(isInDungeon and ElderScrollsOfAlts.savedVariables.dontLoadDataInDungeon ) then
+    ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " stopping per in instance") 
+    return
+  end
+  local isInCombat = IsUnitInCombat("player")
+  if(isInCombat and ElderScrollsOfAlts.savedVariables.dontLoadDataInCombat ) then
+    ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " stopping per in combat") 
+    return
+  end
+  local isPvPFlagged = IsUnitPvPFlagged("player")
+  if(isInCombat and ElderScrollsOfAlts.savedVariables.dontLoadDataWhilePvPFlagged ) then
+    ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " stopping per is PvPFlagged") 
+    return
+  end
   ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_ACTIVE)  )
-  
+  --
   ----Section: Statup section
 	local pName     = GetUnitName("player")
   local rName     = GetRawUnitName("player")   
@@ -409,7 +425,9 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
       "earnedTier: '",earnedTier,
       "' nextTierProgress: '",nextTierProgress,
       "' nextTierTotal: '",nextTierTotal,"'" )
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier = tonumber(earnedTier)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier       = tonumber(earnedTier)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier = tonumber(nextTierProgress)
+  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier    = tonumber(nextTierTotal)
   --ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
   earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
@@ -468,6 +486,14 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].infamy.fullBounty    = fullBountyPayoffAmount
   ElderScrollsOfAlts.altData.players[playerKey].infamy.reducedBounty = reducedBountyPayoffAmount
 
+  local sBountyDecayZero = GetSecondsUntilBountyDecaysToZero()
+  local sHeatDecayZero   = GetSecondsUntilHeatDecaysToZero()
+  local now = GetTimeStamp() 
+  
+  --local timeTillReady = GetTimeStamp() + sBountyDecayZero
+  ElderScrollsOfAlts.altData.players[playerKey].infamy.bountytozero = now + sBountyDecayZero
+  ElderScrollsOfAlts.altData.players[playerKey].infamy.heattozero   = now + sHeatDecayZero
+
   --local thresholdType = getInfamyLevel( infamy )
   --local heat, bounty = GetPlayerInfamyData()
   --ElderScrollsOfAlts.altData.players[playerKey].infamy.payoffAmount  = payoffAmount  
@@ -477,8 +503,8 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   
   ----Section: Location section  
   ElderScrollsOfAlts.altData.players[playerKey].location = {}
-  local subzoneNamePL = zo_strformat("<<1>>",  GetPlayerActiveSubzoneName() )
-  local zoneNamePL    =  zo_strformat("<<1>>", GetPlayerActiveZoneName() )
+  local subzoneNamePL = zo_strformat("<<1>>", GetPlayerActiveSubzoneName() )
+  local zoneNamePL    = zo_strformat("<<1>>", GetPlayerActiveZoneName() )
   local zoneIndex     = GetUnitZoneIndex("player")
   local zoneId, worldX, worldY, worldZ   = GetUnitWorldPosition("player")  
   --local zDescription  =  GetZoneDescription(zoneIndex)
@@ -826,21 +852,25 @@ function ElderScrollsOfAlts:CollectCP()
         --local numPendingPoints =  GetNumPendingChampionPoints(disciplineIndex, championSkillIndex)
         local ptsspent  = GetNumPointsSpentOnChampionSkill(championSkillId)
         if(ptsspent>0) then
-          local name      = GetChampionSkillName(championSkillId)
-          local abilityId = GetChampionAbilityId(championSkillId)
-          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId] = {}
-          --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
-          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].name = name
-          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
-          ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].abilityId = abilityId
-          
-          --d("championSkillId: " .. tostring(championSkillId) )
-          --local championSkillData = ZO_ChampionSkillData:New(self, skillIndex)
-          --d("championSkillData: " .. tostring(championSkillData) )
-          --if championSkillData:IsClusterRoot() then
-          --   table.insert(self.championClusterDatas, ZO_ChampionClusterData:New(championSkillData))
-          --end
-          --self.championSkillDatas[skillIndex] = championSkillData
+          local championSkillType = GetChampionSkillType(championSkillId)
+          local isSlottable       = ElderScrollsOfAlts:CheckIfCpTypeIsSlottable( championSkillType )
+          if(isSlottable) then
+            local name      = GetChampionSkillName(championSkillId)
+            local abilityId = GetChampionAbilityId(championSkillId)
+            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId] = {}
+            --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
+            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].name      = name
+            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
+            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].abilityId = abilityId
+            
+            --d("championSkillId: " .. tostring(championSkillId) )
+            --local championSkillData = ZO_ChampionSkillData:New(self, skillIndex)
+            --d("championSkillData: " .. tostring(championSkillData) )
+            --if championSkillData:IsClusterRoot() then
+            --   table.insert(self.championClusterDatas, ZO_ChampionClusterData:New(championSkillData))
+            --end
+            --self.championSkillDatas[skillIndex] = championSkillData
+          end
         end--spent points
       end
     end
@@ -849,6 +879,16 @@ function ElderScrollsOfAlts:CollectCP()
   ElderScrollsOfAlts.debugMsg("CollectCP: done")
 end
 --CollectCP()
+
+function ElderScrollsOfAlts:CheckIfCpTypeIsSlottable(championSkillType)
+  if(ElderScrollsOfAlts.view.CpTypeIsSlottable==nil) then
+    ElderScrollsOfAlts.view.CpTypeIsSlottable = {}
+  end
+  if(ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]==nil) then
+    ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType] = CanChampionSkillTypeBeSlotted(championSkillType)
+  end
+  return ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]
+end
 
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)

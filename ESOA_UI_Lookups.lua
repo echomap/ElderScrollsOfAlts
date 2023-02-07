@@ -41,12 +41,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
   elseif(viewKey=="Note" or viewKey=="note") then
     eline.tooltipHdr = "Note: " .. playerLine["name"]
+    local nHint = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
     if( playerLine["note"]==nil or playerLine["note"]=="") then --TODO string.len (s)?
       eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
-      eline.tooltip = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
+      eline.tooltip = nHint
     else
+      --art\store\pc_crwn_crown_1x1.dds
       eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")      
-      eline.tooltip = playerLine["note"]
+      eline.tooltip = playerLine["note"] .. string.char(10) .. string.char(10) .. nHint
     end
     eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
     --eline:SetHandler('OnMouseDoubleClick',function(control, button)
@@ -77,8 +79,12 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       --eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]    
       local uxm = playerLine["unitxpmax"]
       local ux  = playerLine["unitxp"]
-      if ( ux~=nil and ux >0 and uxm~=nil and uxm>0) then
-        eline.tooltip = zo_strformat("<<1>> is level <<2>> (<<3>>/<<4>>)", playerLine.name, playerLine["level"], ZO_CommaDelimitNumber(ux), ZO_CommaDelimitNumber(uxm) )
+      local uxP = 0
+      if( ux~=nil and uxm~=nil ) then
+        uxP = ( ux / uxm ) * 100 
+      end
+      if ( ux~=nil and ux > 1 and uxm~=nil and uxm>0) then
+        eline.tooltip = zo_strformat("<<1>> is level <<2>> <<3>> (<<4>>/<<5>> <<6>>%)", playerLine.name, playerLine["level"], string.char(10), ZO_CommaDelimitNumber(ux), ZO_CommaDelimitNumber(uxm), uxP )
       end
     else
       --eline:SetText( playerLine["level"] .."("..playerLine["champion"]..")" )
@@ -199,6 +205,14 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
   --elseif(viewKey=="AssignedCampaignRewardEarnedTier" ) then
   --  eline.value = playerLine[viewKey]
+  elseif( viewKey=="AssignedCampaignRewardEarnedTier" or viewKey == "assignedcampaignrewardearnedtier" ) then
+    if(playerLine["assignedcampaignrewardprogress"]~=nil) then
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>> (<<4>>/<<5>>)", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
+    else
+      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
+    end
+    eline:SetText( playerLine[viewKey] )
+    eline.value = playerLine[viewKey]
   --
   --
   elseif(viewKey=="BagSpace") then
@@ -211,7 +225,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     if(bf~=nil) then
       eline.tooltip = playerLine.name .. " has a ".. bf .. " free bag slots"
     end
-  elseif(viewKey=="BagSpaceFree") then
+  elseif(viewKey=="BagSpaceFree" or viewKey=="bagspacefree") then
     local bu = playerLine["backpackused"] 
     local bs = playerLine["backpacksize"]
     local bf = playerLine["backpackfree"]
@@ -232,7 +246,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --
     
   elseif(viewKey=="Skillpoints") then
-    eline:SetText(playerLine["skillpoints"])  
+    eline:SetText(playerLine["skillpoints"])
     eline.tooltip = zo_strformat("<<1>> has <<2>> free skillpoints", playerLine.name,playerLine["skillpoints"])
     --eline.sortKey
   --
@@ -391,6 +405,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     -- so what time to compare to to get if it was done today?
     --[15:32] [15:32] >tempn: "tracking_writs_Jewelry Crafting Writ"
   --
+  elseif( ElderScrollsOfAlts.starts_with(viewKey, "cp_") ) then
+    local newKey = string.lower(viewKey)
+    local newVal = playerLine[newKey]    
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered CP case for viewKey='", newKey, "' ='", tostring(newVal),"'")
+    if(newVal==nil) then
+      newVal = -1
+    end
+    eline:SetText( newVal )
+    eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>",
+        playerLine.name, viewKey, newVal )
+    eline.value = playerLine[ viewKey ] 
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
     local num = viewKey:sub( #"Companion_"+1, #"Companion_"+1 )
     --d("num: "..tostring(num) )
@@ -425,6 +450,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   else
     ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered else case for viewKey='", viewKey, "'")
     if( playerLine[viewKey.."_Rank"] ~= nil ) then
+      ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered rank case check for viewKey='", viewKey, "'")
       eline.value = playerLine[viewKey.."_Rank"]
       --if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
       --  eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )
@@ -452,7 +478,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
           playerLine.name, viewKey, playerLine[string.lower(viewKey)] )
         --eline.tooltip = viewKey .. " is " .. playerLine[string.lower(viewKey) ]
         eline.value = playerLine[ newKey ] 
-        return
+        --return
       end
         
       if( playerLine[string.lower(viewKey)] ~= nil) then
@@ -474,12 +500,13 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
     --
   end
+  -- FOR ALL
   --
-  if( eline.value == nil) then
-    eline.value = playerLine[viewKey]
+  if( eline.value == nil ) then
+    eline.value = tonumber(playerLine[viewKey])
     ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: setval:   viewKey: '" , tostring(viewKey), "' to value: '", eline.value, "'" )
   else
-    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: nosetval: viewKey: '" , tostring(viewKey), "'" )    
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: nosetval: viewKey: '" , tostring(viewKey), "' is value: '", eline.value, "'" )
   end
  
   local vcP = ElderScrollsOfAlts.GuiCharLineLookupPercentCheck(eline)
@@ -495,6 +522,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   local sstext1 = playerLine[string.lower(viewKey).."_subskills"]
   local tttext  = playerLine[viewKey.."_tooltip"] 
   local tttext1 = playerLine[string.lower(viewKey).."_tooltip"]
+  if( tttext1 ~= nil ) then
+    ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: tttext1: '" , tostring(tttext1), "' key: '", (viewKey), "'" )     
+  end
   --
   local newTTtext = nil  
   if(sstext~=nil ) then
@@ -564,8 +594,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline, viewKey2, play
   --Use chart values to determine if max or near max
   local amaxSL = ElderScrollsOfAlts.SkillsLevelMaximum[viewKey]
   local nmaxSL = ElderScrollsOfAlts.SkillsLevelNearMaximum[viewKey]
-  local retv = nil
-  if(nmaxSL~=nil) then
+  local retv = nil  
+  local type1 = type(eline.value)
+  local type2 = type(nmaxSL)
+  ElderScrollsOfAlts.debugMsg("maxcheck: type: type1='",type1,"' type2='",type2,"'")  
+  if(type1 == 'string') then
+    return 0
+  end
+  --eline.value = tonumber(eline.value)
+  --
+  if(nmaxSL~=nil and eline.value~=nil) then
+    --ElderScrollsOfAlts.outputMsg("maxcheck: value='",eline.value,"' nmaxSL='",nmaxSL,"'")  
     if( eline.value >= nmaxSL) then
       retv = 2
     end
@@ -806,9 +845,9 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "rjewelcrafting2S"
   elseif(viewKey=="Jewelcrafting Research 3") then
     return "rjewelcrafting3S"
-  elseif(viewKey=="bagspaceFree" or viewKey=="bagspacefree" or viewKey=="BagSpaceFree") then
+  elseif(viewKey=="bagspaceFree" or viewKey=="bagspacefree" or viewKey=="BagSpaceFree" or viewKey=="backpackfree") then
     return "backpackfree"
-  elseif(viewKey=="bagspace" or viewKey=="BagSpace" or viewKey=="backpackfree") then
+  elseif(viewKey=="bagspace" or viewKey=="BagSpace") then
     return "backpacksize"
   elseif(viewKey=="Head" or viewKey=="Shoulders" or viewKey=="Chest" or viewKey=="Waist" or viewKey=="Legs" or viewKey=="Hands" or viewKey=="Feet" ) then
     return viewKey

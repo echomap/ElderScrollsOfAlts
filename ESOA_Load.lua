@@ -217,13 +217,24 @@ end
 --
 function ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
   local infamy = ElderScrollsOfAlts.altData.players[k].infamy
+  playerLines[k].reducedbounty      = 0
+  playerLines[k].ReducedBounty_Rank = 0
   if( infamy ~= nil ) then
+    playerLines[k].ReducedBounty_Rank = infamy.reducedBounty
     playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
    --d("infamy.displayText='"..tostring(infamy.displayText).."'")
     playerLines[k].reducedbounty_tooltip = infamy.displayText
+    local timeDiff = GetDiffBetweenTimeStamps( infamy.bountytozero, GetTimeStamp() )
+    if(infamy.reducedBounty>0) then
+      if(timeDiff>0) then
+        playerLines[k].reducedbounty_timeleft = timeDiff
+        playerLines[k].reducedbounty_tooltip  =  playerLines[k].reducedbounty_tooltip.. " and should expire in: " ..ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+      else
+        playerLines[k].reducedbounty_tooltip  =  playerLines[k].reducedbounty_tooltip.. " and should be expired"
+      end
+      --ElderScrollsOfAlts.outputMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
+    end
     ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(playerLines[k].reducedbounty_tooltip).."'")
-  else
-    playerLines[k].reducedbounty = 0
   end
 end
 
@@ -862,6 +873,10 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
   playerLines[k].AssignedCampaignEndsSeconds = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsSeconds,0) 
   playerLines[k].AssignedCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsAt,"") 
+
+  --
+  playerLines[k].AssignedCampaignEndsAt_value = playerLines[k].AssignedCampaignEndsSeconds
+  
   --
   if(alliancewar.AssignedCampaignEndsAt~=nil and alliancewar.AssignedCampaignEndsAt~="") then
     local timeDiff  = GetDiffBetweenTimeStamps( playerLines[k].AssignedCampaignEndsAt,    GetTimeStamp() )
@@ -907,6 +922,9 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].currentCampaignrewardearnedTier  = playerLines[k].CurrentCampaignRewardEarnedTier
   playerLines[k].guestCampaignrewardearnedTier    = playerLines[k].GuestCampaignRewardEarnedTier
   --
+  playerLines[k].assignedcampaignrewardprogress = alliancewar.AssignedCampaignRewardNextProgressTier
+  playerLines[k].assignedcampaignrewardtotal    = alliancewar.AssignedCampaignRewardNextTotalTier
+  --
   if(playerLines[k].AssignedCampaignEndsAtOver) then
     --playerLines[k].assignedcampaignrewardearnedtier = "("..playerLines[k].assignedcampaignrewardearnedtier..")"
     --playerLines[k].currentCampaignrewardearnedTier  = "("..playerLines[k].currentCampaignrewardearnedTier..")"
@@ -949,23 +967,29 @@ end
 
 --
 function ElderScrollsOfAlts:SetupPlayerLinesCP(playerLines,k)
-  --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].name
   if k == nil then return end
   local linedata = ElderScrollsOfAlts.altData.players[k].championpoints
   if linedata == nil then return end
-  --numDisciplines
-  for rtK1, rtKV1 in pairs(linedata) do
-    --cp
-    for rtK, rtKV in pairs(rtKV1) do
-      local tempn1 = string.format("cp_%s",rtK)
-      local tempn3 = string.lower(tempn1)
-      --local tempn2 = tempn1.."_tooltip"
-      --playerLines[k][tempn1] = "[n.a]"
-      --playerLines[k][tempn2] = "[n.a]"
-      playerLines[k][tempn1] = rtKV1.ptsspent
-      ElderScrollsOfAlts.debugMsg("cp as '"..tempn1.."'="..tostring(rtKV1.ptsspent))    
-      --rtKV1.name
-      --rtKV1.ptsspent
+  --
+  for rtKd, rtKVd in pairs(linedata) do  --numDisciplines
+    --ElderScrollsOfAlts.outputMsg("cp discp ".. k.. " as '"..rtKd )
+    for rtKs, rtKVs in pairs(rtKVd) do   --skill ids
+      if(rtKVs.name~=nil) then
+        local tempn1 = string.format("cp_%s",rtKVs.name)
+        local tempn3 = string.lower(tempn1)
+        playerLines[k][tempn1] = rtKVs.ptsspent
+        playerLines[k][tempn3] = rtKVs.ptsspent
+        --(ElderScrollsOfAlts) cp set as 'cp_Meticulous Disassembly'=50
+        --(ElderScrollsOfAlts) *******cp set as 'cp_meticulous disassembly'=50
+        --entered CP case for viewKey='cp_meticulous disassembly' ='
+        ElderScrollsOfAlts.debugMsg("cp set as '"..tempn3.."'="..tostring(rtKVs.ptsspent))
+        --if( tempn3 == "cp_meticulous disassembly" or tempn3 == "meticulous disassembly" ) then
+          --ElderScrollsOfAlts.outputMsg("*******cp set as '"..tempn3.."'="..tostring(rtKVs.ptsspent))  
+        --end
+        --local tempn2 = tempn1.."_tooltip"
+        --playerLines[k][tempn1] = "[n.a]"
+        --playerLines[k][tempn2] = "[n.a]"
+      end
     end
   end
 end

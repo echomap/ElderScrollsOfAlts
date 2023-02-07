@@ -88,6 +88,40 @@ function ElderScrollsOfAlts.LoadSettings()
     end,
     width   = "full",
   }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_STOPINSTANCE_NAME),
+    tooltip = GetString(ESOA_SETTINGS_STOPINSTANCE_TT),
+    getFunc = function() return ElderScrollsOfAlts.view.dontLoadDataInDungeon end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.view.dontLoadDataInDungeon = value
+      --ElderScrollsOfAlts:SetupCPBar()
+    end,
+    width   = "full",
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_STOPCOMBAT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_STOPCOMBAT_TT),
+    getFunc = function() return ElderScrollsOfAlts.view.dontLoadDataInCombat end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.view.dontLoadDataInCombat = value
+      --ElderScrollsOfAlts:SetupCPBar()
+    end,
+    width   = "full",
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_STOPPVP_NAME),
+    tooltip = GetString(ESOA_SETTINGS_STOPPVP_TT),
+    getFunc = function() return ElderScrollsOfAlts.view.dontLoadDataWhilePvPFlagged end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.view.dontLoadDataWhilePvPFlagged = value
+      --ElderScrollsOfAlts:SetupCPBar()
+    end,
+    width   = "full",
+  }
+  
   
   --[[
   optionsTable [#optionsTable+1] = {
