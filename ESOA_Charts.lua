@@ -600,6 +600,8 @@ function ElderScrollsOfAlts:GetGenderFullText(genderId)
       genderName = GetString(ESOA_GENDER_MALE)
     elseif genderId == 1 then
       genderName = GetString(ESOA_GENDER_FEMALE)
+    elseif genderId == 0 then
+      genderName = GetString(ESOA_GENDER_MALE)
     end
     return genderName
 end
@@ -612,6 +614,8 @@ function ElderScrollsOfAlts:GetGenderText(genderId)
       genderName = GetString(ESOA_GENDER_MALE_S)
     elseif genderId == 1 then
       genderName = GetString(ESOA_GENDER_FEMALE_S)
+    elseif genderId == 2 then
+      genderName = GetString(ESOA_GENDER_MALE_S)
     end
     return genderName
 end

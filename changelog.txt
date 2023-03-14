@@ -35,6 +35,10 @@ show update notification checkbox
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.49
+[list]
+[*] uupdate gender for male per bug found by Berun
+[/list]
 1.00.48
 [list]
 [*] HighIsle companions. (1-4) (5 will show on default companion view, just incase)
