@@ -225,12 +225,14 @@ local localization_strings = {
   ESOA_SETTINGS_CPACTIVEBAR2_NM = "Show champion active bar? #2?",
   ESOA_SETTINGS_CPACTIVEBAR2_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
   
-  ESOA_SETTINGS_STOPACTIVE_NAME  = "Check to temporarily stop active collection of data and saving",
-  ESOA_SETTINGS_STOPACTIVE_TT    = "Check to temporarily stop active collection of data and saving",
-  ESOA_SETTINGS_STOPINSTANCE_NAME  = "XXX Instance",
-  ESOA_SETTINGS_STOPINSTANCE_TT    = "XXX Instance",
-  ESOA_SETTINGS_STOPPVP_NAME  = "XXX PVP",
-  ESOA_SETTINGS_STOPPVP_TT    = "XXX PVP",
+  ESOA_SETTINGS_STOPACTIVE_NAME    = "Stop data collection",
+  ESOA_SETTINGS_STOPACTIVE_TT      = "Check to temporarily stop active collection of data and saving",
+  ESOA_SETTINGS_STOPINSTANCE_NAME  = "Off in Instance",
+  ESOA_SETTINGS_STOPINSTANCE_TT    = "Stop collecting data in instances/dungeons",
+  ESOA_SETTINGS_STOPPVP_NAME       = "Off in PVP",
+  ESOA_SETTINGS_STOPPVP_TT         = "Stop collecting data in PVP",
+  ESOA_SETTINGS_STOPCOMBAT_NAME    = "Off in Combat",
+  ESOA_SETTINGS_STOPCOMBAT_TT      = "Stop collecting data in Combat",
   
   --
   --

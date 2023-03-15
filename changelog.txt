@@ -27,15 +27,18 @@ pause update on pvp enter
 show update notification checkbox
 
 ==Unpublished ESOA==
-1.00.46
+1.00.51
 [list]
-[*] 
+[*] update EN file for settings
 [*] 
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
 1.00.50
+[list]
+[*] some weird issues with the CP bars and resizeToFitDescendents
+[/list]1.00.50
 [list]
 [*] some weird issues with the CP bars and resizeToFitDescendents
 [/list]
