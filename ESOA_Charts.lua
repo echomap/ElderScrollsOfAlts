@@ -156,18 +156,12 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Companion_1_name"] = 1,
   ["Companion_2_name"] = 1,
   ["Companion_3_name"] = 1,
-  ["Companion_4_name"] = 1,
-  ["Companion_5_name"] = 1,
   ["Companion_1_level"] = 1,
   ["Companion_2_level"] = 1,
   ["Companion_3_level"] = 1,
-  ["Companion_4_level"] = 1,
-  ["Companion_5_level"] = 1,
   ["Companion_1_rapport"] = 1,
   ["Companion_2_rapport"] = 1,
   ["Companion_3_rapport"] = 1,
-  ["Companion_4_rapport"] = 1,
-  ["Companion_5_rapport"] = 1,
   
   ["stamina"] = 1,
   ["magicka"] = 1,
@@ -600,7 +594,7 @@ function ElderScrollsOfAlts:GetGenderFullText(genderId)
       genderName = GetString(ESOA_GENDER_MALE)
     elseif genderId == 1 then
       genderName = GetString(ESOA_GENDER_FEMALE)
-    elseif genderId == 0 then
+    elseif genderId == 2 then
       genderName = GetString(ESOA_GENDER_MALE)
     end
     return genderName
