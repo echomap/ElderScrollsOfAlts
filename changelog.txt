@@ -35,9 +35,13 @@ show update notification checkbox
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.50
+[list]
+[*] some weird issues with the CP bars and resizeToFitDescendents
+[/list]
 1.00.49
 [list]
-[*] uupdate gender for male per bug found by Berun
+[*] update gender for male per bug found by Berun
 [/list]
 1.00.48
 [list]

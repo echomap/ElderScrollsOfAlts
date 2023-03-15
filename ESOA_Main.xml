@@ -568,7 +568,7 @@
               </Backdrop>
             </Controls>
           </Texture>
-          <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true" >
+          <Label name="$(parent)Label" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text=""  >
             <Dimensions x="110"/>
             <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
           </Label>   
@@ -585,7 +585,7 @@
               </Backdrop>
             </Controls>
           </Texture>
-          <Label name="$(parent)LabelRev" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" resizeToFitDescendents="true" >
+          <Label name="$(parent)LabelRev" level="1" font="ZoFontGameSmall" verticalAlignment="CENTER" text="" >
             <Dimensions x="110"/>
             <Anchor point="TOPRIGHT" relativeTo="$(parent)IconRev" relativePoint="TOPLEFT" offsetX="0" offsetY="0" />
           </Label>
