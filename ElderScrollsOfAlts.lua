@@ -172,7 +172,7 @@ function ElderScrollsOfAlts.OnCompanionActivated(eventCode, companionId)
   if(characterGender~=nil) then
 	local indexstart = string.find(cname,"%^")
     --d("indexstart:"..indexstart)
-	if(indexstart>0) then
+	if(indexstart~= nil and indexstart>0) then
 		cname = cname:sub(1, indexstart-1)
 	end
   end
