@@ -37,6 +37,7 @@ show update notification checkbox
 ==ESOA Published V1.00.XX==
 1.00.51
 [list]
+[*] update EN file for settings
 [*] bugfix
 [/list]
 1.00.50
