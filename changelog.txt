@@ -38,7 +38,7 @@ show update notification checkbox
 1.00.51
 [list]
 [*] update EN file for settings
-[*] bugfix
+[*] bugfix(s)
 [/list]
 1.00.50
 [list]
