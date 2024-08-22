@@ -815,29 +815,23 @@ function ElderScrollsOfAlts:CollectCP()
     local championBar = CHAMPION_PERKS:GetChampionBar() 
     local CPData = CHAMPION_DATA_MANAGER
     
-    for i=1, 12 do
-      local championSkillData = CHAMPION_PERKS:GetChampionBar():GetSlot(i).championSkillData
-      if championSkillData then -- If anything is slotted into that index
-        --d("Slot number "..i.." id: ".. championSkillData:GetId() .. " data: " .. tostring(championSkillData) )
-        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i] = {}
-        local cpskid = championSkillData:GetId()
-        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].id   = cpskid
-        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].name = GetChampionSkillName(cpskid)
-        
-        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplineid = championSkillData:GetChampionDisciplineData():GetId()
-        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplinetype = championSkillData:GetChampionDisciplineData():GetType()
-        
-        ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].numspentpoints = GetNumPointsSpentOnChampionSkill(cpskid)
-
-        --GetNumPendingChampionPoints(*luaindex* _disciplineIndex_, *luaindex* _skillIndex_)
-        --** _Returns:_ *integer* _numPendingPoints_
-        
-        --GetChampionSkillCurrentBonusText(cpskid)
-        --:GetRawName
-        --GetChampionSkillType
-      else
-      end
-    end -- for
+    local start, nd = GetAssignableChampionBarStartAndEndSlots() -- 1 and 12.
+    for i=start, nd do -- loop all 12 slots.
+	local starId = GetSlotBoundId(i, HOTBAR_CATEGORY_CHAMPION)
+	local req = GetRequiredChampionDisciplineIdForSlot(i, HOTBAR_CATEGORY_CHAMPION)
+	local disType = GetChampionDisciplineType(req)
+	
+	if starId ~= 0 then
+		local pointsSpent = GetNumPointsSpentOnChampionSkill(starId)
+		local name = GetChampionSkillName(starId)
+		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i] = {}
+		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].id = starId
+		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].name = name
+		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplineid = req
+		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplinetype = disType
+		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].numspentpoints = pointsSpent
+	end
+    end
     
     --xxx
     ElderScrollsOfAlts.altData.players[playerKey].championpoints = {}
