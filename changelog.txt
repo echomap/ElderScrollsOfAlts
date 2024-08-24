@@ -27,14 +27,16 @@ pause update on pvp enter
 show update notification checkbox
 
 ==Unpublished ESOA==
-1.00.52
+1.00.53
 [list]
-[*] update EN file for settings
 [*] 
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.52
+[*] CHAMPION_PERKS update by @SmittyTech
+[*] update EN file for settings
 1.00.51
 [list]
 [*] update EN file for settings
