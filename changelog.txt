@@ -27,13 +27,18 @@ pause update on pvp enter
 show update notification checkbox
 
 ==Unpublished ESOA==
-1.00.53
+1.00.54
 [list]
 [*] 
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.53
+[list]
+[*] Updated padding of lines to help with overlapping issues for hover over
+[*] 
+[/list]
 1.00.52
 [list]
 [*] CHAMPION_PERKS update by @SmittyTech

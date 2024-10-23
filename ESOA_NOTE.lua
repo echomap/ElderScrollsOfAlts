@@ -21,8 +21,9 @@ function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   
   ESOA_GUI2_Notes:SetHidden(false)
   ESOA_GUI2_Notes:ClearAnchors()
-  ESOA_GUI2_Notes:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
-    self:GetLeft(), self:GetTop()+100
+  ESOA_GUI2_Notes:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT,
+    self:GetLeft(), ESOA_GUI2:GetHeight()
+	--self:GetTop() + 100
     --ElderScrollsOfAlts.savedVariables.uibutton.left, 
     --ElderScrollsOfAlts.savedVariables.uibutton.top )
   )  

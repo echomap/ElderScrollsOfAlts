@@ -11,21 +11,26 @@
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
   ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: 1viewKey: '" , tostring(viewKey), "'" )
   if(eline==nil) then return end
-  eline.viewKey = viewKey  
+  eline.viewKey = viewKey
   if(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
     local vampire  = playerLine["Vampire"] 
     eline.special = 0
+	local nHint = "Double LEFT Click to select row for " .. playerLine["name"]
     if werewolf then
       eline.special = 1
-      eline:SetTexture("/esoui/art/icons/store_werewolfbite_01.dds")
-      eline.tooltip = playerLine.name .. " is a ".."Werewolf (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
-    end
-    if vampire then
-      eline:SetTexture("/esoui/art/icons/store_vampirebite_01.dds")
+	  --eline:GetChild(1):SetResizeToFitFile(false) 
+      eline:GetChild(1):SetTexture("/esoui/art/icons/store_werewolfbite_01.dds")
+      eline.tooltip = playerLine.name .. " is a ".."Werewolf (" .. tostring(playerLine.special_bitetimerDisplay) ..")" .. string.char(10) .. string.char(10) .. nHint
+    elseif vampire then
+      eline:GetChild(1):SetTexture("/esoui/art/icons/store_vampirebite_01.dds")
       eline.special = 2
-      eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
+	  --eline:GetChild(1):SetResizeToFitFile(false) 
+      eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")".. string.char(10) .. string.char(10) .. nHint
+	else
+		eline.tooltip = nHint
     end
+	eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
     --TODO timers
   elseif(viewKey=="SpecialBiteTimer") then    
     eline:SetText( playerLine.special_bitetimerDisplay )
@@ -43,27 +48,40 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltipHdr = "Note: " .. playerLine["name"]
     local nHint = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
     if( playerLine["note"]==nil or playerLine["note"]=="") then --TODO string.len (s)?
-      eline:SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
+	  eline:GetChild(1):SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
       eline.tooltip = nHint
     else
       --art\store\pc_crwn_crown_1x1.dds
-      eline:SetTexture("/esoui/art/icons/quest_letter_001.dds")      
+      eline:GetChild(1):SetTexture("/esoui/art/icons/quest_letter_001.dds")      
       eline.tooltip = playerLine["note"] .. string.char(10) .. string.char(10) .. nHint
     end
+	--not a functionlocal nTexture = eline:GetTexture()
+	--eline:SetMouseEnabled(true)
     eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
+	--eline:SetHandler('OnMouseEnter',function(self) ElderScrollsOfAlts:TooltipEnter(self, viewKey ) end)
+	--eline:SetHandler('OnMouseExit',function(self) ElderScrollsOfAlts:TooltipExit(self) end)  
+	--d("(" .. ElderScrollsOfAlts.name .. ") IsMouseEnabled=" ..  tostring(eline:IsMouseEnabled())  )
     --eline:SetHandler('OnMouseDoubleClick',function(control, button)
     --    ElderScrollsOfAlts:GUILineDoubleClick(control, button)
     --end)
   elseif(viewKey=="Alliance") then
-    local pAlliance = playerLine["alliance"]
+    local pAlliance  = playerLine["alliance"]
+	local psAlliance = GetAllianceName(nAliance)
     eline.alliance = pAlliance
     if pAlliance ~= nil then
       local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
-      eline:SetTexture(pAllIcon)  
-      eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  pAlliance )
+      eline:GetChild(1):SetTexture(pAllIcon)  
+      eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  psAlliance )
+	  --eline:SetHandler('OnMouseEnter',function(self)
+		--  ElderScrollsOfAlts:TooltipEnterStub(self, self.entry)
+	  --end)
+	  --eline:SetHandler('OnMouseExit',function(self)
+		--	ElderScrollsOfAlts:TooltipExitStub(self)
+	 -- end) 
     end
   elseif(viewKey=="Alliance Name" or viewKey=="alliance name") then
     local pAlliance = playerLine["alliance"]
+	--local psAlliance = GetAllianceName(nAliance)
     eline.allianceid = pAlliance
     --TODO alliance name
     eline.alliance = GetAllianceName(pAlliance) 
@@ -612,7 +630,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupMaxValueCheck(eline, viewKey2, play
   --eline.value = tonumber(eline.value)
   --
   if(nmaxSL~=nil and eline.value~=nil) then
-    --ElderScrollsOfAlts.outputMsg("maxcheck: value='",eline.value,"' nmaxSL='",nmaxSL,"'")  
+    --ElderScrollsOfAlts.debugMsg("maxcheck: value='",eline.value,"' nmaxSL='",nmaxSL,"'")  
     if( eline.value >= nmaxSL) then
       retv = 2
     end
@@ -801,11 +819,6 @@ end
 -- View Lookup, Show Data  ??
 function ElderScrollsOfAlts.GuiCharLineLookupDisplayType(view,viewKey,lineName,parent)
   local line = nil
-  -- ESOA_GUI2_Body_ListHolder_Line_"..charName    
-  --local eline = parent:GetNamedChild('_'..entry )    
-  --    if(eline==nil)then
-  --      eline = WINDOW_MANAGER:CreateControlFromVirtual(lineName.."_"..entry, parent, "ESOA_RowTemplate_Label")        
-  --    end
   if(viewKey=="Special" or viewKey=="Alliance" or viewKey=="Note") then
     line = parent:GetNamedChild('_'..viewKey)
     if(line==nil)then
@@ -1189,6 +1202,13 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   end
 end
 
+
+function ElderScrollsOfAlts:TooltipEnterStub(mySelf,tooltipName,revdir)  
+	ElderScrollsOfAlts:TooltipEnter(mySelf,tooltipName,revdir) 
+end
+function ElderScrollsOfAlts:TooltipExitStub(myLabel,craftName)  
+	ElderScrollsOfAlts:TooltipExit(myLabel,craftName)  
+end
 
 ------------------------------
 -- EOF

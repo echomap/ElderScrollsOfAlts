@@ -77,7 +77,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		end
 	end
 
-	if #options == 0 then
+  if #options == 0 then
     ElderScrollsOfAlts.outputMsg("/esoa <commands> where command can be, gui, help, debug, resetviews, showentries")
   elseif options[1] == "gui" then
     ElderScrollsOfAlts.ShowGuiByChoice()
@@ -95,11 +95,13 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		--ElderScrollsOfAlts.savedVariables.beta = ElderScrollsOfAlts.altData.beta
     --ElderScrollsOfAlts.LoadSettings()
   elseif options[1] == "savebuttondata" then --debug
-    ElderScrollsOfAlts:ButtonFrameOnMoveStop()
+    ElderScrollsOfAlts:ButtonFrameOnMoveStop()--debug
   elseif options[1] == "testdata" then--debug
-    ElderScrollsOfAlts:LoadTestData1()
-  elseif options[1] == "deltestdata" then--debug
-    ElderScrollsOfAlts:DelTestData1()     
+    ElderScrollsOfAlts:LoadTestData1()--debug
+  elseif options[1] == "deltestdata" then--debug 
+    ElderScrollsOfAlts:DelTestData1()     --debug
+  elseif options[1] == "changefont" then--debug
+    ElderScrollsOfAlts:ChangeESOAFontGame() --debug
   elseif options[1] == "resetviews" then
     ElderScrollsOfAlts:ResetUIViews()     
   elseif options[1] == "showentries" then
@@ -116,7 +118,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts:ResetPlayerOrder()
   else
     ElderScrollsOfAlts.ShowHelp()
-	end
+  end
 end
 
 function ElderScrollsOfAlts.ShowHelp()
