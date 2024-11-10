@@ -892,7 +892,7 @@ function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cna
   if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
     ElderScrollsOfAlts.altData.players[playerKey] = {}
   end
-  
+  ElderScrollsOfAlts.outputMsg("companion save data: companionId: '", companionId, "' as '", cname, "'" )
   ----Section: Save section
   if( ElderScrollsOfAlts.altData.players[playerKey].companions == nil ) then
     ElderScrollsOfAlts.altData.players[playerKey].companions = {}
@@ -907,6 +907,8 @@ function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cna
   end
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = zo_strformat("<<X:1>>", cname )
+  
+  ElderScrollsOfAlts.debugMsg("companion save data: companionId: '", companionId, "' fixed as '", zo_strformat("<<X:1>>", cname ), "'" )
 end
 
 --Companions

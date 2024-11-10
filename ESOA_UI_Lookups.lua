@@ -88,7 +88,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  pAlliance )
   elseif(viewKey=="Class" or viewKey=="class") then
     eline:SetText( ElderScrollsOfAlts:GetClassText(playerLine["class"]) )
-    eline.tooltip = playerLine.name .. " is a ".. ElderScrollsOfAlts:GetClassText(playerLine["class"])
+    eline.tooltip = playerLine.name .. " is a ".. (playerLine["class"])
   elseif(viewKey=="Level" or viewKey=="level") then
     eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]
     eline:SetText( playerLine["level"] )
@@ -457,7 +457,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
 			playerLine.name, cName, rapport  )
 	  end
     else
-      eline:SetText(  playerLine[string.lower(viewKey)] )
+      local val = playerLine[string.lower(viewKey)]
+      eline:SetText(  zo_strformat("<<1>>", val )  )
 	  if(level~=nil and level>-1) then
         eline.tooltip = zo_strformat("<<1>>'s companion <<2>> is level <<3>> with <<4>>/<<5>>xp and rapport of <<6>>.", 
 			playerLine.name, cName, level, cExp, mExp, rapport)
@@ -989,7 +990,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
     elseif( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
       return 35
     elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
-      return 35
+      return 40
     else
       return 110
     end
@@ -1161,36 +1162,22 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
   elseif(viewKey=="playerscreenorder") then
     return "Order"
 
-  elseif(viewKey=="Companion_1_name") then
-    return "C1Name"
-  elseif(viewKey=="Companion_1_level") then
-    return "C1Lvl"
-  elseif(viewKey=="Companion_1_rapport") then
-    return "C1Rap"
-  elseif(viewKey=="Companion_2_name") then
-    return "C2Name"
-  elseif(viewKey=="Companion_2_level") then
-    return "C2Lvl"
-  elseif(viewKey=="Companion_2_rapport") then
-    return "C2Rap"
-  elseif(viewKey=="Companion_3_name") then
-    return "C3Name"
-  elseif(viewKey=="Companion_3_level") then
-    return "C3Lvl"
-  elseif(viewKey=="Companion_3_rapport") then
-    return "C3Rap"
-  elseif(viewKey=="Companion_4_name") then
-    return "C4Name"
-  elseif(viewKey=="Companion_4_level") then
-    return "C4Lvl"
-  elseif(viewKey=="Companion_4_rapport") then
-    return "C4Rap"
-  elseif(viewKey=="Companion_5_name") then
-    return "C5Name"
-  elseif(viewKey=="Companion_5_level") then
-    return "C5Lvl"
-  elseif(viewKey=="Companion_5_rapport") then
-    return "C5Rap"
+  elseif viewKey:find("Companion" ) ~= nil then
+	local tbl = {}
+	for str in string.gmatch(viewKey, "([^_]+)") do
+		table.insert(tbl, str)
+		--ElderScrollsOfAlts.outputMsg("Found:".. tostring(str) );
+	end
+	if(tbl[3]==nil) then
+		tbl[3] = "xxx"
+	elseif(tbl[3]=="name") then
+		tbl[3] = "Name"
+	elseif(tbl[3]=="level") then
+		tbl[3] = "Lvl"
+	elseif(tbl[3]=="rapport") then
+		tbl[3] = "Rap"
+	end
+	return "C"..tbl[2]..tbl[3]	
   --
   --
   else

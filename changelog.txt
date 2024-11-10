@@ -29,7 +29,8 @@ show update notification checkbox
 ==Unpublished ESOA==
 1.00.54
 [list]
-[*] 
+[*] Update to allow up to 10 companions, fix names, 
+[*] Added ARCANIST
 [*] 
 [/list]
 
@@ -37,7 +38,6 @@ show update notification checkbox
 1.00.53
 [list]
 [*] Updated padding of lines to help with overlapping issues for hover over
-[*] 
 [/list]
 1.00.52
 [list]

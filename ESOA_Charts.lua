@@ -156,12 +156,39 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Companion_1_name"] = 1,
   ["Companion_2_name"] = 1,
   ["Companion_3_name"] = 1,
+  ["Companion_4_name"] = 1,
+  ["Companion_5_name"] = 1,
+  ["Companion_6_name"] = 1,
+  ["Companion_7_name"] = 1,
+  ["Companion_8_name"] = 1,
+  ["Companion_9_name"] = 1,
+  ["Companion_10_name"] = 1,
+  ["Companion_11_name"] = 1,
+  ["Companion_12_name"] = 1,
   ["Companion_1_level"] = 1,
   ["Companion_2_level"] = 1,
   ["Companion_3_level"] = 1,
+  ["Companion_4_level"] = 1,
+  ["Companion_5_level"] = 1,
+  ["Companion_6_level"] = 1,
+  ["Companion_7_level"] = 1,
+  ["Companion_8_level"] = 1,
+  ["Companion_9_level"] = 1,
+  ["Companion_10_level"] = 1,
+  ["Companion_11_level"] = 1,
+  ["Companion_12_level"] = 1,
   ["Companion_1_rapport"] = 1,
   ["Companion_2_rapport"] = 1,
   ["Companion_3_rapport"] = 1,
+  ["Companion_4_rapport"] = 1,
+  ["Companion_5_rapport"] = 1,
+  ["Companion_6_rapport"] = 1,
+  ["Companion_7_rapport"] = 1,
+  ["Companion_8_rapport"] = 1,
+  ["Companion_9_rapport"] = 1,
+  ["Companion_10_rapport"] = 1,
+  ["Companion_11_rapport"] = 1,
+  ["Companion_12_rapport"] = 1,
   
   ["stamina"] = 1,
   ["magicka"] = 1,
@@ -630,6 +657,8 @@ function ElderScrollsOfAlts:GetClassText(className)
     classX = GetString(ESOA_CLASS_WARDEN_ABBREV)
   elseif className == GetString(ESOA_CLASS_NECRO) then
     classX = GetString(ESOA_CLASS_NECRO_ABBREV)
+  elseif className == GetString(ESOA_CLASS_ARCANIST) then
+    classX = GetString(ESOA_CLASS_ARCANIST_ABBREV)
   end
   return classX
 end

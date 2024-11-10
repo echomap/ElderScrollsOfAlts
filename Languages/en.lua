@@ -39,6 +39,7 @@ local localization_strings = {
   ESOA_CLASS_TEMPLAR      = "Templar",
   ESOA_CLASS_WARDEN       = "Warden",
   ESOA_CLASS_NECRO        = "Necromancer",
+  ESOA_CLASS_ARCANIST     = "Arcanist",
   
   ESOA_CLASS_DEFAULT_ABBREV      = "UK",
   ESOA_CLASS_DRAGONKNIGHT_ABBREV = "DK",
@@ -47,6 +48,7 @@ local localization_strings = {
   ESOA_CLASS_TEMPLAR_ABBREV      = "Temp",
   ESOA_CLASS_WARDEN_ABBREV       = "Ward",
   ESOA_CLASS_NECRO_ABBREV        = "Necr",
+  ESOA_CLASS_ARCANIST_ABBREV     = "Arch",
 
   ESOA_RACE_UNKNOWN  = "UK",
   ESOA_RACE_HIGHELF  = "High Elf",    
@@ -131,7 +133,7 @@ local localization_strings = {
   ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
   ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
   ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
-  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
+  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not this anymore? "Blood Ritual Cooldown"
 
   ESOA_RESEARCH_AVAIL = "[avail]",
     
@@ -234,6 +236,8 @@ local localization_strings = {
   ESOA_SETTINGS_STOPCOMBAT_NAME    = "Off in Combat",
   ESOA_SETTINGS_STOPCOMBAT_TT      = "Stop collecting data in Combat",
   
+  ESOA_SETTINGS_TEST_FAIL 		   	= "Failed test: entry failed as k=",
+  ESOA_SETTINGS_TEST_SUCCESS 		= "Testing entries: succeeded",
   --
   --
   --

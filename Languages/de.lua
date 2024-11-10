@@ -1,10 +1,10 @@
 -- Every variable must start with this addon's unique ID, as each is a global.
 local localization_strings = {
   --
-	SI_ESOA_MESSAGE = " ist aktiv!",
-  SI_ESOA_SHOW     = "Zeigen Sie das ESOA an",
+  SI_ESOA_MESSAGE = " ist aktiv!",
+  SI_ESOA_SHOW    = "Zeigen Sie das ESOA an",
   
-	-- Keybindings.
+  -- Keybindings.
   --
   
   -- Trade Skills
@@ -44,7 +44,7 @@ local localization_strings = {
   ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
   ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
   ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
-  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not his anymore? "Blood Ritual Cooldown"
+  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not this anymore? "Blood Ritual Cooldown"
   --
 }
 

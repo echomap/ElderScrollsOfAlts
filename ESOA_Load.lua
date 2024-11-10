@@ -1024,7 +1024,7 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
   local linedata = ElderScrollsOfAlts.altData.players[k].companions
   if k == nil then return end
   --Default data
-  for ii = 1, 6 do
+  for ii = 1, ElderScrollsOfAlts.maxCompanions do
     local tempn0 = string.format("companion_%s",ii)
     playerLines[k][tempn0.."_name"]    = "-none-"
     playerLines[k][tempn0.."_level"]   = -1
@@ -1050,7 +1050,7 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
     ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", rtKV.name, "'" )
 	cInc = cInc +1
   end
-
+  --SetupPlayerLinesCompanions
 end
 
 --

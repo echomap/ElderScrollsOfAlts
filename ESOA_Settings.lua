@@ -159,48 +159,54 @@ end
 ------------------------------
 -- view: Select
 function ElderScrollsOfAlts:DoTestSelectedView()
-  local guiLine2B = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-  if(guiLine2B==nil)then
-    ElderScrollsOfAlts.outputMsg("Failed test: Can't find data line")
-    return
-  end
+	local guiLine2B = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+	if(guiLine2B==nil)then
+		ElderScrollsOfAlts.outputMsg("Failed test: Can't find data line")
+		return
+	end
   
-  if(ElderScrollsOfAlts.view.SettingsViewName==nil or ElderScrollsOfAlts.view.SettingsViewName=="") then
-    ElderScrollsOfAlts.outputMsg("Failed test: nil name")
-  end
+	if(ElderScrollsOfAlts.view.SettingsViewName==nil or ElderScrollsOfAlts.view.SettingsViewName=="") then
+		ElderScrollsOfAlts.outputMsg("Failed test: nil name")
+	end
   
-  local viewText = (ElderScrollsOfAlts.view.SettingsViewData)
-  if(ElderScrollsOfAlts.view.SettingsViewData==nil or ElderScrollsOfAlts.view.SettingsViewData=="") then
-    ElderScrollsOfAlts.outputMsg("Failed test: nil DATA")
-    return
-  end
+	local viewText = (ElderScrollsOfAlts.view.SettingsViewData)
+	if(ElderScrollsOfAlts.view.SettingsViewData==nil or ElderScrollsOfAlts.view.SettingsViewData=="") then
+		ElderScrollsOfAlts.outputMsg("Failed test: nil DATA")
+		return
+	end
   
-  local tempTable = {}
-  for k, v in viewText:gmatch("(%b{})" ) do    
-    local val = tostring(k)
-    val = val:gsub("{","")
-    val = val:gsub("}","")
-    table.insert( tempTable, val  )
-    --tempTable[tostring(k)] = tostring(k)
-    --ElderScrollsOfAlts.outputMsg("DoTestSelectedView: match val=".. tostring(val) )
-  end
+	local tempTable = {}
+	for k, v in viewText:gmatch("(%b{})" ) do    
+		local val = tostring(k)
+		val = val:gsub("{","")
+		val = val:gsub("}","")
+		table.insert( tempTable, val  )
+		--tempTable[tostring(k)] = tostring(k)
+		--ElderScrollsOfAlts.outputMsg("DoTestSelectedView: match val=".. tostring(val) )
+	end
   
-  --Test names, check in ElderScrollsOfAlts.allowedViewEntries
-  local goodEntries = {}
-  for kk,vv in pairs(tempTable) do
-    local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
-    --ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
-    if(fEntry~=nil)then
-      table.insert(goodEntries, tostring(vv) )
-    else
-      fEntry = ElderScrollsOfAlts.allowedViewEntriesLC[string.lower(vv)]
-      if(fEntry~=nil)then
-        table.insert( goodEntries, tostring(vv) )
-      else
-        ElderScrollsOfAlts.outputMsg("Failed test: entry failed as k="..tostring(kk).." v="..tostring(vv))
-      end
-    end
-  end
+	--Test names, check in ElderScrollsOfAlts.allowedViewEntries
+	local goodEntries = {}
+	local hadfailure = false
+	for kk,vv in pairs(tempTable) do
+		local fEntry = ElderScrollsOfAlts.allowedViewEntries[tostring(vv)]      
+		--ElderScrollsOfAlts.outputMsg( "Check value: k="..tostring(kk).." v="..tostring(vv) )
+		if(fEntry~=nil)then
+			table.insert(goodEntries, tostring(vv) )
+		else
+			fEntry = ElderScrollsOfAlts.allowedViewEntriesLC[string.lower(vv)]
+			if(fEntry~=nil)then
+				table.insert( goodEntries, tostring(vv) )
+			else
+				hadfailure = true
+				
+				ElderScrollsOfAlts.outputMsg( GetString(ESOA_SETTINGS_TEST_FAIL) ..tostring(kk).." v="..tostring(vv))
+			end
+		end
+	end
+	if(hadfailure==false) then
+         ElderScrollsOfAlts.outputMsg(GetString(ESOA_SETTINGS_TEST_SUCCESS));
+	end
 end
 
 ------------------------------
