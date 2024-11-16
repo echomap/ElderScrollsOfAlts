@@ -27,14 +27,19 @@ pause update on pvp enter
 show update notification checkbox
 
 ==Unpublished ESOA==
-1.00.54
+1.00.55
 [list]
-[*] Update to allow up to 10 companions, fix names, 
-[*] Added ARCANIST
+[*] 
 [*] 
 [/list]
 
 ==ESOA Published V1.00.XX==
+1.00.54
+[list]
+[*] Update to allow up to 12 companions, fix names, 
+[*] Added ARCANIST
+[*] 
+[/list]
 1.00.53
 [list]
 [*] Updated padding of lines to help with overlapping issues for hover over
