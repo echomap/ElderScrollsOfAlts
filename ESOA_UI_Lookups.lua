@@ -66,7 +66,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --end)
   elseif(viewKey=="Alliance") then
     local pAlliance  = playerLine["alliance"]
-	local psAlliance = GetAllianceName(nAliance)
+	local psAlliance = GetAllianceName(pAlliance)
     eline.alliance = pAlliance
     if pAlliance ~= nil then
       local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
@@ -81,7 +81,6 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     end
   elseif(viewKey=="Alliance Name" or viewKey=="alliance name") then
     local pAlliance = playerLine["alliance"]
-	--local psAlliance = GetAllianceName(nAliance)
     eline.allianceid = pAlliance
     --TODO alliance name
     eline.alliance = GetAllianceName(pAlliance) 

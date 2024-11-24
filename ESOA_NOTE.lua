@@ -105,7 +105,7 @@ function ElderScrollsOfAlts:SaveNote()
   ElderScrollsOfAlts.view.currentcategory = tplayer.category
   --  
   --
-  ElderScrollsOfAlts.outputMsg("ESOA, saved note")
+  --ElderScrollsOfAlts.outputMsg("ESOA, saved note")
   --ElderScrollsOfAlts.RefreshViewableTable()
   ElderScrollsOfAlts:ShowSetView()
 end

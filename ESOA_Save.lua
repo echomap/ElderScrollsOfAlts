@@ -1114,18 +1114,20 @@ function ElderScrollsOfAlts:SavaDataPlayerEquipment(playerKey)
     local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
     local itemId = GetItemInstanceId(BAG_WORN, slotId)
     local itemLink = GetItemLink(BAG_WORN, slotId)--, number LinkStyle linkStyle) 
+	local itemLevel = GetItemLevel(BAG_WORN, slotId)
     if( equipType ~= nil and equipType > EQUIP_TYPE_MIN_VALUE ) then
       --TODO check itemname not nil, and EquipType > 0
       elemH[slotId] = {}
-      elemH[slotId].itemId = itemId
+      elemH[slotId].itemId   = itemId
       elemH[slotId].itemName = itemName
       elemH[slotId].itemLink = itemLink
       elemH[slotId].icon = icon
       elemH[slotId].quality = quality
       elemH[slotId].itemStyleId = itemStyleId
-      elemH[slotId].slotId = slotId
+      elemH[slotId].slotId    = slotId
       elemH[slotId].equipType = equipType
-      elemH[slotId].equipLoc = SLOT_TYPE_REV[slotId]
+      elemH[slotId].equipLoc  = SLOT_TYPE_REV[slotId]
+	  elemH[slotId].itemLevel = itemLevel
       --equipslot
       
       local itemType, specializedItemType = GetItemLinkItemType(itemLink)
