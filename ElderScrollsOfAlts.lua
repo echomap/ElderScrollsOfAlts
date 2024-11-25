@@ -33,6 +33,34 @@ ElderScrollsOfAlts = {
     -- Saved Settings
     savedVariables  = {},
     altData         = {},
+	FONT_TYPE	 	= 1,
+	FONT_STYLE		= 2,
+	FONT_SIZE		= 3,
+	FONT_WEIGHT		= 4,
+	esoaFontBold = {
+		[1] = "$(BOLD_FONT)",
+		[2] = "",
+		[3] = "$(KB_18)",
+		[4] = "soft-shadow-thick",
+	},
+	esoaFontGame = {
+		[1] = "$(MEDIUM_FONT)",
+		[2] = "",
+		[3] = "$(KB_18)",
+		[4] = "soft-shadow-thin",
+	},
+	esoaFontPaper = {
+		[1] = "$(ANTIQUE_FONT)",
+		[2] = "",
+		[3] = "$(KB_20)",
+		[4] = "soft-shadow-thick",
+	}, 
+	esoaFontButton = {
+		[1] = "$(BOLD_FONT)",
+		[2] = "",
+		[3] = "$(KB_16)",
+		[4] = "soft-shadow-thick",
+	},
 }
 
 --ZO_SORT_ORDER_UP, --ZO_SORT_ORDER_DOWN

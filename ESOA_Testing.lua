@@ -30,21 +30,27 @@ function ElderScrollsOfAlts:ChangeESOAFontGame()
 	ElderScrollsOfAlts.debugMsg("ef1='"..tostring(ef1[1]).."'")
 	ElderScrollsOfAlts.debugMsg("ef1='"..tostring(ef1[2]).."'")
 	
+	ElderScrollsOfAlts.esoaFontGame[ ElderScrollsOfAlts.FONT_SIZE ] = "$(KB_20)"
+	local fontGame = ElderScrollsOfAlts:GetFontDescriptor( ElderScrollsOfAlts.esoaFontGame )
 	--$(MEDIUM_FONT)|$(KB_18)|soft-shadow-thin
 	--local font = {value:GetFontInfo()}
-	--ESOA_RowTemplate_Label
+	--ESOA_RowTemplate_Label	
+	d("font fontGame='"..(fontGame).."'")
 	for dHL = 1, #ESOA_GUI2_Body_ListHolder.dataHolderLines do
-		local dataHolderLine = ESOA_GUI2_Body_ListHolder.dataHolderLines[dHL] --ESOA_RowTemplate
---[[
-		if(dataLine.displayedEntries~=nil)then
+		local dataLine = ESOA_GUI2_Body_ListHolder.dataHolderLines[dHL] --ESOA_RowTemplate
+		if(dataLine~=nil and dataLine.displayedEntries~=nil)then
 			for k, dLine in pairs(dataLine.displayedEntries) do
 				if(dLine~=nil) then
-					ElderScrollsOfAlts.debugMsg("LoadDataEntriesForSetView: Hid item=",dLine.entry)
-					dLine:SetHidden(true)
+					--dLine:SetHidden(true)
+					--d("font dLine='"..tostring(dLine).."'")
+					--d("font linetype='"..tostring(dLine.linetype).."'")
+					if(dLine.linetype=='label' or dLine.linetype=='name' ) then 					
+						dLine:SetFont(fontGame)
+						--d("font dLine set font done")
+					end
 				end
 			end  
 		end
---]]
 	end
 end
 

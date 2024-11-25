@@ -823,11 +823,13 @@ function ElderScrollsOfAlts.GuiCharLineLookupDisplayType(view,viewKey,lineName,p
     line = parent:GetNamedChild('_'..viewKey)
     if(line==nil)then
       line = WINDOW_MANAGER:CreateControlFromVirtual(lineName.."_"..viewKey, parent, "ESOA_RowTemplate_Texture")
+	  line.linetype = 'texture'
     end
   else
     line = parent:GetNamedChild('_'..viewKey )
     if(line==nil)then
       line = WINDOW_MANAGER:CreateControlFromVirtual(lineName.."_"..viewKey, parent, "ESOA_RowTemplate_Label")      
+	  line.linetype = 'label'
     end
     line:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey) )
   end

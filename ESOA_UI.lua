@@ -701,6 +701,8 @@ function ElderScrollsOfAlts:ShowSetView()
   --ElderScrollsOfAlts:GuiResizeScroll()
 	--ElderScrollsOfAlts:GuiOnScroll(ESOA_GUI2_Body_ListHolder, 1)
 	ElderScrollsOfAlts:GuiOnScroll(ESOA_GUI2_Body_ListHolder, 1)
+	
+	ElderScrollsOfAlts:UpdateLineEntriesFont()
   --
 end--ShowSetView
 
@@ -805,6 +807,7 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   if(eline==nil)then
     eline = WINDOW_MANAGER:CreateControlFromVirtual(lineName.."_"..entry, parent, "ESOA_RowTemplate_Label")        
   end
+  eline.linetype = 'name'
   eline:SetText( playerLine.name ) --TODO get function to get display name              
   eline:SetHidden(false) 
   eline:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, 0)
@@ -902,6 +905,39 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   --ElderScrollsOfAlts:GuiResizeScroll()
   return dataLine
 end --LoadDataEntriesForSetView
+
+------------------------------
+--Update Lines with FONT data
+function ElderScrollsOfAlts:UpdateLineEntriesFont()
+	ElderScrollsOfAlts.debugMsg("UpdateLineEntriesFont called")
+	if(ElderScrollsOfAlts.savedVariables.selected.textFontSize~=nil) then
+		-- TODO KB vs console!!
+		ElderScrollsOfAlts.debugMsg("Selected font is set='"..tostring(ElderScrollsOfAlts.savedVariables.selected.textFontSize).."'")
+		-- "$(KB_24)"
+		local sz = string.format("$(KB_%s)", ElderScrollsOfAlts.savedVariables.selected.textFontSize )
+		ElderScrollsOfAlts.debugMsg("Selected font is translated as='"..tostring(sz).."'")
+		ElderScrollsOfAlts.esoaFontGame[ ElderScrollsOfAlts.FONT_SIZE ] = sz
+	end
+	local fontGame = ElderScrollsOfAlts:GetFontDescriptor( ElderScrollsOfAlts.esoaFontGame )
+	ElderScrollsOfAlts.debugMsg("font fontGame='"..(fontGame).."'")
+	if(ESOA_GUI2_Body_ListHolder.dataHolderLines) then
+		for dHL = 1, #ESOA_GUI2_Body_ListHolder.dataHolderLines do
+			local dataLine = ESOA_GUI2_Body_ListHolder.dataHolderLines[dHL] --ESOA_RowTemplate
+			if(dataLine.displayedEntries~=nil)then
+				for k, dLine in pairs(dataLine.displayedEntries) do
+					if(dLine~=nil) then
+						if(dLine.linetype=='label' or dLine.linetype=='name') then 					
+							dLine:SetFont(fontGame)
+							--d("font set dLine='"..tostring(dLine).."'")
+						--else
+							--d("font set dLine='"..tostring(dLine.linetype).."'")
+						end
+					end
+				end  
+			end
+		end
+	end
+end
 
 ------------------------------
 -- UI: ESOA_GUI2 was:ShowGui2
@@ -1350,7 +1386,7 @@ function ElderScrollsOfAlts:UpdateDataScroll()
 		ESOA_GUI2_Body_ListHolder.maxLines = ESOA_GUI2_Body_ListHolder.defaultMaxLines
 	end
 	--TODO SetDataLinesData()--Fill in data from datalines
-  ElderScrollsOfAlts.RefreshViewableTable()
+	ElderScrollsOfAlts.RefreshViewableTable()
 
 	local total = #ESOA_GUI2_Body_ListHolder.dataLines - ESOA_GUI2_Body_ListHolder.maxLines
 	ElderScrollsOfAlts.debugMsg("ShowSetView: #dataLines=", tostring(#ESOA_GUI2_Body_ListHolder.dataLines), " maxLines=",tostring(ESOA_GUI2_Body_ListHolder.maxLines) )

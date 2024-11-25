@@ -51,6 +51,58 @@ function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
   end
 end
+------------------------------
+--Returns a list of font sizes
+function ElderScrollsOfAlts:GetSelectedFontSize()
+	if(ElderScrollsOfAlts.savedVariables.selected.textFontSize~=nil) then 
+		--TODO KB vs console!!
+		--local sz = string.format("$(KB_%s)", ElderScrollsOfAlts.savedVariables.selected.textFontSize )
+		return ElderScrollsOfAlts.savedVariables.selected.textFontSize
+	end
+	return GetString(ESOA_SETTINGS_SELECT)
+end
+
+------------------------------
+--Returns a list of font sizes
+function ElderScrollsOfAlts:ListOfFontSizes2()
+	local validChoices =  {}  
+	table.insert(validChoices, "Select")
+	table.insert(validChoices, "$(KB_14)" )
+	table.insert(validChoices, "$(KB_15)" )
+	table.insert(validChoices, "$(KB_16)" )
+	table.insert(validChoices, "$(KB_17)" )
+	table.insert(validChoices, "$(KB_18)" )
+	table.insert(validChoices, "$(KB_19)" )
+	table.insert(validChoices, "$(KB_20)" )
+	table.insert(validChoices, "$(KB_24)" )
+	return validChoices 
+end
+------------------------------
+--Returns a list of font sizes
+function ElderScrollsOfAlts:ListOfFontSizes()
+	local validChoices =  {}  
+	table.insert(validChoices, "Select")
+	table.insert(validChoices, "14" )
+	table.insert(validChoices, "15" )
+	table.insert(validChoices, "16" )
+	table.insert(validChoices, "17" )
+	table.insert(validChoices, "18" )
+	table.insert(validChoices, "19" )
+	table.insert(validChoices, "20" )
+	table.insert(validChoices, "24" )
+	return validChoices 
+end
+
+------------------------------
+--SETTINGS For use by Settings dropdown
+function ElderScrollsOfAlts:SelectFontSize(choiceText)
+	ElderScrollsOfAlts.savedVariables.selected.textFontSize = choiceText
+	if(choiceText==nil) then
+		return
+	end
+	ElderScrollsOfAlts.outputMsg("ESOA font size set to=" .. tostring(choiceText) )
+	ElderScrollsOfAlts:UpdateLineEntriesFont()
+end
 
 ------------------------------
 --Returns a list of character names

@@ -239,5 +239,27 @@ function ElderScrollsOfAlts:dailyReset()
 	return till["hour"], till["minute"]
 end
 
+function ElderScrollsOfAlts:GetFontDescriptor(font)
+    ElderScrollsOfAlts.debugMsg("font type='"  ..tostring(font[ElderScrollsOfAlts.FONT_TYPE])  .."'")
+    ElderScrollsOfAlts.debugMsg("font style='" ..tostring(font[ElderScrollsOfAlts.FONT_STYLE]) .."'")
+    ElderScrollsOfAlts.debugMsg("font size='"  ..tostring(font[ElderScrollsOfAlts.FONT_SIZE])  .."'")
+    ElderScrollsOfAlts.debugMsg("font weight='"..tostring(font[ElderScrollsOfAlts.FONT_WEIGHT]).."'")
+	--
+	--local preFont = ESOAFontBold
+	--ElderScrollsOfAlts.debugMsg("font preFont='"..tostring(preFont).."'")
+	--
+	local fontPath = font[ElderScrollsOfAlts.FONT_TYPE] == "custom" and font[ElderScrollsOfAlts.FONT_STYLE] or font[ElderScrollsOfAlts.FONT_TYPE]
+    ElderScrollsOfAlts.debugMsg("fontPath='"..tostring(fontPath).."'")
+	--
+	if font[ElderScrollsOfAlts.FONT_WEIGHT] and font[ElderScrollsOfAlts.FONT_WEIGHT] ~= "normal" then
+		local str = string.format("%s|%s|%s", fontPath, font[ElderScrollsOfAlts.FONT_SIZE], font[ElderScrollsOfAlts.FONT_WEIGHT])
+		ElderScrollsOfAlts.debugMsg("font str='"..(str).."'")
+		return str
+	else
+		local str =  string.format("%s|%s", fontPath, font[ElderScrollsOfAlts.FONT_SIZE])
+		ElderScrollsOfAlts.debugMsg("font str='"..(str).."'")
+		return str
+	end
+end
 ------------------------------
 -- EOF

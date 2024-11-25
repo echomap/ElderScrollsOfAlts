@@ -49,7 +49,17 @@ function ElderScrollsOfAlts.LoadSettings()
     default = 160, -- default value or function that returns the default value (optional)
     reference = "ESOA_NameSlider" -- unique global reference to control (optional)
   }
-  
+  --
+  optionsTable[#optionsTable+1] = {
+    type = "dropdown",
+    name = "Font Size",
+    tooltip = GetString(ESOA_SETTINGS_CHAR_TT) .. tostring(ElderScrollsOfAlts.savedVariables.selected.charactername),
+    choices = ElderScrollsOfAlts:ListOfFontSizes(),
+    getFunc = function() return ElderScrollsOfAlts:GetSelectedFontSize() end,
+    setFunc = function(var) ElderScrollsOfAlts:SelectFontSize(var) end,
+    width = "full",	--"full" or "half" (optional)
+    reference = "ESOA_SETTINGS_FONTSIZE_Select",--TODO refresh me
+  }
   
   -- Account Settings --
 
@@ -60,7 +70,14 @@ function ElderScrollsOfAlts.LoadSettings()
     type  = "header",
     name  = GetString(ESOA_SETTINGS_CHAR_SETTINGS),
     width = "full",	--or "half" (optional)
+    tooltip = GetString(ESOA_SETTINGS_CHAR_HDR_TT),
   }
+  optionsTable[#optionsTable+1] = {
+    type  = "header",
+    name  = GetString(ESOA_SETTINGS_UI_SETTINGS),
+    width = "full",	--or "half" (optional)
+  }
+  --
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
     name    = GetString(ESOA_SETTINGS_SHOWBUTTON_NAME),
@@ -353,8 +370,6 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "full",	--or "half" (optional)
     warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
-  --
-  
   
   -- Character Base Options --
   

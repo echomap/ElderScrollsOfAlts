@@ -140,10 +140,10 @@ local localization_strings = {
   --
   ESOA_KEY_SETTINGS_NOCONFIRM       = "No confirmation if you do this!",
   --
-  ESOA_KEY_SETTINGS_SAVE_TITLE      = "Save these (above) settings ",
-  ESOA_KEY_SETTINGS_SAVE_MSG        = "Save these as settings so they can be used later? (only the above settings)",  
+  ESOA_KEY_SETTINGS_SAVE_TITLE      = "Save these settings",
+  ESOA_KEY_SETTINGS_SAVE_MSG        = "Save these as settings so they can be used later? (options/colors/views)",
   ESOA_KEY_SETTINGS_LOAD_TITLE      = "Load saved settings",
-  ESOA_KEY_SETTINGS_LOAD_MSG        = "Load settings from saved profile? (only the above settings)",
+  ESOA_KEY_SETTINGS_LOAD_MSG        = "Load settings from saved profile? (options/colors/views)",
   --
   ESOA_SETTINGS_DD_VIEWENTRIES1_NAME   = "Select Entry(1)",
   ESOA_SETTINGS_DD_VIEWENTRIES2_NAME   = "Select Entry(2)",
@@ -204,9 +204,11 @@ local localization_strings = {
   ESOA_SETTINGS_SKILLCOLOR_soon_NAME = "Timer Done Soon Color",
   ESOA_SETTINGS_SKILLCOLOR_soon_TT   = "What Color to use when a timer is near to completion.",
   
-  ESOA_SETTINGS_OPTIONS = "Options",
-  ESOA_SETTINGS_CHAR_SETTINGS = "Character Settings",
-  ESOA_SETTINGS_ACCOUNTWIDE = "Account Wide Settings",
+  ESOA_SETTINGS_ACCOUNTWIDE   = "Account Wide Settings",
+  ESOA_SETTINGS_CHAR_SETTINGS = "Per Character Settings (below)",
+  ESOA_SETTINGS_UI_SETTINGS   = "UI Settings",
+  ESOA_SETTINGS_OPTIONS       = "Color Options",
+  ESOA_SETTINGS_CHAR_HDR_TT   = "Use the save button to store some default settings that you can later use on another character using the load button.",
   
   ESOA_SETTINGS_MOUSEHIGHLIGHT_NAME = "Mouse Hightlight On/Off",
   ESOA_SETTINGS_MOUSEHIGHLIGHT_TT   = "On or off.",
