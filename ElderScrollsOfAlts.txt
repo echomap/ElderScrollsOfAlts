@@ -1,6 +1,6 @@
 ## Title: |cC8FBEDEcho|rElderScrollsOfAlts
-## Version: 1.00.54
-## AddOnVersion: 10054
+## Version: 1.00.55
+## AddOnVersion: 10055
 ## APIVersion: 101043 101042
 ## Author: |cC8FBEDEcho|rmap
 ## Description: ElderScrollsOfAlts shows stats/skills/research and riding times for your |c3961ABalts|r!

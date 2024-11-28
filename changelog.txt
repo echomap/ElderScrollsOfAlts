@@ -27,16 +27,19 @@ pause update on pvp enter
 show update notification checkbox
 
 ==Unpublished ESOA==
+1.00.56
+[list]
+[*] 
+[/list]
+
+==ESOA Published V1.00.XX==
 1.00.55
 [list]
 [*] remove console msg for note save
 [*] additem level to savedata
 [*] fix alliance name lookup
 [*] Added setting to change font size for entries
-[*] 
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.54
 [list]
 [*] Update to allow up to 12 companions, fix names, 
