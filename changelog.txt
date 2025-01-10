@@ -1,35 +1,12 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
-==Bugs/TODO==
-settings: use dropdown instead of buttons
-settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
-settings: add auto save timer?
-bug: Note change, not reflected immediately in UI
-bug: Sorting can fail if key is now invalid,try???
-  setmetatable(t,{
-  __index = function(t,k) return 0 end
-  })
-bug: minimize button not working
-feature: a lot of localization
-feature: copy views to account, from account
-feature: Selection/ UnSelection / DeselectOnReselect
-extractions/hirelings
-feature: traits
-[*] Need to fix sorting
-[*] companion data
-activecompanionname
-activecompanionlevel
-activecompanionrapport
-activecompanionskills?
-banker checkbox to change note icon?
-pause update on dungeon enter
-pause update on pvp enter
-show update notification checkbox
-
 ==Unpublished ESOA==
 1.00.56
 [list]
-[*] 
+[*] Check if alliane info updated before overriding
+[*] padding for ResearchData
+[*] Updated AssignedCampaignEndsSeconds color/width, column name now "AvA(A)End"
+[*] text for ESOA_ALLIANCE_NOTREADY 
 [/list]
 
 ==ESOA Published V1.00.XX==

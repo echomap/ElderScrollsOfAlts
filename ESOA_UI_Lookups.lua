@@ -219,6 +219,12 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     ElderScrollsOfAlts:GuiCharLineLookupPopulateEquipData(viewKey,eline,playerLine, viewKey )
   --
   --
+  elseif( viewKey=="AssignedCampaignEndsSeconds") then
+	if( playerLine[viewKey]<0 and ElderScrollsOfAlts.savedVariables.colors.colorTimerDone~=nil ) then
+		eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerDone,  playerLine[viewKey] ) )
+	else 
+		eline:SetText( playerLine[viewKey] )
+	end
   --elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
   --elseif(viewKey=="AssignedCampaignRewardEarnedTier" ) then
   --  eline.value = playerLine[viewKey]
@@ -742,6 +748,9 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   eline.traitDesc  = playerLine[mKyeTD]
   eline.traitKnown = playerLine[mKyeTK]
   eline.tooltip    = playerLine[mTooltip]
+  if(eline.tooltip==nil) then
+	eline.tooltip = "---"
+  end
   
   --https://en.wikipedia.org/wiki/Web_colors
   --red  |cFF0000 |r
@@ -966,7 +975,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
   elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
     return 45
   elseif( viewKey=="AssignedCampaignEndsAt") then  
-    return 60
+    return 90
   elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
     return 65
   elseif(viewKey=="Jewelcrafting Research 1" or viewKey=="Jewelcrafting Research 2" or viewKey=="Jewelcrafting Research 3") then
@@ -1132,6 +1141,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "GuestRewardTier"
   elseif(viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="assignedcampaignrewardearnedtier") then
     return "AvA(A)IDRewardTier"
+  elseif(viewKey=="AssignedCampaignEndsAt") then
+    return "AvA(A)End"	
   elseif(viewKey=="currency_alliance point" or viewKey=="Currency_Alliance Point") then
     return "AP"
   elseif(viewKey=="currency_tel var stone" or viewKey=="Currency_Tel Var Stone") then

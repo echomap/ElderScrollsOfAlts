@@ -420,18 +420,24 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.avaRankName = avaRankName
   
   --Returns: number earnedTier, number nextTierProgress, number nextTierTotal 
-  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(assignedCampaignId)
-  ElderScrollsOfAlts.debugMsg( 
-      "earnedTier: '",earnedTier,
-      "' nextTierProgress: '",nextTierProgress,
-      "' nextTierTotal: '",nextTierTotal,"'" )
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier       = tonumber(earnedTier)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier = tonumber(nextTierProgress)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier    = tonumber(nextTierTotal)
-  --ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
-  earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
-  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
-  
+  local readyState = LEADERBOARD_DATA_RESPONSE_PENDING
+  readyState = QueryCampaignLeaderboardData(ALLIANCE_NONE)
+  if(readyState) then 
+	  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(assignedCampaignId)
+	  ElderScrollsOfAlts.debugMsg( 
+		  "earnedTier: '",earnedTier,
+		  "' nextTierProgress: '",nextTierProgress,
+		  "' nextTierTotal: '",nextTierTotal,"'" )
+	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier       = tonumber(earnedTier)
+	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier = tonumber(nextTierProgress)
+	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier    = tonumber(nextTierTotal)
+	  --ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
+	  earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
+	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
+  else
+	ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_NOTREADY) )
+  end
+  --
   local avaAEnd = GetSecondsUntilCampaignEnd(assignedCampaignId)
   ElderScrollsOfAlts.debugMsg("avaAEnd: '", avaAEnd, "'")
   if(avaAEnd~=nil and avaAEnd<0) then

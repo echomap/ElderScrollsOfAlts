@@ -136,7 +136,9 @@ local localization_strings = {
   ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not this anymore? "Blood Ritual Cooldown"
 
   ESOA_RESEARCH_AVAIL = "[avail]",
-    
+  
+  --
+  ESOA_ALLIANCE_NOTREADY = "Alliance rank wasn't loaded/saved, try again",
   --
   ESOA_KEY_SETTINGS_NOCONFIRM       = "No confirmation if you do this!",
   --
