@@ -45,8 +45,9 @@ function ElderScrollsOfAlts.SavePlayerData( playerLineKey, keyName, elementData 
 end
 
 -- Read all data from the game Player Object into this Addon
-function ElderScrollsOfAlts:DataSaveLivePlayer()
+function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: called")
+  ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: loadtype='"..tostring(loadtype).."'")
   --
   if(ElderScrollsOfAlts.view.pauseactivesave) then 
     ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_PAUSED) )
@@ -54,17 +55,17 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   end
   local isInDungeon = IsUnitInDungeon("player")
   if(isInDungeon and ElderScrollsOfAlts.savedVariables.dontLoadDataInDungeon ) then
-    ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " stopping per in instance") 
+    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer:", " stopping per in instance") 
     return
   end
   local isInCombat = IsUnitInCombat("player")
   if(isInCombat and ElderScrollsOfAlts.savedVariables.dontLoadDataInCombat ) then
-    ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " stopping per in combat") 
+    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer:", " stopping per in combat") 
     return
   end
   local isPvPFlagged = IsUnitPvPFlagged("player")
   if(isInCombat and ElderScrollsOfAlts.savedVariables.dontLoadDataWhilePvPFlagged ) then
-    ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " stopping per is PvPFlagged") 
+    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer:", " stopping per is PvPFlagged") 
     return
   end
   ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_ACTIVE)  )
@@ -136,10 +137,10 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   end
   
   --- Reset Old Data Format infavor of new format
-	ElderScrollsOfAlts.altData.players[pName] = nil
+  ElderScrollsOfAlts.altData.players[pName] = nil
   
   --- Initialize New Data Format (to reset all my data to current data)
-	ElderScrollsOfAlts.altData.players[playerKey] = {}
+  ElderScrollsOfAlts.altData.players[playerKey] = {}
   ElderScrollsOfAlts.altData.players[playerKey].category = "A"  
   ElderScrollsOfAlts.altData.players[playerKey].version = ElderScrollsOfAlts.version
   ElderScrollsOfAlts.altData.players[playerKey].previousversion = ElderScrollsOfAlts.view.previousversion
@@ -419,23 +420,35 @@ function ElderScrollsOfAlts:DataSaveLivePlayer()
   local avaRankName = GetAvARankName( GetUnitGender("player"), avaRank )
   ElderScrollsOfAlts.altData.players[playerKey].alliancewar.avaRankName = avaRankName
   
-  --Returns: number earnedTier, number nextTierProgress, number nextTierTotal 
+  --Returns: number earnedTier, number nextTierProgress, number nextTierTotal
   local readyState = LEADERBOARD_DATA_RESPONSE_PENDING
-  readyState = QueryCampaignLeaderboardData(ALLIANCE_NONE)
-  if(readyState) then 
+  readyState = QueryCampaignLeaderboardData(ALLIANCE_NONE) --pAlliance)
+  if(readyState == LEADERBOARD_DATA_READY) then
 	  local earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(assignedCampaignId)
 	  ElderScrollsOfAlts.debugMsg( 
-		  "earnedTier: '",earnedTier,
-		  "' nextTierProgress: '",nextTierProgress,
-		  "' nextTierTotal: '",nextTierTotal,"'" )
+		  "earnedTier: '",         earnedTier,
+		  "' nextTierProgress: '", nextTierProgress,
+		  "' nextTierTotal: '",    nextTierTotal,"'" )
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier       = tonumber(earnedTier)
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier = tonumber(nextTierProgress)
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier    = tonumber(nextTierTotal)
 	  --ElderScrollsOfAlts.altData.players[playerKey].alliancewar.currentCampaignRewardEarnedTier = earnedTier  
 	  earnedTier, nextTierProgress, nextTierTotal = GetPlayerCampaignRewardTierInfo(guestCampaignId)
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier = tonumber(earnedTier)
+	  if(ElderScrollsOfAlts.view.alliancenotsaved) then
+		ElderScrollsOfAlts.view.alliancenotsaved = false
+		if(loadtype==nil or loadtype==ElderScrollsOfAlts.manualload or loadtype==ElderScrollsOfAlts.startupload ) then
+			ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_READY) )  
+		end
+	  end
   else
-	ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_NOTREADY) )
+    -- show message if, alliance data wasn't saved before, and was a manual or startup call
+	if(ElderScrollsOfAlts.view.alliancenotsaved==nil or ElderScrollsOfAlts.view.alliancenotsaved==false) then
+		if(loadtype==nil or loadtype==ElderScrollsOfAlts.manualload or loadtype==ElderScrollsOfAlts.startupload ) then
+			ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_NOTREADY) )
+		end
+	end
+    ElderScrollsOfAlts.view.alliancenotsaved = true
   end
   --
   local avaAEnd = GetSecondsUntilCampaignEnd(assignedCampaignId)

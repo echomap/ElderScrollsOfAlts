@@ -249,6 +249,7 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   if( ESOA_GUI2:IsHidden()) then
     ElderScrollsOfAlts:CreateGUI()
     ElderScrollsOfAlts:ShowSetView()
+	--SCENE_MANAGER:ToggleTopLevel(ESOA_GUI2)???
   else
     ESOA_GUI2:SetHidden(true)
   end
@@ -480,7 +481,7 @@ function ElderScrollsOfAlts:CreateGUI()
   end
   ElderScrollsOfAlts.debugMsg("CreateGUI: currentSavedView=",ElderScrollsOfAlts.savedVariables.currentView)
   --
-  ElderScrollsOfAlts:SavePlayerDataForGui()
+  ElderScrollsOfAlts.SavePlayerDataForGui(ElderScrollsOfAlts.manualload)
   
   --Setup Data
   if( ElderScrollsOfAlts.view.needToLoadGuiData ) then

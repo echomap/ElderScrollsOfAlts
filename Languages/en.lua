@@ -139,6 +139,7 @@ local localization_strings = {
   
   --
   ESOA_ALLIANCE_NOTREADY = "Alliance rank wasn't loaded/saved, try again",
+  ESOA_ALLIANCE_READY    = "Alliance rank WAS loaded/saved",
   --
   ESOA_KEY_SETTINGS_NOCONFIRM       = "No confirmation if you do this!",
   --

@@ -33,6 +33,9 @@ ElderScrollsOfAlts = {
     -- Saved Settings
     savedVariables  = {},
     altData         = {},
+	reloaded    = "load_reload",
+	manualload  = "load_manual",
+	startupload = "load_startup",
 	FONT_TYPE	 	= 1,
 	FONT_STYLE		= 2,
 	FONT_SIZE		= 3,
@@ -136,7 +139,7 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
   elseif options[1] == "showentries" then
     ElderScrollsOfAlts:ListAllAllowedViewEntries()   
   elseif options[1] == "forcesavedata" then
-    ElderScrollsOfAlts.SavePlayerDataForGui()
+    ElderScrollsOfAlts.SavePlayerDataForGui(ElderScrollsOfAlts.manualload)
   elseif options[1] == "forceloaddata" then
     ElderScrollsOfAlts:LoadPlayerDataForGui()
   elseif options[1] == "showcpbar" then
@@ -302,7 +305,7 @@ function ElderScrollsOfAlts.DelayedStart()
   ElderScrollsOfAlts.SetupDefaultColors()
   ElderScrollsOfAlts.SetupDefaultDefaults()
   --ElderScrollsOfAlts:InitializeCharts()
-  ElderScrollsOfAlts.SavePlayerDataForGui() -- DATA
+  ElderScrollsOfAlts.SavePlayerDataForGui(ElderScrollsOfAlts.startupload) -- DATA
   ElderScrollsOfAlts.InitializeGui()
   ElderScrollsOfAlts:RestoreUI()
   -- LMM Settings menu in Settings.lua.
@@ -348,7 +351,7 @@ end
 function ElderScrollsOfAlts.OnPlayerUnloaded(event)
   --ElderScrollsOfAlts.debugMsg("OnPlayerUnloaded:", " called")
   --zo_callLater(ElderScrollsOfAlts.SavePlayerDataForGui, 3000)-- DATA
-  ElderScrollsOfAlts.SavePlayerDataForGui()
+  ElderScrollsOfAlts.SavePlayerDataForGui(ElderScrollsOfAlts.reloaded)
   --ElderScrollsOfAlts.debugMsg("OnPlayerUnloaded:", " done")
 end
 

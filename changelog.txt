@@ -3,7 +3,7 @@
 ==Unpublished ESOA==
 1.00.56
 [list]
-[*] Check if alliane info updated before overriding
+[*] Check if alliance info updated before overriding
 [*] padding for ResearchData
 [*] Updated AssignedCampaignEndsSeconds color/width, column name now "AvA(A)End"
 [*] text for ESOA_ALLIANCE_NOTREADY 

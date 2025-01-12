@@ -5,8 +5,9 @@
 
 ------------------------------
 -- 
-function ElderScrollsOfAlts:SavePlayerDataForGui()
-  ElderScrollsOfAlts.DataSaveLivePlayer()
+function ElderScrollsOfAlts.SavePlayerDataForGui(loadtype)
+  ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui: loadtype='"..tostring(loadtype).."'")
+  ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
   --ALPHA ElderScrollsOfAlts.DataSaveLivePlayerNew()
   ElderScrollsOfAlts.view.needToLoadGuiData = true
   ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " called") 
