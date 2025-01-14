@@ -173,6 +173,18 @@ function ElderScrollsOfAlts.LoadSettings()
       end,
     width   = "half",	--or "half" (optional)
   }
+  --
+  --
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_PVPWARNING_NM),
+    tooltip = GetString(ESOA_SETTINGS_PVPWARNING_TT),
+    getFunc = function() return ElderScrollsOfAlts.savedVariables.pvpwarnings end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.savedVariables.pvpwarnings = value
+    end,
+    width   = "half",	--or "half" (optional)
+  }
   --[[TODO
   optionsTable[#optionsTable+1] = {
       type = "checkbox",

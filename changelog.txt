@@ -1,12 +1,17 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
+1.00.57
+[list]
+[*] 
+[/list]
 1.00.56
 [list]
 [*] Check if alliance info updated before overriding
 [*] padding for ResearchData
-[*] Updated AssignedCampaignEndsSeconds color/width, column name now "AvA(A)End"
-[*] text for ESOA_ALLIANCE_NOTREADY 
+[*] Updated AssignedCampaignEndsSeconds color/width
+[*] column name now "AvA(A)End"
+[*] text for ESOA_ALLIANCE_NOTREADY / ESOA_ALLIANCE_READY
 [/list]
 
 ==ESOA Published V1.00.XX==

@@ -71,7 +71,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
   ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_ACTIVE)  )
   --
   ----Section: Statup section
-	local pName     = GetUnitName("player")
+  local pName     = GetUnitName("player")
   local rName     = GetRawUnitName("player")   
   local pID       = GetCurrentCharacterId()
   local pServer   = GetWorldName()
@@ -126,6 +126,10 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
         ElderScrollsOfAlts.debugMsg("ESOA, saved current '" .. value.."', as '", tostring(ElderScrollsOfAlts.altData.players[playerKey][value]) , "'") 
       end
     end
+	ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardEarnedTier"]       = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier 
+	ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextProgressTier"] = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier
+	ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextTotalTier"]    = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier
+	ElderScrollsOfAlts.view.tempsave["guestCampaignRewardEarnedTier"]          = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier
   else
     ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
   end
@@ -438,14 +442,23 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
 	  if(ElderScrollsOfAlts.view.alliancenotsaved) then
 		ElderScrollsOfAlts.view.alliancenotsaved = false
 		if(loadtype==nil or loadtype==ElderScrollsOfAlts.manualload or loadtype==ElderScrollsOfAlts.startupload ) then
-			ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_READY) )  
+			if(ElderScrollsOfAlts.savedVariables.pvpwarnings==nil or ElderScrollsOfAlts.savedVariables.pvpwarnings) then
+				ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_READY) )  
+			end
 		end
 	  end
   else
+    -- Put back old data
+  	ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier       = ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardEarnedTier"]       
+	ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier = ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextProgressTier"]
+	ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier    = ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextTotalTier"]    
+	ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier          = ElderScrollsOfAlts.view.tempsave["guestCampaignRewardEarnedTier"]          	
     -- show message if, alliance data wasn't saved before, and was a manual or startup call
-	if(ElderScrollsOfAlts.view.alliancenotsaved==nil or ElderScrollsOfAlts.view.alliancenotsaved==false) then
+	if(ElderScrollsOfAlts.view.alliancenotsaved==nil or ElderScrollsOfAlts.view.alliancenotsaved==true) then
 		if(loadtype==nil or loadtype==ElderScrollsOfAlts.manualload or loadtype==ElderScrollsOfAlts.startupload ) then
-			ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_NOTREADY) )
+			if(ElderScrollsOfAlts.savedVariables.pvpwarnings==nil or ElderScrollsOfAlts.savedVariables.pvpwarnings) then
+				ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_NOTREADY) )
+			end
 		end
 	end
     ElderScrollsOfAlts.view.alliancenotsaved = true

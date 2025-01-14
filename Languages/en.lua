@@ -231,6 +231,10 @@ local localization_strings = {
   ESOA_SETTINGS_CPACTIVEBAR1_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
   ESOA_SETTINGS_CPACTIVEBAR2_NM = "Show champion active bar? #2?",
   ESOA_SETTINGS_CPACTIVEBAR2_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
+    
+  ESOA_SETTINGS_PVPWARNING_NM = "Show PVP alliance loading errors?",
+  ESOA_SETTINGS_PVPWARNING_TT = "PVP alliance rank/endings might not load, this setting will warn you if that's the case.",
+  
   
   ESOA_SETTINGS_STOPACTIVE_NAME    = "Stop data collection",
   ESOA_SETTINGS_STOPACTIVE_TT      = "Check to temporarily stop active collection of data and saving",
