@@ -1070,6 +1070,7 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscove
         baseAbilityElem[ABname].purchased   = ABpurchased
         baseAbilityElem[ABname].progressionIndex = ABprogressionIndex
         baseAbilityElem[ABname].rankIndex   = ABrankIndex
+		--TODO MAX
       end
 
     else 

@@ -593,11 +593,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
                 for ak, av in pairs( abilities ) do
                   --d("ak:" .. tostring(ak)  .. " av:" .. tostring(av) ) 
                   if( ElderScrollsOfAlts:istable(av) and av.purchased ) then
-                    sstext = sstext .."  /".. tostring(ak) .. "=".. av.earnedRank
+                    sstext = sstext .."  /".. tostring(ak) .. "=".. av.rankIndex
                     if(passive)then
-                      sstextP = sstextP .."  /".. tostring(ak) .. "=".. av.earnedRank
+                      sstextP = sstextP .."  /".. tostring(ak) .. "=".. av.rankIndex
                     else
-                      sstextA = sstextA .."  /".. tostring(ak) .. "=".. av.earnedRank
+                      sstextA = sstextA .."  /".. tostring(ak) .. "=".. av.rankIndex
                     end
                   end
                 end

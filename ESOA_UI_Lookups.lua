@@ -158,7 +158,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         eline.tooltip = sHint    
       end
     end
-    --EchoBuffs.Colorize(EchoExperience.author, "AAF0BB"),
+    --EchoBuffs.Colorize(ElderScrollsOfAlts.author, "AAF0BB"),
     
   --
   elseif(viewKey=="Alchemy") then

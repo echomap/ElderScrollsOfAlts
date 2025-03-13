@@ -6,8 +6,8 @@ EchoESOADatastore = {
     name            = "ESOA_Datastore",           -- Matches folder and Manifest file names.
     version         = "0.0.1",                    -- A nuisance to match to the Manifest.
     author          = "Echomap",
-    --menuName        = "EchoExperience_Options",   -- Unique identifier for menu object.
-    --menuDisplayName = "EchoExperience",
+    --menuName        = "ESOADS_Options",   -- Unique identifier for menu object.
+    --menuDisplayName = "ESOADS",
     version = 1,
     SV_VERSION_NAME = 1,
     -- In Memory Settings

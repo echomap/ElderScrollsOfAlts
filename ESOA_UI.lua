@@ -2128,12 +2128,12 @@ function ElderScrollsOfAlts:RefreshTabs()
   --[[
   local myFpsLabelControl = WINDOW_MANAGER:GetControlByName("EchoExpDDExpOutput", "")
   if(myFpsLabelControl~=nil) then
-    EchoExperience.UpdateUIExpTabs()
-    EchoExperience.UpdateUILootTabs()
-    EchoExperience.UpdateUIGuildTabs()
-    EchoExperience.UpdateUIQuestTabs()
+    ElderScrollsOfAlts.UpdateUIExpTabs()
+    ElderScrollsOfAlts.UpdateUILootTabs()
+    ElderScrollsOfAlts.UpdateUIGuildTabs()
+    ElderScrollsOfAlts.UpdateUIQuestTabs()
   else
-    zo_callLater(EchoExperience.RefreshTabs, 12000)
+    zo_callLater(ElderScrollsOfAlts.RefreshTabs, 12000)
   end 
   --]]
 end

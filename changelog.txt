@@ -1,9 +1,17 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-1.00.57
+1.00.58
 [list]
 [*] 
+[/list]
+
+
+==ESOA Published V1.00.XX==
+1.00.57
+[list]
+[*] Bug fix for earned subskill level, ie mage guild/mage adept
+[*] Removed a few more refernces to EchoExp (derp)
 [/list]
 1.00.56
 [list]
@@ -13,8 +21,6 @@
 [*] column name now "AvA(A)End"
 [*] text for ESOA_ALLIANCE_NOTREADY / ESOA_ALLIANCE_READY
 [/list]
-
-==ESOA Published V1.00.XX==
 1.00.55
 [list]
 [*] remove console msg for note save
