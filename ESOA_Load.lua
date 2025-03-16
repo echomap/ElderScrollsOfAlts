@@ -1022,24 +1022,58 @@ end
 
 --
 function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
-  local linedata = ElderScrollsOfAlts.altData.players[k].companions
-  if k == nil then return end
-  --Default data
-  for ii = 1, ElderScrollsOfAlts.maxCompanions do
-    local tempn0 = string.format("companion_%s",ii)
-    playerLines[k][tempn0.."_name"]    = "-none-"
-    playerLines[k][tempn0.."_level"]   = -1
-    playerLines[k][tempn0.."_rapport"] = -1
-    playerLines[k][tempn0.."_currentexperience"] = -1
-    playerLines[k][tempn0.."_experienceforlevel"] = -1
-  end
- 
-  if linedata == nil then return end  
-  local cnt = ElderScrollsOfAlts:tablelength(linedata.ids)
-  if cnt == nil then return end
-  ElderScrollsOfAlts.debugMsg("companion data: cnt: '", cnt, "'" )
- 
+	local linedata = ElderScrollsOfAlts.altData.players[k].companions
+	if k == nil then return end	
+	--Default data
+	for ii = 1, ElderScrollsOfAlts.maxCompanions do
+	local tempn0 = string.format("companion_%s",ii)
+		playerLines[k][tempn0.."_name"]    = "-none-"
+		playerLines[k][tempn0.."_level"]   = -1
+		playerLines[k][tempn0.."_rapport"] = -1
+		playerLines[k][tempn0.."_currentexperience"] = -1
+		playerLines[k][tempn0.."_experienceforlevel"] = -1
+	end
+
+	if linedata == nil then return end  
+	local cnt = ElderScrollsOfAlts:tablelength(linedata.ids)
+	if cnt == nil then return end
+	ElderScrollsOfAlts.debugMsg("companion data: cnt: '", cnt, "'" )
+
+	--TESTING
+	--ElderScrollsOfAlts.outputMsg( "TestCompanions:",">>>")
+	-- KEYS
+	local keyset={}
+	for rtK1, rtKV1 in pairs(linedata.data) do
+		keyset[rtK1]=rtK1
+	end	
+	table.sort(keyset)
+	--TESTING
+	--for k, v in pairs(keyset) do
+	--	print(k, v)
+	--	ElderScrollsOfAlts.outputMsg( "TestCompanions:", "K=[", tostring(k), "] V=[", tostring(v), "]" )
+	--end
+	--ElderScrollsOfAlts.outputMsg( "TestCompanions:","<<<")
+	--TESTING
+	--Output Real Data, aligned to the first entry
+	ElderScrollsOfAlts.debugMsg( "TestCompanions:",">>>")		
+	local cInc = 1
+	for kk, vv in pairs(keyset) do
+		local ldata = linedata.data[kk]
+		if(ldata~=nil) then
+			ElderScrollsOfAlts.debugMsg( "TestCompanions:","kk=",kk," ldata=", tostring(ldata),".")	
+			local tempn = string.format("companion_%s",cInc)
+			playerLines[k][tempn.."_name"]    = ldata.name
+			playerLines[k][tempn.."_level"]   = ldata.level
+			playerLines[k][tempn.."_rapport"] = ldata.rapport
+			playerLines[k][tempn.."_currentexperience"]  = ldata.currentExperience
+			playerLines[k][tempn.."_experienceforlevel"] = ldata.experienceForLevel
+			ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", ldata.name, "'" )
+			cInc = cInc +1
+		end
+	end
+	ElderScrollsOfAlts.debugMsg( "TestCompanions:","<<<")
   --Real data
+  --[[
   local cInc = 1
   for rtK, rtKV in pairs(linedata.data) do
     local tempn = string.format("companion_%s",cInc)
@@ -1051,6 +1085,7 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
     ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", rtKV.name, "'" )
 	cInc = cInc +1
   end
+  --]]
   --SetupPlayerLinesCompanions
 end
 

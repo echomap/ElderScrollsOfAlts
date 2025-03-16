@@ -3,7 +3,7 @@
 ==Unpublished ESOA==
 1.00.58
 [list]
-[*] 
+[*] Ordered companion output better
 [/list]
 
 
