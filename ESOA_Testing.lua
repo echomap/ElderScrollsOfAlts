@@ -54,5 +54,19 @@ function ElderScrollsOfAlts:ChangeESOAFontGame()
 	end
 end
 
-  
+-- 81,732 - 67,332 = 14,400
+function ElderScrollsOfAlts:TestTime1()
+	local lhs = (GetTimeStamp() % 86400)
+	d("lhs="..lhs)
+	local secondsSinceMidnight = GetSecondsSinceMidnight()
+	d("secondsSinceMidnight="..secondsSinceMidnight)
+	local localTimeShift = GetSecondsSinceMidnight() - (GetTimeStamp() % 86400)
+	d("localTimeShift="..localTimeShift)
+	if localTimeShift < -12 * 60 * 60 then 
+		localTimeShift = localTimeShift + 86400
+		d("localTimeShift="..localTimeShift)
+	end
+end
+
+
 --TEST TEST TEST TEST

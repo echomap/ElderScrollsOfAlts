@@ -90,6 +90,9 @@ end
 ------------------------------
 --
 function ElderScrollsOfAlts:matchStringList(str,itemlist)
+  if(itemlist==nil) then
+	return false
+  end
   for _, v in ipairs(itemlist) do
       if v == str then
           return true
@@ -157,17 +160,22 @@ end
 ------------------------------
 --
 function ElderScrollsOfAlts.ColorText(colors,text)
-  --colorized text and write it out
-  --check cache
-  if(colors==nil) then
-    return text
-  end
-  if(text==nil) then
-    return text
-  end
-  local cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
-  local text2 = cCD:Colorize(text)
-  return text2
+	--colorized text and write it out
+	--check cache
+	if(colors==nil) then
+		return text
+	end
+	if(text==nil) then
+		return text
+	end
+	local cCD = nil
+	if(colors.r==nil) then
+		cCD = ZO_ColorDef:New( colors[1], colors[2], colors[3], colors[4] )
+	else
+		cCD = ZO_ColorDef:New(colors.r, colors.g, colors.b, colors.a)
+	end
+	local text2 = cCD:Colorize(text)
+	return text2
 end
 
 ------------------------------
@@ -218,6 +226,7 @@ end
 
 --From DolgubonsWritCrafter!!!
 -- HOW the HECK does this work??? TODO
+--TODO NA vs EU
 function ElderScrollsOfAlts:dailyReset()
 	stamp = GetTimeStamp()
 	local date = {}
@@ -226,17 +235,21 @@ function ElderScrollsOfAlts:dailyReset()
 	local till = {}
 	stamp = stamp-1451606400
 	stamp = stamp%day
-	date["hour"] = math.floor(stamp/3600)
+	date["hour"] = math.floor(stamp/hour)
 	stamp = stamp%hour
 	date["minute"] = math.floor(stamp/60)
 	stamp = stamp%60
+	ElderScrollsOfAlts.debugMsg("DATE 1: hour="..tostring(date["hour"]) .. " min=".. tostring(date["minute"]) )
 	if date["hour"]>5 then 
 		till["hour"] = 24-date["hour"]+5
 	else
 		till["hour"] = 6- date["hour"] -1
 	end
 	till["minute"] = 60-date["minute"]
+	ElderScrollsOfAlts.debugMsg("TILL 2: hour="..tostring(till["hour"]) .. " min=".. tostring(till["minute"]) )
 	return till["hour"], till["minute"]
+	--TODO NA vs EU
+	--return 5, 0
 end
 
 function ElderScrollsOfAlts:GetFontDescriptor(font)
@@ -261,5 +274,45 @@ function ElderScrollsOfAlts:GetFontDescriptor(font)
 		return str
 	end
 end
+
+--
+function ElderScrollsOfAlts:getValueOrDefault(baseValue,defaultValue)
+  if(baseValue==nil) then
+    return defaultValue
+  else
+    return baseValue
+  end
+end
+
+--
+function ElderScrollsOfAlts:dumpTable(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. ElderScrollsOfAlts:dumpTable(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
+--
+function ElderScrollsOfAlts:dumpPrintTable(o)
+   if type(o) == 'table' then
+    d('')
+	ElderScrollsOfAlts.outputMsg( "{" )
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+		 ElderScrollsOfAlts.outputMsg( "[",k,"] =", ElderScrollsOfAlts:dumpPrintTable(v), ",")
+      end
+	  ElderScrollsOfAlts.outputMsg( "} " )
+   else
+      d( tostring(o) )
+   end
+end
+
+
 ------------------------------
 -- EOF

@@ -1,4 +1,4 @@
---[[ ESOA Datastore Equipment Data ]]-- 
+--[[ ESOA Datastore TEST ]]-- 
 
 ------------------------------
 --INTERNAL Implementation API
@@ -6,6 +6,6 @@
 
 ------------------------------
 -- INT
-function EchoESOADatastore.saveEquipData()
+function EchoESOADatastore.Test1()
 	--TODO
 end

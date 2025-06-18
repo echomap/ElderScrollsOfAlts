@@ -185,6 +185,16 @@ local localization_strings = {
   ESOA_SETTINGS_RESET_VIEWS_BTN_NT = "RESET all views to defaults",
   ESOA_SETTINGS_RESET_VIEWS_BTN_TT = "Will remove all views and replace them with the defaults",
   
+  ESOA_SETTINGS_ACCOUNTWIDEONLY_NAME = "AccountWideOnly",
+  ESOA_SETTINGS_ACCOUNTWIDEONLY_TT = "Will use the same settings for all characters settings, from color to view ",
+  ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME = "Clear Specific Data",
+  ESOA_SETTINGS_CLEARNONACCOUNTWIDE_TT = "Will DELETE the character specific settings for all characters settings to color and view data!! (NON-reversable) And should help with memory and load times.",
+  
+  ESOA_SETTINGS_SHOWPERCENTS_NAME  = "Show Partial Numbers",
+  ESOA_SETTINGS_SHOWPERCENTS_TT    = "Show skills partial numbers?",
+  ESOA_SETTINGS_SHOWBETA_NAME      = "Show Beta Settings",
+  ESOA_SETTINGS_SHOWBETA_TT        = "I can not confirm or deny destruction of the world",
+  
   ESOA_SETTINGS_MAINT_HDR_NAME    = "Character Maintanance",
   ESOA_SETTINGS_MAINT_HDR_TEXT    = "Character Maintanance",
   ESOA_SETTINGS_MAINT_HDR_TT      = "Character Maintanance Utils",
@@ -210,6 +220,7 @@ local localization_strings = {
   ESOA_SETTINGS_ACCOUNTWIDE   = "Account Wide Settings",
   ESOA_SETTINGS_CHAR_SETTINGS = "Per Character Settings (below)",
   ESOA_SETTINGS_UI_SETTINGS   = "UI Settings",
+  ESOA_SETTINGS_VIEW_SETTINGS   = "Data/Temp Settings",
   ESOA_SETTINGS_OPTIONS       = "Color Options",
   ESOA_SETTINGS_CHAR_HDR_TT   = "Use the save button to store some default settings that you can later use on another character using the load button.",
   

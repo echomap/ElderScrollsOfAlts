@@ -127,14 +127,19 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       viewXlate = ElderScrollsOfAlts.view.viewkeyXlate[viewKey]
     end
     eline.value = playerLine[viewXlate.."_Rank"] 
+	-- 20250518
+	if( ElderScrollsOfAlts.altData.showpercents and playerLine[viewXlate.."_Perc"]~=nil) then
+		local das = zo_strformat("<<1>>.<<2>>", eline.value, playerLine[viewXlate.."_Perc"] )
+		eline.value = das
+	end 
     eline.sort_data = eline.value
     eline.sort_numeric =  true
+	--
     local skillMax = ElderScrollsOfAlts.SkillsLevelMaximum[viewXlate]
-    
     --
-    if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
-      eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )
-    else
+    if(eline.value == nil or eline.value == 0) then      
+		eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerNone(), eline.value ) )
+	else
       eline:SetText( eline.value  )
     end
    
@@ -220,8 +225,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --
   --
   elseif( viewKey=="AssignedCampaignEndsSeconds") then
-	if( playerLine[viewKey]<0 and ElderScrollsOfAlts.savedVariables.colors.colorTimerDone~=nil ) then
-		eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerDone,  playerLine[viewKey] ) )
+	if( playerLine[viewKey]<0 ) then
+		eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(),  playerLine[viewKey] ) )
 	else 
 		eline:SetText( playerLine[viewKey] )
 	end
@@ -230,12 +235,18 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   --  eline.value = playerLine[viewKey]
   elseif( viewKey=="AssignedCampaignRewardEarnedTier" or viewKey == "assignedcampaignrewardearnedtier" ) then
     if(playerLine["assignedcampaignrewardprogress"]~=nil) then
-      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>> (<<4>>/<<5>>)", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
+		eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>> (<<4>>/<<5>>)", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
     else
-      eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"])
+		eline.tooltip = zo_strformat("<<1>> has <<2>> of <<3>>", playerLine.name, viewKey, playerLine[viewKey], playerLine["assignedcampaignrewardprogress"],playerLine["assignedcampaignrewardtotal"] )
     end
-    eline:SetText( playerLine[viewKey] )
-    eline.value = playerLine[viewKey]
+	if( playerLine["assignedcampaignrewardearnedtierperc"]~=nil) then
+		local das = zo_strformat("<<1>>.<<2>>", playerLine[viewKey], playerLine["assignedcampaignrewardearnedtierperc"] )
+		eline:SetText( das )
+		eline.value = playerLine[viewKey]
+	else 
+		eline:SetText( playerLine[viewKey] )
+		eline.value = playerLine[viewKey]
+	end
   --
   --
   elseif(viewKey=="BagSpace") then
@@ -243,7 +254,11 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     local bs = playerLine["backpacksize"]
     local bf = playerLine["backpackfree"]
     if bs == nil then bs = "---" end
-    local bagText = string.format("%3d/%3d",bu, bs)
+	--ElderScrollsOfAlts.outputMsg("bags1[char]='",playerLine["name"], "' [viewKey]='", tostring(viewKey),"' bu=",bu, " bs=",bs, " bf=",bf)
+    local bagText = -1
+	if( bu~=nil and bs~=nil) then
+		bagText = string.format("%3d/%3d",bu, bs)
+	end
     eline:SetText(bagText)
     if(bf~=nil) then
       eline.tooltip = playerLine.name .. " has a ".. bf .. " free bag slots"
@@ -253,16 +268,17 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     local bs = playerLine["backpacksize"]
     local bf = playerLine["backpackfree"]
     if bs == nil then bs = "---" end
+	--ElderScrollsOfAlts.outputMsg("bags1[char]='",playerLine["name"], "' [viewKey]='", tostring(viewKey),"' bu=",bu, " bs=",bs, " bf=",bf)
     if( bf==nil or bf=="" ) then bf = tonumber(bs-bu) end    
     eline.tooltip = playerLine.name .. " has a ".. bf .. " free bag slots"
     --
     local noneColor = nil
     if(bf==nil or bf==0 ) then
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerDone()
     elseif(bf<5) then
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerNearer()
     elseif(bf<10) then
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerNear()
     end    
     --eline:SetText(bf)
     eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, bf ) )
@@ -341,15 +357,15 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         playerLine.name, viewKey, eline.tooltip )
     
     --Riding Timer
-    local noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
+    local noneColor = ElderScrollsOfAlts.CtrlGetColorTimerDone()
     if(rtType==2)then
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerDone()
     elseif(rtType==1)then
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerNearer()
     elseif(rtType==0)then
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerNear()
     else
-      noneColor = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
+      noneColor = ElderScrollsOfAlts.CtrlGetColorTimerNone()
     end
     eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, eline:GetText() ) )
   -- Riding ^^
@@ -381,28 +397,28 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --d("<tempn: " .. tostring(tempn) )
     local comp = playerLine[ tempn .. "_done" ]
     if(comp) then
-      local time = playerLine[ tempn .. "_time" ]    
-      local timestring = GetDateStringFromTimestamp(time)
-      local now       = GetTimeStamp()
-      local timediff  = GetDiffBetweenTimeStamps(now,time)
-      local fieldText = "0"
-      local ago = ElderScrollsOfAlts:timeToDisplay( (timediff*1000) ,true,false)
-      local extratooltiptext = ""
-      
-      local resetTime = playerLine[ tempn .. "_reset" ]
-      --d(" Now: " ..now.. " resetTime: " .. tostring(resetTime) )
-      if(resetTime) then
-        local timediffReset = GetDiffBetweenTimeStamps(resetTime,now)
-        --d(" timediffReset(): " .. tostring(timediffReset)  )
-        if(timediffReset>0) then
-          fieldText = ElderScrollsOfAlts:timeToDisplay( (timediffReset*1000) , false,true)
-          extratooltiptext = zo_strformat("<<1>> done at <<2>>, was <<3>> ago, will reset in <<4>>.", viewKey, timestring, ago, fieldText )
-          fieldText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerDone, fieldText )
-        else
-          fieldText = "Prev"
-          extratooltiptext = zo_strformat("<<1>> should be reset and able to be done again.", viewKey, timestring, ago, fieldText )
-          fieldText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, fieldText )
-        end
+		local time = playerLine[ tempn .. "_time" ]    
+		local timestring = GetDateStringFromTimestamp(time)
+		local now       = GetTimeStamp()
+		local timediff  = GetDiffBetweenTimeStamps(now,time)
+		local fieldText = "0"
+		local ago = ElderScrollsOfAlts:timeToDisplay( (timediff*1000) ,true,false)
+		local extratooltiptext = ""
+		local resetTime = playerLine[ tempn .. "_reset" ]
+		--d(" Now: " ..now.. " resetTime: " .. tostring(resetTime) )
+		if(resetTime) then
+		local timediffReset = GetDiffBetweenTimeStamps(resetTime, now)
+		--d(" timediffReset(): " .. tostring(timediffReset)  )
+		ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: reset, diff='", tostring(timediffReset) )
+		if(timediffReset>0) then
+			fieldText = ElderScrollsOfAlts:timeToDisplay( (timediffReset*1000) , false,true)
+			extratooltiptext = zo_strformat("<<1>> done at <<2>>, was <<3>> ago, will reset in <<4>>.", viewKey, timestring, ago, fieldText )
+			fieldText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), fieldText )
+		else
+			fieldText = "Prev"
+			extratooltiptext = zo_strformat("<<1>> should be reset and able to be done again.", viewKey, timestring, ago, fieldText )
+			fieldText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerNone(), fieldText )
+		end
       else
         local hour, minute = ElderScrollsOfAlts:dailyReset()
         local timeToReset = hour*3600 + minute*60
@@ -484,8 +500,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     if( playerLine[viewKey.."_Rank"] ~= nil ) then
       ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: entered rank case check for viewKey='", viewKey, "'")
       eline.value = playerLine[viewKey.."_Rank"]
-      --if( (eline.value == nil or eline.value == 0) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil ) then      
-      --  eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, eline.value  ) )
+      --if( (eline.value == nil or eline.value == 0) ) then      
+      --  eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerNone(), eline.value  ) )
       --else
       eline:SetText( eline.value  )
       --end
@@ -687,19 +703,15 @@ end
 ------------------------------
 -- View Lookup, CHECK if data value is Max Value
 function ElderScrollsOfAlts.GuiCharLineLookupMaxValueSetup(eline)
-  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax~=nil)then
-    local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline:GetText() )
-    eline:SetText( cText )  
-  end
+	local cText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorSkillsMax(), eline:GetText() )
+	eline:SetText( cText )  
 end
 
 ------------------------------
 -- View Lookup, CHECK if data value is NEAR Max Value
 function ElderScrollsOfAlts.GuiCharLineLookupNearMaxValueSetup(eline)
-  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax~=nil)then
-    local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax, eline:GetText() )
-    eline:SetText( cText )  
-  end
+	local cText = ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorSkillsNearMax(), eline:GetText() )
+	eline:SetText( cText )
 end
 
 ------------------------------
@@ -761,20 +773,20 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   if(codeS==3) then
     --eline:SetText( "[Refresh]" )   
     eline.traitDesc = "Old data! Refresh asap!!"
-  elseif( (codeS <= -2) and ElderScrollsOfAlts.savedVariables.colors.colorTimerNone~=nil) then  
-    eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerNone, playerLine[mKye1]) )
-  elseif( (tradeTimeS==nil or codeS < 1) and ElderScrollsOfAlts.savedVariables.colors.colorTimerDone~=nil) then
-    eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorTimerDone, playerLine[mKye1]) )
-  elseif( codeS == 1 and ElderScrollsOfAlts.savedVariables.colors.colorTimerDone~=nil ) then
-    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerDone,playerLine[mKye1]) )
-  elseif( tradeTimeS < 43200 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer~=nil ) then
-    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer,playerLine[mKye1]) )
-  elseif( tradeTimeS < 86400 or codeS == 1 and ElderScrollsOfAlts.savedVariables.colors.colorTimerNear~=nil) then
-    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.savedVariables.colors.colorTimerNear, playerLine[mKye1]) )
+  elseif( (codeS <= -2) ) then  
+    eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerNone(), playerLine[mKye1]) )
+  elseif( (tradeTimeS==nil or codeS < 1) ) then
+    eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), playerLine[mKye1]) )
+  elseif( codeS == 1 ) then
+    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorTimerDone(),playerLine[mKye1]) )
+  elseif( tradeTimeS < 43200 ) then
+    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorTimerNearer(),playerLine[mKye1]) )
+  elseif( tradeTimeS < 86400 or codeS == 1 ) then
+    eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorTimerNear(), playerLine[mKye1]) )
   end
   
   --if(eline.data_val == GetString(ESOA_RESEARCH_AVAIL) ) then
-    --local cText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax, eline.data_val )
+    --local cText = ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorSkillsMax(), eline.data_val )
     --eline:SetText( cText )    
   --end
   
@@ -1207,6 +1219,12 @@ function ElderScrollsOfAlts:TooltipEnterStub(mySelf,tooltipName,revdir)
 end
 function ElderScrollsOfAlts:TooltipExitStub(myLabel,craftName)  
 	ElderScrollsOfAlts:TooltipExit(myLabel,craftName)  
+end
+
+------------------------------
+-- View Lookup, Companion XXX
+function ElderScrollsOfAlts.GuiCharLineLookupCompanionRapportInfo(rapport)
+	return rapport
 end
 
 ------------------------------

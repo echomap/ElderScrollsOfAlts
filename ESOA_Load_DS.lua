@@ -1,0 +1,989 @@
+----------------------------------------
+--[[ ESOA Data Datastore ]]-- 
+----------------------------------------
+-- Load/Save Player Data from Datastore
+------------------------------
+
+------------------------------
+-- 
+
+------------------------------
+-- Get from Datastore without any legacy calls
+function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
+	--
+	local accountname = GetDisplayName()
+	if( ElderScrollsOfAlts.view.selectedAccount ~=nil ) then
+		accountname = ElderScrollsOfAlts.view.selectedAccount
+	end
+	--
+	ElderScrollsOfAlts.view.accountData = {} --todo needed? 
+	ElderScrollsOfAlts.view.accountData.secondsplayed = 0 --todo needed? 
+	--TODO bankspaces
+	--
+	local playerLines =  {}
+	local pCount = 0
+	--
+	local charData = ESOADatastore.getDataForCharacters(accountname)
+	--
+	if(charData~=nil) then
+		for index, tvalue in pairs(charData) do			
+			if tvalue == nil then return end
+			ElderScrollsOfAlts.debugMsg("Player: name=".. tostring(tvalue.name) , " id=" , tostring(tvalue.id) , " account=" , tostring(tvalue.account ), " index=",index )
+			--if tvalue.id == nil then return end
+			local k = index
+			playerLines[k] = {}
+			pCount = pCount+1
+			--
+			ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
+			playerLines[k].accountname = accountname
+			playerLines[k].charkey = k
+			ElderScrollsOfAlts.outputMsg("Player: set charkey=".. tostring(k) ) 
+			--ElderScrollsOfAlts:SetupGuiPlayerBaseLines2(playerLines,k)	--contains local stuff
+			--ElderScrollsOfAlts:SetupGuiPlayerBaseLinesDS2(playerLines,k)	--TODO since contains local stuff
+			--
+			-- Flatten chardata for ESOA
+			local chardataF = ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(tvalue)
+			ElderScrollsOfAlts.debugMsg("Player: name=".. tostring(chardataF.name) , " id=" , tostring(chardataF.id) , " account=" , tostring(chardataF.account ), " (chardataF)" )
+			ElderScrollsOfAlts:SetupGuiPlayerBaseLines2DS(chardataF,k)	--contains local stuff
+			playerLines[k] = chardataF
+			-- CHECK Data
+			--
+		end
+	else
+		ElderScrollsOfAlts.outputMsg("No players listed in datastsore")
+	end	
+	-- PlayerLines to table
+	table.sort(playerLines)  
+	ElderScrollsOfAlts.view.maxPlayerLineCount = pCount
+	return playerLines
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+-- 
+function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
+	--ElderScrollsOfAlts:dumpPrintTable(chardata)
+	ElderScrollsOfAlts.debugMsg("FlattenChar: in='", tostring(chardata.bio.name) ,",")
+	local chardataO = {}
+	chardataO.account = chardata.accountname
+	chardataO.charkey = chardata.charkey
+	chardataO.rawname = chardata.charkey
+	ElderScrollsOfAlts.debugMsg("FlattenChar: out: account=",account ," charkey=",charkey, " rawname=",rawname)
+	--
+	ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(chardataO,chardata)
+	-- CHECK Data TODO
+	ElderScrollsOfAlts.debugMsg("FlattenChar: out='", tostring(chardataO.name) ,",")
+	ElderScrollsOfAlts.debugMsg("FlattenChar: lvl=", tostring(chardataO.level) )
+	-- Server/Account/Custom Data
+	local dName 	=chardataO.account -- chardata["server"]
+	local charKey 	= chardata.charkey
+	if(dName~=nil) then 
+		chardataO.account = dName
+	end
+	if(EchoESOADatastore.svListDataAW[dName]~=nil and EchoESOADatastore.svListDataAW[dName].players~=nil and EchoESOADatastore.svListDataAW[dName].players[charKey]~=nil ) then
+		chardataO.category 		= EchoESOADatastore.svListDataAW[dName].players[charKey].category
+		chardataO.playersorder 	= EchoESOADatastore.svListDataAW[dName].players[charKey].playersorder
+	end
+	--TODO custom order
+	-- Flatten Sub Tables appropriately
+	ElderScrollsOfAlts:SetupGuiPlayerMiscLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerInfamyLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupPlayerLinesBuffsDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerLocLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerTradeLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerStatsLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupPlayerLinesCurrencyDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiResearchPlayerLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupPlayerLinesCustomDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupPlayerLinesTrackingDS(chardataO,chardata)
+	--
+	--ElderScrollsOfAlts:SetupGuiPlayerEquipLinesDS(chardataO,chardata)   
+	--ElderScrollsOfAlts:SetupPlayerLinesCPDS(chardataO,chardata)
+	--
+	chardataO.account = chardata.accountname
+	chardataO.charkey = chardata.charkey
+	chardataO.rawname = chardata.charkey
+	return chardataO
+end
+
+
+-- Called from Datastore POST Flatten
+function ElderScrollsOfAlts:SetupGuiPlayerBaseLines2DS(playerLine,k)
+	--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerBaseLines2DS: k='"..tostring(k).."'")
+	--
+	if( ElderScrollsOfAlts.altData.players~=nil and ElderScrollsOfAlts.altData.players[k]~=nil ) then
+		if(playerLine.category==nil) then
+			playerLine.category = ElderScrollsOfAlts.altData.players[k].category
+		end
+		if(playerLine.note==nil) then
+			playerLine.note = ElderScrollsOfAlts.altData.players[k].note
+		end
+		if(playerLine.order==nil) then
+			playerLine.order = ElderScrollsOfAlts.altData.players[k].order
+		end
+		if(playerLine.playersorder==nil) then
+			playerLine.playersorder = ElderScrollsOfAlts.altData.players[k].playersorder
+		end
+		if(playerLine.playerscreenorder==nil) then
+			playerLine.playerscreenorder = ElderScrollsOfAlts.altData.players[k].playerscreenorder
+		end
+	end
+	--
+	if(playerLine.category==nil)then
+	  playerLine.category = "A"
+	end
+	if(playerLine.playersorder == nil) then 
+		playerLine.playersorder = -1
+	end
+	if(playerLine.playerscreenorder == nil) then 
+		playerLine.playerscreenorder = -1
+	end
+	--
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)   
+  local bio = input.bio 
+  if bio == nil then
+	ElderScrollsOfAlts.outputMsg("SetupBio: Error with bio for character=", tostring(input.name) )
+	return
+  end
+  --  
+  output.gender   = bio.gender
+  output.level    = tonumber(bio.level)
+  output.xpleft   = bio.xpleft
+  output.unitxp   = bio.unitxp
+  output.unitxpmax= bio.unitxpmax      
+  output.race     = bio.race
+  output.class    = bio.class
+  output.alliance = tonumber(bio.alliance)
+  output.name     = bio.name --rewrite name
+  output.id       = bio.id      
+  output.server   = bio.server
+  --
+  if bio.Werewolf then
+    output.Werewolf = true
+    output.special    = 1
+    output.special_bitetimerDisplay = "[No Skill]"
+    output.special_bitetimer = -1
+    
+    local foundItem = ElderScrollsOfAlts:FindAbility(input, "world", "Werewolf", ElderScrollsOfAlts.BITE_WERE_ABILITY)
+    if(foundItem~=nil and foundItem.purchased ) then
+      output.special_bitetimerDisplay = "[Unk]"
+      output.special_icon = foundItem["textureName"]
+      
+      --specialdata
+      if(input.bio.specialdata~=nil)then
+        local expiresAt = input.bio.specialdata.expiresAt
+        if(expiresAt~=nil)then
+          --Time in seconds left till expires
+          local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+          --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
+          if(timeDiff<0) then
+            output.special_bitetimer = 0
+            output.special_bitetimerDisplay = "[v.v]"
+          else
+            output.special_bitetimer        = timeDiff
+            output.special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+          end
+        else
+          output.special_bitetimer = 0
+          output.special_bitetimerDisplay = "[v.v]"
+        end
+      end--has special data
+    end--foundItem
+  end--ww
+  --
+  if bio.Vampire then
+    output.Vampire = true
+    output.special    = 1
+    output.special_bitetimerDisplay = "[Not Skilled]"
+    output.special_bitetimer = -1
+    
+    local foundItem = ElderScrollsOfAlts:FindAbility(input, "world", "Vampire", ElderScrollsOfAlts.BITE_VAMP_ABILITY)
+    if(foundItem~=nil and foundItem.purchased ) then          
+      output.special_bitetimerDisplay = "[Unk]"
+      output.special_icon = foundItem["textureName"]
+      
+      --[playerKey].bio.specialdata
+      if(input.bio.specialdata~=nil)then
+        local expiresAt = input.bio.specialdata.expiresAt
+        if(expiresAt~=nil)then
+          --Time in seconds left till expires
+          local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
+          --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
+          if(timeDiff<0) then
+            output.special_bitetimer = 0
+            output.special_bitetimerDisplay = "[v.v]"
+          else
+            output.special_bitetimer        = timeDiff
+            output.special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+          end
+        else
+          output.special_bitetimer = 0
+          output.special_bitetimerDisplay = "[v.v]"
+        end
+      end--has special data
+    end--foundItem
+  end--vamp
+  --
+  if bio.canchamppts then
+    output.champion = bio.champion
+  else 
+    output.champion = -1
+  end
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerMiscLinesDS(output,input)   
+  local bio			= input.bio
+  local bags 		= input.bags
+  local skillpoints = input.skillpoints
+  local achieve 	= input.achieve
+  local location 	= input.location
+  local riding 		= input.riding
+  -- DEFAULTS
+  output.backpacksize  = 0
+  output.backpackused  = 0
+  output.backpackfree  = 0
+  output.skillpoints   = 0
+  output.secondsplayed = 0
+  output.timeplayed    = "---"
+  output.achieveearned = "-1"
+  --SETUP
+  output.secondsplayed = bio.secondsPlayed
+  if bags ~= nil then
+    output.backpacksize  = bags.backpackSize
+    output.backpackused  = bags.backpackUsed
+    output.backpackfree  = bags.backpackFree
+  end
+  --ElderScrollsOfAlts.outputMsg("bags0: bu=", output.backpackused, " bs=", output.backpacksize, " bf=", output.backpackfree)
+  if skillpoints ~=nil then
+    output.skillpoints   = skillpoints.skillpoints
+  end
+  --
+  if(output.skillpoints==nil)then
+    output.skillpoints = 0 --per recent version
+  end
+  if(output.secondsplayed==nil)then
+    output.secondsplayed = 0 --per recent version
+  else
+    ElderScrollsOfAlts.view.accountData.secondsplayed = ElderScrollsOfAlts.view.accountData.secondsplayed+output.secondsplayed
+    output.timeplayed = ElderScrollsOfAlts:timeToDisplay( (output.secondsplayed*1000) ,true,false)
+  end
+  --  
+  --
+  if( achieve~=nil and achieve.earned~=nil ) then
+    output.achieveearned    = ZO_CommaDelimitNumber(achieve.earned)
+    output.achieveearnedraw = achieve.earned
+  end
+  -- TIME
+  local lastLogin = location.lastlogin
+  output.lastlogin = ZO_FormatTime(lastLogin, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, 
+      TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  output.lastloginraw = lastLogin
+  -- TIME
+  local lastlogindiff = GetDiffBetweenTimeStamps(GetTimeStamp(), lastLogin)
+  output.lastlogindiff = ZO_FormatTime(lastlogindiff, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, 
+        TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  --
+  -- RIDING
+  output.riding_inventory = -1
+  output.riding_speed     = -1
+  output.riding_stamina   = -1
+  output.riding_timems    = -1
+  output.riding_totalDurationMs = -1
+  output.riding_trainingready   = nil   
+  output.riding_maxed           = false
+  output.riding_trainer_ready   = false
+  --output.riding_cantrain        = false
+  --output.riding_timedisplay     = "--"
+    
+  if(riding~=nil)then
+    if(riding~=nil)then
+      output.riding_inventory = riding.inventory
+      output.riding_speed     = riding.speed
+      output.riding_stamina   = riding.stamina
+      output.riding_timems          = riding.timeMs
+      output.riding_totalDurationMs = riding.totalDurationMs
+      output.riding_trainingready   = riding.trainingReadyAt
+      
+      if( riding.inventory==60 and riding.speed==60 and riding.stamina==60 ) then
+        output.riding_maxed = true
+        output.riding_timems = 99999999;
+      else
+        local timeDiff = GetDiffBetweenTimeStamps(output.riding_trainingready , GetTimeStamp())
+        if( timeDiff ~= nil and timeDiff <= 0 ) then
+          output.riding_trainer_ready = true
+          output.riding_timems = 0;
+        end
+      end
+      --if(riding.timeMs~=nil and riding.timeMs>-1)then
+        --output.riding_timedisplay = ElderScrollsOfAlts:timeToDisplay( riding.timeMs, riding.timeDataTaken )
+      --end
+    end--riding element
+  end  --misc element
+  --
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerInfamyLinesDS(output,input)
+  local infamy = input.infamy
+  output.reducedbounty      = 0
+  output.ReducedBounty_Rank = 0
+  if( infamy ~= nil ) then
+    output.ReducedBounty_Rank = infamy.reducedBounty
+    output.reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
+   --d("infamy.displayText='"..tostring(infamy.displayText).."'")
+    output.reducedbounty_tooltip = infamy.displayText
+    local timeDiff = GetDiffBetweenTimeStamps( infamy.bountytozero, GetTimeStamp() )
+    if(infamy.reducedBounty>0) then
+      if(timeDiff>0) then
+        output.reducedbounty_timeleft = timeDiff
+        output.reducedbounty_tooltip  =  output.reducedbounty_tooltip.. " and should expire in: " ..ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+      else
+        output.reducedbounty_tooltip  =  output.reducedbounty_tooltip.. " and should be expired"
+      end
+      --ElderScrollsOfAlts.outputMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
+    end
+    ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
+  end
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
+  --Set Defaults
+  --HACK! TODO fix ->
+  local aTypes = {"Assault_Rank","Support_Rank","Legerdemain_Rank","Soul Magic_Rank","Werewolf_Rank","Vampire_Rank","Fighters Guild_Rank","Mages Guild_Rank","Undaunted_Rank","Thieves Guild_Rank","Dark Brotherhood_Rank","Psijic Order_Rank","Scrying_Rank","Excavation_Rank"}
+  for rtK,rtV in pairs(aTypes) do
+    --debugMsg("skills All "..k.." as="..rtK.." rtVT='"..tostring(rtV).."'")
+    output[rtV] = 0
+  end
+  -- <- HACK! TODO fix
+      
+  -- Check if player even has skills
+  local rTypes = {"ava","guild","world"}
+  local skills = input.skills
+
+  if(skills~=nil) then
+    for rtK,rtV in pairs(rTypes) do
+      --debugMsg("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
+	  ElderScrollsOfAlts.debugMsg("SetSkills2: ", " rtV=", rtV )
+      if(skills[rtV]~=nil)then
+        local skillO = skills[rtV]
+        if(skillO~=nil)then  
+          local skillL = skillO
+          if(skillL~=nil)then
+            for rtKT,rtVT in pairs(skillL) do
+              --debugMsg("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
+              output[rtKT.."_Rank"] = rtVT.rank
+              output[rtKT.."_Name"] = rtVT.name
+              output[string.lower(rtKT).."_rank"] = rtVT.rank
+              output[rtKT.."_SortKey"] = rtKT.."_Rank"
+              output[rtKT.."_SortNumericType"] = true
+              output[rtKT.."_LastRankXP"] = rtVT.lastRankXP
+              output[rtKT.."_NextRankXP"] = rtVT.nextRankXP
+              output[rtKT.."_CurrentXP"]  = rtVT.currentXP
+              output[rtKT.."_XPCode"]     = -1
+              if( rtVT.nextRankXP == 0 )then
+                 output[rtKT.."_XPCode"] = 0
+              elseif( rtVT.nextRankXP==nil or rtVT.currentXP==nil) then
+                output[rtKT.."_XPCode"] = -1
+                output[rtKT.."_Percentage"] = -1
+              elseif( rtVT.nextRankXP > rtVT.currentXP )then
+                output[rtKT.."_XPCode"] = 1
+                output[rtKT.."_Percentage"] =  math.floor(  (rtVT.currentXP/rtVT.nextRankXP)*100  )
+				local das = rtVT.currentXP / rtVT.nextRankXP
+				if(das~=nil and das~=0) then
+					das = das*100
+					output[rtKT.."_Perc"] = math.floor( das )
+					--ElderScrollsOfAlts.outputMsg("setupgui: das ",das, " name=", rtVT.name)
+				end
+              end
+              --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
+              -- subskills in tooltip
+              local abilities = rtVT.abilities
+              local sstext  = ""
+              local sstextA = ""
+              local sstextP = ""
+              if( abilities ~=nil and ElderScrollsOfAlts:istable(abilities) ) then
+                for ak, av in pairs( abilities ) do
+                  --d("ak:" .. tostring(ak)  .. " av:" .. tostring(av) ) 
+                  if( ElderScrollsOfAlts:istable(av) and av.purchased ) then
+                    sstext = sstext .."  /".. tostring(ak) .. "=".. av.rankIndex
+                    if(passive)then
+                      sstextP = sstextP .."  /".. tostring(ak) .. "=".. av.rankIndex
+                    else
+                      sstextA = sstextA .."  /".. tostring(ak) .. "=".. av.rankIndex
+                    end
+                  end
+                end
+                --d("ak:" .. tostring(ak)  .. " sstext:" .. tostring(sstext) ) 
+                output[rtKT.."_subskills"] = sstext
+                output[rtKT.."_subskillsA"] = sstextA
+                output[rtKT.."_subskillsP"] = sstextP
+                --d("sstext:" .. sstext)
+              end
+              -- subskills in tooltip
+            end
+          end
+        end
+      end
+    end
+  end
+--xxx
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupPlayerLinesBuffsDS(output,input)
+  local linedata = input.buffs
+  if linedata == nil then return end
+  for rtK, rtKV in pairs(linedata) do
+    local tempn1 = string.format("buff_%s",rtK)
+    local tempn3 = string.lower(tempn1)
+    local tempn2 = tempn1.."_tooltip"
+    output[tempn1.."_expiresAt"]    = rtKV.expiresAt
+    --Time in seconds left till expires
+    local timeDiff = GetDiffBetweenTimeStamps( rtKV.expiresAt, GetTimeStamp() )
+    if(timeDiff<0) then
+      output[tempn1] = "[n.a]"
+      output[tempn2] = "[n.a]"
+    else
+      output[tempn1] = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,false,true ) --timeMS,incDay,incSec)
+      output[tempn2] = output[tempn1]
+      output[tempn3] = output[tempn1]
+    end
+    --
+    ElderScrollsOfAlts.debugMsg("setup  buff data for rtK: '", rtK, "' expires '", rtKV.expiresAt, "'" )
+  end
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerLocLinesDS(output,input)
+  local locationInfo = input.location
+  if( locationInfo ~= nil ) then
+    output.subzonename = locationInfo.subzoneName
+    output.zonename    = locationInfo.zoneName
+  else
+    output.subzonename = ""
+    output.zonename    = ""
+  end
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerTradeLinesDS(output,input)
+	ElderScrollsOfAlts.outputMsg("SetTrade2: Called" )
+	--Setup Defaults
+	local dEFvAL = 0
+	output.alchemy         = dEFvAL
+	output.alchemy_sunk    = dEFvAL
+	output.alchemy_sinkmax = dEFvAL
+	output.blacksmithing         = dEFvAL
+	output.blacksmithing_sunk    = dEFvAL
+	output.blacksmithing_sinkmax = dEFvAL   
+	output.smithing         = dEFvAL
+	output.smithing_sunk    = dEFvAL
+	output.smithing_sinkmax = dEFvAL     
+	output.clothing         = dEFvAL
+	output.clothing_sunk    = dEFvAL
+	output.clothing_sinkmax = dEFvAL   
+	output.enchanting          = dEFvAL
+	output.enchanting_sunk     = dEFvAL
+	output.enchanting_sinkmax  = dEFvAL 
+	output.enchanting_sunk2    = dEFvAL
+	output.enchanting_sinkmax2 = dEFvAL             
+	output.jewelry         = dEFvAL
+	output.jewelry_sunk    = dEFvAL
+	output.jewelry_sinkmax = dEFvAL 
+	output.provisioning          = dEFvAL
+	output.provisioning_sunk     = dEFvAL
+	output.provisioning_sinkmax  = dEFvAL              
+	output.provisioning_sunk2    = dEFvAL
+	output.provisioning_sinkmax2 = dEFvAL              
+	output.woodworking         = dEFvAL
+	output.woodworking_sunk    = dEFvAL
+	output.woodworking_sinkmax = dEFvAL              
+	--
+	--
+	if( input.tradeskills == nil ) then
+		return
+	end
+	local tradeskills = input.tradeskills
+	--baseranks / [name].info / [name].subskills
+	--
+	-- Dynamic Names?
+	--function ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(tradeElem, tradeSkillElem, tplayerLine, destTradeName, tradeKeyName)
+	for iName, dbItem in pairs(tradeskills) do
+		local ffirst = iName:find(" ")
+		ElderScrollsOfAlts.debugMsg("Trade2a: ", " iName='", iName, "' ffirst='", tostring(ffirst) , "'" )
+		local info 		= tradeskills[iName].info
+		local subskills = tradeskills[iName].subskills
+		if(ffirst~=nil and ffirst>0) then
+			ElderScrollsOfAlts.debugMsg("Load: trade as: iName=" , iName)
+			ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(info,subskills ,output,string.lower(iName),iName)  
+			iName = string.sub(iName,1,ffirst)      
+			ElderScrollsOfAlts.debugMsg("Load: trade as: iName=" , iName)
+			ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(info,subskills ,output,string.lower(iName),iName)  
+		else
+			ElderScrollsOfAlts.debugMsg("Load: trade as: iName=" , iName)
+			--ElderScrollsOfAlts.outputMsg("Trade2a: ", " tradeL[iName]='", tostring(tradeL[iName]), "' tradeS[iName]='", tostring(tradeS[iName]) )
+			--ElderScrollsOfAlts.outputMsg("Trade2a: ", " output='", tostring(output), "' iName='", tostring(iName) )
+			ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(info,subskills ,output, string.lower(iName), iName)  
+		end
+	end
+end
+
+--tradeKeyName uppercase (Woodworking)
+--destTradeName lowercase (woodworking)
+function ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(tradeElem, tradeSkillElem, tplayerLine, destTradeName, tradeKeyName)
+  ElderScrollsOfAlts.debugMsg("Trade2: ", " tradeKeyName=", tradeKeyName, " destTradeName=", destTradeName )
+  if tradeElem ~=nil and tplayerLine[destTradeName.."_setup"]==nil and tradeElem.rank > 0 then
+    tplayerLine[destTradeName]               = tradeElem.rank
+    tplayerLine[destTradeName.."_sunk"]      = tradeElem.sunk
+    tplayerLine[destTradeName.."_sunk2"]     = tradeElem.sunk2
+    tplayerLine[destTradeName.."_sinkmax"]   = tradeElem.sinkmax    
+    tplayerLine[destTradeName.."_sinkmax2"]  = tradeElem.sinkmax2
+    tplayerLine[destTradeName.."_subskills"] = nil
+    tplayerLine[destTradeName.."_setup"]     = true
+    ElderScrollsOfAlts.debugMsg("Trade2: ", " VALUE=", tplayerLine[destTradeName], " SUNK=", tplayerLine[destTradeName.."_sunk"] )  
+    -- tradeElem subskills in tooltip
+    local sstext = ""
+    if( tradeSkillElem~=nil and ElderScrollsOfAlts:istable(tradeSkillElem) ) then
+      for k, v in pairs( tradeSkillElem ) do
+        --d("k:" .. tostring(k)  .. " v:" .. tostring(v) ) 
+        if( ElderScrollsOfAlts:istable(v) ) then
+          sstext = sstext .." /".. tostring(v.name)
+        end
+      end
+      tplayerLine[destTradeName.."_subskills"] = sstext
+      --d("sstext:" .. sstext)
+    end
+  else
+    destTradeElem           = 0
+    destTradeElem_sunk      = 0
+    destTradeElem_sinkmax   = 0
+    destTradeElem_sinkmax2  = 0
+    destTradeElem_subskills = nil
+  end
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiPlayerStatsLinesDS(output,input)
+	local iInfo = input.stats
+	if( iInfo ~= nil ) then
+		output.stamina = iInfo.stamina
+		output.magicka = iInfo.magicka
+		output.health  = iInfo.health
+		output.power   = iInfo.power
+	else
+		output.stamina = -1
+		output.magicka = -1
+		output.health  = -1
+		output.power   = -1
+	end
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(output,input)  
+  local alliancewar = input.ava
+  if alliancewar == nil then return end
+  ElderScrollsOfAlts.outputMsg("SetAva2: ", " currentCampaignId=", alliancewar.currentCampaignId, " guestCampaignId=", alliancewar.guestCampaignId )
+  --Setup
+  output.InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
+  output.GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
+  --
+  output.CurrentCampaignId   	 = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
+  output.CurrentCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
+  output.CurrentCampaignEndsAt   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignEndsAt,"") 
+  --
+  output.AssignedCampaignId   		 = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
+  output.AssignedCampaignEndsSeconds = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsSeconds,0) 
+  output.AssignedCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsAt,"") 
+
+  --
+  output.AssignedCampaignEndsAt_value = output.AssignedCampaignEndsSeconds
+  
+  --
+  if(alliancewar.AssignedCampaignEndsAt~=nil and alliancewar.AssignedCampaignEndsAt~="") then
+    local timeDiff  = GetDiffBetweenTimeStamps( output.AssignedCampaignEndsAt,    GetTimeStamp() )
+    --local timeDiff2 = GetDiffBetweenTimeStamps( output.AssignedCampaignIdSeconds, GetTimeStamp() )
+    --output.AssignedCampaignEndsAt = timeDiff -- output.AssignedCampaignEndsAt - GetTimeStamp() 
+    output.AssignedCampaignEndsAt = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+    ElderScrollsOfAlts.debugMsg("AssignedCampaignEndsAt=", output.AssignedCampaignEndsAt )
+    output.AssignedCampaignEndsAt_tooltip = output.AssignedCampaignEndsAt
+    if(timeDiff<1) then
+      output.AssignedCampaignEndsAtOver = true
+    else
+      output.AssignedCampaignEndsAtOver = false
+    end
+    ElderScrollsOfAlts.outputMsg("name:", output.name, " AssignedCampaignEndsAtOver=", output.AssignedCampaignEndsAtOver )
+    --output.AssignedCampaignEndsAt = ZO_FormatTime( alliancewar.AssignedCampaignEndsAt, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  end
+  
+  output.GuestCampaignName    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")  
+  output.CurrentCampaignName  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
+  output.AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  output.guestcampaignname    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
+  output.currentcampaignname  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
+  output.assignedcampaignname = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  
+  output.IsInCampaign         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.isInCampaign        ,"")  
+  output.UnitAlliance         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAlliance        ,"")
+  output.AllianceName         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.allianceName        ,"")
+  output.UnitAvARank          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARank         ,"")
+  output.UnitAvARankPoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
+  output.unitavarank          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARank         ,"")
+  output.unitavarankpoints    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAvARankPoints   ,"")
+  output.AvaSubRankStarts      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.subRankStartsAt     ,"")
+  output.AvaNextSubRank        = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextSubRankAt       ,"")
+  output.AvaRankStarts         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.rankStartsAt        ,"")
+  output.AvaNextRank           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
+  output.AvaRankName          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.avaRankName         ,"")
+  --
+  output.AssignedCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignRewardEarnedTier, 0 )
+  output.CurrentCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignRewardEarnedTier, 0 )
+  output.GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier, 0 )
+  --
+  output.assignedcampaignrewardearnedtier = output.AssignedCampaignRewardEarnedTier
+  output.currentCampaignrewardearnedTier  = output.CurrentCampaignRewardEarnedTier
+  output.guestCampaignrewardearnedTier    = output.GuestCampaignRewardEarnedTier
+  --
+  output.assignedcampaignrewardprogress = alliancewar.AssignedCampaignRewardNextProgressTier
+  output.assignedcampaignrewardtotal    = alliancewar.AssignedCampaignRewardNextTotalTier
+  --
+  if( ElderScrollsOfAlts.altData.showpercents and output.assignedcampaignrewardprogress~=nil and output.assignedcampaignrewardtotal~=nil ) then
+	local das = output.assignedcampaignrewardprogress / output.assignedcampaignrewardtotal
+	if(das~=nil and das~=0) then
+		das = das*100
+		output.assignedcampaignrewardearnedtierperc = math.floor( das )
+	end
+  end 
+  --
+  if(output.AssignedCampaignEndsAtOver) then
+    --output.assignedcampaignrewardearnedtier = "("..output.assignedcampaignrewardearnedtier..")"
+    --output.currentCampaignrewardearnedTier  = "("..output.currentCampaignrewardearnedTier..")"
+    --output.guestCampaignrewardearnedTier    = "("..output.guestCampaignrewardearnedTier..")"
+  end
+  --
+  --output.assignedcampaignrewardearnedtier_rank = output.AssignedCampaignRewardEarnedTier
+  --output.currentCampaignrewardearnedTier_rank  = output.CurrentCampaignRewardEarnedTier
+  --output.guestCampaignrewardearnedTier_rank    = output.GuestCampaignRewardEarnedTier
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupPlayerLinesCurrencyDS(output,input)
+  local currency = input.currency
+  if currency == nil then return end 
+  --Setup
+  --Defaults
+  output["currency_gold"] = 0
+  output["currency_alliance point"] = 0
+  output["currency_tel var stone"] = 0
+  output["currency_writ vouchers"] = 0
+  output["currency_transmute crystals"] = 0
+  output["currency_crown gems"] = 0
+  output["currency_crowns"] = 0
+  output["currency_outfit change tokens"] = 0
+  --Values
+  for rtK, rtKV in pairs(currency) do
+    ElderScrollsOfAlts.debugMsg("currency "..rtK.." as="..tostring(rtKV))    
+    ElderScrollsOfAlts.debugMsg("currency "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
+    output["currency_"..string.lower(rtKV.currencyName)] = ZO_CommaDelimitNumber(rtKV.amount)
+  end  
+end
+
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--
+function ElderScrollsOfAlts:SetupGuiResearchPlayerLinesDS(output,input)
+  local research = input.research
+  local pName    = input.bio.name
+  local rTypes = {"clothier","woodworking","blacksmithing","jewelcrafting"}
+  -- Check if player even has this research slot
+  --if( research ~= nil ) then 
+  --rclothier1time,rclothier2time
+  for rtK,rtV in pairs(rTypes) do
+    ElderScrollsOfAlts.debugMsg("research for ",pName," as=",rtK," rtV=",tostring(rtV))    
+    --Defaults
+    output["r"..rtV.."1time"] = "--------"
+    output["r"..rtV.."2time"] = "--------"
+    output["r"..rtV.."3time"] = "--------"
+    output["r"..rtV.."code"] = -1
+    output["r"..rtV.."1s"] = -5
+    output["r"..rtV.."2s"] = -5
+    output["r"..rtV.."3s"] = -5
+    --
+    local rrLinesMax  = research[rtV].researchNumlines
+    local rrLinesDone = research[rtV].researchNumlinesDone
+    local rrLinesMatch = false
+    if(rrLinesMax == rrLinesDone) then
+      rrLinesMatch = true
+    end
+    --Code = -1 is n/a, 0 is unk, 1 is READY, 
+    if(research==nil or research[rtV]==nil)then
+    else
+      --Number of Slots = researchMS
+      local researchMS = research[rtV].researchMS
+      for kkiT = 1, 3 do
+        local mKye = "r"..rtV..kkiT
+        --debugMsg("ESOA: setup ResearchItem: output[mKye.."S"] = timeS="
+        if(researchMS==nil) then
+          output[mKye.."time"] = ""
+          output[mKye.."code"] = 0
+          output[mKye.."s"] = -4
+        elseif(kkiT<=researchMS) then
+          output[mKye.."time"] = GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
+          output[mKye.."code"] = 1
+          output[mKye.."s"] = 0
+          if(rrLinesMatch) then
+            output[mKye.."time"] = "[xxxxx]"-- GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
+            output[mKye.."tooltip"] = string.format("%s%s%s%s",pName," knows all traits in ",rtV,"!")
+            output[mKye.."code"] = -3
+            output[mKye.."s"] = -3
+          end
+        else
+          output[mKye.."time"] = "--------"
+          output[mKye.."code"] = 0
+          output[mKye.."s"] = -2
+        end
+      end
+    end
+  end
+    
+  -- Colate data for this research slot
+  if(research~=nil)then
+    for rtK,rtV in pairs(rTypes) do
+      if(research[rtV]~=nil) then
+        local kki = 1
+        for kk, vv in pairs( research[rtV].ongoing ) do
+          if kk == nil then return end
+          ElderScrollsOfAlts.debugMsg("research kk=" .. kk.. " v="..tostring(vv) )
+          --Get/Fix Time
+          local nowDiff = GetDiffBetweenTimeStamps( GetTimeStamp() , input.research.now ) --secconds
+          --if(input.version==nil) then
+          --  nowDiff = GetFrameTimeSeconds() - input.research.now
+          --  --nowDiff = GetTimeStamp() - vv.timeTillReady
+          --end
+          local timeS = vv.timeRemainingSecs - nowDiff          
+          --if(input.version~=ElderScrollsOfAlts.version) then
+            --timeS = vv.timeTillReady - GetTimeStamp()
+          --end
+          local timeM = math.floor(timeS/60)
+          local timeH = math.floor(timeM/60)
+          local timeD = math.floor(timeH/24)
+          if(timeH>0) then
+            timeM = timeM - (timeH*60)
+          elseif(timeH<0) then
+            timeH = 0
+          end
+          if(timeD>0) then
+            timeH = timeH - (timeD*24)
+          end          
+          local mKye = "r"..rtV..kki
+          local timeDisp2Str = ""
+          if(timeS<=0) then
+            timeDisp2Str = GetString(ESOA_RESEARCH_AVAIL) --"[avail]"
+            output[mKye.."code"] = 1
+          elseif(timeD>0) then
+            timeDisp2Str = "<<1>>d<<2>>h<<3>>m"
+          else
+            timeDisp2Str = "<<2>>h<<3>>m"
+          end
+          if(timeS>0) then
+            output[mKye.."code"] = 2
+          end
+          local timeDisp2 = zo_strformat(timeDisp2Str, timeD,timeH,timeM )
+          local timeDisp = timeD.."d" ..timeH.."h" ..timeM.."m"
+          if(input.version==nil) then
+            output[mKye.."code"] = 3
+            timeDisp2 = "*"..timeDisp2
+          end          
+          output[mKye.."name"] = vv.name
+          output[mKye.."time"] = timeDisp2
+          output[mKye.."D"] = timeD
+          output[mKye.."H"] = timeH
+          output[mKye.."S"] = timeS
+          output[mKye.."s"] = timeS
+          --TODO timeTillReady
+          --debugMsg("research for "..k.." mKye="..mKye.. " research: " .. vv.name .. " D="..timeD .." H="..timeH .." M="..timeM)
+          output[mKye.."TraitType"] = vv.traitType
+          output[mKye.."TraitDesc"] = vv.traitDescription
+          output[mKye.."Traitknown"] = vv.known
+          output[mKye.."NumTraitsKnown"] = vv.numTraitsKnown
+          --        
+          kki = kki+1
+        end 
+      end
+    end
+  end
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA 
+--output,input)
+function ElderScrollsOfAlts:SetupPlayerLinesCustomDS(output, input)
+	--local cvalues = ESOADatastore.getCurrentCharcterCustomData(playerLineKey, keyName)
+	local custom = input.custom
+	if( custom ~= nil ) then
+		output.note			= custom.note
+		output.category		= custom.category
+		output.playersorder	= custom.playersorder
+	end
+end
+
+--
+function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input)
+	ElderScrollsOfAlts.debugMsg("FlattenCompanion: Called for:" , input.charkey )
+	-- Defaults
+	for ii = 1, ElderScrollsOfAlts.maxCompanions do
+	local tempn0 = string.format("companion_%s",ii)
+		output[tempn0.."_name"]    = "-none-"
+		output[tempn0.."_level"]   = -1
+		output[tempn0.."_rapport"] = -1
+		output[tempn0.."_currentexperience"] = -1
+		output[tempn0.."_experienceforlevel"] = -1
+	end
+	-- Real Data
+	local linedata = input.companions
+	ElderScrollsOfAlts.debugMsg("FlattenCompanion: linedata:" , tostring(linedata) )
+	if linedata == nil then return end  
+	local cnt = ElderScrollsOfAlts:tablelength(linedata.ids)
+	ElderScrollsOfAlts.debugMsg("FlattenCompanion: cnt:" , cnt )
+	if cnt == nil then return end
+	-- KEYS -- sorted by release of companion
+	local keyset={}
+	for rtK1, rtKV1 in pairs(linedata.data) do
+		keyset[rtK1] = rtK1
+	end	
+	table.sort(keyset)
+	-- Fill in Output with Real Data, aligned to the first entry	
+	local cInc = 1
+	for kk, vv in pairs(keyset) do
+		local ldata = linedata.data[kk]
+		if(ldata~=nil) then
+			ElderScrollsOfAlts.debugMsg( "FlattenCompanion:"," kk=",kk," ldata=", tostring(ldata),".")	
+			local tempn = string.format("companion_%s",cInc)
+			output[tempn.."_name"]    = ldata.name
+			output[tempn.."_level"]   = ldata.level
+			output[tempn.."_rapport"] = ldata.rapport
+			output[tempn.."_currentexperience"]  = ldata.currentExperience
+			output[tempn.."_experienceforlevel"] = ldata.experienceForLevel
+			ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", ldata.name, "'" )
+			cInc = cInc +1
+		end
+	end
+	ElderScrollsOfAlts.debugMsg( "FlattenCompanion: done")
+  --SetupPlayerLinesCompanions
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--output,input)
+function ElderScrollsOfAlts:SetupPlayerLinesTrackingDS(output, input)
+  local tracking = input.tracking
+  if tracking == nil then return end
+  --Defaults
+  --Values
+  for rtK, rtKV in pairs(tracking) do
+    ElderScrollsOfAlts.debugMsg("tracking "..rtK.." as="..tostring(rtKV) )    
+    ElderScrollsOfAlts.debugMsg("tracking "..tostring(rtKV.currencyName).." as="..tostring(rtKV.amount) )
+    for rtK2, rtKV2 in pairs(rtKV) do
+      if(rtKV2~=nil) then
+        local tempn = string.format("tracking_%s_%s",rtK, rtK2)
+        tempn = string.lower(tempn)
+        --d(">tempn: " .. tostring(tempn) .. " comp: " .. tostring(rtKV2.completed) )
+        output[tempn.."_time"]  = rtKV2.completedtime
+        output[tempn.."_done"]  = rtKV2.completed
+        output[tempn.."_reset"] = rtKV2.resettime
+        --d("timestring: " .. GetDateStringFromTimestamp(rtKV2.completedtime) )
+        --d("timediff: " .. GetDiffBetweenTimeStamps(GetTimeStamp(),rtKV2.completedtime) )
+        --if diff is negative, it was previous
+        -- so what time to compare to to get if it was done today?
+        --[15:32] [15:32] >tempn: "tracking_writs_Jewelry Crafting Writ"
+      end
+    end
+  end  
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--output,input)
+------------------------------
+
+
+------------------------------
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataLevelDS(companionId, cname, level, currentExperience, experienceForLevel)
+	local playerKey = ElderScrollsOfAlts.view.currentplayerkey 
+	ESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname, level, currentExperience, experienceForLevel)
+end
+
+------------------------------
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataSkillRankDS(companionId, cname, skillLineId, slName, rank )
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillRankDS: Called")
+	local playerKey = ElderScrollsOfAlts.view.currentplayerkey 
+	ESOADatastore.saveCompanionDataSkillRank(playerKey, companionId, cname, skillLineId, slName, rank )
+end
+
+------------------------------
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataSkillLineDS(companionId, cname, skillLineId, slName )
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillLineDS: Called")
+	local playerKey = ElderScrollsOfAlts.view.currentplayerkey 
+	ESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cname, skillLineId, slName )
+end
+
+------------------------------
+--Companions
+function ElderScrollsOfAlts:CollectCompanionDataRapportDS(companionId, cname, currentRapport)
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapportDS: Called")
+	local playerKey = ElderScrollsOfAlts.view.currentplayerkey 
+	ESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport )
+end
+
+------------------------------
+-- 
+function ElderScrollsOfAlts.SavePlayerDataDS( playerLineKey, keyName, elementData )
+	ElderScrollsOfAlts.outputMsg("SavePlayerDataDS: playerKey=",playerLineKey," keyName=",keyName," as ", elementData) 
+	ESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
+end
+
+------------------------------
+-- 
+----------------------------------------
+ --[[ ESOA Data Legacy ]]-- 
+----------------------------------------

@@ -6,8 +6,7 @@
 ## Description: ElderScrollsOfAlts shows stats/skills/research and riding times for your |c3961ABalts|r!
 ## SavedVariables: ElderScrollsOfAltsSavedVariables ESOA_AltData
 ## DependsOn: LibAddonMenu-2.0 
-## OptionalDependsOn: LibShifterBox
-##LibStub ESOA_Datastore
+## OptionalDependsOn: LibShifterBox ESOA_Datastore
 
 ## This Add-on is not created by, affiliated with or sponsored by ZeniMax Media Inc. or its affiliates. 
 ## The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc.
@@ -24,8 +23,11 @@ ElderScrollsOfAlts.lua
 ESOA_Util.lua
 ESOA_Charts.lua
 ESOA_Settings.lua
+ESOA_Ctrl.lua
 
-
+ESOA_Data.lua
+ESOA_Data_Legacy.lua
+ESOA_Load_DS.lua
 ESOA_Load.lua
 ESOA_Save.lua
 

@@ -1,16 +1,18 @@
 -- Player Note processing and saving
 
 function ElderScrollsOfAlts:ShowCharacterNote(self)
-  local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername  
-  --Select the Row
-  ElderScrollsOfAlts.debugMsg("ShowCharacterNote:"," SelChar=",tostring(ElderScrollsOfAlts.savedVariables.selected.charactername) )
-  ElderScrollsOfAlts.debugMsg("ShowCharacterNote:"," SelRow=",tostring(ElderScrollsOfAlts.view.selectedPlayerRow) )
-  
-  local selectedPlayer = ElderScrollsOfAlts.view.playerLines[ElderScrollsOfAlts.savedVariables.selected.charactername]
-  ElderScrollsOfAlts.debugMsg("ShowCharacterNote: selectedPlayer="..tostring(selectedPlayer) )
-  ElderScrollsOfAlts.view.selectedPlayerData = selectedPlayer
-  
-  ElderScrollsOfAlts:ShowGuiCharacterNote(self)
+	local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername
+	--Select the Row
+	ElderScrollsOfAlts.outputMsg("ShowCharacterNote:"," SelChar=", tostring(charactername) )
+	ElderScrollsOfAlts.outputMsg("ShowCharacterNote:"," SelRow=" , tostring(ElderScrollsOfAlts.view.selectedPlayerRow) )
+	--
+	local selectedPlayer = ElderScrollsOfAlts.view.playerLines[charactername]
+	ElderScrollsOfAlts.view.selectedPlayerData = selectedPlayer
+	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer="..tostring(selectedPlayer) )
+	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer rawname="..tostring(selectedPlayer.rawname) )
+	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer charkey="..tostring(selectedPlayer.charkey) )
+	--
+	ElderScrollsOfAlts:ShowGuiCharacterNote(self)
 end
 
 function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
@@ -82,7 +84,13 @@ function ElderScrollsOfAlts:SaveNote()
   end
   tplayer.note = ESOA_GUI2_Notes_Index_Note:GetText()
   ElderScrollsOfAlts.view.currentnote = tplayer.note
-  ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "note", tplayer.note)
+    if( tplayer.rawname~=nil ) then
+	ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "note", tplayer.note )
+  else
+	local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername
+	ElderScrollsOfAlts.outputMsg( "SaveNote: charactername=", charactername )
+	ElderScrollsOfAlts.SavePlayerData( charactername, "note", tplayer.note )
+  end
   -- ORDER --
   local selOrder = ESOA_GUI2_Notes_Order_Edit:GetText()
   if(selOrder==nil or selOrder=="")then
@@ -90,7 +98,14 @@ function ElderScrollsOfAlts:SaveNote()
   end
   selOrder = tonumber(selOrder)
   tplayer.playersorder = selOrder
-  ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "playersorder", tplayer.playersorder)
+  -- Save --
+  if( tplayer.rawname~=nil ) then
+	ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "playersorder", tplayer.playersorder)
+  else
+	local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername
+	ElderScrollsOfAlts.outputMsg( "SaveNote: charactername=", charactername )
+	ElderScrollsOfAlts.SavePlayerData( charactername, "playersorder", tplayer.playersorder)
+  end
   ElderScrollsOfAlts.view.currentorder = tplayer.playersorder
   -- CATEGORY --
   local selCat = ESOA_GUI2_Notes_Category_Edit:GetText()
@@ -98,12 +113,17 @@ function ElderScrollsOfAlts:SaveNote()
     selCat = ElderScrollsOfAlts.CATEGORY_ALL
   end
   tplayer.category = selCat
+  -- Save --
+  if( tplayer.rawname~=nil ) then
+	ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "category", tplayer.category)
+  else
+	local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername
+	ElderScrollsOfAlts.outputMsg( "SaveNote: charactername=", charactername )
+	ElderScrollsOfAlts.SavePlayerData( charactername, "category", tplayer.category)
+  end
+  ElderScrollsOfAlts.view.currentcategory = tplayer.category
   -- OUTPUT --
   ElderScrollsOfAlts.outputMsg( zo_strformat("ESOA, saved note, order=<<1>>/cat=<<2>>", tostring(selOrder) , tostring(selCat) ) )
-  -- FINISH --
-  ElderScrollsOfAlts.SavePlayerData( tplayer.rawname, "category", tplayer.category)
-  ElderScrollsOfAlts.view.currentcategory = tplayer.category
-  --  
   --
   --ElderScrollsOfAlts.outputMsg("ESOA, saved note")
   --ElderScrollsOfAlts.RefreshViewableTable()

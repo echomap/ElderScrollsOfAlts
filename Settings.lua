@@ -1,5 +1,5 @@
+----------------------------------------
 --[[ Settings GUI ]]-- 
- 
 ----------------------------------------
 -- Functions to SHOW Settings data --
 ----------------------------------------
@@ -22,6 +22,8 @@ function ElderScrollsOfAlts.LoadSettings()
   ElderScrollsOfAlts.view.LAMPanel = LAM:RegisterAddonPanel(ElderScrollsOfAlts.menuName, panelData)
   local optionsTable = {}
   ElderScrollsOfAlts.view.pauseactivesave = false
+  -- ^Setup Settings^ --
+  
   ---- -- --- -- --- ----
   -- ACCOUNT SETTINGS  --
   ---- -- --- -- --- ----
@@ -60,39 +62,67 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "full",	--"full" or "half" (optional)
     reference = "ESOA_SETTINGS_FONTSIZE_Select",--TODO refresh me
   }
-  
-  -- Account Settings --
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_SHOWPERCENTS_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SHOWPERCENTS_TT),
+    getFunc = function() return ElderScrollsOfAlts.altData.showpercents end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.altData.showpercents = value
+    end,
+    width   = "half",
+	--warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_SHOWBETA_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SHOWBETA_TT),
+    getFunc = function() return ElderScrollsOfAlts.altData.beta end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.altData.beta = value
+    end,
+    width   = "half",
+	requiresReload = true, -- boolean, if set to true, the warning text will contain a notice that changes are only applied after an UI reload and any change to the value will make the "Apply Settings" button appear on the panel which will reload the UI when pressed (optional)
+	--warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }  
+  if(ElderScrollsOfAlts.altData.beta) then
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_ACCOUNTWIDEONLY_NAME),
+    tooltip = GetString(ESOA_SETTINGS_ACCOUNTWIDEONLY_TT),
+    getFunc = function() return ElderScrollsOfAlts.altData.accountdataonly end,
+    setFunc = function(value)
+		ElderScrollsOfAlts.altData.accountdataonly = value
+		if( value ) then
+			ElderScrollsOfAlts:SetupAccountWideOnly()
+		else
+			ElderScrollsOfAlts:SetupNotAccountWideOnly()
+		end
+    end,
+    width   = "half",
+	warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "button",
+    name    = GetString(ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME),
+    tooltip = GetString(ESOA_SETTINGS_CLEARNONACCOUNTWIDE_TT),
+    getFunc = function() return ElderScrollsOfAlts.altData.accountdataonly end,
+    setFunc = function(value)	 
+		ElderScrollsOfAlts:ClearNonAccountWideData()
+    end,
+    width   = "half",
+	warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }
+  end
+  -- ^Account Settings^ --
 
   ---- -- --- -- --- ----
-  -- CHAR SETTINGS     --
+  -- TEMP SETTINGS     --
   ---- -- --- -- --- ----
   optionsTable[#optionsTable+1] = {
     type  = "header",
-    name  = GetString(ESOA_SETTINGS_CHAR_SETTINGS),
+    name  = GetString(ESOA_SETTINGS_VIEW_SETTINGS),
     width = "full",	--or "half" (optional)
-    tooltip = GetString(ESOA_SETTINGS_CHAR_HDR_TT),
-  }
-  optionsTable[#optionsTable+1] = {
-    type  = "header",
-    name  = GetString(ESOA_SETTINGS_UI_SETTINGS),
-    width = "full",	--or "half" (optional)
-  }
-  --
-  optionsTable [#optionsTable+1] = {
-    type    = "checkbox",
-    name    = GetString(ESOA_SETTINGS_SHOWBUTTON_NAME),
-    tooltip = GetString(ESOA_SETTINGS_SHOWBUTTON_TT),
-    getFunc = function() return ElderScrollsOfAlts.GetUIButtonShown() end,
-    setFunc = function(value)   ElderScrollsOfAlts.SetUIButtonShown(value)  end,
-    width   = "half",
-  }
-  optionsTable [#optionsTable+1] = {
-    type    = "checkbox",
-    name    = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_NAME),
-    tooltip = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_TT),
-    getFunc = function() return ElderScrollsOfAlts.GetUIViewMouseHighlightShown() end,
-    setFunc = function(value)   ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
-    width   = "half",
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -103,7 +133,7 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.view.pauseactivesave = value
       --ElderScrollsOfAlts:SetupCPBar()
     end,
-    width   = "full",
+    width   = "half",
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -114,7 +144,7 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.view.dontLoadDataInDungeon = value
       --ElderScrollsOfAlts:SetupCPBar()
     end,
-    width   = "full",
+    width   = "half",
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -125,7 +155,7 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.view.dontLoadDataInCombat = value
       --ElderScrollsOfAlts:SetupCPBar()
     end,
-    width   = "full",
+    width   = "half",
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -136,10 +166,42 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.view.dontLoadDataWhilePvPFlagged = value
       --ElderScrollsOfAlts:SetupCPBar()
     end,
-    width   = "full",
+    width   = "half",
   }
-  
-  
+  -- ^Temp Settings^ --
+
+  ---- -- --- -- --- ----
+  -- CHAR SETTINGS     --
+  ---- -- --- -- --- ----
+  optionsTable[#optionsTable+1] = {
+    type  = "header",
+    name  = GetString(ESOA_SETTINGS_CHAR_SETTINGS),
+    width = "full",	--or "half" (optional)
+    tooltip = GetString(ESOA_SETTINGS_CHAR_HDR_TT),
+  }
+  --
+  optionsTable[#optionsTable+1] = {
+    type  = "header",
+    name  = GetString(ESOA_SETTINGS_UI_SETTINGS),
+    width = "full",	--or "half" (optional)
+  }
+  --
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_SHOWBUTTON_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SHOWBUTTON_TT),
+    getFunc = function() return ElderScrollsOfAlts.CtrlIsShowUiButton() end,
+    setFunc = function(value)   ElderScrollsOfAlts.SetUIButtonShown(value)  end,
+    width   = "half",
+  }
+  optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_NAME),
+    tooltip = GetString(ESOA_SETTINGS_MOUSEHIGHLIGHT_TT),
+    getFunc = function() return ElderScrollsOfAlts.CtrlIsShowMouseHighlight() end,
+    setFunc = function(value)   ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)  end,
+    width   = "half",
+  }
   --[[
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -149,7 +211,6 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)   ElderScrollsOfAlts.SetUIHIdeInMenues(value) end,
     width   = "full",
   }--]]
-  
   --
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -179,9 +240,9 @@ function ElderScrollsOfAlts.LoadSettings()
     type    = "checkbox",
     name    = GetString(ESOA_SETTINGS_PVPWARNING_NM),
     tooltip = GetString(ESOA_SETTINGS_PVPWARNING_TT),
-    getFunc = function() return ElderScrollsOfAlts.savedVariables.pvpwarnings end,
+    getFunc = function() return ElderScrollsOfAlts.CtrlIsShowPvpWarnings() end,
     setFunc = function(value)
-      ElderScrollsOfAlts.savedVariables.pvpwarnings = value
+       ElderScrollsOfAlts.CtrlSetShowPvpWarningst(value)
     end,
     width   = "half",	--or "half" (optional)
   }
@@ -197,8 +258,11 @@ function ElderScrollsOfAlts.LoadSettings()
       width = "half",	--or "half" (optional)
   }
   --]]
-  
-  --
+  -- ^Char Settings^ --
+
+  ---- -- --- -- --- ----
+  -- Color SETTINGS     --
+  ---- -- --- -- --- ----
   optionsTable[#optionsTable+1] = {
     type  = "header",
     name  = GetString(ESOA_SETTINGS_OPTIONS),
@@ -208,26 +272,15 @@ function ElderScrollsOfAlts.LoadSettings()
     type    = "colorpicker",
     name    = GetString(ESOA_SETTINGS_SKILLCOLOR_soon_NAME),
     tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_soon_TT),
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a      
+    getFunc = function()
+		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorTimerNear() )
     end,
     setFunc = 	function(r,g,b,a)
+		ElderScrollsOfAlts.CtrlSetColorTimerNear(r,g,b,a)
       --(alpha is optional)
       --d(r, g, b, a)
       --local c = ZO_ColorDef:New(r,g,b,a)
       --c:Colorize(text)
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a = a
     end,
     width = "full",	--or "half" (optional)
   }
@@ -235,107 +288,47 @@ function ElderScrollsOfAlts.LoadSettings()
     type = "colorpicker",
     name = GetString(ESOA_SETTINGS_SKILLCOLOR_sooner_NAME),
     tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_sooner_TT),
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a      
+    getFunc = function()      
+		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorTimerNearer() )
     end,
-    setFunc = 	function(r,g,b,a)
-      --(alpha is optional)
-      --d(r, g, b, a)
-      --local c = ZO_ColorDef:New(r,g,b,a)
-      --c:Colorize(text)
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = a
+    setFunc = 	function(r,g,b,a)	
+		ElderScrollsOfAlts.CtrlSetColorTimerNearer(r,g,b,a)
     end,
     width = "full",	--or "half" (optional)
   }
-  
   optionsTable[#optionsTable+1] = {
     type = "colorpicker",
     name = GetString(ESOA_SETTINGS_SKILLCOLOR_done_NAME),
     tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_done_TT),
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerDone==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a      
+    getFunc = function()          
+		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorTimerDone() )
     end,
     setFunc = 	function(r,g,b,a)
-      --(alpha is optional)
-      --d(r, g, b, a)
-      --local c = ZO_ColorDef:New(r,g,b,a)
-      --c:Colorize(text)
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a = a
+		ElderScrollsOfAlts.CtrlSetColorTimerDone(r,g,b,a)
     end,
     width = "full",	--or "half" (optional)
   }
-  
   optionsTable[#optionsTable+1] = {
     type    = "colorpicker",
     name    = GetString(ESOA_SETTINGS_SKILLCOLOR_na_NAME),
     tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_na_TT),
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a      
+    getFunc = function()
+		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorTimerNone() )
     end,
     setFunc = 	function(r,g,b,a)
-      --(alpha is optional)
-      --d(r, g, b, a)
-      --local c = ZO_ColorDef:New(r,g,b,a)
-      --c:Colorize(text)
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a = a
+		ElderScrollsOfAlts.CtrletColorTimerNone(r,g,b,a)
     end,
     width = "full",	--or "half" (optional)
   }
-  
-  
   optionsTable[#optionsTable+1] = {
     type    = "colorpicker",
     name    = GetString(ESOA_SETTINGS_SKILLCOLOR_Max_NAME),
     tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_Max_TT),
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a      
+    getFunc = function()
+		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorSkillsMax() )
     end,
     setFunc = 	function(r,g,b,a)
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a = a
+		ElderScrollsOfAlts.CtrlSetColorSkillsMax(r,g,b,a)
     end,
     width = "full",	--or "half" (optional)
   }
@@ -343,27 +336,19 @@ function ElderScrollsOfAlts.LoadSettings()
     type    = "colorpicker",
     name    = GetString(ESOA_SETTINGS_SKILLCOLOR_NearMax_NAME),
     tooltip = GetString(ESOA_SETTINGS_SKILLCOLOR_NearMax_TT),
-    getFunc = function()               
-      if(ElderScrollsOfAlts.savedVariables.colors==nil or ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
-          ElderScrollsOfAlts.SetupDefaultColors()
-      end
-      return              
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b,
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a      
+    getFunc = function()
+		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorSkillsNearMax() )
     end,
     setFunc = 	function(r,g,b,a)
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r = r
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g = g
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b = b
-      ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a = a
+		ElderScrollsOfAlts.CtrlSetColorSkillsNearMax(r,g,b,a)
     end,
     width = "full",	--or "half" (optional)
   }
-  --
-  
+  -- ^Color Settings^ --
+
+  ---- -- --- -- --- ----
+  -- Save/Load SETTINGS     --
+  ---- -- --- -- --- ----
   -- Save/Load Settings
   optionsTable[#optionsTable+1] = {
     type = "button",
@@ -374,6 +359,7 @@ function ElderScrollsOfAlts.LoadSettings()
     warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
   -- Save/Load Settings
+  --if(not ElderScrollsOfAlts.altData.accountdataonly) then
   optionsTable[#optionsTable+1] = {
     type = "button",
     name = GetString(ESOA_KEY_SETTINGS_LOAD_TITLE), --"Load saved settings",
@@ -382,9 +368,12 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "full",	--or "half" (optional)
     warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
-  
-  -- Character Base Options --
-  
+  --end
+  -- ^Temp Settings^ --
+
+  ---- -- --- -- --- ----
+  -- CHAR MAINT SETTINGS     --
+  ---- -- --- -- --- ----  
   optionsTable [#optionsTable+1] = {
     type = "header",
     name = GetString(ESOA_SETTINGS_MAINT_HDR_NAME),
@@ -409,8 +398,11 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "half",	--or "half" (optional)
     warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
   }
-  -- Character Maintanance Options --
-  
+  -- ^Char Maint Settings^ --
+
+  ---- -- --- -- --- ----
+  -- VIEW SETTINGS     --
+  ---- -- --- -- --- ----
   optionsTable[#optionsTable+1] = {
     type  = "header",
     name  = "Views",
@@ -421,7 +413,7 @@ function ElderScrollsOfAlts.LoadSettings()
     type    = "checkbox",
     name    = "Use dropdown for Views, instead of buttons.",
     tooltip = "On or off.",
-    getFunc = function() return ElderScrollsOfAlts.GetUIViewDropDownShown() end,
+    getFunc = function() return ElderScrollsOfAlts:CtrlIsUIViewDropDown() end,
     setFunc = function(value)   ElderScrollsOfAlts.SetUIViewDropDownShown(value)  end,
     width   = "full",	--or "half" (optional)
   }
@@ -601,9 +593,11 @@ function ElderScrollsOfAlts.LoadSettings()
     isExtraWide = true,
     --reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
   }
+  -- ^VIEW Settings^ --
 
-  -- VIEWS --
-  
+  ---- -- --- -- --- ----
+  -- END SETTINGS     --
+  ---- -- --- -- --- ----
   --
   LAM:RegisterOptionControls(ElderScrollsOfAlts.menuName, optionsTable)
 end
@@ -614,4 +608,6 @@ function ElderScrollsOfAlts.LoadSettings2()
   --
 end
 
---EOF
+----------------------------------------
+--[[ Settings GUI ]]-- 
+----------------------------------------

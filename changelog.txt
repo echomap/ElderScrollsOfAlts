@@ -4,6 +4,9 @@
 1.00.58
 [list]
 [*] Ordered companion output better
+[*] Added setting for showing partial done for skills
+[*] TODO datatore updates
+[*] TODO New global setting to save space (optional)
 [/list]
 
 

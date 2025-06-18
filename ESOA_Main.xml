@@ -221,10 +221,15 @@ For future, to see if can change font sizes per account?
             text="Sort By:" >
             <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Value" relativePoint="TOPLEFT" offsetX="-8" offsetY="0" />
           </Label>
-
+		  		  
+          <Control name="$(parent)_Dropdown_AccountName" inherits="ZO_ScrollableComboBox" mouseEnabled="true" tier="HIGH" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false" >
+            <Dimensions y="30" minX="100"/>
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Label" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
+          </Control>
+		  
           <Label name="$(parent)_WhoAmI" mouseEnabled="false" font="ESOAFontGame" horizontalAlignment="LEFT"
             text="WhoAmI?" maxLineCount="180" >
-            <Anchor point="TOPRIGHT" relativeTo="$(parent)_SortBy_Label" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
+            <Anchor point="TOPRIGHT" relativeTo="$(parent)_Dropdown_AccountName" relativePoint="TOPLEFT" offsetX="-5" offsetY="0" />
           </Label>
 
         </Controls>            

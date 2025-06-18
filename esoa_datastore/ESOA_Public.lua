@@ -1,0 +1,124 @@
+--[[ ESOA Datastore PUBLIC API ]]-- 
+
+------------------------------
+--PUBLIC API
+------------------------------
+
+------------------------------
+-- 
+ESOADatastore = {
+}
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataAll(loadtype)
+	EchoESOADatastore.saveCurrentCharcterDataAll(loadtype)
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataSkills()
+	--TODO EchoESOADatastore.saveCurrentCharcterData()
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataCP()
+	EchoESOADatastore.saveCurrentPlayerDataCPInt()
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataCPActive()
+	--TODO EchoESOADatastore.saveCurrentCharcterData()
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataCategory()
+	--TODO EchoESOADatastore.saveCurrentCharcterData()
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
+	EchoESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
+end
+
+------------------------------
+-- API
+function ESOADatastore.getCharcterCustomData(playerLineKey, keyName)
+	return EchoESOADatastore.getCharcterCustomData(playerLineKey, keyName)
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname, level, currentExperience, experienceForLevel)
+	EchoESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname, level, currentExperience, experienceForLevel)
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCompanionDataSkillRank(playerKey, companionId, cname,  skillLineId, slName, rank )
+	EchoESOADatastore.saveCompanionDataSkillRank(playerKey, companionId, cname,  skillLineId, slName, rank )
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cname, skillLineId, slName )
+	EchoESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cname, skillLineId, slName )
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport)
+	EchoESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport)
+end
+
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataScreenorder()
+	--TODO EchoESOADatastore.saveCurrentCharcterData()
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCurrentCharcterDataTracking()
+	--TODO EchoESOADatastore.saveCurrentCharcterData()
+end
+
+------------------------------
+-- API (accountname is optional)
+function ESOADatastore.getCharacterList(accountname)
+	return EchoESOADatastore.getCharacterList(accountname)
+end
+
+------------------------------
+-- API (accountname is optional)
+function ESOADatastore.getCharactersBasicData(accountname)
+	return EchoESOADatastore.getCharactersBasicData(accountname)
+end
+
+------------------------------
+-- API
+function ESOADatastore.getDataForCharacters(account)
+	return EchoESOADatastore.getDataForCharacters(account)
+end
+
+------------------------------
+-- API
+function ESOADatastore.getCharacterByID(characterID)
+	return EchoESOADatastore.getDataForCharacterById(characterID)
+end
+
+------------------------------
+-- API
+function ESOADatastore.getAccountList()
+	return EchoESOADatastore.getAccountList()
+end
+
+--TODO get all categories as list
+
+------------------------------
+------------------------------

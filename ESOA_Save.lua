@@ -1,11 +1,12 @@
 -- Save Player Data to Saved Variables
 
---Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
-local matchNameList1 = {GetString(ESOA_FULL_SUB_SOLV),  GetString(ESOA_FULL_SUB_METAL),  GetString(ESOA_FULL_SUB_TAIL),  GetString(ESOA_FULL_SUB_ASPIMP),  GetString(ESOA_FULL_SUB_RECQUA),  GetString(ESOA_FULL_SUB_WOOD),  GetString(ESOA_FULL_SUB_ENGRAV) }
+-- M1 : Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
+ElderScrollsOfAlts.view.matchNameList1 = {GetString(ESOA_FULL_SUB_SOLV),  GetString(ESOA_FULL_SUB_METAL),  GetString(ESOA_FULL_SUB_TAIL),  GetString(ESOA_FULL_SUB_ASPIMP),  GetString(ESOA_FULL_SUB_RECQUA),  GetString(ESOA_FULL_SUB_WOOD),  GetString(ESOA_FULL_SUB_ENGRAV) }
+-- M2 : Provisioning
+ElderScrollsOfAlts.view.matchNameList2 = {GetString(ESOA_FULL_SUB_POTIMPR), GetString(ESOA_FULL_SUB_RECIMPR) }
 
-local matchNameList2 = {GetString(ESOA_FULL_SUB_POTIMPR), GetString(ESOA_FULL_SUB_RECIMPR) }
-
-
+------------------------------
+-- 
 local SLOT_TYPE_REV = {
   EQUIP_SLOT_HEAD      = "Head",
   EQUIP_SLOT_NECK      = "Neck",
@@ -36,39 +37,13 @@ local SLOT_TYPE_REV = {
   EQUIP_SLOT_NONE = "None",
 }
 
---
-function ElderScrollsOfAlts.SavePlayerData( playerLineKey, keyName, elementData )
-  if( ElderScrollsOfAlts.altData.players[playerLineKey] ~= nil ) then
-    ElderScrollsOfAlts.altData.players[playerLineKey][keyName] = elementData
-    ElderScrollsOfAlts.debugMsg("SavePlayerData: player=",playerLineKey," keyName=",keyName," as ", elementData) 
-  end
-end
 
+------------------------------
+-- 
 -- Read all data from the game Player Object into this Addon
-function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
-  ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: called")
-  ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: loadtype='"..tostring(loadtype).."'")
-  --
-  if(ElderScrollsOfAlts.view.pauseactivesave) then 
-    ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_PAUSED) )
-    return
-  end
-  local isInDungeon = IsUnitInDungeon("player")
-  if(isInDungeon and ElderScrollsOfAlts.savedVariables.dontLoadDataInDungeon ) then
-    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer:", " stopping per in instance") 
-    return
-  end
-  local isInCombat = IsUnitInCombat("player")
-  if(isInCombat and ElderScrollsOfAlts.savedVariables.dontLoadDataInCombat ) then
-    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer:", " stopping per in combat") 
-    return
-  end
-  local isPvPFlagged = IsUnitPvPFlagged("player")
-  if(isInCombat and ElderScrollsOfAlts.savedVariables.dontLoadDataWhilePvPFlagged ) then
-    ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer:", " stopping per is PvPFlagged") 
-    return
-  end
-  ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_ACTIVE)  )
+function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
+  ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer2: loadtype='"..tostring(loadtype).."'") 
+  --ElderScrollsOfAlts.debugMsg( GetString(ESOA_MSG_ACTIVE)  )
   --
   ----Section: Statup section
   local pName     = GetUnitName("player")
@@ -126,10 +101,12 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
         ElderScrollsOfAlts.debugMsg("ESOA, saved current '" .. value.."', as '", tostring(ElderScrollsOfAlts.altData.players[playerKey][value]) , "'") 
       end
     end
-	ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardEarnedTier"]       = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier 
-	ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextProgressTier"] = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier
-	ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextTotalTier"]    = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier
-	ElderScrollsOfAlts.view.tempsave["guestCampaignRewardEarnedTier"]          = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier
+	if(ElderScrollsOfAlts.altData.players[playerKey].alliancewar~=nil) then -- TODO why this check as is new?
+		ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardEarnedTier"]       = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier 
+		ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextProgressTier"] = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier
+		ElderScrollsOfAlts.view.tempsave["AssignedCampaignRewardNextTotalTier"]    = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier
+		ElderScrollsOfAlts.view.tempsave["guestCampaignRewardEarnedTier"]          = ElderScrollsOfAlts.altData.players[playerKey].alliancewar.guestCampaignRewardEarnedTier
+	end
   else
     ElderScrollsOfAlts.debugMsg("No preexisting data to preserve")
   end
@@ -442,7 +419,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
 	  if(ElderScrollsOfAlts.view.alliancenotsaved) then
 		ElderScrollsOfAlts.view.alliancenotsaved = false
 		if(loadtype==nil or loadtype==ElderScrollsOfAlts.manualload or loadtype==ElderScrollsOfAlts.startupload ) then
-			if(ElderScrollsOfAlts.savedVariables.pvpwarnings==nil or ElderScrollsOfAlts.savedVariables.pvpwarnings) then
+			if( ElderScrollsOfAlts.CtrlIsShowPvpWarnings() ) then
 				ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_READY) )  
 			end
 		end
@@ -456,7 +433,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
     -- show message if, alliance data wasn't saved before, and was a manual or startup call
 	if(ElderScrollsOfAlts.view.alliancenotsaved==nil or ElderScrollsOfAlts.view.alliancenotsaved==true) then
 		if(loadtype==nil or loadtype==ElderScrollsOfAlts.manualload or loadtype==ElderScrollsOfAlts.startupload ) then
-			if(ElderScrollsOfAlts.savedVariables.pvpwarnings==nil or ElderScrollsOfAlts.savedVariables.pvpwarnings) then
+			if( ElderScrollsOfAlts.CtrlIsShowPvpWarnings() ) then
 				ElderScrollsOfAlts.outputMsg( GetString(ESOA_ALLIANCE_NOTREADY) )
 			end
 		end
@@ -713,31 +690,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
   
   --COMPANIONS
   -- Cant get list of companions? have to use only active one?
-  --[[ TODO: So this or events?
-  if( HasActiveCompanion() ) then
-    local companionId              = GetActiveCompanionDefId()
-    local level, currentExperience = GetActiveCompanionLevelInfo()
-    local currentRapport           = GetActiveCompanionRapport()
-    local cname                    = GetCompanionName(companionId)
-    ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience)
-    ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, currentRapport)
-  end
-  --]]
-
-  --[[
-* HasPendingCompanion()
-** _Returns:_ *bool* _hasPendingCompanion_
-  
-* GetActiveCompanionRapportLevel()
-** _Returns:_ *[CompanionRapportLevel|#CompanionRapportLevel]* _rapportLevel_
-
-* GetPendingCompanionDefId()
-** _Returns:_ *integer* _pendingCompanionId_
-  --activecompanionname
-  --activecompanionlevel
-  --activecompanionrapport
-  --activecompanionskills?
---]]
+  -- done in events.
   --COMPANION END
   
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: done")
@@ -812,7 +765,10 @@ function ElderScrollsOfAlts:SaveTrackingDataComplete(trackingType,trackingName,i
   local hour, minute = ElderScrollsOfAlts:dailyReset()
   local timeToReset = hour*3600 + minute*60
   trackElem.resettime     = trackElem.completedtime + timeToReset
-  --trackElem.resettime     = GetTimeStamp() -- today at 2am?
+  --trackElem.resettime     = GetTimeStamp today at 10am UTC NA for 3am UTC EU ??
+  -- TODO EU NA
+  --timeToReset = 5*3600 + 0*60
+  --trackElem.resettime     = timeToReset
 end
 
 --
@@ -827,9 +783,9 @@ function ElderScrollsOfAlts:CollectCP()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
   
   --debugMsg("pName='"..tostring(pName).."'" )
-	if ElderScrollsOfAlts.altData.players == nil then
+  if ElderScrollsOfAlts.altData.players == nil then
 		ElderScrollsOfAlts.altData.players = {}
-	end
+  end
   if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
     ElderScrollsOfAlts.altData.players[playerKey] = {}
   end
@@ -916,102 +872,6 @@ function ElderScrollsOfAlts:CheckIfCpTypeIsSlottable(championSkillType)
   return ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]
 end
 
---Companions
-function ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
-  if ElderScrollsOfAlts.altData.players == nil then
-		ElderScrollsOfAlts.altData.players = {}
-	end
-  if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey] = {}
-  end
-  ElderScrollsOfAlts.debugMsg("companion save data: companionId: '", companionId, "' as '", cname, "'" )
-  ----Section: Save section
-  if( ElderScrollsOfAlts.altData.players[playerKey].companions == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].companions = {}
-    ElderScrollsOfAlts.altData.players[playerKey].companions.ids  = {}
-    ElderScrollsOfAlts.altData.players[playerKey].companions.data = {}
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey].companions.ids[companionId] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].companions.ids[companionId] = companionId
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId] = {}
-  end
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = zo_strformat("<<X:1>>", cname )
-  
-  ElderScrollsOfAlts.debugMsg("companion save data: companionId: '", companionId, "' fixed as '", zo_strformat("<<X:1>>", cname ), "'" )
-end
-
---Companions
-function ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience, experienceForLevel)
-  ElderScrollsOfAlts.debugMsg("CollectCompanionDataLevel: called")
-  ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
-  --
-  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].level             = level
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].currentExperience = currentExperience
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].experienceForLevel = experienceForLevel
-end
-
---Companions
-function ElderScrollsOfAlts:CollectCompanionDataSkillRank(companionId, cname, skillLineId, slName, rank )
-  ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillRank: called")
-  ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
-  --
-  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
-  ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, cname, skillLineId, slName )
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId].rank = rank
-end
-
---Companions
-function ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, cname, skillLineId, slName )
-  ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillLine: called")
-  ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
-  --
-  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
-  if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline == nil) then
-    ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline = {}
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId] == nil ) then
-      ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId] = {}
-  end
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId].id   = skillLineId
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline[skillLineId].name = slName
-end
-
---Companions
-function ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, currentRapport)
-  ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapport: called")
-  ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
-  --
-  ElderScrollsOfAlts:CollectCompanionDataInit(playerKey, companionId, cname)
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].name    = cname
-  ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].rapport = currentRapport
-end
-  
---ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
-function ElderScrollsOfAlts:SaveDataWerewolf(playerKey, baseElem)
-  ElderScrollsOfAlts.debugMsg("SaveDataWerewolf: playerKey= " .. tostring(playerKey) )
-  baseElem.werewolf = true
-  --
-  ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem, "world","Werewolf",ElderScrollsOfAlts.BITE_WERE_ABILITY,ElderScrollsOfAlts.BITE_WERE_COOLDOWN)
-  --
-end
-
 --ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
 function ElderScrollsOfAlts:SaveDataVampire(playerKey, baseElem)
   ElderScrollsOfAlts.debugMsg("SaveDataVampire: playerKey= " .. tostring(playerKey) )
@@ -1021,58 +881,67 @@ function ElderScrollsOfAlts:SaveDataVampire(playerKey, baseElem)
   --
 end
 
+--ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
+function ElderScrollsOfAlts:SaveDataWerewolf(playerKey, baseElem)
+  ElderScrollsOfAlts.debugMsg("SaveDataWerewolf: playerKey= " .. tostring(playerKey) )
+  baseElem.werewolf = true
+  --
+  ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem, "world","Werewolf",ElderScrollsOfAlts.BITE_WERE_ABILITY,ElderScrollsOfAlts.BITE_WERE_COOLDOWN)
+  --
+end
+
 
 --loadPlayerDataPart
 function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscovered)
-  if skillType == nil then
-      ElderScrollsOfAlts.debugMsg("SaveDataSkillData: skillType is NIL")
-      return
-  end
-  --ElderScrollsOfAlts.debugMsg("loadPlayerDataPart: skillType="..skillType..".")
+	if skillType == nil then
+		ElderScrollsOfAlts.outputMsg("Warning: SaveDataSkillData: skillType is NIL")
+		return
+	end
+	--ElderScrollsOfAlts.debugMsg("loadPlayerDataPart: skillType="..skillType..".")
 	local numSkillLines = GetNumSkillLines(skillType)
-  for ii = 1, numSkillLines do
+	for ii = 1, numSkillLines do
 		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
 		--name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
 		if name == nil then
 			name = ii;
 		end
-    name = zo_strformat( "<<1>>", name ) -- get rid of links and junk?
-    if discovered or outputUndiscovered then
-      --ElderScrollsOfAlts.debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
-      baseElem[name]	= {}
-      local baseElemTable = baseElem[name]
-      local numAbilities = GetNumSkillAbilities(skillType, ii)
-      baseElemTable.name = name
-      baseElemTable.idx  = ii
-      baseElemTable.rank = rank
-      baseElemTable.numAbilities = numAbilities
-      baseElemTable.skillLineId  = skillLineId
-      
-      local lastRankXP, nextRankXP, currentXP  = GetSkillLineXPInfo( skillType, ii )
-      baseElemTable.lastRankXP = lastRankXP
-      baseElemTable.nextRankXP = nextRankXP
-      baseElemTable.currentXP  = currentXP
+		name = zo_strformat( "<<1>>", name ) -- get rid of links and junk?
+		if discovered or outputUndiscovered then
+			--ElderScrollsOfAlts.debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
+			baseElem[name]	= {}
+			local baseElemTable = baseElem[name]
+			local numAbilities = GetNumSkillAbilities(skillType, ii)
+			baseElemTable.name = name
+			baseElemTable.idx  = ii
+			baseElemTable.rank = rank
+			baseElemTable.numAbilities = numAbilities
+			baseElemTable.skillLineId  = skillLineId
 
-      --ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
-      --string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 
-      --GetSkillAbilityInfo(number SkillType skillType, number skillIndex, number abilityIndex)
-      baseElemTable.abilities = {}
-      local baseAbilityElem = baseElemTable.abilities
-      for abilityIndex = 1, numAbilities do
-        local ABname, ABtextureName, ABearnedRank, ABpassive, ABultimate, ABpurchased, ABprogressionIndex, ABrankIndex = GetSkillAbilityInfo(skillType, ii, abilityIndex)
-        ABname = zo_strformat( "<<1>>", ABname ) -- get rid of links and junk?
-        baseAbilityElem[ABname] = {}
-        baseAbilityElem[ABname].name        = ABname
-        baseAbilityElem[ABname].textureName = ABtextureName
-        baseAbilityElem[ABname].earnedRank  = ABearnedRank
-        baseAbilityElem[ABname].passive     = ABpassive
-        baseAbilityElem[ABname].ultimate    = ABultimate
-        baseAbilityElem[ABname].purchased   = ABpurchased
-        baseAbilityElem[ABname].progressionIndex = ABprogressionIndex
-        baseAbilityElem[ABname].rankIndex   = ABrankIndex
-		--TODO MAX
-      end
+			local lastRankXP, nextRankXP, currentXP  = GetSkillLineXPInfo( skillType, ii )
+			baseElemTable.lastRankXP = lastRankXP
+			baseElemTable.nextRankXP = nextRankXP
+			baseElemTable.currentXP  = currentXP
+			ElderScrollsOfAlts.outputMsg("SKILL:",name," last:",lastRankXP, " next:", nextRankXP, " curr:", currentXP )
 
+			--ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
+			--string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 
+			--GetSkillAbilityInfo(number SkillType skillType, number skillIndex, number abilityIndex)
+			baseElemTable.abilities = {}
+			local baseAbilityElem = baseElemTable.abilities
+			for abilityIndex = 1, numAbilities do
+				local ABname, ABtextureName, ABearnedRank, ABpassive, ABultimate, ABpurchased, ABprogressionIndex, ABrankIndex = GetSkillAbilityInfo(skillType, ii, abilityIndex)
+				ABname = zo_strformat( "<<1>>", ABname ) -- get rid of links and junk?
+				baseAbilityElem[ABname] = {}
+				baseAbilityElem[ABname].name        = ABname
+				baseAbilityElem[ABname].textureName = ABtextureName
+				baseAbilityElem[ABname].earnedRank  = ABearnedRank
+				baseAbilityElem[ABname].passive     = ABpassive
+				baseAbilityElem[ABname].ultimate    = ABultimate
+				baseAbilityElem[ABname].purchased   = ABpurchased
+				baseAbilityElem[ABname].progressionIndex = ABprogressionIndex
+				baseAbilityElem[ABname].rankIndex   = ABrankIndex
+				--TODO MAX
+			end
     else 
       --debugMsg("loadPlayerDataPart: skillType="..skillType..". name=" ..name)
     end      
@@ -1114,14 +983,14 @@ function ElderScrollsOfAlts.SaveDataPlayerTradeDetails(parentName, parentTableEl
           selL.currentUpgradeLevel   = currentUpgradeLevel
           selL.maxUpgradeLevel       = maxUpgradeLevel
           selL.nextUpgradeEarnedRank = nextUpgradeEarnedRank
-          local match1 = ElderScrollsOfAlts:matchStringList(plainName,matchNameList1)
+          local match1 = ElderScrollsOfAlts:matchStringList(plainName,ElderScrollsOfAlts.view.matchNameList1)
           if match1 then
             selElemSubTable.sunk    = selElemSubTable.sunk    + (currentUpgradeLevel - 1)
             selElemSubTable.sinkmax = selElemSubTable.sinkmax + (maxUpgradeLevel - 1)
             tradeTableElem.sunk     = selElemSubTable.sunk
             tradeTableElem.sinkmax  = selElemSubTable.sinkmax
           end
-          local match2 = ElderScrollsOfAlts:matchStringList(plainName,matchNameList2)
+          local match2 = ElderScrollsOfAlts:matchStringList(plainName,ElderScrollsOfAlts.view.matchNameList2)
           if match2 then
             selElemSubTable.sunk2    = selElemSubTable.sunk2    + (currentUpgradeLevel - 1)
             selElemSubTable.sinkmax2 = selElemSubTable.sinkmax2 + (maxUpgradeLevel - 1)
@@ -1320,17 +1189,6 @@ function ElderScrollsOfAlts:SaveDataPlayerStatsDataSub(playerElemS,derivedStat,d
   playerElemS[derivedStat].derivedStatName   = derivedStatName
   playerElemS[derivedStat].valueWithBonus    = value1
   playerElemS[derivedStat].valueWithOutBonus = value2
-end
-
-
-------------------------------
---NEW BETA/ALPHA
-function ElderScrollsOfAlts.DataSaveLivePlayerNew()
-  if (EchoESOADatastore ~= nil) then
-    EchoESOADatastore.saveCurrentPlayerData()
-  else 
-    ElderScrollsOfAlts:DataSaveLivePlayer()
-  end
 end
 
 

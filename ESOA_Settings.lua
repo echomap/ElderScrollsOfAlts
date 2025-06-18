@@ -1,19 +1,13 @@
+----------------------------------------
 --[[ Settings GUI ]]-- 
- 
 ----------------------------------------
--- Functions to process Settings data --
+-- LAM to create Settings data --
 ----------------------------------------
-
-------------------------------
--- UI Button
-function ElderScrollsOfAlts:GetUIButtonShown()
-   return (ElderScrollsOfAlts.savedVariables.uibutton.shown)
-end
 
 ------------------------------
 -- UI Button
 function ElderScrollsOfAlts.SetUIButtonShown(value)
-  ElderScrollsOfAlts.savedVariables.uibutton.shown = value
+  ElderScrollsOfAlts.CtrlSetShowUiButton(value)
   ElderScrollsOfAlts.debugMsg("SetUIButtonShown: value=",tostring(value) )
   if not value then
     ElderScrollsOfAlts.HideUIButton()
@@ -23,34 +17,23 @@ function ElderScrollsOfAlts.SetUIButtonShown(value)
 end
 
 ------------------------------
--- View Dropdown
-function ElderScrollsOfAlts:GetUIViewDropDownShown()
-  return (ElderScrollsOfAlts.savedVariables.viewdropdown.shown)
-end
-
-------------------------------
--- View Dropdown
+-- View Dropdown USED?
 function ElderScrollsOfAlts.SetUIViewDropDownShown(value)
-  ElderScrollsOfAlts.savedVariables.viewdropdown.shown = value
+  ElderScrollsOfAlts:CtrlSetUIViewDropDown(value)
   ElderScrollsOfAlts.debugMsg("SetUIViewDropDownShown: value=", tostring(value) )
   --TODO update UI
 end
 
 ------------------------------
--- Mouse Hightlight
-function ElderScrollsOfAlts:GetUIViewMouseHighlightShown()
-  return (ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown)
-end
-
-------------------------------
 --  Mouse Hightlight
 function ElderScrollsOfAlts.SetUIViewMouseHighlightShown(value)
-  ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = value
+  ElderScrollsOfAlts.CtrlSetShowMouseHighlight(value)
   ElderScrollsOfAlts.debugMsg("SetUIViewMouseHighlightShown: value=", tostring(value) )
-  if(ESOA_GUI2_Body_ListHolder~=nil and ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil) then
-    ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
-  end
+  --if(ESOA_GUI2_Body_ListHolder~=nil and ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil) then
+  --  ESOA_GUI2_Body_ListHolder.mouseHighlight:SetHidden(true)
+  --end
 end
+
 ------------------------------
 --Returns a list of font sizes
 function ElderScrollsOfAlts:GetSelectedFontSize()
@@ -107,27 +90,41 @@ end
 ------------------------------
 --Returns a list of character names
 function ElderScrollsOfAlts:ListOfCharacterNames()
-  local validChoices =  {}  
-	table.insert(validChoices, "Select")
-  if ElderScrollsOfAlts.altData.players ~= nil then
-    for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-      if(k~=nil) then
-        local displayName = k
-        if(v~=nil and v.bio~=nil) then
-            displayName = k .."("..tostring(v.bio.name)..")"
-        end
-        --debugMsg(ElderScrollsOfAlts.name .. " k " .. k)
-        table.insert(validChoices, displayName ) --v.rawname)--v.bio.name )
-      end
-    end
-  end
-  return validChoices 
+	local validChoices =  {}  
+	table.insert(validChoices, "Select")	
+	if( ESOADatastore~=nil ) then
+		local reval = EchoESOADatastore.getCharacterList(GetDisplayName())
+		if(reval~=nil) then
+			for index, tvalue in pairs(reval) do				
+				--ElderScrollsOfAlts.outputMsg("name=".. tostring(tvalue.name) .. " id=".. tostring(tvalue.id) .. " account=".. tostring(tvalue.account ) )
+				table.insert(validChoices, "[data]"..tvalue.id .."("..tostring(tvalue.name)..")"  )
+			end
+		else
+			--ElderScrollsOfAlts.outputMsg("No players listed in datastsore")
+		end
+	end -- TODO else
+	--
+	if ElderScrollsOfAlts.altData.players ~= nil then
+		for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+		if(k~=nil) then
+			local displayName = "[esoa]".. k
+			if(v~=nil and v.bio~=nil) then
+				displayName = "[esoa]"..k .."("..tostring(v.bio.name)..")"
+			end
+				--debugMsg(ElderScrollsOfAlts.name .. " k " .. k)
+				table.insert(validChoices, displayName ) --v.rawname)--v.bio.name )
+			end
+		end
+	end
+	--end
+	return validChoices 
 end
 
 ------------------------------
 --SETTINGS For use by Settings dropdown
 function ElderScrollsOfAlts:SelectCharacterName(choiceText)
-  ElderScrollsOfAlts.savedVariables.selected.charactername = choiceText
+	ElderScrollsOfAlts.outputMsg("SelectCharacterName: choiceText=",tostring(choiceText) )
+	ElderScrollsOfAlts.savedVariables.selected.charactername = choiceText
 end
 
 ------------------------------
@@ -142,8 +139,12 @@ function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
     ElderScrollsOfAlts.debugMsg("DoDeleteSelectedCharacter: charKey=" , tostring(charKey))
     if(ElderScrollsOfAlts.altData.players[charKey]~=nil)then
       ElderScrollsOfAlts.altData.players[charKey] = nil
-      ElderScrollsOfAlts.outputMsg("ESOA deleted character: Name=" .. tostring(charname) )
+      ElderScrollsOfAlts.outputMsg("ESOA deleted character: Name=" , tostring(charname) )
     end
+	-- 
+	if( ESOADatastore~=nil ) then	
+		EchoESOADatastore.deleteCharacterByID(charKey,GetDisplayName())
+	end
   end
 end
 
@@ -203,7 +204,7 @@ function ElderScrollsOfAlts:DoDeleteSelectedView()
   if(guiLine~=nil)then
     --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
     ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx] = nil
-    ElderScrollsOfAlts.outputMsg("Deleted view " .. ElderScrollsOfAlts.savedVariables.selected.viewidx)
+    ElderScrollsOfAlts.outputMsg("Deleted view " , ElderScrollsOfAlts.savedVariables.selected.viewidx)
   end
   ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
@@ -575,14 +576,17 @@ function ElderScrollsOfAlts:DoSaveProfileSettings()
   ElderScrollsOfAlts.altData.defaultsSaveTime = GetTimeStamp()
   ElderScrollsOfAlts.altData.useAsDefault = pName
   --
-  ElderScrollsOfAlts.altData.defaults.uiButtonShow       = ElderScrollsOfAlts:GetUIButtonShown()
-  ElderScrollsOfAlts.altData.defaults.uiMouseHighlight   = ElderScrollsOfAlts.GetUIViewMouseHighlightShown()
-  ElderScrollsOfAlts.altData.defaults.uiViewDropDown     = ElderScrollsOfAlts.GetUIViewDropDownShown()
-  
-  ElderScrollsOfAlts.altData.defaults.hideinmenus      = ElderScrollsOfAlts.savedVariables.hideinmenus
-  ElderScrollsOfAlts.altData.defaults.cpactivebar1Show = ElderScrollsOfAlts.savedVariables.cpactivebar1.show
-  ElderScrollsOfAlts.altData.defaults.cpactivebar2Show = ElderScrollsOfAlts.savedVariables.cpactivebar2.show
-  
+  ElderScrollsOfAlts.altData.defaults.uiButtonShow       = ElderScrollsOfAlts.savedVariables.uibutton.shown
+  --USED? ElderScrollsOfAlts.altData.defaults.uiViewDropDown     = ElderScrollsOfAlts.GetUIViewDropDownShown()
+  ElderScrollsOfAlts.altData.defaults.uiMouseHighlight   = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
+  --
+  ElderScrollsOfAlts.altData.defaults.hideinmenus        = ElderScrollsOfAlts.savedVariables.hideinmenus
+  ElderScrollsOfAlts.altData.defaults.cpactivebar1Show   = ElderScrollsOfAlts.savedVariables.cpactivebar1.show
+  ElderScrollsOfAlts.altData.defaults.cpactivebar2Show   = ElderScrollsOfAlts.savedVariables.cpactivebar2.show
+  --
+  --TODO Views?
+  ElderScrollsOfAlts.altData.defaults.pvpwarnings = ElderScrollsOfAlts.savedVariables.pvpwarnings
+  --
   ElderScrollsOfAlts.altData.defaults.colorTimerNear     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
   ElderScrollsOfAlts.altData.defaults.colorTimerNearer   = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
   ElderScrollsOfAlts.altData.defaults.colorTimerDone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
@@ -597,22 +601,17 @@ end
 function ElderScrollsOfAlts:DoLoadProfileSettings()
   if(ElderScrollsOfAlts.altData.useAsDefault~=nil and ElderScrollsOfAlts.altData.defaults~=nil )then
     --
-    ElderScrollsOfAlts.savedVariables.immersive        = ElderScrollsOfAlts.altData.defaults.immersive
-    ElderScrollsOfAlts.savedVariables.showmdk          = ElderScrollsOfAlts.altData.defaults.showmdk
-    ElderScrollsOfAlts.savedVariables.showdiscovery    = ElderScrollsOfAlts.altData.defaults.showdiscovery
-    ElderScrollsOfAlts.savedVariables.sessiontracking  = ElderScrollsOfAlts.altData.defaults.sessiontracking
-    ElderScrollsOfAlts.savedVariables.lifetimetracking = ElderScrollsOfAlts.altData.defaults.lifetimetracking
-   
-    --
     ElderScrollsOfAlts.SetUIButtonShown(ElderScrollsOfAlts.altData.defaults.uiButtonShow)
     ElderScrollsOfAlts.SetUIViewMouseHighlightShown(ElderScrollsOfAlts.altData.defaults.uiMouseHighlight)
-    ElderScrollsOfAlts.SetUIViewDropDownShown(ElderScrollsOfAlts.altData.defaults.uiViewDropDown)
+    -- USED? ElderScrollsOfAlts.SetUIViewDropDownShown(ElderScrollsOfAlts.altData.defaults.uiViewDropDown)
     
     ElderScrollsOfAlts.savedVariables.hideinmenus       = ElderScrollsOfAlts.altData.defaults.hideinmenus
     ElderScrollsOfAlts.savedVariables.cpactivebar1.show = ElderScrollsOfAlts.altData.defaults.cpactivebar1Show
     ElderScrollsOfAlts.savedVariables.cpactivebar2.show = ElderScrollsOfAlts.altData.defaults.cpactivebar2Show
-    
-    
+    --
+	--TODO Views?
+	ElderScrollsOfAlts.savedVariables.pvpwarnings = ElderScrollsOfAlts.altData.defaults.pvpwarnings
+	--
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNear     = ElderScrollsOfAlts.altData.defaults.colorTimerNear
     ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer
     ElderScrollsOfAlts.savedVariables.colors.colorTimerDone     = ElderScrollsOfAlts.altData.defaults.colorTimerDone
@@ -620,11 +619,77 @@ function ElderScrollsOfAlts:DoLoadProfileSettings()
     ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax     = ElderScrollsOfAlts.altData.defaults.colorSkillsMax
     ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax
     --
-   
-    --
     ElderScrollsOfAlts:RefreshTabs()
   end
 end
 
 ------------------------------
---EOF
+-- ProfileSettings, from settings,
+-- (ElderScrollsOfAlts.altData.accountdataonly)
+function ElderScrollsOfAlts:SetupAccountWideOnly()
+	ElderScrollsOfAlts.outputMsg("SetupAccountWideOnly: Called" )
+	-- copy player to account
+	-- all things savedvars will be from accoutnvars
+	-- data migrated?
+	if(ElderScrollsOfAlts.altData.uibutton==nil) then
+		ElderScrollsOfAlts.altData.uibutton = {
+			["shown"] = ElderScrollsOfAlts.savedVariables.uibutton.shown,
+			["top"]   = ElderScrollsOfAlts.savedVariables.uibutton.top,
+			["left"]  = ElderScrollsOfAlts.savedVariables.uibutton.left,
+		}
+	end
+	if not ElderScrollsOfAlts.altData.uibutton.shown then
+		ElderScrollsOfAlts.HideUIButton()
+	else
+		ElderScrollsOfAlts.ShowUIButton()
+	end
+	--
+	ElderScrollsOfAlts.altData.defaults.uiMouseHighlight = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
+	--colors
+	ElderScrollsOfAlts.SetupDefaultColors()
+	--
+	if(ElderScrollsOfAlts.altData.tabviewdata==nil) then
+		ElderScrollsOfAlts.altData.tabviewdata = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.savedVariables.gui)
+	end
+	--views
+end
+
+------------------------------
+-- ProfileSettings, from settings,
+-- (ElderScrollsOfAlts.altData.accountdataonly)
+function ElderScrollsOfAlts:SetupNotAccountWideOnly()
+	ElderScrollsOfAlts.outputMsg("SetupNotAccountWideOnly: Called" )
+	if not ElderScrollsOfAlts.savedVariables.uibutton.shown then
+		ElderScrollsOfAlts.HideUIButton()
+	else
+		ElderScrollsOfAlts.ShowUIButton()
+	end
+	--
+	ElderScrollsOfAlts.SetupDefaultColors()
+	--
+end
+
+------------------------------
+-- ProfileSettings, from settings, WILL REMOVE all character specific VIEW settings
+-- (ElderScrollsOfAlts.altData.accountdataonly)
+function ElderScrollsOfAlts:ClearNonAccountWideData()
+	ElderScrollsOfAlts.outputMsg("ClearNonAccountWideData: Called" )
+	-- data migrated?
+	-- remove players data
+	ElderScrollsOfAlts.savedVariables.viewmousehighlight = nil
+	ElderScrollsOfAlts.savedVariables.uibutton 		= nil
+    ElderScrollsOfAlts.savedVariables.hideinmenus	= nil
+    ElderScrollsOfAlts.savedVariables.cpactivebar1	= nil
+    ElderScrollsOfAlts.savedVariables.cpactivebar2 	= nil
+	ElderScrollsOfAlts.savedVariables.pvpwarnings	= nil
+	--
+    ElderScrollsOfAlts.savedVariables.colors		= nil
+    --
+    --ElderScrollsOfAlts:RefreshTabs()
+	--
+end
+
+
+----------------------------------------
+--[[ Settings GUI ]]-- 
+----------------------------------------

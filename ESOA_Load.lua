@@ -1,110 +1,68 @@
 --[[ ESOA Load ]]-- 
 ----------------------------------------
 -- Load Player Data from Saved Variables to GUI friendly data
+-- LEGACY
 ------------------------------
 
-------------------------------
--- 
-function ElderScrollsOfAlts.SavePlayerDataForGui(loadtype)
-  ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui: loadtype='"..tostring(loadtype).."'")
-  ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
-  --ALPHA ElderScrollsOfAlts.DataSaveLivePlayerNew()
-  ElderScrollsOfAlts.view.needToLoadGuiData = true
-  ElderScrollsOfAlts.debugMsg("SavePlayerDataForGui:", " called") 
-  ElderScrollsOfAlts:ResetPlayerOrder()
-end
 
 ------------------------------
--- 
-function ElderScrollsOfAlts:LoadPlayerDataForGui()
-  ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLines()
-  ElderScrollsOfAlts.view.needToLoadGuiData = false
-  ElderScrollsOfAlts.debugMsg("LoadPlayerDataForGui:", " called") 
+--
+function ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)
+	ElderScrollsOfAlts.debugMsg("SetupGuiPlayerBaseLines: k='"..tostring(k).."'")
+	playerLines[k].name = k -- overwritten by bio later
+	playerLines[k].rawname = k
+	--
+	playerLines[k].gender = -1
+	playerLines[k].level = -1
+	playerLines[k].xpleft = -1
+	playerLines[k].race = "Unk"
+	playerLines[k].class = "Unk"
+	playerLines[k].server = "Unk"
+	playerLines[k].Werewolf = false
+	playerLines[k].Vampire = false
+	playerLines[k].special    = 0    
+	playerLines[k].special_biteicon  = nil
+	playerLines[k].special_bitetimer = -1
+	--playerLines[k].special_bitetimer2 = "n/a"
+	playerLines[k].special_bitetimerDisplay = "[n/a]"
+	--
 end
 
 ------------------------------
 -- MAIN call that calls other functions ot populate PLAYER Data
-function ElderScrollsOfAlts:SetupGuiPlayerLines()
-  --local timeTotalStart = GetFrameTimeSeconds()
-  --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
-  --
-  ElderScrollsOfAlts.view.accountData = {}
-  ElderScrollsOfAlts.view.accountData.secondsplayed = 0
-  --TODO bankspaces
-  
-  --
-	local playerLines =  {}
-	--table.insert(playerLines, "Select")
-  local pCount = 0
-	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-    if k == nil then return end
-		--ElderScrollsOfAlts.debugMsg(" players " .. k)
-		playerLines[k] = {}
-    pCount = pCount+1    
-		playerLines[k].name = k --ElderScrollsOfAlts:getColoredString(ITEM_QUALITY_TRASH, k )
-    playerLines[k].rawname = k
-    playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
-    if(playerLines[k].category==nil)then
-      playerLines[k].category = "A"
-    end
-    playerLines[k].note = ElderScrollsOfAlts.altData.players[k].note
-    if(playerLines[k].note ==nil)then playerLines[k].note  = "" end
-    playerLines[k].order = ElderScrollsOfAlts.altData.players[k].order
-		local bio = ElderScrollsOfAlts.altData.players[k].bio
-    playerLines[k].gender = -1
-    playerLines[k].level = -1
-    playerLines[k].xpleft = -1
-    playerLines[k].race = "Unk"
-    playerLines[k].class = "Unk"
-    playerLines[k].server = "Unk"
-    playerLines[k].Werewolf = false
-    playerLines[k].Vampire = false
-    playerLines[k].special    = 0    
-    playerLines[k].special_biteicon  = nil
-    playerLines[k].special_bitetimer = -1
-    --playerLines[k].special_bitetimer2 = "n/a"
-    playerLines[k].special_bitetimerDisplay = "[n/a]"
-    playerLines[k].playersorder      = ElderScrollsOfAlts.altData.players[k].playersorder
-    playerLines[k].playerscreenorder = ElderScrollsOfAlts.altData.players[k].playerscreenorder
-    if(playerLines[k].playersorder == nil) then 
-      playerLines[k].playersorder = -1
-    end
-    if(playerLines[k].playerscreenorder == nil) then 
-      playerLines[k].playerscreenorder = -1
-    end
-    --
-    ElderScrollsOfAlts:SetupGuiPlayerBioLines(playerLines,k)
-    -- CHECK Data
-    if playerLines[k].level == nil or playerLines[k].level < 1 then
-      ElderScrollsOfAlts.altData.players[k]  = nil --TODO this working as intended?
-      return
-    end
-    --
-    ElderScrollsOfAlts:SetupGuiPlayerMiscLines(playerLines,k)   
-    ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
-    ElderScrollsOfAlts:SetupGuiPlayerStatsLines(playerLines,k)    
-    ElderScrollsOfAlts:SetupGuiPlayerLocLines(playerLines,k) 
-    ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
-    ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)      
-    ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)      
-    ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
-    ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
-    ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
-    ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
-    ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
-    ElderScrollsOfAlts:SetupPlayerLinesBuffs(playerLines,k)
-    ElderScrollsOfAlts:SetupPlayerLinesCP(playerLines,k)
-    --
-  end--for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-
-  -- PlayerLines to table
-  table.sort(playerLines)  
-  ElderScrollsOfAlts.view.maxPlayerLineCount = pCount
-  --local timeTotalEnd = GetFrameTimeSeconds()
-  --local timeTotalDiff = GetDiffBetweenTimeStamps(timeTotalStart, timeTotalEnd)
-  --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) .. " timeTotalEnd:" .. tostring(timeTotalEnd) )
-  --ElderScrollsOfAlts.debugMsg("ESOA.SAVE timeTotalDiff=".. tostring(timeTotalDiff) )
-  return playerLines
+--
+function ElderScrollsOfAlts:SetupGuiPlayerLinesForK(playerLines,k)
+	ElderScrollsOfAlts.debugMsg("SetupGuiPlayerLinesForK: Start w/k='"..tostring(k).."'")
+	--
+	playerLines[k] = {}
+	--
+	ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
+	--
+	ElderScrollsOfAlts:SetupGuiPlayerBaseLines2Legacy(playerLines,k)	--contains local stuff
+	--
+	ElderScrollsOfAlts:SetupGuiPlayerBioLines(playerLines,k)
+	-- CHECK Data
+	if playerLines[k].level == nil or playerLines[k].level < 1 then
+		ElderScrollsOfAlts.altData.players[k]  = nil --TODO this working as intended?
+		return
+	end
+	--
+	ElderScrollsOfAlts:SetupGuiPlayerMiscLines(playerLines,k)   
+	ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
+	ElderScrollsOfAlts:SetupGuiPlayerStatsLines(playerLines,k)    
+	ElderScrollsOfAlts:SetupGuiPlayerLocLines(playerLines,k) 
+	ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
+	ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)      
+	ElderScrollsOfAlts:SetupGuiPlayerEquipLines(playerLines,k)      
+	ElderScrollsOfAlts:SetupGuiResearchPlayerLines(playerLines,k)
+	ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
+	ElderScrollsOfAlts:SetupPlayerLinesCurrency(playerLines,k)
+	ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
+	ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
+	ElderScrollsOfAlts:SetupPlayerLinesBuffs(playerLines,k)
+	ElderScrollsOfAlts:SetupPlayerLinesCP(playerLines,k)
+	--
+	ElderScrollsOfAlts.debugMsg("SetupGuiPlayerLinesForK: Done w/k='"..tostring(k).."'")
 end
 
 --
@@ -120,6 +78,30 @@ function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
     retVal = tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]
   end
   return retVal
+end
+
+--
+function ElderScrollsOfAlts:SetupGuiPlayerBaseLines2Legacy(playerLines,k)
+	--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerBaseLines2Legacy: k='"..tostring(k).."'")
+	--
+	playerLines[k].category = ElderScrollsOfAlts.altData.players[k].category
+	if(playerLines[k].category==nil)then
+	  playerLines[k].category = "A"
+	end
+	--
+	playerLines[k].note = ElderScrollsOfAlts.altData.players[k].note
+	if(playerLines[k].note ==nil)then playerLines[k].note  = "" end
+	playerLines[k].order = ElderScrollsOfAlts.altData.players[k].order	
+	--
+	playerLines[k].playersorder      = ElderScrollsOfAlts.altData.players[k].playersorder
+	playerLines[k].playerscreenorder = ElderScrollsOfAlts.altData.players[k].playerscreenorder
+	if(playerLines[k].playersorder == nil) then 
+		playerLines[k].playersorder = -1
+	end
+	if(playerLines[k].playerscreenorder == nil) then 
+		playerLines[k].playerscreenorder = -1
+	end
+	--
 end
 
 --
@@ -582,6 +564,13 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
               elseif( rtVT.nextRankXP > rtVT.currentXP )then
                 playerLines[k][rtKT.."_XPCode"] = 1
                 playerLines[k][rtKT.."_Percentage"] =  math.floor(  (rtVT.currentXP/rtVT.nextRankXP)*100  )
+				local das = rtVT.currentXP / rtVT.nextRankXP
+				--ElderScrollsOfAlts.outputMsg("Skills DAS[", playerLines[k].name , "] das=", das, " name=", rtVT.name, " curXP=",rtVT.currentXP, " NextXP=", rtVT.nextRankXP)
+				if(das~=nil and das~=0) then
+					das = das*100
+					playerLines[k][rtKT.."_Perc"] = math.floor( das )
+					--ElderScrollsOfAlts.outputMsg("setupgui: das ",das, " name=", rtVT.name)
+				end
               end
               --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
               -- subskills in tooltip
@@ -914,7 +903,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].AvaRankStarts         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.rankStartsAt        ,"")
   playerLines[k].AvaNextRank           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.nextRankAt          ,"")
   playerLines[k].AvaRankName          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.avaRankName         ,"")
-  
+  --
   playerLines[k].AssignedCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignRewardEarnedTier, 0 )
   playerLines[k].CurrentCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignRewardEarnedTier, 0 )
   playerLines[k].GuestCampaignRewardEarnedTier = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignRewardEarnedTier, 0 )
@@ -926,12 +915,20 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].assignedcampaignrewardprogress = alliancewar.AssignedCampaignRewardNextProgressTier
   playerLines[k].assignedcampaignrewardtotal    = alliancewar.AssignedCampaignRewardNextTotalTier
   --
+  if( ElderScrollsOfAlts.altData.showpercents and playerLines[k].assignedcampaignrewardprogress~=nil and playerLines[k].assignedcampaignrewardtotal~=nil ) then
+	local das = playerLines[k].assignedcampaignrewardprogress / playerLines[k].assignedcampaignrewardtotal
+	if(das~=nil and das~=0) then
+		das = das*100
+		playerLines[k].assignedcampaignrewardearnedtierperc = math.floor( das )
+	end
+  end 
+  --
   if(playerLines[k].AssignedCampaignEndsAtOver) then
     --playerLines[k].assignedcampaignrewardearnedtier = "("..playerLines[k].assignedcampaignrewardearnedtier..")"
     --playerLines[k].currentCampaignrewardearnedTier  = "("..playerLines[k].currentCampaignrewardearnedTier..")"
     --playerLines[k].guestCampaignrewardearnedTier    = "("..playerLines[k].guestCampaignrewardearnedTier..")"
   end
-  
+  --
   --playerLines[k].assignedcampaignrewardearnedtier_rank = playerLines[k].AssignedCampaignRewardEarnedTier
   --playerLines[k].currentCampaignrewardearnedTier_rank  = playerLines[k].CurrentCampaignRewardEarnedTier
   --playerLines[k].guestCampaignrewardearnedTier_rank    = playerLines[k].GuestCampaignRewardEarnedTier
@@ -1039,21 +1036,21 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanions(playerLines,k)
 	if cnt == nil then return end
 	ElderScrollsOfAlts.debugMsg("companion data: cnt: '", cnt, "'" )
 
-	--TESTING
-	--ElderScrollsOfAlts.outputMsg( "TestCompanions:",">>>")
-	-- KEYS
+	-- KEYS -- sorted by release of companion
 	local keyset={}
 	for rtK1, rtKV1 in pairs(linedata.data) do
 		keyset[rtK1]=rtK1
 	end	
 	table.sort(keyset)
 	--TESTING
+	--ElderScrollsOfAlts.outputMsg( "TestCompanions:",">>>")
 	--for k, v in pairs(keyset) do
 	--	print(k, v)
 	--	ElderScrollsOfAlts.outputMsg( "TestCompanions:", "K=[", tostring(k), "] V=[", tostring(v), "]" )
 	--end
 	--ElderScrollsOfAlts.outputMsg( "TestCompanions:","<<<")
 	--TESTING
+	--
 	--Output Real Data, aligned to the first entry
 	ElderScrollsOfAlts.debugMsg( "TestCompanions:",">>>")		
 	local cInc = 1
@@ -1116,15 +1113,6 @@ function ElderScrollsOfAlts:SetupPlayerLinesTracking(playerLines,k)
       end
     end
   end  
-end
-
---
-function ElderScrollsOfAlts:getValueOrDefault(baseValue,defaultValue)
-  if(baseValue==nil) then
-    return defaultValue
-  else
-    return baseValue
-  end
 end
 
 --EOF

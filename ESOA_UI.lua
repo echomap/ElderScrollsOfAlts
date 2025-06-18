@@ -8,65 +8,113 @@
 ------------------------------
 -- SETUP: Colors
 function ElderScrollsOfAlts.SetupDefaultColors()
-  --
-  if(ElderScrollsOfAlts.savedVariables.colors==nil) then
-    ElderScrollsOfAlts.savedVariables.colors = {}
-  end
-  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear = {}
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r   = ElderScrollsOfAlts.rgbaWhite.r
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g   = ElderScrollsOfAlts.rgbaWhite.g
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b   = ElderScrollsOfAlts.rgbaWhite.b
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a   = ElderScrollsOfAlts.rgbaWhite.a
-  end
-  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer==nil) then
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer = {}
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r = ElderScrollsOfAlts.rgbaWhite.r
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g = ElderScrollsOfAlts.rgbaWhite.g
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = ElderScrollsOfAlts.rgbaWhite.b
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = ElderScrollsOfAlts.rgbaWhite.a
-  end
-  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerDone==nil) then
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone = {}
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r = ElderScrollsOfAlts.rgbaWhite.r
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g = ElderScrollsOfAlts.rgbaWhite.g
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b = ElderScrollsOfAlts.rgbaWhite.b
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a = ElderScrollsOfAlts.rgbaWhite.a
-  end
-  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r   = ElderScrollsOfAlts.rgbaWhite.r
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g   = ElderScrollsOfAlts.rgbaWhite.g
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b   = ElderScrollsOfAlts.rgbaWhite.b
-    ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a   = ElderScrollsOfAlts.rgbaWhite.a
-  end
-  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax = {}
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r   = ElderScrollsOfAlts.rgbaWhite.r
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g   = ElderScrollsOfAlts.rgbaWhite.g
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b   = ElderScrollsOfAlts.rgbaWhite.b
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a   = ElderScrollsOfAlts.rgbaWhite.a
-  end
-  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r   = ElderScrollsOfAlts.rgbaWhite.r
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g   = ElderScrollsOfAlts.rgbaWhite.g
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b   = ElderScrollsOfAlts.rgbaWhite.b
-    ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.rgbaWhite.a
-  end
-
-  
-  --[[
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = 0.64 
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g = 0.224
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b = 0.208
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a = ElderScrollsOfAlts.rgbaBase.a  
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r = 0.178
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g = 0.48
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b = 0.96
-  ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a = 0.9
-  --]]
+	--ElderScrollsOfAlts.outputMsg("SetupDefaultColors: Called" )
+	--if(not ElderScrollsOfAlts.altData.accountdataonly) then
+	  --
+	  if(ElderScrollsOfAlts.savedVariables.colors==nil) then
+		ElderScrollsOfAlts.savedVariables.colors = {}
+	  end
+	  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNear==nil) then
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNear = {}
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer==nil) then
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer = {}
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.r = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.g = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.b = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer.a = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerDone==nil) then
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerDone = {}
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.r = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.g = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.b = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerDone.a = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.savedVariables.colors.colorTimerNone==nil) then
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax==nil) then
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax = {}
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax==nil) then
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax = {}
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	--else
+	  --
+	  if(ElderScrollsOfAlts.altData.colors==nil) then
+		ElderScrollsOfAlts.altData.colors = {}
+	  end
+	  if(ElderScrollsOfAlts.altData.colors.colorTimerNear==nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerNear = {}
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.altData.colors.colorTimerNearer==nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer = {}
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.r = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.g = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.b = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.a = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.altData.colors.colorTimerDone==nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerDone = {}
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.r = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.g = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.b = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.a = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.altData.colors.colorTimerNone==nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerNone = {}
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.altData.colors.colorSkillsMax==nil) then
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax = {}
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	  if(ElderScrollsOfAlts.altData.colors.colorSkillsNearMax==nil) then
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax = {}
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.r   = ElderScrollsOfAlts.rgbaWhite.r
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.g   = ElderScrollsOfAlts.rgbaWhite.g
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.b   = ElderScrollsOfAlts.rgbaWhite.b
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.rgbaWhite.a
+	  end
+	--end
+	--[[
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = 0.64 
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.g = 0.224
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.b = 0.208
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.a = ElderScrollsOfAlts.rgbaBase.a  
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNone = {}
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.r = 0.178
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.g = 0.48
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.b = 0.96
+	ElderScrollsOfAlts.savedVariables.colors.colorTimerNone.a = 0.9
+	--]]
 end
 
 ------------------------------
@@ -89,16 +137,20 @@ function ElderScrollsOfAlts:ResetUIViews(self)
     --
     ElderScrollsOfAlts.savedVariables.currentView = nil
 end
---
-function ElderScrollsOfAlts:ResetPlayerOrder()
+------------------------------
+
+function ElderScrollsOfAlts:ResetPlayerOrder() --TODO Datastore
   local pServer   = GetWorldName()
-  for i = 1, GetNumCharacters() do
-      local charName, _, _, _, _, _, charID = GetCharacterInfo(i)
-      local playerKey = charID.."_".. pServer:gsub(" ","_")
-      if(ElderScrollsOfAlts.altData.players[playerKey]~=nil) then
-        ElderScrollsOfAlts.altData.players[playerKey].playerscreenorder = i
-      end
+  if(ElderScrollsOfAlts.altData.players~=nil) then
+	  for i = 1, GetNumCharacters() do
+		  local charName, _, _, _, _, _, charID = GetCharacterInfo(i)
+		  local playerKey = charID.."_".. pServer:gsub(" ","_")
+		  if(ElderScrollsOfAlts.altData.players[playerKey]~=nil) then
+			ElderScrollsOfAlts.altData.players[playerKey].playerscreenorder = i
+		  end
+	  end
   end
+  --TODO for esoadata
 end
 ------------------------------
 -- SETUP:
@@ -151,6 +203,10 @@ function ElderScrollsOfAlts.InitializeGui()
   local sVal = zo_strformat("(<<C:1>>)", pName )
   ESOA_GUI2_Header_WhoAmI:SetText(sVal)
   
+  local namewidth = 160
+  if( ElderScrollsOfAlts.altData.fieldWidthForName~=nil ) then
+	namewidth = ElderScrollsOfAlts.altData.fieldWidthForName
+  end
   --Calc Upper Header Min Width
   local mainHdrMinWidth = 
     ESOA_GUI2_Header_Locked:GetWidth() + 
@@ -162,6 +218,7 @@ function ElderScrollsOfAlts.InitializeGui()
     ESOA_GUI2_Header_SortUp:GetWidth() + 
     ESOA_GUI2_Header_SortDown:GetWidth() + 
     ESOA_GUI2_Header_SortBy_Value:GetWidth() + 
+	ESOA_GUI2_Header_Dropdown_AccountName:GetWidth() + 
     ESOA_GUI2_Header_WhoAmI:GetWidth()
   ElderScrollsOfAlts.debugMsg("mainHdrMinWidth=",tostring(mainHdrMinWidth))
   ElderScrollsOfAlts.view.headerWinWidth = mainHdrMinWidth
@@ -176,7 +233,7 @@ function ElderScrollsOfAlts.InitializeGui()
   
   if(ElderScrollsOfAlts.savedVariables.viewmousehighlight==nil)then
     ElderScrollsOfAlts.savedVariables.viewmousehighlight = {}
-    ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown = true
+	ElderScrollsOfAlts.CtrlSetShowMouseHighlight(true)
   end
   if(ElderScrollsOfAlts.savedVariables.uibutton==nil) then
     ElderScrollsOfAlts.savedVariables.uibutton = {}
@@ -233,8 +290,7 @@ end
 ------------------------------
 -- SETUP: Called from Delayed Start
 function ElderScrollsOfAlts:RestoreUI()
-  if(ElderScrollsOfAlts.savedVariables.uibutton.shown==nil) then ElderScrollsOfAlts.savedVariables.uibutton.shown=false end
-  if ElderScrollsOfAlts.savedVariables.uibutton.shown then
+  if ElderScrollsOfAlts.CtrlIsShowUiButton() then
     ElderScrollsOfAlts.ShowUIButton()
   else
     ElderScrollsOfAlts.HideUIButton()
@@ -257,6 +313,7 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.view.playersexisting = {}
   local numchars = ZO_AddOnManager:GetNumCharacters()
   ElderScrollsOfAlts.debugMsg("ESOA, numchars: '", numchars , "'")
+  ElderScrollsOfAlts.view.numchars = numchars
   -- not callable here??
 end
 
@@ -273,7 +330,7 @@ end
 function ElderScrollsOfAlts.ShowUIButton()
   ElderScrollsOfAlts.debugMsg("ShowUIButton");
   --d("ShowUIButton called. left="..tostring(ElderScrollsOfAlts.savedVariables.uibutton.left))
-  if(ElderScrollsOfAlts.savedVariables.uibutton.shown)then
+  if(ElderScrollsOfAlts.CtrlIsShowUiButton())then
     ESOA_ButtonFrame:SetHidden(false)
     ESOA_ButtonFrame:ClearAnchors()
     ESOA_ButtonFrame:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 
@@ -321,6 +378,29 @@ function ElderScrollsOfAlts:getViewDataByName(viewNameFind)
     end
   end
   return nil
+end
+
+------------------------------
+-- VIEWS: 
+function ElderScrollsOfAlts:ShowAndSetAccount(viewName, viewIdx, buttonCalled)
+	local viewChanged = false
+	if( ElderScrollsOfAlts.view.selectedAccount ~= viewName ) then
+		viewChanged = true
+	end
+	ElderScrollsOfAlts.view.selectedAccount 	= viewName
+	ElderScrollsOfAlts.view.selectedAccountIdx 	= viewIdx
+	--
+	ESOA_GUI2_Header_Dropdown_Views.comboBoxAccount = ESOA_GUI2_Header_Dropdown_AccountName.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown_AccountName)
+	local comboBoxAccount = ESOA_GUI2_Header_Dropdown_Views.comboBoxAccount
+	--
+	comboBoxAccount:SetSelected(ElderScrollsOfAlts.view.selectedAccount)
+	--
+	if(viewChanged == true) then
+		ElderScrollsOfAlts:HideAll()
+		ElderScrollsOfAlts:ShowGuiByChoice()
+	end
+	--ElderScrollsOfAlts:LoadPlayerDataForGui()
+	--
 end
 
 ------------------------------
@@ -468,8 +548,58 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     comboBox:AddItem(entry)
   end
   --
-  ESOA_GUI2_Body_CharListHeader.headerWinWidth = mhminWidth
-  
+  -- Account DropDown (ZO_ScrollableComboBox)
+  --
+  ElderScrollsOfAlts:SetupAccountDropDown()
+  --
+  ESOA_GUI2_Body_CharListHeader.headerWinWidth = mhminWidth  
+  --
+end
+
+------------------------------
+-- VIEWS: SETUP tttt
+function ElderScrollsOfAlts:SetupAccountDropDown()
+	ESOA_GUI2_Header_Dropdown_Views.comboBoxAccount = ESOA_GUI2_Header_Dropdown_AccountName.comboBox or ZO_ComboBox_ObjectFromContainer(ESOA_GUI2_Header_Dropdown_AccountName)
+	local comboBoxAccount = ESOA_GUI2_Header_Dropdown_Views.comboBoxAccount
+	comboBoxAccount:ClearItems()  
+	comboBoxAccount:SetSortsItems(false)
+	local function OnItemSelectAccount(_, choiceText, choice)
+		ElderScrollsOfAlts:debugMsg("AccountSelect: choiceText=" .. choiceText .. " choice=" .. tostring(choice) )
+		--ElderScrollsOfAlts:dumpPrintTable(choice)
+		local viewIdx = ElderScrollsOfAlts.view.accountLookupIdxFromName[choiceText]
+		ElderScrollsOfAlts:ShowAndSetAccount(choiceText,viewIdx, true )
+		PlaySound(SOUNDS.POSITIVE_CLICK)
+	end
+	local validChoicesAccount = {}
+	ElderScrollsOfAlts.view.accountLookupIdxFromName = {}
+	if(ESOADatastore~=nil) then
+		local list = ESOADatastore.getAccountList()
+		for account, serverdata in pairs(list) do
+			--bar.account = dServer
+			--bar.server  = dName
+			table.insert(validChoicesAccount, account )
+			ElderScrollsOfAlts.view.accountLookupIdxFromName[account] = i
+		end
+	else 
+		table.insert(validChoicesAccount, GetDisplayName() )
+		ElderScrollsOfAlts.view.accountLookupIdxFromName[GetDisplayName()] = 1
+	end
+	--
+	if( ElderScrollsOfAlts.view.selectedAccount ==nil ) then
+		ElderScrollsOfAlts.view.selectedAccount = ElderScrollsOfAlts.view.accountnamecurrrent
+		--ElderScrollsOfAlts.view.selectedAccountIdx = i
+	end 
+	--
+	ElderScrollsOfAlts.view.selectedAccountIdx = 1
+	for i = 1, #validChoicesAccount do
+		if( validChoicesAccount[i] == ElderScrollsOfAlts.view.selectedAccount ) then
+			ElderScrollsOfAlts.view.selectedAccountIdx = i
+		end		
+		local entry = comboBoxAccount:CreateItemEntry(validChoicesAccount[i], OnItemSelectAccount)
+		comboBoxAccount:AddItem(entry)
+	end
+	--
+	comboBoxAccount:SetSelected(ElderScrollsOfAlts.view.selectedAccountIdx)
 end
 
 ------------------------------
@@ -515,6 +645,7 @@ function ElderScrollsOfAlts:CreateGUI()
   ElderScrollsOfAlts.debugMsg("CreateGUI: whoami=",tostring(ElderScrollsOfAlts.view.whoiamplayerKey) )
   --FOR EACH CHAR 
   local playerLines = ElderScrollsOfAlts.view.playerLines
+  if(playerLines~=nil) then
   for k_entry, playerline in pairs(playerLines) do
     local charKey = k_entry
     --local lineName = "ESOA_GUI2_Body_ListHolder_Line_"..viewName.."_" ..charKey  
@@ -544,13 +675,14 @@ function ElderScrollsOfAlts:CreateGUI()
     --  ElderScrollsOfAlts.debugMsg("CreateGUI: hightlightSelected is nil")
     --end
     if(charKey == ElderScrollsOfAlts.view.whoiamplayerKey) then
-      ElderScrollsOfAlts:ShowHightlight(line)
+      ElderScrollsOfAlts:ShowHightlight(line,true)
       ElderScrollsOfAlts.debugMsg("Selected current player to hightlight")
       ESOA_GUI2_Header_WhoAmI:SetHandler("OnMouseDoubleClick", function(...) 
-        --ElderScrollsOfAlts:GUILineDoubleClick(...)
-        local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..ElderScrollsOfAlts.view.whoiamplayerKey)
-        ElderScrollsOfAlts:ShowHightlight(line)
-        end )
+		  --ElderScrollsOfAlts:GUILineDoubleClick(...)
+		  local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..ElderScrollsOfAlts.view.whoiamplayerKey)
+		  ElderScrollsOfAlts:ShowHightlight(line)
+      end )
+	  ElderScrollsOfAlts:ShowHightlight(line)
       ESOA_GUI2_Header_WhoAmI:SetMouseEnabled(true)
     end
     --
@@ -559,7 +691,7 @@ function ElderScrollsOfAlts:CreateGUI()
       
     --NOTE no entries created here.
   end --FOR EACH CHAR 
-  
+  end
 end--CreateGUI
 
 ------------------------------
@@ -1606,38 +1738,54 @@ end
 ------------------------------
 -- UI: 
 function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
-  ElderScrollsOfAlts.debugMsg("ListOfCategories: Called" )
-  local validChoices =  {}
-  if(forDisplayOnly~=nil and forDisplayOnly==true)then
-    table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_ALL )
-  end
-  if(forDisplayOnly~=nil) then
-    table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_EU  )
-    table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_US  )
-  end
-  
-  local tCount = 0
-	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
-    if k ~= nil then
-      --debugMsg("List: players " .. k)
-      local catP = ElderScrollsOfAlts.altData.players[k].category
-      if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
-        table.insert(validChoices, catP)	
-        ElderScrollsOfAlts.debugMsg("List: added cat=" .. catP)
-        tCount = tCount+1
-      end
-    end
-  end
-  --Default Values
-  ElderScrollsOfAlts.debugMsg("List: tCount= " .. tCount)
-  if(tCount==0)then
-    table.insert(validChoices, "A")
-    table.insert(validChoices, "B")
-  end  
-  --Sort
-  --local validChoicesS = table.sort( validChoices,  ElderScrollsOfAlts.SortCategoriesData )  
-   --Return
-  return validChoices
+	ElderScrollsOfAlts.debugMsg("ListOfCategories: Called" )
+	local validChoices =  {}
+	if(forDisplayOnly~=nil and forDisplayOnly==true)then
+		table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_ALL )
+	end
+	if(forDisplayOnly~=nil) then
+		table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_EU  )
+		table.insert(validChoices, ElderScrollsOfAlts.CATEGORY_US  )
+	end
+	--
+	local tCount = 0
+	if(ElderScrollsOfAlts.altData.players~=nil) then
+		for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+			if k ~= nil then
+			  --debugMsg("List: players " .. k)
+			  local catP = ElderScrollsOfAlts.altData.players[k].category
+			  if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
+				table.insert(validChoices, catP)
+				ElderScrollsOfAlts.debugMsg("List: added cat=" .. catP)
+				tCount = tCount+1
+			  end
+			end
+		end
+	end 
+	if (ESOADatastore ~= nil ) then
+		local cBasicData = ESOADatastore.getCharactersBasicData()
+		if(cBasicData~=nil) then
+			for playerKey, tvalue in pairs( cBasicData ) do
+				local catP = tvalue.category
+				ElderScrollsOfAlts.outputMsg("ListCats: playerKey=" , playerKey, " catP=" , catP)
+				if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
+					table.insert(validChoices, catP)
+					ElderScrollsOfAlts.debugMsg("List: added2 cat=" .. catP)
+					tCount = tCount+1
+				end
+			end
+		end
+	end
+	--Default Values
+	ElderScrollsOfAlts.debugMsg("List: tCount= " .. tCount)
+	if(tCount==0)then
+		table.insert(validChoices, "A")
+		table.insert(validChoices, "B")
+	end  
+	--Sort
+	--local validChoicesS = table.sort( validChoices,  ElderScrollsOfAlts.SortCategoriesData )  
+	--Return
+	return validChoices
 end
 
 ------------------------------
@@ -1706,8 +1854,9 @@ end
 
 ------------------------------
 -- UI: 
-function ElderScrollsOfAlts:ShowHightlight(control)
-  if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
+function ElderScrollsOfAlts:ShowHightlight(control, forced)
+  --if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
+  if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and (forced or ElderScrollsOfAlts.CtrlIsShowMouseHighlight()) ) then
    --d("GuiLineOnMouseEnter control="..tostring(control)  )
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, ElderScrollsOfAlts.altData.fieldYOffset)
@@ -1727,6 +1876,7 @@ end
 -- UI: 
 function ElderScrollsOfAlts:GuiLineOnMouseEnter(control)
   if not control then return end
+  --TODO Need to check if right kind of control?
   ElderScrollsOfAlts:ShowHightlight(control)
 end
 
@@ -1757,7 +1907,7 @@ function ElderScrollsOfAlts:GUILineDoubleClick(button,buttonnum)
   ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: charKey: " .. tostring(charKey) )
   
   if buttonnum == 1 then
-		if button.itemLink~=nil and button.itemLink ~= "" then
+	if button.itemLink~=nil and button.itemLink ~= "" then
       ElderScrollsOfAlts.debugMsg("GUILineDoubleClick: show itemlink")
 			ZO_ChatWindowTextEntryEditBox:SetText( ZO_ChatWindowTextEntryEditBox:GetText() .. zo_strformat(SI_TOOLTIP_ITEM_NAME, button.itemLink) )
     else
@@ -1765,7 +1915,7 @@ function ElderScrollsOfAlts:GUILineDoubleClick(button,buttonnum)
       local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..charKey)
       ElderScrollsOfAlts:ShowHightlight(line)
       ElderScrollsOfAlts.debugMsg("Selected player to hightlight c")
-		end
+	end
     --[[
     if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil)then
       ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
@@ -2214,7 +2364,10 @@ function ElderScrollsOfAlts:CreateObjectsCPBar()
 end
 
 -- SLOTTED PASSIVE CP BAR
-function ElderScrollsOfAlts:SetupCPBar()  
+function ElderScrollsOfAlts:SetupCPBar()  --TODO Datastore
+end
+
+function ElderScrollsOfAlts:SetupCPBar2()  --TODO Datastore
   --d("ElderScrollsOfAlts:SetupCPBar()...");
   --SETUP
   if( ElderScrollsOfAlts.view.cpbar1 == nil) then

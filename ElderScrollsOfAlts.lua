@@ -32,7 +32,7 @@ ElderScrollsOfAlts = {
     view            = {},
     -- Saved Settings
     savedVariables  = {},
-    altData         = {},
+    altData         = {},	
 	reloaded    = "load_reload",
 	manualload  = "load_manual",
 	startupload = "load_startup",
@@ -67,12 +67,10 @@ ElderScrollsOfAlts = {
 }
 
 --ZO_SORT_ORDER_UP, --ZO_SORT_ORDER_DOWN
-local defaultSettings = {   
-  sversion   = ElderScrollsOfAlts.version,
-  --currentSortKey   = "name",
-  --currentSortOrder =  true,
-  currentView      = GetString(ESOA_VIEW_HOME),
-  currentsort      = { },
+local defaultSettings = {
+  sversion			= ElderScrollsOfAlts.version,
+  currentView      	= GetString(ESOA_VIEW_HOME),
+  currentsort      	= { },
   fieldWidthForName = 180,
   window     = {
       ["minimized"] = false,
@@ -93,10 +91,14 @@ local defaultSettings = {
   allowsaveoddviewnames = false,
   pvpwarnings = true
 }
+local defaultSettings2 = {
+  sversion   = ElderScrollsOfAlts.version,
+}
 
 local defaultSettingsGlobal = {
-  debug      = false,
-  beta       = false,
+  debug        = false,
+  beta         = false,
+  showpercents = true  -- show partial numbers for skills etc
 }
 
 --Commands, help/debug/beta/testdata/deltestdata
@@ -135,6 +137,8 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
     ElderScrollsOfAlts:DelTestData1()     --debug
   elseif options[1] == "changefont" then--debug
     ElderScrollsOfAlts:ChangeESOAFontGame() --debug
+  elseif options[1] == "testtime1" then--debug
+    ElderScrollsOfAlts:TestTime1() --debug
   elseif options[1] == "resetviews" then
     ElderScrollsOfAlts:ResetUIViews()     
   elseif options[1] == "showentries" then
@@ -265,12 +269,40 @@ end
 -- SETUP  setup event handling
 -- Called from OnAddOnLoaded
 function ElderScrollsOfAlts.SetupDefaultDefaults()
+  ElderScrollsOfAlts.view.accountnamecurrrent = GetDisplayName()
   if(ElderScrollsOfAlts.altData.playersorderlast == nil) then
     ElderScrollsOfAlts.altData.playersorderlast = 0
   end
   if(ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames == nil) then
     ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames = false
   end
+  --
+  -- Create view of account list
+  ElderScrollsOfAlts.view.accountnames = {}
+  if(ESOADatastore~=nil) then
+	local list = ESOADatastore.getAccountList()
+	for account, serverdata in pairs(list) do
+		--bar.account = dServer
+		--bar.server  = dName
+		ElderScrollsOfAlts.outputMsg("Account Name(s): Added= account=" , account, " serverdata=", serverdata )
+		table.insert(ElderScrollsOfAlts.view.accountnames, account)
+	end
+  else 
+	ElderScrollsOfAlts.outputMsg("Account Name(s): Added=" , ElderScrollsOfAlts.view.accountnamecurrrent )
+    table.insert(ElderScrollsOfAlts.view.accountnames, ElderScrollsOfAlts.view.accountnamecurrrent)
+  end
+  --[[
+  if(EchoESOADatastore~=nil and EchoESOADatastore.svListDataAW~=nil and EchoESOADatastore.svListDataAW.servers~=nil ) then
+	for kName, kVal in pairs(EchoESOADatastore.svListDataAW.servers) do
+		ElderScrollsOfAlts.outputMsg("Account Name(s): kName=" , kName, " kVal=", kVal )
+		table.insert(ElderScrollsOfAlts.view.accountnames, kName)
+	end
+  else
+	ElderScrollsOfAlts.outputMsg("Account Name(s): Added=" , ElderScrollsOfAlts.view.accountnamecurrrent )
+    table.insert(ElderScrollsOfAlts.view.accountnames, ElderScrollsOfAlts.view.accountnamecurrrent)
+  end
+  ]]
+  --
   ElderScrollsOfAlts.view.pauseactivesave = false
   if(ElderScrollsOfAlts.view.viewkeyXlate==nil) then
     ElderScrollsOfAlts.view.viewkeyXlate = {}
@@ -338,6 +370,13 @@ function ElderScrollsOfAlts.DelayedStart()
       ElderScrollsOfAlts.name .. GetString(SI_ESOA_MESSAGE)) -- Top-right alert.
 end
 
+------------------------------
+-- 
+function ElderScrollsOfAlts:MigrateSavedSettingsOnly()
+	-- copy player to account
+	-- remove players data
+	-- data migrated?
+end
 
 -- EVENT
 function ElderScrollsOfAlts.OnPlayerLoaded(e)
@@ -365,13 +404,18 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   ElderScrollsOfAlts.savedVariables = ZO_SavedVars:New("ElderScrollsOfAltsSavedVariables", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettings)
   --(savedVariableTable, version, namespace, defaults, profile, displayName)
   ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, nil, defaultSettingsGlobal)
-
+  -- Try a New Multi Account Wide Format!
+  --local namespace = nil
+  --local profile = nil
+  --local displayName = "ESOA"
+  --ElderScrollsOfAlts.altData = ZO_SavedVars:NewAccountWide("ESOA_AltData", ElderScrollsOfAlts.SV_VERSION_NAME, namespace, defaultSettingsGlobal, profile,displayName)
+  --
+  --TODO ElderScrollsOfAlts:MigrateSavedSettingsOnly()
   --
   ElderScrollsOfAlts.allowedViewEntriesLC = {}
   for kName, kVal in pairs(ElderScrollsOfAlts.allowedViewEntries) do
     ElderScrollsOfAlts.allowedViewEntriesLC[kName] = kVal
   end
-  
   --check/setup a bit earlier
   ElderScrollsOfAlts.CheckData()
   ElderScrollsOfAlts.SetupDefaultDefaults()
