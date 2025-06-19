@@ -1,5 +1,12 @@
+----------------------------------------
+--[[ ESOA UI ]]-- 
+----------------------------------------
 -- Player Note processing and saving
+------------------------------------------ 
 
+
+------------------------------
+-- 
 function ElderScrollsOfAlts:ShowCharacterNote(self)
 	local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername
 	--Select the Row
@@ -140,3 +147,5 @@ end
 
 
 --EOF
+----------------------------------------
+----------------------------------------

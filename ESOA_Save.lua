@@ -1,5 +1,11 @@
+----------------------------------------
+--[[ ESOA UI ]]-- 
+----------------------------------------
 -- Save Player Data to Saved Variables
+------------------------------------------ 
 
+
+------------------------------
 -- M1 : Solvent Proficiency, Metalworking, Tailoring, (Aspect Improvement, Potency Improvement), Recipe Quality, Recipe Improvement, Woodworking
 ElderScrollsOfAlts.view.matchNameList1 = {GetString(ESOA_FULL_SUB_SOLV),  GetString(ESOA_FULL_SUB_METAL),  GetString(ESOA_FULL_SUB_TAIL),  GetString(ESOA_FULL_SUB_ASPIMP),  GetString(ESOA_FULL_SUB_RECQUA),  GetString(ESOA_FULL_SUB_WOOD),  GetString(ESOA_FULL_SUB_ENGRAV) }
 -- M2 : Provisioning
@@ -921,7 +927,7 @@ function ElderScrollsOfAlts:SaveDataSkillData(skillType,baseElem,outputUndiscove
 			baseElemTable.lastRankXP = lastRankXP
 			baseElemTable.nextRankXP = nextRankXP
 			baseElemTable.currentXP  = currentXP
-			ElderScrollsOfAlts.outputMsg("SKILL:",name," last:",lastRankXP, " next:", nextRankXP, " curr:", currentXP )
+			ElderScrollsOfAlts.debugMsg("SKILL:",name," last:",lastRankXP, " next:", nextRankXP, " curr:", currentXP )
 
 			--ElderScrollsOfAlts.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
 			--string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 

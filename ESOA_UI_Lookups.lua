@@ -474,8 +474,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
       eline:SetText( rapport )
       if(level~=nil and level>-1) then
-        eline.tooltip = zo_strformat("<<1>>'s companion <<2>> has rapport of <<3>>.",
-			playerLine.name, cName, rapport  )
+		local rText = ElderScrollsOfAlts.GuiCharLineLookupCompanionRapportInfo(rapport)
+        eline.tooltip = zo_strformat("<<1>>'s companion <<2>> has rapport of <<3>> (<<4>>).",
+			playerLine.name, cName, rapport, rText )
 	  end
     else
       local val = playerLine[string.lower(viewKey)]
@@ -1222,9 +1223,29 @@ function ElderScrollsOfAlts:TooltipExitStub(myLabel,craftName)
 end
 
 ------------------------------
--- View Lookup, Companion XXX
+-- View Lookup, Companion XXX 
+--https://en.uesp.net/wiki/Online:Companions#Rapport
+--
 function ElderScrollsOfAlts.GuiCharLineLookupCompanionRapportInfo(rapport)
-	return rapport
+	local retval = rapport
+	if( rapport < -4000 ) then
+		retval = GetString(ESOA_RAPPORT_1)
+	elseif( rapport < -2500 ) then
+		retval = GetString(ESOA_RAPPORT_2)
+	elseif( rapport < -749 ) then
+		retval = GetString(ESOA_RAPPORT_3)
+	elseif( rapport < -999 ) then
+		retval = GetString(ESOA_RAPPORT_4)
+	elseif( rapport < -1999 ) then
+		retval = GetString(ESOA_RAPPORT_5)
+	elseif( rapport < -2999 ) then
+		retval =GetString(ESOA_RAPPORT_6)
+	elseif( rapport < -3999 ) then
+		retval = GetString(ESOA_RAPPORT_7)
+	else
+		retval = GetString(ESOA_RAPPORT_8)
+	end
+	return retval
 end
 
 ------------------------------

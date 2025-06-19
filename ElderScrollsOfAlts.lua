@@ -291,17 +291,6 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
 	ElderScrollsOfAlts.outputMsg("Account Name(s): Added=" , ElderScrollsOfAlts.view.accountnamecurrrent )
     table.insert(ElderScrollsOfAlts.view.accountnames, ElderScrollsOfAlts.view.accountnamecurrrent)
   end
-  --[[
-  if(EchoESOADatastore~=nil and EchoESOADatastore.svListDataAW~=nil and EchoESOADatastore.svListDataAW.servers~=nil ) then
-	for kName, kVal in pairs(EchoESOADatastore.svListDataAW.servers) do
-		ElderScrollsOfAlts.outputMsg("Account Name(s): kName=" , kName, " kVal=", kVal )
-		table.insert(ElderScrollsOfAlts.view.accountnames, kName)
-	end
-  else
-	ElderScrollsOfAlts.outputMsg("Account Name(s): Added=" , ElderScrollsOfAlts.view.accountnamecurrrent )
-    table.insert(ElderScrollsOfAlts.view.accountnames, ElderScrollsOfAlts.view.accountnamecurrrent)
-  end
-  ]]
   --
   ElderScrollsOfAlts.view.pauseactivesave = false
   if(ElderScrollsOfAlts.view.viewkeyXlate==nil) then

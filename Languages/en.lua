@@ -137,6 +137,14 @@ local localization_strings = {
 
   ESOA_RESEARCH_AVAIL = "[avail]",
   
+  ESOA_RAPPORT_1 = "Disdainful",
+  ESOA_RAPPORT_2 = "Irritated",
+  ESOA_RAPPORT_3 = "Wary",
+  ESOA_RAPPORT_4 = "Cordial",
+  ESOA_RAPPORT_5 = "Friendly",
+  ESOA_RAPPORT_6 = "Close",
+  ESOA_RAPPORT_7 = "Allied",
+  ESOA_RAPPORT_8 = "Companion",
   --
   ESOA_ALLIANCE_NOTREADY = "Alliance rank wasn't loaded/saved, try again",
   ESOA_ALLIANCE_READY    = "Alliance rank WAS loaded/saved",

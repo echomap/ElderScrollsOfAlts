@@ -1,4 +1,10 @@
---[[ ESOA Datastore Equipment Data ]]-- 
+----------------------------------------
+--[[ ESOA Datastore ]]-- 
+----------------------------------------
+-- INTERNAL Implementation API
+-- Equipment Data
+----------------------------------------
+
 
 ------------------------------
 --INTERNAL Implementation API
@@ -9,3 +15,7 @@
 function EchoESOADatastore.saveEquipData()
 	--TODO
 end
+
+
+----------------------------------------
+----------------------------------------

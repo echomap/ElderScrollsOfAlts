@@ -1,8 +1,10 @@
---[[ ESOA Datastore Player Data ]]-- 
+----------------------------------------
+--[[ ESOA Datastore ]]-- 
+----------------------------------------
+-- INTERNAL Implementation API
+-- Load/Save Player Data from Datastore
+----------------------------------------
 
-------------------------------
---INTERNAL Implementation API
-------------------------------
 
 ------------------------------
 -- INT
@@ -115,7 +117,7 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	-- Setup PLAYER LIST
 	if(EchoESOADatastore.svListDataAW[dName].players[playerKey] ==nil )  then
 		EchoESOADatastore.svListDataAW[dName].players[playerKey] = {}
-		EchoESOADatastore.svListDataAW[dName].players[playerKey].category = "A"
+		--EchoESOADatastore.svListDataAW[dName].players[playerKey].category = "A"
 	else
 		--Check version	
 		--[[
@@ -126,9 +128,9 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 			end
 		end 
 		]]
-		if( EchoESOADatastore.svListDataAW[dName].players[playerKey].category==nil) then
-			EchoESOADatastore.svListDataAW[dName].players[playerKey].category = "A"
-		end
+		--if( EchoESOADatastore.svListDataAW[dName].players[playerKey].category==nil) then
+		--	EchoESOADatastore.svListDataAW[dName].players[playerKey].category = "A"
+		--end
 	end
 	EchoESOADatastore.view.pNow = pNow
 	EchoESOADatastore.svListDataAW[dName].playerlist[playerKey] = pName
@@ -162,9 +164,10 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	EchoESOADatastore.saveCurrentPlayerDataResearch( playerKey, EchoESOADatastore.svCharDataAW.sections.research )
 	EchoESOADatastore.saveCurrentPlayerDataBuffs( playerKey, EchoESOADatastore.svCharDataAW.sections.buffs )
 	EchoESOADatastore.saveCurrentPlayerDataResearchtraits( playerKey, EchoESOADatastore.svCharDataAW.sections.researchtraits )
-	--EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, EchoESOADatastore.svCharDataAW.sections.companions )
-	----Section: Equipment section
-	--EchoESOADatastore:SavaDataPlayerEquipment(playerKey)
+	--
+	-- Removed: EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, EchoESOADatastore.svCharDataAW.sections.companions )
+	-- TODO: EchoESOADatastore.saveCurrentPlayerDataEquipment( playerKey, EchoESOADatastore.svCharDataAW.sections.equipment )
+	-- TODO: saveCurrentPlayerDataCPInt
 	--
 	EchoESOADatastore.saveCurrentPlayerDataSpecial( playerKey, EchoESOADatastore.svCharDataAW.sections.special, EchoESOADatastore.svCharDataAW.sections.buffs, EchoESOADatastore.svCharDataAW.sections.skills, EchoESOADatastore.svCharDataAW.sections.bio )
 	EchoESOADatastore.saveCurrentPlayerDataBank( playerKey, EchoESOADatastore.svListDataAW[dName] )
@@ -881,7 +884,7 @@ end
 
 ------------------------------
 -- INT
-function EchoESOADatastore.saveCurrentPlayerDataBuffs( playerKey, sectionElem)
+function EchoESOADatastore.saveCurrentPlayerDataBuffs( playerKey, sectionElem )
 	sectionElem[playerKey] = {}
 	local playerElem = sectionElem[playerKey]
 	--
@@ -1101,7 +1104,7 @@ function EchoESOADatastore.SaveDataPlayerTradeDetails(parentName, infoElem, subs
 end
 
 ------------------------------
--- INT 20250517
+-- INT - Only use for CURRENT Server
 function EchoESOADatastore.saveCharcterCustomData(characterLineKey, keyName, elementData)
 	EchoESOADatastore.outputMsg("SaveCustomData: character=",tostring(characterLineKey)," keyName=",tostring(keyName)," as '", tostring(elementData),"'")
 	EchoESOADatastore.checkNullData(characterLineKey)
@@ -1114,6 +1117,13 @@ function EchoESOADatastore.saveCharcterCustomData(characterLineKey, keyName, ele
 	end
 	EchoESOADatastore.svCharDataAW.custom[characterLineKey][keyName] = elementData
 	--EchoESOADatastore.debugMsg("SaveCustomData: player=",characterLineKey," keyName=",keyName," as ", elementData)
+	--
+	--[[Special condition
+	if( keyName == "category" )	then
+		local dName = GetDisplayName()
+		EchoESOADatastore.svListDataAW[dName].players[characterLineKey].category = elementData
+	end
+	]]
 end
 
 ------------------------------
@@ -1136,6 +1146,14 @@ end
 -- Saves all Player data
 function EchoESOADatastore.saveCurrentPlayerDataCPInt()
 	--TODO
+end
+
+------------------------------
+-- INT  TODO
+function EchoESOADatastore.saveCurrentPlayerDataEquipment( playerKey, sectionElem )
+	--sectionElem[playerKey] = {}
+	--local playerElem = sectionElem[playerKey]
+	--
 end
 
 ------------------------------

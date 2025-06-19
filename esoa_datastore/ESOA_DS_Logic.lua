@@ -1,6 +1,10 @@
---[[ ESOA Datastore INTERNAL]]--
+----------------------------------------
+--[[ ESOA Datastore ]]-- 
+----------------------------------------
 -- INTERNAL Implementation API
-------------------------------
+-- ONLY use SET methods for CURRENT server/account!
+----------------------------------------
+
 
 ------------------------------
 -- Implementation
@@ -174,31 +178,43 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	end
 	local retval = {}
 	EchoESOADatastore.outputMsg("GetCharDataByID: characterID=["..characterID.. "] for account["..account.."]" )
-	--table.insert(retval, EchoESOADatastore.svListDataAW[account].playerlist[characterID] )
-	--table.insert(retval, EchoESOADatastore.svListDataAW[account].players[characterID] )
 	--
 	retval["bio"] 			= EchoESOADatastore.svCharDataAW.sections.bio[characterID]
 	retval["stats"] 		= EchoESOADatastore.svCharDataAW.sections.stats[characterID]
 	retval["skills"]		= EchoESOADatastore.svCharDataAW.sections.skills[characterID]
 	retval["tradeskills"] 	= EchoESOADatastore.svCharDataAW.sections.tradeskills[characterID]
-	retval["xp"] 	 = EchoESOADatastore.svCharDataAW.sections.xp[characterID]
-	retval["power"]  = EchoESOADatastore.svCharDataAW.sections.power[characterID]
-	retval["riding"] = EchoESOADatastore.svCharDataAW.sections.riding[characterID]
-	retval["bags"] 	 = EchoESOADatastore.svCharDataAW.sections.bags[characterID]
+	retval["xp"] 	 		= EchoESOADatastore.svCharDataAW.sections.xp[characterID]
+	retval["power"]  		= EchoESOADatastore.svCharDataAW.sections.power[characterID]
+	retval["riding"] 		= EchoESOADatastore.svCharDataAW.sections.riding[characterID]
+	retval["bags"] 	 		= EchoESOADatastore.svCharDataAW.sections.bags[characterID]
 	retval["skillpoints"] 	= EchoESOADatastore.svCharDataAW.sections.skillpoints[characterID]
 	retval["achieve"]  		= EchoESOADatastore.svCharDataAW.sections.achieve[characterID]
 	retval["currency"] 		= EchoESOADatastore.svCharDataAW.sections.currency[characterID]
-	retval["ava"] 		= EchoESOADatastore.svCharDataAW.sections.ava[characterID]
-	retval["pvp"] 		= EchoESOADatastore.svCharDataAW.sections.pvp[characterID]
-	retval["infamy"] 	= EchoESOADatastore.svCharDataAW.sections.infamy[characterID]
-	retval["location"]	= EchoESOADatastore.svCharDataAW.sections.location[characterID]
-	retval["research"] 	= EchoESOADatastore.svCharDataAW.sections.research[characterID]
-	retval["buffs"] 	= EchoESOADatastore.svCharDataAW.sections.buffs[characterID]
-	retval["researchtraits"] = EchoESOADatastore.svCharDataAW.sections.researchtraits[characterID]
-	retval["companions"] = EchoESOADatastore.svCharDataAW.sections.companions[characterID]
-	retval["custom"] 	 = EchoESOADatastore.svCharDataAW.custom[characterID]
-	----Section: Equipment section
-	--EchoESOADatastore:SavaDataPlayerEquipment(playerKey)
+	retval["ava"] 			= EchoESOADatastore.svCharDataAW.sections.ava[characterID]
+	retval["pvp"] 			= EchoESOADatastore.svCharDataAW.sections.pvp[characterID]
+	retval["infamy"] 		= EchoESOADatastore.svCharDataAW.sections.infamy[characterID]
+	retval["location"]		= EchoESOADatastore.svCharDataAW.sections.location[characterID]
+	retval["research"] 		= EchoESOADatastore.svCharDataAW.sections.research[characterID]
+	retval["buffs"] 		= EchoESOADatastore.svCharDataAW.sections.buffs[characterID]
+	retval["researchtraits"]= EchoESOADatastore.svCharDataAW.sections.researchtraits[characterID]
+	retval["companions"] 	= EchoESOADatastore.svCharDataAW.sections.companions[characterID]
+	-- Defaults
+	if( EchoESOADatastore.svCharDataAW.custom ~= nil ) then
+		retval["custom"]	= EchoESOADatastore.svCharDataAW.custom[characterID]
+	end
+	if( retval["custom"] == nil ) then
+		retval["custom"] 	= {}
+	end
+	if( retval["custom"].category == nil ) then
+		retval["custom"].category = "A"
+	end
+	if( retval["custom"].playersorder == nil ) then
+		retval["custom"].playersorder = -1		
+	end
+	-- needed? retval["custom"].note = nil
+	EchoESOADatastore.outputMsg("GetCharDataByID: for id: ", characterID, " category=" , retval["custom"].category )	
+	--
+	-- TODO: CP, Equipment section(s)
 	--
 	table.insert(retval, EchoESOADatastore.svCharDataAW.sections.special[characterID]  )
 	--
@@ -341,5 +357,5 @@ function EchoESOADatastore:flatten( item, result )
 end
 
 
-------------------------------
-------------------------------
+----------------------------------------
+----------------------------------------

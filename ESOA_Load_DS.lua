@@ -1,11 +1,10 @@
 ----------------------------------------
---[[ ESOA Data Datastore ]]-- 
+--[[ ESOA ]]-- 
 ----------------------------------------
--- Load/Save Player Data from Datastore
-------------------------------
+-- INTERNAL Implementation API
+-- Load/Save Data from Datastore
+----------------------------------------
 
-------------------------------
--- 
 
 ------------------------------
 -- Get from Datastore without any legacy calls
@@ -81,9 +80,16 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	if(dName~=nil) then 
 		chardataO.account = dName
 	end
-	if(EchoESOADatastore.svListDataAW[dName]~=nil and EchoESOADatastore.svListDataAW[dName].players~=nil and EchoESOADatastore.svListDataAW[dName].players[charKey]~=nil ) then
-		chardataO.category 		= EchoESOADatastore.svListDataAW[dName].players[charKey].category
-		chardataO.playersorder 	= EchoESOADatastore.svListDataAW[dName].players[charKey].playersorder
+	--if( EchoESOADatastore.svListDataAW[dName]~=nil and EchoESOADatastore.svListDataAW[dName].players~=nil and EchoESOADatastore.svListDataAW[dName].players[charKey]~=nil ) then
+	if( chardataO.custom~=nil and chardataO.custom.category~=nil )  then
+		chardataO.category 		= chardataO.custom.category
+	else 
+		chardataO.category 		= "A"
+	end
+	if( chardataO.custom~=nil and chardataO.custom.playersorder~=nil )  then
+		chardataO.playersorder 		= chardataO.custom.playersorder
+	else 
+		chardataO.playersorder 		= -1
 	end
 	--TODO custom order
 	-- Flatten Sub Tables appropriately

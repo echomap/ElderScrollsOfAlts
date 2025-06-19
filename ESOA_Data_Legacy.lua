@@ -1,11 +1,11 @@
 ----------------------------------------
---[[ ESOA Data Legacy ]]-- 
+--[[ ESOA ]]-- 
 ----------------------------------------
--- Load/Save Player Data from ESOA saved variables (not Datastore)
-------------------------------
+-- INTERNAL Implementation API
+-- Data Legacy 
+-- Load/Save Data from ESOA saved variables (not Datastore)
+----------------------------------------
 
-------------------------------
--- 
 
 ------------------------------
 -- MAIN call that calls other functions ot populate PLAYER Data

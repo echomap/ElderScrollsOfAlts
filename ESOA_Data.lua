@@ -1,10 +1,9 @@
 ----------------------------------------
---[[ ESOA Data ]]-- 
+--[[ ESOA ]]-- 
 ----------------------------------------
--- Load/Save Player Data 
+-- INTERNAL Implementation API
 ----------------------------------------
 
-------------------------------
 
 ------------------------------
 --NEW BETA/ALPHA
@@ -127,7 +126,7 @@ end
 ------------------------------
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, cname, level, currentExperience, experienceForLevel)
-	ElderScrollsOfAlts.outputMsg("CollectCompanionDataLevel: Called")
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataLevel: Called")
 	if (EchoESOADatastore ~= nil) then
 		ElderScrollsOfAlts:CollectCompanionDataLevelDS(companionId, cname, level, currentExperience, experienceForLevel)
 	else
@@ -138,7 +137,7 @@ end
 ------------------------------
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataSkillRank(companionId, cname, skillLineId, slName, rank )
-	ElderScrollsOfAlts.outputMsg("CollectCompanionDataSkillRank: Called")
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillRank: Called")
 	if (EchoESOADatastore ~= nil) then
 		ElderScrollsOfAlts:CollectCompanionDataSkillRankDS(companionId, cname, skillLineId, slName, rank )
 	else
@@ -149,7 +148,7 @@ end
 ------------------------------
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, cname, skillLineId, slName )
-	ElderScrollsOfAlts.outputMsg("CollectCompanionDataSkillLine: Called")
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillLine: Called")
 	if (EchoESOADatastore ~= nil) then
 		ElderScrollsOfAlts:CollectCompanionDataSkillLineDS(companionId, cname, skillLineId, slName )
 	else
@@ -160,7 +159,7 @@ end
 ------------------------------
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, currentRapport)
-	ElderScrollsOfAlts.outputMsg("CollectCompanionDataRapport: Called")
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapport: Called")
 	if (EchoESOADatastore ~= nil) then
 		ElderScrollsOfAlts:CollectCompanionDataRapportDS(companionId, cname, currentRapport )
 	else
