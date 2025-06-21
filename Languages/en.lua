@@ -136,6 +136,7 @@ local localization_strings = {
   ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not this anymore? "Blood Ritual Cooldown"
 
   ESOA_RESEARCH_AVAIL = "[avail]",
+  ESOA_CRAFTING_QUEST_PREV = "Prev",
   
   ESOA_RAPPORT_1 = "Disdainful",
   ESOA_RAPPORT_2 = "Irritated",

@@ -955,6 +955,9 @@ function EchoESOADatastore.saveCurrentPlayerDataResearchtraits( playerKey, secti
 		elseif craftingType == CRAFTING_TYPE_JEWELRYCRAFTING then
 			baseTTElem = baseRTElem.jewelrycrafting
 		end
+		if(baseTTElem==nil) then
+			baseTTElem = {}
+		end
 		if(baseTTElem[patternName]==nil) then
 			baseTTElem[patternName] = {}
 		end
@@ -1017,6 +1020,7 @@ function EchoESOADatastore:SaveDataSkillData(skillType,baseElem,outputUndiscover
 			baseElemTable.lastRankXP = lastRankXP
 			baseElemTable.nextRankXP = nextRankXP
 			baseElemTable.currentXP  = currentXP
+			EchoESOADatastore.outputMsg("SaveDataSkillData:[",name,"] lastRankXP:",lastRankXP, " nextRankXP:",nextRankXP, " currentXP:",currentXP)
 
 			--EchoESOADatastore.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
 			--string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 
@@ -1240,5 +1244,37 @@ function EchoESOADatastore.saveCompanionDataRapport(playerKey, companionId, cnam
 end
 
 ------------------------------
+--
+function EchoESOADatastore.saveCharcterTrackingData(characterLineKey, trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
+	EchoESOADatastore.outputMsg("SaveTrackingData: character=",tostring(playerLineKey)," type=",tostring(trackingType)," name='", tostring(trackingName),"'")
+	EchoESOADatastore.checkNullData(characterLineKey)
+	--
+	if( EchoESOADatastore.svCharDataAW.tracking == nil ) then
+		EchoESOADatastore.svCharDataAW.tracking = {}
+	end
+	if( EchoESOADatastore.svCharDataAW.tracking[characterLineKey] == nil ) then
+		EchoESOADatastore.svCharDataAW.tracking[characterLineKey] = {}
+	end
+	if( EchoESOADatastore.svCharDataAW.tracking[characterLineKey][trackingType] == nil ) then
+		EchoESOADatastore.svCharDataAW.tracking[characterLineKey][trackingType] = {}
+	end
+	if( EchoESOADatastore.svCharDataAW.tracking[characterLineKey][trackingType][trackingName] == nil ) then
+		EchoESOADatastore.svCharDataAW.tracking[characterLineKey][trackingType][trackingName] = {}
+	end
+	local trackElem = EchoESOADatastore.svCharDataAW.tracking[characterLineKey][trackingType][trackingName]
+	--
+	trackElem.name          = trackingName
+	--trackElem.cat           = trackingType
+	trackElem.completed     = isCompleted
+	trackElem.completedtime = completedTimeStamp
+	--local hour, minute = ElderScrollsOfAlts:dailyReset()
+	--local timeToReset = hour*3600 + minute*60
+	trackElem.resettime     = trackElem.completedtime + timeToReset
+	--trackElem.resettime     = GetTimeStamp today at 10am UTC NA for 3am UTC EU ??
+	-- TODO EU NA
+	--timeToReset = 5*3600 + 0*60
+	--trackElem.resettime     = timeToReset
+end
+
 ------------------------------
--- EOF
+------------------------------

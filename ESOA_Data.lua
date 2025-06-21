@@ -167,6 +167,55 @@ function ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, curr
 	end
 end
 
+------------------------------
+--
+function ElderScrollsOfAlts:SaveTrackingDataComplete(trackingType,trackingName,isCompleted)
+	ElderScrollsOfAlts.debugMsg("trackingType: "..tostring(trackingType) .. " trackingName: " ..tostring(trackingName) )
+	local trackElem = nil
+	if (EchoESOADatastore ~= nil) then
+		local hour, minute = ElderScrollsOfAlts:dailyReset()
+		local timeToReset = hour*3600 + minute*60
+		trackElem = ElderScrollsOfAlts:SaveTrackingDataDS( trackingType,trackingName,isCompleted,GetTimeStamp(),timeToReset )
+	else
+		trackElem = ElderScrollsOfAlts:InitTrackingDataLegacy(trackingType,trackingName)
+		--
+		trackElem.name          = trackingName
+		trackElem.cat           = trackingType
+		trackElem.completed     = isCompleted
+		trackElem.completedtime = GetTimeStamp()
+		local hour, minute = ElderScrollsOfAlts:dailyReset()
+		local timeToReset = hour*3600 + minute*60
+		trackElem.resettime     = trackElem.completedtime + timeToReset
+		--trackElem.resettime     = GetTimeStamp today at 10am UTC NA for 3am UTC EU ??
+		-- TODO EU NA
+		--timeToReset = 5*3600 + 0*60
+		--trackElem.resettime     = timeToReset
+	end
+end
+
+------------------------------
+--
+function ElderScrollsOfAlts:CheckIfCpTypeIsSlottable(championSkillType)
+  if(ElderScrollsOfAlts.view.CpTypeIsSlottable==nil) then
+    ElderScrollsOfAlts.view.CpTypeIsSlottable = {}
+  end
+  if(ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]==nil) then
+    ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType] = CanChampionSkillTypeBeSlotted(championSkillType)
+  end
+  return ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]
+end
+
+------------------------------
+--
+function ElderScrollsOfAlts:CollectCPLegacy()
+  if (EchoESOADatastore ~= nil) then
+    --TODO EchoESOADatastore.XSDSFD()
+  else 
+    ElderScrollsOfAlts:CollectCPLegacy()
+  end
+end
+
+
 ----------------------------------------
  --[[ ESOA Data ]]-- 
 ----------------------------------------

@@ -988,6 +988,18 @@ function ElderScrollsOfAlts.SavePlayerDataDS( playerLineKey, keyName, elementDat
 	ESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
 end
 
+
+------------------------------
+-- 
+function ElderScrollsOfAlts:SaveTrackingDataDS( trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
+   ----Section: Statup section
+  local pID       = GetCurrentCharacterId()
+  local pServer   = GetWorldName()
+  local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )  
+  ----Section: Save section
+  ESOADatastore.saveCharcterTrackingData(playerKey, trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
+end
+
 ------------------------------
 -- 
 ----------------------------------------

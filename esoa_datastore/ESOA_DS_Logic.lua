@@ -141,25 +141,6 @@ end
 
 ------------------------------
 -- Implementation
--- I think this isnt right
-function EchoESOADatastore.getFlatDataForCharacters(account)
-	local retval1 = {}
-	local reval = EchoESOADatastore.getCharacterList(account)
-	if(reval~=nil) then
-		for index, tvalue in pairs(reval) do
-			--EchoESOADatastore.debugMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
-			EchoESOADatastore.debugMsg("name=".. tostring(tvalue.name) .. " id=".. tostring(tvalue.id ) .. " account=".. tostring(tvalue.account ) )
-			local val = EchoESOADatastore.getFlatDataForCharacterById(tvalue.id, account)
-			table.insert(retval, val)
-		end
-	else
-		EchoESOADatastore.outputMsg("No players listed in datastsore for account["..account.."]")
-	end
-	return retval1
-end
-
-------------------------------
--- Implementation
 function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	EchoESOADatastore.outputMsg("GetCharDataByID: for id: ", characterID, " account=" , account )
 	if(account==nil) then
@@ -178,7 +159,7 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	end
 	local retval = {}
 	EchoESOADatastore.outputMsg("GetCharDataByID: characterID=["..characterID.. "] for account["..account.."]" )
-	--
+	-- (Sections)
 	retval["bio"] 			= EchoESOADatastore.svCharDataAW.sections.bio[characterID]
 	retval["stats"] 		= EchoESOADatastore.svCharDataAW.sections.stats[characterID]
 	retval["skills"]		= EchoESOADatastore.svCharDataAW.sections.skills[characterID]
@@ -198,7 +179,9 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	retval["buffs"] 		= EchoESOADatastore.svCharDataAW.sections.buffs[characterID]
 	retval["researchtraits"]= EchoESOADatastore.svCharDataAW.sections.researchtraits[characterID]
 	retval["companions"] 	= EchoESOADatastore.svCharDataAW.sections.companions[characterID]
-	-- Defaults
+	-- (Tracking)
+	retval["tracking"] 		= EchoESOADatastore.svCharDataAW.tracking[characterID]		
+	-- (Custom)-->
 	if( EchoESOADatastore.svCharDataAW.custom ~= nil ) then
 		retval["custom"]	= EchoESOADatastore.svCharDataAW.custom[characterID]
 	end
@@ -213,8 +196,9 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	end
 	-- needed? retval["custom"].note = nil
 	EchoESOADatastore.outputMsg("GetCharDataByID: for id: ", characterID, " category=" , retval["custom"].category )	
+	-- <--(Custom)
 	--
-	-- TODO: CP, Equipment section(s)
+	-- TODO: (CP, Equipment) section(s)
 	--
 	table.insert(retval, EchoESOADatastore.svCharDataAW.sections.special[characterID]  )
 	--

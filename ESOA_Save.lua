@@ -702,7 +702,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
   ElderScrollsOfAlts.debugMsg("DataSaveLivePlayer: done")
 end
 
-function ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem,skillineName,specialSkillName,abilityname,buffcooldown)
+function ElderScrollsOfAlts:SaveDataSpecialBiteLegacy(playerKey, baseElem,skillineName,specialSkillName,abilityname,buffcooldown)
   ElderScrollsOfAlts.debugMsg("SaveDataSpecialBite: playerKey= " .. tostring(playerKey) )
   --Has to have this ability to be able to BITE!
   local foundItem = ElderScrollsOfAlts:FindAbility( ElderScrollsOfAlts.altData.players[playerKey], skillineName, specialSkillName, abilityname)
@@ -734,156 +734,12 @@ function ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem,skillineName
   --UUU
 end
 
---
-function ElderScrollsOfAlts:InitTrackingData(trackingType,trackingName)
-   ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )
-  ----Section: Save section
-	if ElderScrollsOfAlts.altData.players == nil then
-		ElderScrollsOfAlts.altData.players = {}
-	end
-  if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey] = {}
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey].tracking == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].tracking = {}
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType] = {}
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType][trackingName] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType][trackingName] = {}
-  end
-  return ElderScrollsOfAlts.altData.players[playerKey].tracking[trackingType][trackingName]
-end
-
---
-function ElderScrollsOfAlts:SaveTrackingDataComplete(trackingType,trackingName,isCompleted)
-  ElderScrollsOfAlts.debugMsg("SaveTrackingDataComplete: called")
-  ElderScrollsOfAlts.debugMsg("trackingType: "..tostring(trackingType) .. " trackingName: " ..tostring(trackingName) )
-  local trackElem = ElderScrollsOfAlts:InitTrackingData(trackingType,trackingName)
-  trackElem.name          = trackingName
-  trackElem.cat           = trackingType
-  trackElem.completed     = isCompleted
-  trackElem.completedtime = GetTimeStamp()
-  local hour, minute = ElderScrollsOfAlts:dailyReset()
-  local timeToReset = hour*3600 + minute*60
-  trackElem.resettime     = trackElem.completedtime + timeToReset
-  --trackElem.resettime     = GetTimeStamp today at 10am UTC NA for 3am UTC EU ??
-  -- TODO EU NA
-  --timeToReset = 5*3600 + 0*60
-  --trackElem.resettime     = timeToReset
-end
-
---
-function ElderScrollsOfAlts:CollectCP()
-  ElderScrollsOfAlts.debugMsg("CollectCP: called")
-  ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
-  
-  --local timeTotalStart = GetFrameTimeSeconds()
-  --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
-  
-  --debugMsg("pName='"..tostring(pName).."'" )
-  if ElderScrollsOfAlts.altData.players == nil then
-		ElderScrollsOfAlts.altData.players = {}
-  end
-  if( ElderScrollsOfAlts.altData.players[playerKey] == nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey] = {}
-  end
-  
-  ----Section: Collect section
-  --if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
-  --end  
-  
-  ----Section: Save section
-  if( ElderScrollsOfAlts.altData.players[playerKey] ~= nil ) then
-    ElderScrollsOfAlts.altData.players[playerKey].championpointsactive = {}
-    
-    --d("[start] TestCP...")
-    local CP = CHAMPION_PERKS
-    local championBar = CHAMPION_PERKS:GetChampionBar() 
-    local CPData = CHAMPION_DATA_MANAGER
-    
-    local start, nd = GetAssignableChampionBarStartAndEndSlots() -- 1 and 12.
-    for i=start, nd do -- loop all 12 slots.
-	local starId = GetSlotBoundId(i, HOTBAR_CATEGORY_CHAMPION)
-	local req = GetRequiredChampionDisciplineIdForSlot(i, HOTBAR_CATEGORY_CHAMPION)
-	local disType = GetChampionDisciplineType(req)
-	
-	if starId ~= 0 then
-		local pointsSpent = GetNumPointsSpentOnChampionSkill(starId)
-		local name = GetChampionSkillName(starId)
-		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i] = {}
-		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].id = starId
-		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].name = name
-		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplineid = req
-		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].disciplinetype = disType
-		ElderScrollsOfAlts.altData.players[playerKey].championpointsactive[i].numspentpoints = pointsSpent
-	end
-    end
-    
-    --xxx
-    ElderScrollsOfAlts.altData.players[playerKey].championpoints = {}
-    local numDisciplines = GetNumChampionDisciplines()
-    --d("numDisciplines: " .. tostring(numDisciplines) )
-    for disciplineIndex = 1, numDisciplines do
-      ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex] = {}
-      ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].name = GetChampionDisciplineName(disciplineIndex)
-      --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex].id = disciplineIndex
-      for championSkillIndex = 1, GetNumChampionDisciplineSkills(disciplineIndex) do
-        local championSkillId = GetChampionSkillId(disciplineIndex, championSkillIndex)
-        --local numPendingPoints =  GetNumPendingChampionPoints(disciplineIndex, championSkillIndex)
-        local ptsspent  = GetNumPointsSpentOnChampionSkill(championSkillId)
-        if(ptsspent>0) then
-          local championSkillType = GetChampionSkillType(championSkillId)
-          local isSlottable       = ElderScrollsOfAlts:CheckIfCpTypeIsSlottable( championSkillType )
-          if(isSlottable) then
-            local name      = GetChampionSkillName(championSkillId)
-            local abilityId = GetChampionAbilityId(championSkillId)
-            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId] = {}
-            --ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
-            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].name      = name
-            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
-            ElderScrollsOfAlts.altData.players[playerKey].championpoints[disciplineIndex][championSkillId].abilityId = abilityId
-            
-            --d("championSkillId: " .. tostring(championSkillId) )
-            --local championSkillData = ZO_ChampionSkillData:New(self, skillIndex)
-            --d("championSkillData: " .. tostring(championSkillData) )
-            --if championSkillData:IsClusterRoot() then
-            --   table.insert(self.championClusterDatas, ZO_ChampionClusterData:New(championSkillData))
-            --end
-            --self.championSkillDatas[skillIndex] = championSkillData
-          end
-        end--spent points
-      end
-    end
-    --d("TestCP...[end]")
-  end -- if player line exists
-  ElderScrollsOfAlts.debugMsg("CollectCP: done")
-end
---CollectCP()
-
-function ElderScrollsOfAlts:CheckIfCpTypeIsSlottable(championSkillType)
-  if(ElderScrollsOfAlts.view.CpTypeIsSlottable==nil) then
-    ElderScrollsOfAlts.view.CpTypeIsSlottable = {}
-  end
-  if(ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]==nil) then
-    ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType] = CanChampionSkillTypeBeSlotted(championSkillType)
-  end
-  return ElderScrollsOfAlts.view.CpTypeIsSlottable[championSkillType]
-end
-
 --ElderScrollsOfAlts.altData.players[playerKey].bio.specialdata
 function ElderScrollsOfAlts:SaveDataVampire(playerKey, baseElem)
   ElderScrollsOfAlts.debugMsg("SaveDataVampire: playerKey= " .. tostring(playerKey) )
   baseElem.vampire = true
   --
-  ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem, "world","Vampire",ElderScrollsOfAlts.BITE_VAMP_ABILITY,ElderScrollsOfAlts.BITE_VAMP_COOLDOWN)
+  ElderScrollsOfAlts:SaveDataSpecialBiteLegacy(playerKey, baseElem, "world","Vampire",ElderScrollsOfAlts.BITE_VAMP_ABILITY,ElderScrollsOfAlts.BITE_VAMP_COOLDOWN)
   --
 end
 
@@ -892,7 +748,7 @@ function ElderScrollsOfAlts:SaveDataWerewolf(playerKey, baseElem)
   ElderScrollsOfAlts.debugMsg("SaveDataWerewolf: playerKey= " .. tostring(playerKey) )
   baseElem.werewolf = true
   --
-  ElderScrollsOfAlts:SaveDataSpecialBite(playerKey, baseElem, "world","Werewolf",ElderScrollsOfAlts.BITE_WERE_ABILITY,ElderScrollsOfAlts.BITE_WERE_COOLDOWN)
+  ElderScrollsOfAlts:SaveDataSpecialBiteLegacy(playerKey, baseElem, "world","Werewolf",ElderScrollsOfAlts.BITE_WERE_ABILITY,ElderScrollsOfAlts.BITE_WERE_COOLDOWN)
   --
 end
 

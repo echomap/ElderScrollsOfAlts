@@ -1765,7 +1765,13 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
 		local cBasicData = ESOADatastore.getCharactersBasicData()
 		if(cBasicData~=nil) then
 			for playerKey, tvalue in pairs( cBasicData ) do
-				local catP = tvalue.category
+				local catP = "A"
+				if( tvalue.custom ~= nil ) then
+					catP = tvalue.custom.category
+				end
+				if( tvalue.category ~= nil ) then
+					catP = tvalue.category
+				end
 				ElderScrollsOfAlts.outputMsg("ListCats: playerKey=" , playerKey, " catP=" , catP)
 				if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
 					table.insert(validChoices, catP)

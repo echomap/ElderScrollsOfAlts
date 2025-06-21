@@ -43,14 +43,26 @@ end
 
 ------------------------------
 -- API
-function ESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
-	EchoESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
+function ESOADatastore.saveCharcterCustomData(characterLineKey, keyName, elementData)
+	EchoESOADatastore.saveCharcterCustomData(characterLineKey, keyName, elementData)
 end
 
 ------------------------------
 -- API
-function ESOADatastore.getCharcterCustomData(playerLineKey, keyName)
-	return EchoESOADatastore.getCharcterCustomData(playerLineKey, keyName)
+function ESOADatastore.getCharcterCustomData(characterLineKey, keyName)
+	return EchoESOADatastore.getCharcterCustomData(characterLineKey, keyName)
+end
+
+------------------------------
+-- API
+function ESOADatastore.saveCharcterTrackingData(characterLineKey, trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
+	EchoESOADatastore.saveCharcterTrackingData(characterLineKey,  trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
+end
+
+------------------------------
+-- API
+function ESOADatastore.getCharcterTrackingData(characterLineKey, trackingType,trackingName)
+	return EchoESOADatastore.getCharcterTrackingData(characterLineKey, trackingType,trackingName) --TODO
 end
 
 ------------------------------
