@@ -606,14 +606,10 @@ function EchoESOADatastore.saveCurrentPlayerDataAVA( playerKey, sectionElem )
 	playerElem.currentCampaignId  = currentCampaignId
 	playerElem.assignedCampaignId = assignedCampaignId
   
-	--EchoESOADatastore.debugMsg("currentCampaignId="..tostring(currentCampaignId) )
-	--EchoESOADatastore.debugMsg("guestCampaignId="..tostring(guestCampaignId) )
-	--d("(" .. EchoESOADatastore.name .. ") " .. "guestCampaignId: "..guestCampaignId )
+	--
 	playerElem.guestCampaignName    = GetCampaignName(guestCampaignId)
 	playerElem.currentCampaignName  = GetCampaignName(currentCampaignId)
 	playerElem.assignedCampaignName = GetCampaignName(assignedCampaignId)
-	--EchoESOADatastore.outputMsg("save.currentCampaignId="..tostring(currentCampaignId) )  
-	--EchoESOADatastore.outputMsg("save.currentCampaignName="..tostring( GetCampaignName(currentCampaignId) ) )  
 
 	playerElem.isInCampaign         = isInCampaign
 	playerElem.unitAlliance         = pAlliance

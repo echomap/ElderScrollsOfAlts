@@ -409,7 +409,7 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
 		if(resetTime) then
 		local timediffReset = GetDiffBetweenTimeStamps(resetTime, now)
 		--d(" timediffReset(): " .. tostring(timediffReset)  )
-		ElderScrollsOfAlts.outputMsg("GuiCharLineLookupPopulateData: reset, diff='", tostring(timediffReset) )
+		ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: reset, diff='", tostring(timediffReset) )
 		if(timediffReset>0) then
 			fieldText = ElderScrollsOfAlts:timeToDisplay( (timediffReset*1000) , false,true)
 			extratooltiptext = zo_strformat("<<1>> done at <<2>>, was <<3>> ago, will reset in <<4>>.", viewKey, timestring, ago, fieldText )

@@ -12,8 +12,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 	--
 	local accountname = GetDisplayName()
 	if( ElderScrollsOfAlts.view.selectedAccount ~=nil ) then
-		accountname = ElderScrollsOfAlts.view.selectedAccount
+		accountname = ElderScrollsOfAlts.view.selectedAccount		
+		ElderScrollsOfAlts.outputMsg("SetupDSPlayer: switched to account: ",accountname )
 	end
+	ElderScrollsOfAlts.outputMsg("SetupDSPlayer: for account: ",accountname )
 	--
 	ElderScrollsOfAlts.view.accountData = {} --todo needed? 
 	ElderScrollsOfAlts.view.accountData.secondsplayed = 0 --todo needed? 

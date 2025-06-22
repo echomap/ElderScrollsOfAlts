@@ -18,22 +18,23 @@ end
 ------------------------------
 -- 
 function ElderScrollsOfAlts:LoadPlayerDataForGui()
+	-- what these for, todo
+	ElderScrollsOfAlts.view.accountData = {}
+	ElderScrollsOfAlts.view.accountData.secondsplayed = 0
+	--
 	if( ESOADatastore~=nil ) then
-		ElderScrollsOfAlts.outputMsg("LoadPlayerDataForGui: Called DS")
+		ElderScrollsOfAlts.debugMsg("LoadPlayerDataForGui: Called DS")
 		if(ElderScrollsOfAlts.altData.convertedToDataStore==nil) then
 			-- Use Datastore and Legacy
 			-- Check if chardata is in the Datastore
-			ElderScrollsOfAlts.view.playerLinesMissing = {}
-			ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
-			ElderScrollsOfAlts.outputMsg("Loaded from Datastore, cnt#=", #ElderScrollsOfAlts.view.playerLines )
-			for k, v in pairs(ElderScrollsOfAlts.view.playerLinesMissing) do
-				if k == nil then return end
-				ElderScrollsOfAlts.outputMsg(" esoa load requested, for='",  k, "' v=", v)
-				ElderScrollsOfAlts.view.playerLines[v] = {}
-				ElderScrollsOfAlts:SetupGuiPlayerLinesForK(ElderScrollsOfAlts.view.playerLines,v)
-			end
-			--ElderScrollsOfAlts.view.playerLinesMissing = nil -- TODO reset missing data
-			ElderScrollsOfAlts.outputMsg("Loaded from Both, cnt#=", #ElderScrollsOfAlts.view.playerLines )
+			ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
+			local dsNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
+			ElderScrollsOfAlts.outputMsg("Loaded from Datastore, cnt#=", dsNum )
+			--
+			ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()			
+			local legNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
+			ElderScrollsOfAlts.outputMsg("Loaded from Legacy, cnt#=", legNum-dsNum )
+			ElderScrollsOfAlts.outputMsg("Loaded from Both, cnt#=", legNum )
 		else
 			-- Only Use Datastore
 			ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
@@ -45,6 +46,8 @@ function ElderScrollsOfAlts:LoadPlayerDataForGui()
 		ElderScrollsOfAlts.view.needToLoadGuiData = false
 		ElderScrollsOfAlts.debugMsg("LoadPlayerDataForGui:", " called") 
 	end
+	table.sort(ElderScrollsOfAlts.view.playerLines)  
+	ElderScrollsOfAlts.view.maxPlayerLineCount = #ElderScrollsOfAlts.view.playerLines		
 end
 
 ------------------------------

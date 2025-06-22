@@ -35,7 +35,7 @@ function EchoESOADatastore.getAccountList()
 		return retval
 	end
 	for dServer, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
-		EchoESOADatastore.outputMsg("getAccountList: Account=".. dServer .. " dName=".. dName )
+		EchoESOADatastore.debugMsg("getAccountList: Account=".. dServer .. " dName=".. dName )
 		local bar = {}
 		bar.account = dServer
 		bar.server  = dName
@@ -52,7 +52,7 @@ function EchoESOADatastore.getCharacterList(accountname)
 		for dServer, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
 			EchoESOADatastore.outputMsg("getCharList: Account=".. dServer .. " dName=".. dName )
 			for id, cname in pairs(EchoESOADatastore.svListDataAW[dServer].playerlist) do
-				EchoESOADatastore.outputMsg("getCharList: character1=[" , id , "] cname=".. cname )
+				EchoESOADatastore.odebugMsg"getCharList: character1=[" , id , "] cname=".. cname )
 				local bar = {}
 				bar.id = id
 				bar.name = cname
@@ -67,7 +67,7 @@ function EchoESOADatastore.getCharacterList(accountname)
 		else
 			EchoESOADatastore.outputMsg("  for Account["..accountname.."]")
 			for id, cname in pairs(EchoESOADatastore.svListDataAW[accountname].playerlist) do	
-				EchoESOADatastore.outputMsg("getCharList: character2=[" , id , "] cname=".. cname )
+				EchoESOADatastore.debugMsg("getCharList: character2=[" , id , "] cname=".. cname )
 				local bar = {}
 				bar.id = id
 				bar.name = cname

@@ -10,49 +10,33 @@
 ------------------------------
 -- MAIN call that calls other functions ot populate PLAYER Data
 -- When not fully converted to Datastore!
+--Load missing data into: ElderScrollsOfAlts.view.playerLines
 function ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
 	--
 	local accountname = GetDisplayName()
+	if( ElderScrollsOfAlts.view.selectedAccount ~=nil ) then
+		if( accountname~=ElderScrollsOfAlts.view.selectedAccount ) then
+			ElderScrollsOfAlts.outputMsg("SetupLEGPlayer: Can't Load Legacy characters from a different account.")
+			return
+		end
+	end
+	--TODO bankspaces ?
 	--
-	ElderScrollsOfAlts.view.accountData = {}
-	ElderScrollsOfAlts.view.accountData.secondsplayed = 0
-	--TODO bankspaces
-	--
-	local playerLines =  {}
-	--table.insert(playerLines, "Select")
 	local pCount = 0
 	--
 	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 		if k == nil then return end
-		ElderScrollsOfAlts.outputMsg("SetupLinePre: player: '" , k , "'")
+		ElderScrollsOfAlts.outputMsg("SetupLinePre: Checking player: '" , k , "'")
 		pCount = pCount+1
 		--
-		local chardata = ESOADatastore.getCharacterByID(k)
-		--chardata = nil -- TESTING TODO
-		if(chardata~=nil) then
-			playerLines[k] = {}
-			ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
-			--ElderScrollsOfAlts:SetupGuiPlayerBaseLines2(playerLines,k)	--contains local stuff
-			--ElderScrollsOfAlts:SetupGuiPlayerBaseLinesDS2(playerLines,k)	--TODO since contains local stuff
-			--
-			-- Flatten chardata for ESOA
-			local chardataF = ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
-			if(chardataF~=nil) then
-				ElderScrollsOfAlts.outputMsg("SetupLinePre: flattened: name='" , chardataF.name , "' lvl='" , chardataF.level, "'")
-				playerLines[k] = chardataF
-			else 
-				ElderScrollsOfAlts.outputMsg("SetupLinePre: flattened: FAILED")
-			end
-		else
-			table.insert(ElderScrollsOfAlts.view.playerLinesMissing, k )
+		if( ElderScrollsOfAlts.view.playerLines[k] == nil )  then
+			ElderScrollsOfAlts.outputMsg("SetupLinePre: player: '" , k , "'")
+			ElderScrollsOfAlts.view.playerLines[k] = {}
+			ElderScrollsOfAlts:SetupGuiPlayerLinesForK( ElderScrollsOfAlts.view.playerLines,k )
 		end
 		-- CHECK Data
-		--
 	end --for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 	-- PlayerLines to table
-	table.sort(playerLines)  
-	ElderScrollsOfAlts.view.maxPlayerLineCount = pCount
-	return playerLines
 end
 
 ------------------------------

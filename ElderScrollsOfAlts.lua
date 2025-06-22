@@ -177,7 +177,7 @@ end
 -- EVENT
 --EVENT_CHAMPION_PURCHASE_RESULT (number eventCode, ChampionPurchaseResult result)
 function ElderScrollsOfAlts.OnChampionPurchaseResult(eventCode, result)
-  ElderScrollsOfAlts:CollectCPLegacy()
+  ElderScrollsOfAlts:CollectCP()
   ElderScrollsOfAlts:SetupCPBar()
 end
 --EVENT_CHAMPION_POINT_UPDATE (number eventCode, string unitTag, number oldChampionPoints, number currentChampionPoints)
