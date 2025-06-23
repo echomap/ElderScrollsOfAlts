@@ -210,7 +210,7 @@ end
 
 ------------------------------
 --
-function ElderScrollsOfAlts:CollectCPLegacy()
+function ElderScrollsOfAlts:CollectCP()
   if (EchoESOADatastore ~= nil) then
     --TODO EchoESOADatastore.XSDSFD()
   else 
