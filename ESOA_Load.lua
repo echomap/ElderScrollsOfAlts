@@ -35,6 +35,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesForK(playerLines,k)
 	ElderScrollsOfAlts.debugMsg("SetupGuiPlayerLinesForK: Start w/k='"..tostring(k).."'")
 	--
 	playerLines[k] = {}
+	playerLines[k].source  = "Legacy"
+	playerLines[k].source2 = "ES"
 	--
 	ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
 	--

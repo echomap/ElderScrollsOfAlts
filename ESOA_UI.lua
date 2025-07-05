@@ -673,6 +673,7 @@ function ElderScrollsOfAlts:CreateGUI()
     --if(ESOA_GUI2_Body_ListHolder.hightlightSelected==nil)then
     --  ElderScrollsOfAlts.debugMsg("CreateGUI: hightlightSelected is nil")
     --end
+    ElderScrollsOfAlts.debugMsg("Check WhoamI: charKey=",charKey, "vs key=",ElderScrollsOfAlts.view.whoiamplayerKey )
     if(charKey == ElderScrollsOfAlts.view.whoiamplayerKey) then
       ElderScrollsOfAlts:ShowHightlight(line,true)
       ElderScrollsOfAlts.debugMsg("Selected current player to hightlight")
@@ -1772,11 +1773,12 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
 				if( tvalue.category ~= nil ) then
 					catP = tvalue.category
 				end
-				ElderScrollsOfAlts.outputMsg("ListCats: playerKey=" , playerKey, " catP=" , catP)
+				--ElderScrollsOfAlts.outputMsg("ListCats: playerKey=" , playerKey, " catP=" , catP)
 				if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
 					table.insert(validChoices, catP)
 					ElderScrollsOfAlts.debugMsg("List: added2 cat=" .. catP)
 					tCount = tCount+1
+					ElderScrollsOfAlts.outputMsg("ListCats: add cat from, playerKey=" , playerKey, " catP=" , catP)
 				end
 			end
 		end
@@ -1860,9 +1862,10 @@ end
 ------------------------------
 -- UI: 
 function ElderScrollsOfAlts:ShowHightlight(control, forced)
+  ElderScrollsOfAlts.debugMsg("ShowHightlight: Called")
   --if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown == true ) then
   if(ESOA_GUI2_Body_ListHolder.mouseHighlight~=nil and (forced or ElderScrollsOfAlts.CtrlIsShowMouseHighlight()) ) then
-   --d("GuiLineOnMouseEnter control="..tostring(control)  )
+    ElderScrollsOfAlts.debugMsg("ShowHightlight control=",tostring(control),   " offsest: ", tostring(ElderScrollsOfAlts.altData.fieldYOffset)  )
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(TOPLEFT, control, TOPLEFT, 0, 0) 
     ESOA_GUI2_Body_ListHolder.mouseHighlight:SetAnchor(BOTTOMRIGHT, control, BOTTOMRIGHT, 0, ElderScrollsOfAlts.altData.fieldYOffset)
 	--TODO changes if theline.setanchor does

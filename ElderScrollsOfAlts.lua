@@ -218,6 +218,9 @@ function ElderScrollsOfAlts.OnCompanionActivated(eventCode, companionId)
   --d("cname:"..cname)
   local defcompanionId = GetActiveCompanionDefId() -- this right ID?
   ElderScrollsOfAlts.debugMsg( "OnCompanionActivated: defcompanionId: '", defcompanionId, "'") 
+  if(defcompanionId ~= companionId) then
+	ElderScrollsOfAlts.outputMsg( "OnCompanionActivated: WARNING: defcompanionId=", defcompanionId, " where companionId=",companionId) 
+  end
   local level, currentExperience = GetActiveCompanionLevelInfo()
   --local [CompanionRapportLevel|#CompanionRapportLevel]* _rapportLevel_ = GetActiveCompanionRapportLevel()
   --GetActiveCompanionRapportLevelDescription
@@ -284,7 +287,7 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
 	for account, serverdata in pairs(list) do
 		--bar.account = dServer
 		--bar.server  = dName
-		ElderScrollsOfAlts.outputMsg("Account Name(s): Added= account=" , account, " serverdata=", serverdata )
+		ElderScrollsOfAlts.outputMsg("Account Name(s): Added= account=" , account )
 		table.insert(ElderScrollsOfAlts.view.accountnames, account)
 	end
   else 

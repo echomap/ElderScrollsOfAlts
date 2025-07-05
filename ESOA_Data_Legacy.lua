@@ -14,7 +14,7 @@
 function ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
 	--
 	local accountname = GetDisplayName()
-	if( ElderScrollsOfAlts.view.selectedAccount ~=nil ) then
+	if( ElderScrollsOfAlts.view.selectedAccount ~= nil ) then
 		if( accountname~=ElderScrollsOfAlts.view.selectedAccount ) then
 			ElderScrollsOfAlts.outputMsg("SetupLEGPlayer: Can't Load Legacy characters from a different account.")
 			return
@@ -23,16 +23,19 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
 	--TODO bankspaces ?
 	--
 	local pCount = 0
-	--
+	-- Load from ESOA if not alrady in VIEW (via datastore)
 	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 		if k == nil then return end
-		ElderScrollsOfAlts.outputMsg("SetupLinePre: Checking player: '" , k , "'")
+		ElderScrollsOfAlts.debugMsg("SetupLinePre: Checking player: '" , k , "'")
 		pCount = pCount+1
 		--
 		if( ElderScrollsOfAlts.view.playerLines[k] == nil )  then
-			ElderScrollsOfAlts.outputMsg("SetupLinePre: player: '" , k , "'")
+			ElderScrollsOfAlts.debugMsg("SetupLinePre: player: '" , k , "'")
 			ElderScrollsOfAlts.view.playerLines[k] = {}
 			ElderScrollsOfAlts:SetupGuiPlayerLinesForK( ElderScrollsOfAlts.view.playerLines,k )
+		else
+			--TODO destroy ESOA data????
+			ElderScrollsOfAlts.altData.players[k] = nil
 		end
 		-- CHECK Data
 	end --for k, v in pairs(ElderScrollsOfAlts.altData.players) do
@@ -104,9 +107,10 @@ end
 function ElderScrollsOfAlts:CollectCompanionDataLevelLegacy(companionId, cname, level, currentExperience, experienceForLevel)
   ElderScrollsOfAlts.debugMsg("CollectCompanionDataLevel: called")
   ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey = pID.."_".. pServer:gsub(" ","_")
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   --
   ElderScrollsOfAlts:CollectCompanionDataInitLegacy(playerKey, companionId, cname)
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].level             = level
@@ -119,9 +123,10 @@ end
 function ElderScrollsOfAlts:CollectCompanionDataSkillRankLegacy(companionId, cname, skillLineId, slName, rank )
   ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillRank: called")
   ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey = pID.."_".. pServer:gsub(" ","_")
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   --
   ElderScrollsOfAlts:CollectCompanionDataInitLegacy(playerKey, companionId, cname)
   ElderScrollsOfAlts:CollectCompanionDataSkillLine(companionId, cname, skillLineId, slName )
@@ -133,9 +138,10 @@ end
 function ElderScrollsOfAlts:CollectCompanionDataSkillLineLegacy(companionId, cname, skillLineId, slName )
   ElderScrollsOfAlts.debugMsg("CollectCompanionDataSkillLine: called")
   ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey = pID.."_".. pServer:gsub(" ","_")
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   --
   ElderScrollsOfAlts:CollectCompanionDataInitLegacy(playerKey, companionId, cname)
   if( ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].skillline == nil) then
@@ -153,9 +159,10 @@ end
 function ElderScrollsOfAlts:CollectCompanionDataRapportLegacy(companionId, cname, currentRapport)
   ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapport: called")
   ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey = pID.."_".. pServer:gsub(" ","_")
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   --
   ElderScrollsOfAlts:CollectCompanionDataInitLegacy(playerKey, companionId, cname)
   ElderScrollsOfAlts.altData.players[playerKey].companions.data[companionId].id      = companionId
@@ -177,9 +184,10 @@ end
 -- 
 function ElderScrollsOfAlts:InitTrackingDataLegacy(trackingType,trackingName)
    ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   ----Section: Save section
 	if ElderScrollsOfAlts.altData.players == nil then
 		ElderScrollsOfAlts.altData.players = {}
@@ -203,10 +211,10 @@ end
 function ElderScrollsOfAlts:CollectCPLegacy()
   ElderScrollsOfAlts.debugMsg("CollectCP: called")
   ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey = pID.."_".. pServer:gsub(" ","_")
-  
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey = pID.."_".. pServer:gsub(" ","_")
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   --local timeTotalStart = GetFrameTimeSeconds()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
   

@@ -58,6 +58,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
   local pServer   = GetWorldName()
   local playerKey = pID.."_".. pServer:gsub(" ","_")
   ElderScrollsOfAlts.view.whoiamplayerKey = tostring(playerKey)
+  ElderScrollsOfAlts.debugMsg("Set WhoamI: playerKey=",playerKey)
   --local timeTotalStart = GetFrameTimeSeconds()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
   

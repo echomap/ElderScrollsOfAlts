@@ -50,9 +50,9 @@ function EchoESOADatastore.getCharacterList(accountname)
 	local retval = {}
 	if( accountname==nil ) then
 		for dServer, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
-			EchoESOADatastore.outputMsg("getCharList: Account=".. dServer .. " dName=".. dName )
+			EchoESOADatastore.debugMsg("getCharList: Account=".. dServer .. " dName=".. dName )
 			for id, cname in pairs(EchoESOADatastore.svListDataAW[dServer].playerlist) do
-				EchoESOADatastore.odebugMsg"getCharList: character1=[" , id , "] cname=".. cname )
+				EchoESOADatastore.odebugMsg("getCharList: character1=[" , id , "] cname=".. cname )
 				local bar = {}
 				bar.id = id
 				bar.name = cname
@@ -87,14 +87,14 @@ function EchoESOADatastore.getCharactersBasicData(accountname)
 	local retval = {}
 	if( accountname==nil ) then
 		for dServer, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
-			EchoESOADatastore.outputMsg("getBasicCharList: Account=".. dServer .. " dName=".. dName )
+			EchoESOADatastore.debugMsg("getBasicCharList: Account=".. dServer .. " dName=".. dName )
 			for id, bar in pairs(EchoESOADatastore.svListDataAW[dServer].players) do
 				table.insert(retval, bar)
 			end
 		end
 	else
 		if(EchoESOADatastore.svListDataAW[accountname]==nil) then
-			EchoESOADatastore.outputMsg("  No data for Account[",tostring(accountname),"]")
+			EchoESOADatastore.debugMsg("  No data for Account[",tostring(accountname),"]")
 		else
 			EchoESOADatastore.outputMsg("  for Account["..accountname.."]")
 			for id, bar in pairs(EchoESOADatastore.svListDataAW[accountname].players) do	
@@ -112,7 +112,7 @@ function EchoESOADatastore.PrintPlayerNote(accountname)
 	local reval = EchoESOADatastore.getCharacterList(accountname)
 	if(reval~=nil) then
 		for index, tvalue in pairs(reval) do
-			--EchoESOADatastore.outputMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
+			--EchoESOADatastore.debugMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
 			EchoESOADatastore.outputMsg("name=".. tostring(tvalue.name) .. " id=".. tostring(tvalue.id) .. " account=".. tostring(tvalue.account ) )
 		end
 	else
@@ -129,7 +129,7 @@ function EchoESOADatastore.getDataForCharacters(account)
 	if(reval~=nil) then
 		for index, tvalue in pairs(reval) do
 			--EchoESOADatastore.debugMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
-			EchoESOADatastore.outputMsg("getCharData2: name=" , tostring(tvalue.name) , " id=".. tostring(tvalue.id) , " account=" , tostring(tvalue.account), " index=", index )
+			EchoESOADatastore.debugMsg("getCharData2: name=" , tostring(tvalue.name) , " id=".. tostring(tvalue.id) , " account=" , tostring(tvalue.account), " index=", index )
 			local val = EchoESOADatastore.getDataForCharacterById(tvalue.id, account)
 			retval1[tvalue.id] = val
 		end
@@ -142,7 +142,7 @@ end
 ------------------------------
 -- Implementation
 function EchoESOADatastore.getDataForCharacterById(characterID,account)
-	EchoESOADatastore.outputMsg("GetCharDataByID: for id: ", characterID, " account=" , account )
+	EchoESOADatastore.debugMsg("GetCharDataByID: for id: ", characterID, " account=" , account )
 	if(account==nil) then
 		account = EchoESOADatastore.GetAccountForCharacterByID(characterID)
 	end
@@ -158,7 +158,7 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 		return
 	end
 	local retval = {}
-	EchoESOADatastore.outputMsg("GetCharDataByID: characterID=["..characterID.. "] for account["..account.."]" )
+	EchoESOADatastore.debugMsg("GetCharDataByID: characterID=["..characterID.. "] for account["..account.."]" )
 	-- (Sections)
 	retval["bio"] 			= EchoESOADatastore.svCharDataAW.sections.bio[characterID]
 	retval["stats"] 		= EchoESOADatastore.svCharDataAW.sections.stats[characterID]
@@ -195,7 +195,7 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 		retval["custom"].playersorder = -1		
 	end
 	-- needed? retval["custom"].note = nil
-	EchoESOADatastore.outputMsg("GetCharDataByID: for id: ", characterID, " category=" , retval["custom"].category )	
+	EchoESOADatastore.debugMsg("GetCharDataByID: for id: ", characterID, " category=" , retval["custom"].category )	
 	-- <--(Custom)
 	--
 	-- TODO: (CP, Equipment) section(s)

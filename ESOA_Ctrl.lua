@@ -76,16 +76,16 @@ function ElderScrollsOfAlts.CtrlIsShowMouseHighlight()
 	local retv = false
 	if(ElderScrollsOfAlts.altData.accountdataonly) then
 		retV = ElderScrollsOfAlts.altData.defaults.uiMouseHighlight
-		--ElderScrollsOfAlts.outputMsg("CISMH: 1: retV=",retV )
+		--ElderScrollsOfAlts.debugMsg("CISMH: 1: retV=",retV )
 	else
 		retV = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
-		--ElderScrollsOfAlts.outputMsg("CISMH: 2: retV=",retV )
+		--ElderScrollsOfAlts.debugMsg("CISMH: 2: retV=",retV )
 	end
 	if(retV==nil) then
 		retV = false
-		--ElderScrollsOfAlts.outputMsg("CISMH: 3: retV=",retV )
+		--ElderScrollsOfAlts.debugMsg("CISMH: 3: retV=",retV )
 	end
-	--ElderScrollsOfAlts.outputMsg("CISMH: 4: retV=",retV )
+	--ElderScrollsOfAlts.debugMsg("CISMH: 4: retV=",retV )
 	return retV
 end
 
@@ -291,7 +291,7 @@ end
 --ElderScrollsOfAlts.altData.defaultskillsMax
 --
 function ElderScrollsOfAlts.CtrlGetColorSkillsMax()
-	--ElderScrollsOfAlts.outputMsg("CGCSK: accountonly?",ElderScrollsOfAlts.altData.accountdataonly )
+	--ElderScrollsOfAlts.debugMsg("CGCSK: accountonly?",ElderScrollsOfAlts.altData.accountdataonly )
 	if(ElderScrollsOfAlts.altData.accountdataonly) then
 		if(ElderScrollsOfAlts.altData.defaults==nil or ElderScrollsOfAlts.altData.defaults.colorSkillsMax==nil) then
 			ElderScrollsOfAlts.SetupDefaultColors()
@@ -350,7 +350,7 @@ end
 --ElderScrollsOfAlts.altData.defaults.killsNearMax
 --
 function ElderScrollsOfAlts.CtrlSetColorSkillsNearMax(r,g,b,a)
-	--ElderScrollsOfAlts.outputMsg("CSCSNM: accountonly?",ElderScrollsOfAlts.altData.accountdataonly )
+	--ElderScrollsOfAlts.debugMsg("CSCSNM: accountonly?",ElderScrollsOfAlts.altData.accountdataonly )
 	if(ElderScrollsOfAlts.altData.accountdataonly) then
 		if(ElderScrollsOfAlts.altData.defaults==nil or ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax==nil) then
 			ElderScrollsOfAlts.SetupDefaultColors()

@@ -8,6 +8,23 @@
 
 ------------------------------
 -- INT
+-- 
+--("world","Vampire","Blood Ritual")
+function EchoESOADatastore:FindAbility(tplayer,skillType,skillClass,skillName)
+  local retVal = nil
+  if( tplayer.skills~=nil and 
+      tplayer.skills[skillType]~=nil and 
+      tplayer.skills[skillType]["typelist"]~=nil and
+      tplayer.skills[skillType]["typelist"][skillClass]~=nil and
+      tplayer.skills[skillType]["typelist"][skillClass]["abilities"]~=nil and
+      tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]~=nil) then
+    retVal = tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]
+  end
+  return retVal
+end
+
+------------------------------
+-- INT
 -- Saves all Player data
 function EchoESOADatastore.checkNullData(characterLineKey)
 	local dName = GetDisplayName()
@@ -94,6 +111,7 @@ function EchoESOADatastore.checkNullData(characterLineKey)
 	end
 	if EchoESOADatastore.svCharDataAW.sections.companions == nil then
 		EchoESOADatastore.svCharDataAW.sections.companions = {}
+		EchoESOADatastore.debugMsg("CheckData set empty companions table" )
 	end
 end
 
@@ -165,7 +183,7 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	EchoESOADatastore.saveCurrentPlayerDataBuffs( playerKey, EchoESOADatastore.svCharDataAW.sections.buffs )
 	EchoESOADatastore.saveCurrentPlayerDataResearchtraits( playerKey, EchoESOADatastore.svCharDataAW.sections.researchtraits )
 	--
-	-- Removed: EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, EchoESOADatastore.svCharDataAW.sections.companions )
+	EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, EchoESOADatastore.svCharDataAW.sections.companions )
 	-- TODO: EchoESOADatastore.saveCurrentPlayerDataEquipment( playerKey, EchoESOADatastore.svCharDataAW.sections.equipment )
 	-- TODO: saveCurrentPlayerDataCPInt
 	--
@@ -372,7 +390,7 @@ function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection
 	-- 
 	EchoESOADatastore.debugMsg("SaveDataSpecialBiteplayerKey= " .. tostring(playerKey) )
 	--Has to have this ability to be able to BITE!
-	local foundItem = ElderScrollsOfAlts:FindAbility( playerElem, skillineName, specialSkillName, abilityname)
+	local foundItem = EchoESOADatastore:FindAbility( playerElem, skillineName, specialSkillName, abilityname)
 	EchoESOADatastore.debugMsg("SaveDataSpecialBite: foundItem= " .. tostring(foundItem) )
 	if(foundItem==nil) then
 		return
@@ -907,7 +925,7 @@ function EchoESOADatastore.saveCurrentPlayerDataBuffs( playerKey, sectionElem )
 	if(TODO[playerKey].buffs[buffName].expiresAt~=0) then
 	  --Time in seconds left till expires
 	  local timeDiff = GetDiffBetweenTimeStamps( TODO[playerKey].buffs[buffName].expiresAt, GetTimeStamp() )
-	  ElderScrollsOfAlts.debugMsg("Buff Data: name: '".. buffName .. "' expires="..tostring(TODO[playerKey].buffs[buffName].expiresAt) .. " timeDiff=".. tostring(timeDiff) )
+	  EchoESOADatastore.debugMsg("Buff Data: name: '".. buffName .. "' expires="..tostring(TODO[playerKey].buffs[buffName].expiresAt) .. " timeDiff=".. tostring(timeDiff) )
 	end--]]
 	--TODO.players[playerKey].buffs[buffName].expiresAt = GetTimeStamp() + ( timeEnding-timeStarted )
 	--[[
@@ -965,14 +983,20 @@ end
 ------------------------------
 -- INT
 function EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, sectionElem)
-	sectionElem[playerKey] = {}
+	if(sectionElem[playerKey] == nil ) then
+		sectionElem[playerKey] = {}
+	end
 	local playerElem = sectionElem[playerKey]
 	--
 	if(playerElem == nil) then
 		playerElem = {}
 	end
 	--COMPANIONS
-	-- Cant get list of companions? have to use only active one?
+	-- Can't get list of companions? Have to use only active one/
+	if( HasActiveCompanion() ) then
+		local defId = GetActiveCompanionDefId()
+		EchoESOADatastore.debugMsg("saveCompanionData: defId=",defId)
+	end
 	-- Do this in events
   --COMPANION END
 end
@@ -1016,7 +1040,7 @@ function EchoESOADatastore:SaveDataSkillData(skillType,baseElem,outputUndiscover
 			baseElemTable.lastRankXP = lastRankXP
 			baseElemTable.nextRankXP = nextRankXP
 			baseElemTable.currentXP  = currentXP
-			EchoESOADatastore.outputMsg("SaveDataSkillData:[",name,"] lastRankXP:",lastRankXP, " nextRankXP:",nextRankXP, " currentXP:",currentXP)
+			EchoESOADatastore.debugMsg("SaveDataSkillData:[",name,"] lastRankXP:",lastRankXP, " nextRankXP:",nextRankXP, " currentXP:",currentXP)
 
 			--EchoESOADatastore.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
 			--string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 
@@ -1046,8 +1070,8 @@ end
 ------------------------------
 -- INT (part 2)
 function EchoESOADatastore.SaveDataPlayerTradeDetails(parentName, infoElem, subskillElem, skillType, ii, numAbilities )
-	--EchoESOADatastore.outputMsg("parentName='",parentName,"'")
-	--EchoESOADatastore.outputMsg("parentTableElem='",parentTableElem,"'")
+	--EchoESOADatastore.debugMsg("parentName='",parentName,"'")
+	--EchoESOADatastore.debugMsg("parentTableElem='",parentTableElem,"'")
 	--parentTableElem.skills[parentName]	= {}
 	--local selElemSubTable = subskillElem --parentTableElem.skills[parentName]
 	local skillIndex = ii
@@ -1164,18 +1188,22 @@ function EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)
 		EchoESOADatastore.svCharDataAW.sections.companions = {}
 	end
 	local sectionElem = EchoESOADatastore.svCharDataAW.sections.companions
-	sectionElem[playerKey] = {}
+	if(sectionElem==nil) then
+		sectionElem[playerKey] = {}
+	end
 	local playerElem = sectionElem[playerKey]
-	ElderScrollsOfAlts.debugMsg("companion save data: companionId: '", companionId, "' as '", cname, "'" )
+	EchoESOADatastore.debugMsg("companion save data: companionId: '", companionId, "' as '", cname, "'" )
 	----Section: Setup Section
 	if( playerElem.ids == nil ) then
 		playerElem.ids  = {}
+		EchoESOADatastore.debugMsg("companion clear id data: companionId: '", companionId, "' as '", cname, "'" )
 	end
 	if( playerElem.data == nil ) then
 		playerElem.data = {}
 	end
 	if( playerElem.ids[companionId] == nil ) then
 		playerElem.ids[companionId] = companionId
+		EchoESOADatastore.debugMsg("companion set id data: companionId: '", companionId, "' as '", cname, "'" )
 	end
 	if( playerElem.data[companionId] == nil ) then
 		playerElem.data[companionId] = {}
@@ -1183,7 +1211,7 @@ function EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)
 	playerElem.data[companionId].id      = companionId
 	playerElem.data[companionId].name    = zo_strformat("<<X:1>>", cname )
 	--
-	ElderScrollsOfAlts.debugMsg("companion save data: companionId: '", companionId, "' fixed as '", zo_strformat("<<X:1>>", cname ), "'" )
+	EchoESOADatastore.debugMsg("companion save data: companionId: '", companionId, "' fixed as '", zo_strformat("<<X:1>>", cname ), "'" )
 	return playerElem
 end
 
@@ -1202,7 +1230,7 @@ end
 ------------------------------
 --Companions
 function EchoESOADatastore.saveCompanionDataSkillRank(playerKey, companionId, cname, skillLineId, slName, rank )
-	EchoESOADatastore.outputMsg("saveCompanionDataSkillRank: Called")
+	EchoESOADatastore.debugMsg("saveCompanionDataSkillRank: Called")
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillRank: playerKey= " .. tostring(playerKey) )
 	--
@@ -1213,7 +1241,7 @@ end
 ------------------------------
 --Companions
 function EchoESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cname, skillLineId, slName )
-	EchoESOADatastore.outputMsg("saveCompanionDataSkillLine: Called")
+	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: Called")
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: playerKey= " .. tostring(playerKey) )
 	--
@@ -1230,9 +1258,8 @@ end
 ------------------------------
 --Companions
 function EchoESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport)
-	EchoESOADatastore.outputMsg("saveCompanionDataRapport: Called")
+	EchoESOADatastore.debugMsg("saveCompanionDataRapport:[",playerKey,"] compid=",companionId," cname=",cname, " rapp=", tostring(currentRapport) )
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
-	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: playerKey= " .. tostring(playerKey) )
 	--
 	playerElemC.data[companionId].id      = companionId
 	playerElemC.data[companionId].name    = cname
@@ -1242,7 +1269,7 @@ end
 ------------------------------
 --
 function EchoESOADatastore.saveCharcterTrackingData(characterLineKey, trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
-	EchoESOADatastore.outputMsg("SaveTrackingData: character=",tostring(playerLineKey)," type=",tostring(trackingType)," name='", tostring(trackingName),"'")
+	EchoESOADatastore.debugMsg("SaveTrackingData: character=",tostring(characterLineKey)," type=",tostring(trackingType)," name='", tostring(trackingName),"'")
 	EchoESOADatastore.checkNullData(characterLineKey)
 	--
 	if( EchoESOADatastore.svCharDataAW.tracking == nil ) then

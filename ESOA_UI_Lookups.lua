@@ -771,19 +771,28 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   -- 	FF4500 40E0D0
   local tradeTimeS = playerLine[mKyeS]  
   local codeS = playerLine[mKyeC]   --  > 0 ok
-  if(codeS==3) then
-    --eline:SetText( "[Refresh]" )   
+  --ElderScrollsOfAlts.outputMsg("POP ResearchData: playerLine[",playerLine.name, "] tradeName=",tradeName, " mKyeS=",mKyeS, " codeS=",codeS, " tradeTimeS=",tradeTimeS )
+  if( codeS==3 ) then
+    --  
     eline.traitDesc = "Old data! Refresh asap!!"
-  elseif( (codeS <= -2) ) then  
+	ElderScrollsOfAlts.outputMsg("Warm: Old ResearchData for-> playerLine[",playerLine.name, "] tradeName=",tradeName, " mKyeS=",mKyeS, " codeS=",codeS, " tradeTimeS=",tradeTimeS )
+  elseif( codeS <= -2 ) then
+	-- code -2->not unlocked,  code=-3->knows all traits,  code=-4->not unclocked
     eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerNone(), playerLine[mKye1]) )
-  elseif( (tradeTimeS==nil or codeS < 1) ) then
+  elseif( tradeTimeS==nil or codeS < 1 ) then
+	-- code 0-> Not unlocked
     eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), playerLine[mKye1]) )
   elseif( codeS == 1 ) then
+	-- code 1->Ready!
     eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorTimerDone(),playerLine[mKye1]) )
   elseif( tradeTimeS < 43200 ) then
+	--
     eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorTimerNearer(),playerLine[mKye1]) )
   elseif( tradeTimeS < 86400 or codeS == 1 ) then
+	--
     eline:SetText( ElderScrollsOfAlts.ColorText(ElderScrollsOfAlts.CtrlGetColorTimerNear(), playerLine[mKye1]) )
+  else
+	--ElderScrollsOfAlts.outputMsg("POP ResearchData: unk data for-> playerLine[",playerLine.name, "] tradeName=",tradeName, " mKyeS=",mKyeS, " codeS=",codeS, " tradeTimeS=",tradeTimeS )
   end
   
   --if(eline.data_val == GetString(ESOA_RESEARCH_AVAIL) ) then
@@ -1228,7 +1237,8 @@ end
 --
 function ElderScrollsOfAlts.GuiCharLineLookupCompanionRapportInfo(rapport)
 	local retval = rapport
-	if( rapport < -4000 ) then
+	if(rapport==nil) then
+	elseif( rapport < -4000 ) then
 		retval = GetString(ESOA_RAPPORT_1)
 	elseif( rapport < -2500 ) then
 		retval = GetString(ESOA_RAPPORT_2)

@@ -8,11 +8,15 @@
 ------------------------------
 --NEW BETA/ALPHA
 function ElderScrollsOfAlts.DataSaveLivePlayerNew()
-  if (EchoESOADatastore ~= nil) then
-    EchoESOADatastore.saveCurrentPlayerData()
-  else 
-    ElderScrollsOfAlts:DataSaveLivePlayer()
-  end
+	ElderScrollsOfAlts.outputMsg("DataSaveLivePlayerNew: Called")
+	local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
+	ElderScrollsOfAlts.view.whoiamplayerKey = tostring(playerKey)	
+	ElderScrollsOfAlts.debugMsg("Set WhoamI: playerKey=",playerKey)
+	if (EchoESOADatastore ~= nil) then
+		EchoESOADatastore.saveCurrentPlayerData()
+	else 
+		ElderScrollsOfAlts:DataSaveLivePlayer()
+	end
 end
 
 ------------------------------
@@ -23,14 +27,14 @@ function ElderScrollsOfAlts:LoadPlayerDataForGui()
 	ElderScrollsOfAlts.view.accountData.secondsplayed = 0
 	--
 	if( ESOADatastore~=nil ) then
-		ElderScrollsOfAlts.debugMsg("LoadPlayerDataForGui: Called DS")
+		ElderScrollsOfAlts.debugMsg("LoadPlayerDataForGui: Called DS: allconverted?",tostring(ElderScrollsOfAlts.altData.convertedToDataStor) )
 		if(ElderScrollsOfAlts.altData.convertedToDataStore==nil) then
 			-- Use Datastore and Legacy
 			-- Check if chardata is in the Datastore
 			ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 			local dsNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
 			ElderScrollsOfAlts.outputMsg("Loaded from Datastore, cnt#=", dsNum )
-			--
+			--load Legacy Stored Data
 			ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()			
 			local legNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
 			ElderScrollsOfAlts.outputMsg("Loaded from Legacy, cnt#=", legNum-dsNum )
@@ -83,7 +87,7 @@ end
 -- 
 --
 function ElderScrollsOfAlts.SavePlayerData( playerLineKey, keyName, elementData )
-	ElderScrollsOfAlts.outputMsg("SavePlayerData: playerKey=",playerLineKey," keyName=",keyName," as ", elementData) 
+	ElderScrollsOfAlts.debugMsg("SavePlayerData: playerKey=",playerLineKey," keyName=",keyName," as ", elementData) 
 	if (ESOADatastore ~= nil) then
 		ElderScrollsOfAlts.SavePlayerDataDS( playerLineKey, keyName, elementData )
 	else 
@@ -118,9 +122,12 @@ function ElderScrollsOfAlts.DataSaveLivePlayer(loadtype)
 		return
 	end
 	--
+	local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
+	ElderScrollsOfAlts.view.whoiamplayerKey = tostring(playerKey)
+	ElderScrollsOfAlts.debugMsg("Set WhoamI: playerKey=",playerKey)
+	--
 	if (ESOADatastore ~= nil) then
 		ESOADatastore.saveCurrentCharcterDataAll(loadtype)
-		--ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
 	else 
 		ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
 	end
@@ -162,7 +169,7 @@ end
 ------------------------------
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataRapport(companionId, cname, currentRapport)
-	ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapport: Called")
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapport: Called for companionId=",companionId, " cname=",cname)
 	if (EchoESOADatastore ~= nil) then
 		ElderScrollsOfAlts:CollectCompanionDataRapportDS(companionId, cname, currentRapport )
 	else

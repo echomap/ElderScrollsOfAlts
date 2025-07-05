@@ -29,7 +29,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 	if(charData~=nil) then
 		for index, tvalue in pairs(charData) do			
 			if tvalue == nil then return end
-			ElderScrollsOfAlts.debugMsg("Player: name=".. tostring(tvalue.name) , " id=" , tostring(tvalue.id) , " account=" , tostring(tvalue.account ), " index=",index )
+			ElderScrollsOfAlts.debugMsg("Character DS Loaded for index=",index )
 			--if tvalue.id == nil then return end
 			local k = index
 			playerLines[k] = {}
@@ -38,17 +38,21 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 			ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
 			playerLines[k].accountname = accountname
 			playerLines[k].charkey = k
-			ElderScrollsOfAlts.outputMsg("Player: set charkey=".. tostring(k) ) 
+			ElderScrollsOfAlts.debugMsg("Player: set charkey=".. tostring(k) ) 
 			--ElderScrollsOfAlts:SetupGuiPlayerBaseLines2(playerLines,k)	--contains local stuff
 			--ElderScrollsOfAlts:SetupGuiPlayerBaseLinesDS2(playerLines,k)	--TODO since contains local stuff
-			--
-			-- Flatten chardata for ESOA
-			local chardataF = ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(tvalue)
-			ElderScrollsOfAlts.debugMsg("Player: name=".. tostring(chardataF.name) , " id=" , tostring(chardataF.id) , " account=" , tostring(chardataF.account ), " (chardataF)" )
-			ElderScrollsOfAlts:SetupGuiPlayerBaseLines2DS(chardataF,k)	--contains local stuff
-			playerLines[k] = chardataF
-			-- CHECK Data
-			--
+			-- Check Data
+			if( tvalue==nil or tvalue.bio==nil or tvalue.bio.name==nil) then
+				ElderScrollsOfAlts.outputMsg("Error with data loaded for='", tostring(k) ,",")
+				playerLines[k] = nil
+				pCount = pCount-1
+			else
+				-- Flatten chardata for ESOA
+				local chardataF = ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(tvalue)
+				ElderScrollsOfAlts.debugMsg("Player: name=".. tostring(chardataF.name) , " id=" , tostring(chardataF.id) , " account=" , tostring(chardataF.account ), " (chardataF)" )
+				ElderScrollsOfAlts:SetupGuiPlayerBaseLines2DS(chardataF,k)	--contains local stuff
+				playerLines[k] = chardataF
+			end
 		end
 	else
 		ElderScrollsOfAlts.outputMsg("No players listed in datastsore")
@@ -65,11 +69,17 @@ end
 -- 
 function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	--ElderScrollsOfAlts:dumpPrintTable(chardata)
-	ElderScrollsOfAlts.debugMsg("FlattenChar: in='", tostring(chardata.bio.name) ,",")
+	if(chardata~=nil and chardata.bio~=nil and chardata.bio.name~=nil) then
+		ElderScrollsOfAlts.debugMsg("FlattenChar: in='", tostring(chardata.bio.name) ,",")
+	else
+		ElderScrollsOfAlts.outputMsg("FlattenChar: in=<BIO NAME BROKEN?>")
+	end
 	local chardataO = {}
 	chardataO.account = chardata.accountname
 	chardataO.charkey = chardata.charkey
 	chardataO.rawname = chardata.charkey
+	chardataO.source  = "DataStore"
+	chardataO.source2 = "DS"
 	ElderScrollsOfAlts.debugMsg("FlattenChar: out: account=",account ," charkey=",charkey, " rawname=",rawname)
 	--
 	ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(chardataO,chardata)
@@ -503,7 +513,7 @@ end
 -- Translate from DataStore format to ESOA format
 --
 function ElderScrollsOfAlts:SetupGuiPlayerTradeLinesDS(output,input)
-	ElderScrollsOfAlts.outputMsg("SetTrade2: Called" )
+	ElderScrollsOfAlts.debugMsg("SetTrade2: Called" )
 	--Setup Defaults
 	local dEFvAL = 0
 	output.alchemy         = dEFvAL
@@ -624,7 +634,7 @@ end
 function ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(output,input)  
   local alliancewar = input.ava
   if alliancewar == nil then return end
-  ElderScrollsOfAlts.outputMsg("SetAva2: ", " currentCampaignId=", alliancewar.currentCampaignId, " guestCampaignId=", alliancewar.guestCampaignId )
+  ElderScrollsOfAlts.debugMsg("SetAva2: ", " currentCampaignId=", alliancewar.currentCampaignId, " guestCampaignId=", alliancewar.guestCampaignId )
   --Setup
   output.InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
   output.GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
@@ -653,7 +663,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(output,input)
     else
       output.AssignedCampaignEndsAtOver = false
     end
-    ElderScrollsOfAlts.outputMsg("name:", output.name, " AssignedCampaignEndsAtOver=", output.AssignedCampaignEndsAtOver )
+    ElderScrollsOfAlts.debugMsg("name:", output.name, " AssignedCampaignEndsAtOver=", output.AssignedCampaignEndsAtOver )
     --output.AssignedCampaignEndsAt = ZO_FormatTime( alliancewar.AssignedCampaignEndsAt, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
   end
   
@@ -835,10 +845,10 @@ function ElderScrollsOfAlts:SetupGuiResearchPlayerLinesDS(output,input)
           end
           local timeDisp2 = zo_strformat(timeDisp2Str, timeD,timeH,timeM )
           local timeDisp = timeD.."d" ..timeH.."h" ..timeM.."m"
-          if(input.version==nil) then
-            output[mKye.."code"] = 3
-            timeDisp2 = "*"..timeDisp2
-          end          
+          --if(input.version==nil) then -- Whats this for self? a bad version needed this? or good?
+          --  output[mKye.."code"] = 3
+          --  timeDisp2 = "*"..timeDisp2
+          --end          
           output[mKye.."name"] = vv.name
           output[mKye.."time"] = timeDisp2
           output[mKye.."D"] = timeD
@@ -893,9 +903,11 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input)
 	if cnt == nil then return end
 	-- KEYS -- sorted by release of companion
 	local keyset={}
-	for rtK1, rtKV1 in pairs(linedata.data) do
-		keyset[rtK1] = rtK1
-	end	
+	if(linedata.data~=nil) then
+		for rtK1, rtKV1 in pairs(linedata.data) do
+			keyset[rtK1] = rtK1
+		end
+	end
 	table.sort(keyset)
 	-- Fill in Output with Real Data, aligned to the first entry	
 	local cInc = 1
@@ -978,7 +990,7 @@ end
 ------------------------------
 --Companions
 function ElderScrollsOfAlts:CollectCompanionDataRapportDS(companionId, cname, currentRapport)
-	ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapportDS: Called")
+	ElderScrollsOfAlts.debugMsg("CollectCompanionDataRapportDS: Called[",companionId,"] cname=",cname, " rapp=", tostring(currentRapport) )
 	local playerKey = ElderScrollsOfAlts.view.currentplayerkey 
 	ESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport )
 end
@@ -986,7 +998,7 @@ end
 ------------------------------
 -- 
 function ElderScrollsOfAlts.SavePlayerDataDS( playerLineKey, keyName, elementData )
-	ElderScrollsOfAlts.outputMsg("SavePlayerDataDS: playerKey=",playerLineKey," keyName=",keyName," as ", elementData) 
+	ElderScrollsOfAlts.debugMsg("SavePlayerDataDS: playerKey=",playerLineKey," keyName=",keyName," as ", elementData) 
 	ESOADatastore.saveCharcterCustomData(playerLineKey, keyName, elementData)
 end
 
@@ -995,9 +1007,10 @@ end
 -- 
 function ElderScrollsOfAlts:SaveTrackingDataDS( trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
    ----Section: Statup section
-  local pID       = GetCurrentCharacterId()
-  local pServer   = GetWorldName()
-  local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )  
+  --local pID       = GetCurrentCharacterId()
+  --local pServer   = GetWorldName()
+  --local playerKey =  zo_strformat("<<1>>_<<2>>", pID, pServer:gsub(" ","_") )  
+  local playerKey = ElderScrollsOfAlts.GeneratePlayerKeyForCurrentCharacter()
   ----Section: Save section
   ESOADatastore.saveCharcterTrackingData(playerKey, trackingType,trackingName,isCompleted,completedTimeStamp,timeToReset )
 end
