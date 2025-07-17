@@ -1763,24 +1763,28 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
 		end
 	end 
 	if (ESOADatastore ~= nil ) then
-		local cBasicData = ESOADatastore.getCharactersBasicData()
-		if(cBasicData~=nil) then
-			for playerKey, tvalue in pairs( cBasicData ) do
+		ElderScrollsOfAlts.outputMsg("Getting all chars for UI listing")
+		local reval = EchoESOADatastore.getCharacterList()
+		if(reval~=nil) then
+			for index, tvalue in pairs(reval) do
+				local customDataL = ESOADatastore.getCharcterCustomData(tvalue.id, "category")
 				local catP = "A"
-				if( tvalue.custom ~= nil ) then
-					catP = tvalue.custom.category
-				end
-				if( tvalue.category ~= nil ) then
-					catP = tvalue.category
-				end
-				--ElderScrollsOfAlts.outputMsg("ListCats: playerKey=" , playerKey, " catP=" , catP)
-				if ( catP~=nil and not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
+				if( customDataL ~= nil ) then
+					catP = customDataL
+					ElderScrollsOfAlts.debugMsg("ListCats: Cat From 'customDataL'=", catP )
+				else
+					ElderScrollsOfAlts.debugMsg("ListCats: Cat From DEFAULT")
+					--ElderScrollsOfAlts:dumpPrintTable(tvalue)
+				end	
+				if ( not ElderScrollsOfAlts:has_value(validChoices, catP) ) then 
 					table.insert(validChoices, catP)
-					ElderScrollsOfAlts.debugMsg("List: added2 cat=" .. catP)
 					tCount = tCount+1
-					ElderScrollsOfAlts.outputMsg("ListCats: add cat from, playerKey=" , playerKey, " catP=" , catP)
-				end
+					ElderScrollsOfAlts.debugMsg("ListCats: add cat from, playerKey=" ,tostring(tvalue.playerKey), " catP=" , tostring(catP), " charkey=",tostring(tvalue.charKey) )
+					--ElderScrollsOfAlts:dumpPrintTable(tvalue)
+				end	
 			end
+		else
+			EchoESOADatastore.outputMsg("No players listed in datastsore")
 		end
 	end
 	--Default Values

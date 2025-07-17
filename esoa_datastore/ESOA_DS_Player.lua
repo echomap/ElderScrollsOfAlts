@@ -37,18 +37,15 @@ function EchoESOADatastore.checkNullData(characterLineKey)
 	if EchoESOADatastore.svListDataAW[dName] == nil then
 		EchoESOADatastore.svListDataAW[dName] = {}
 	end
-	if EchoESOADatastore.svListDataAW[dName].playerlist == nil then
-		EchoESOADatastore.svListDataAW[dName].playerlist = {}
-	end
 	if EchoESOADatastore.svListDataAW[dName].players == nil then
 		EchoESOADatastore.svListDataAW[dName].players = {}
-	end
-	if(characterLineKey~=nil) then
-		EchoESOADatastore.svListDataAW[dName].playerlist[characterLineKey] = characterLineKey
 	end
 	--
 	-- Characters
 	--
+	if(EchoESOADatastore.svCharDataAW.tracking == nil) then
+		EchoESOADatastore.svCharDataAW.tracking = {}
+	end
 	if EchoESOADatastore.svCharDataAW.sections == nil then
 		EchoESOADatastore.svCharDataAW.sections = {}
 	end
@@ -151,7 +148,6 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 		--end
 	end
 	EchoESOADatastore.view.pNow = pNow
-	EchoESOADatastore.svListDataAW[dName].playerlist[playerKey] = pName
 	EchoESOADatastore.svListDataAW[dName].players[playerKey].playerKey = playerKey
 	EchoESOADatastore.svListDataAW[dName].players[playerKey].name = pName
 	EchoESOADatastore.svListDataAW[dName].players[playerKey].server = pServer

@@ -31,7 +31,8 @@ function EchoESOADatastore.getAccountList()
 		local bar = {}
 		bar.account = GetDisplayName()
 		bar.server  = GetDisplayName()
-		retval[account] = bar
+		--local pServer   = GetWorldName()
+		retval[bar.server] = bar
 		return retval
 	end
 	for dServer, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
@@ -49,35 +50,40 @@ end
 function EchoESOADatastore.getCharacterList(accountname)
 	local retval = {}
 	if( accountname==nil ) then
-		for dServer, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
-			EchoESOADatastore.debugMsg("getCharList: Account=".. dServer .. " dName=".. dName )
-			for id, cname in pairs(EchoESOADatastore.svListDataAW[dServer].playerlist) do
-				EchoESOADatastore.odebugMsg("getCharList: character1=[" , id , "] cname=".. cname )
-				local bar = {}
-				bar.id = id
-				bar.name = cname
-				bar.account = dServer
-				bar.server = dName
-				table.insert(retval, bar)
+		EchoESOADatastore.outputMsg("-Returning CharList for all Accounts" )
+		for dAccount, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
+			EchoESOADatastore.debugMsg("getCharList: Account=", dAccount , " dName=", dName )
+			for id, tdata in pairs(EchoESOADatastore.svListDataAW[dAccount].players) do
+				EchoESOADatastore.debugMsg("getCharList: character1=[" , id , "] tdata=", tdata )
+				if(tdata~=nil) then
+					local bar = {}
+					bar.id = id
+					bar.name = tdata.name
+					bar.account = dAccount
+					bar.server  = tdata.server
+					table.insert(retval, bar)
+				end
 			end
 		end
 	else
 		if(EchoESOADatastore.svListDataAW[accountname]==nil) then
-			EchoESOADatastore.outputMsg("-No data for Account[",tostring(accountname),"]")
+			EchoESOADatastore.outputMsg("WARN: -No character data for Account[",tostring(accountname),"]")
 		else
-			EchoESOADatastore.outputMsg("  for Account["..accountname.."]")
-			for id, cname in pairs(EchoESOADatastore.svListDataAW[accountname].playerlist) do	
-				EchoESOADatastore.debugMsg("getCharList: character2=[" , id , "] cname=".. cname )
-				local bar = {}
-				bar.id = id
-				bar.name = cname
-				bar.account = accountname
-				bar.server = id
-				table.insert(retval, bar)
+			EchoESOADatastore.debugMsg("getCharList: for Account["..accountname.."]")
+			for id, tdata in pairs(EchoESOADatastore.svListDataAW[accountname].players) do	
+				EchoESOADatastore.debugMsg("getCharList: character2=[" , id , "] tdata=", tdata )
+				if(tdata~=nil) then
+					local bar = {}
+					bar.id = id
+					bar.name = tdata.name
+					bar.account =accountname
+					bar.server  = dAccount
+					table.insert(retval, bar)
+				end
 			end
 		end
 	end
-	EchoESOADatastore.outputMsg("getCharList: retval#=" , #retval )
+	EchoESOADatastore.debugMsg("getCharList: retval#=" , #retval )
 	return retval
 end
 
@@ -108,7 +114,7 @@ end
 ------------------------------
 -- UI/Console
 function EchoESOADatastore.PrintPlayerNote(accountname)
-	EchoESOADatastore.outputMsg("Playerlist->")
+	EchoESOADatastore.outputMsg("Charlist->")
 	local reval = EchoESOADatastore.getCharacterList(accountname)
 	if(reval~=nil) then
 		for index, tvalue in pairs(reval) do
@@ -118,17 +124,18 @@ function EchoESOADatastore.PrintPlayerNote(accountname)
 	else
 		EchoESOADatastore.outputMsg("No players listed in datastsore")
 	end
-	EchoESOADatastore.outputMsg("<--Playerlist")
+	EchoESOADatastore.outputMsg("<--Charlist")
 end
 
 ------------------------------
 -- Implementation
 function EchoESOADatastore.getDataForCharacters(account)
+	--EchoESOADatastore.outputMsg("dfc: account='", tostring(account) , "'" )
 	local retval1 = {}
 	local reval = EchoESOADatastore.getCharacterList(account)
 	if(reval~=nil) then
 		for index, tvalue in pairs(reval) do
-			--EchoESOADatastore.debugMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
+			--EchoESOADatastore.outputMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
 			EchoESOADatastore.debugMsg("getCharData2: name=" , tostring(tvalue.name) , " id=".. tostring(tvalue.id) , " account=" , tostring(tvalue.account), " index=", index )
 			local val = EchoESOADatastore.getDataForCharacterById(tvalue.id, account)
 			retval1[tvalue.id] = val
@@ -151,10 +158,6 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	end
 	if(EchoESOADatastore.svListDataAW[account]==nil) then
 		EchoESOADatastore.outputMsg("-No data for Account[",account,"]")
-		return
-	end
-	if(EchoESOADatastore.svListDataAW[account].playerlist[characterID]==nil ) then
-		EchoESOADatastore.outputMsg("-No data for Character["..characterID.."]")
 		return
 	end
 	local retval = {}
@@ -258,8 +261,7 @@ function EchoESOADatastore.deleteCharacterByID(characterID,account)
 	if(account==nil) then
 		--find account for character
 	end
-	EchoESOADatastore.debugMsg("deleteCharacterByID: characterID=["..characterID.. "] for account["..account.."]" )
-	EchoESOADatastore.svListDataAW[account].playerlist[characterID]   = nil
+	EchoESOADatastore.debugMsg("deleteCharacterByID: characterID=[",characterID, "] for account[",account,"]" )
 	EchoESOADatastore.svListDataAW[account].players[characterID] = nil
 	--
 	EchoESOADatastore.svCharDataAW.sections.bio[characterID] = nil

@@ -13,9 +13,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 	local accountname = GetDisplayName()
 	if( ElderScrollsOfAlts.view.selectedAccount ~=nil ) then
 		accountname = ElderScrollsOfAlts.view.selectedAccount		
-		ElderScrollsOfAlts.outputMsg("SetupDSPlayer: switched to account: ",accountname )
+		ElderScrollsOfAlts.outputMsg("SetupDSPlayer: switched to account: [",accountname,"]" )
 	end
-	ElderScrollsOfAlts.outputMsg("SetupDSPlayer: for account: ",accountname )
+	ElderScrollsOfAlts.outputMsg("SetupDSPlayer: for account: [",accountname,"]" )
 	--
 	ElderScrollsOfAlts.view.accountData = {} --todo needed? 
 	ElderScrollsOfAlts.view.accountData.secondsplayed = 0 --todo needed? 
@@ -38,6 +38,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 			ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
 			playerLines[k].accountname = accountname
 			playerLines[k].charkey = k
+			tvalue.charkey = k
+			tvalue.accountname = accountname
 			ElderScrollsOfAlts.debugMsg("Player: set charkey=".. tostring(k) ) 
 			--ElderScrollsOfAlts:SetupGuiPlayerBaseLines2(playerLines,k)	--contains local stuff
 			--ElderScrollsOfAlts:SetupGuiPlayerBaseLinesDS2(playerLines,k)	--TODO since contains local stuff
@@ -76,11 +78,14 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	end
 	local chardataO = {}
 	chardataO.account = chardata.accountname
+	chardataO.playerkey = chardata.charkey
+	chardataO.playerKey = chardata.charkey
 	chardataO.charkey = chardata.charkey
+	chardataO.charKey = chardata.charkey
 	chardataO.rawname = chardata.charkey
 	chardataO.source  = "DataStore"
 	chardataO.source2 = "DS"
-	ElderScrollsOfAlts.debugMsg("FlattenChar: out: account=",account ," charkey=",charkey, " rawname=",rawname)
+	ElderScrollsOfAlts.debugMsg("FlattenChar: out: account=",tostring(chardataO.account) ," charkey=",tostring(chardataO.charkey), " playerKey=",tostring(chardataO.playerKey), " charKey=",tostring(chardataO.charkey) )
 	--
 	ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(chardataO,chardata)
 	-- CHECK Data TODO
@@ -125,6 +130,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	chardataO.account = chardata.accountname
 	chardataO.charkey = chardata.charkey
 	chardataO.rawname = chardata.charkey
+	--ElderScrollsOfAlts.outputMsg("FlattenChar2: out: account=",tostring(chardataO.account) ," charkey=",tostring(chardataO.charkey), " name=",tostring(chardataO.name), " rawname=",tostring(chardataO.rawname), " playerKey=",tostring(chardataO.playerKey) )
 	return chardataO
 end
 

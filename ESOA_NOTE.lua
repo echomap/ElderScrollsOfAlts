@@ -16,6 +16,7 @@ function ElderScrollsOfAlts:ShowCharacterNote(self)
 	local selectedPlayer = ElderScrollsOfAlts.view.playerLines[charactername]
 	ElderScrollsOfAlts.view.selectedPlayerData = selectedPlayer
 	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer="..tostring(selectedPlayer) )
+	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer name="   ..tostring(selectedPlayer.name) )
 	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer rawname="..tostring(selectedPlayer.rawname) )
 	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer charkey="..tostring(selectedPlayer.charkey) )
 	--
@@ -24,17 +25,14 @@ end
 
 function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   if(ElderScrollsOfAlts.view.selectedPlayerData==nil)then
-    ElderScrollsOfAlts.errorMsg("failed to get selected character to display note")
+    ElderScrollsOfAlts.errorMsg("Error: failed to get selected character to display note")
     return
   end  
-  
+  --
   ESOA_GUI2_Notes:SetHidden(false)
   ESOA_GUI2_Notes:ClearAnchors()
   ESOA_GUI2_Notes:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT,
     self:GetLeft(), ESOA_GUI2:GetHeight()
-	--self:GetTop() + 100
-    --ElderScrollsOfAlts.savedVariables.uibutton.left, 
-    --ElderScrollsOfAlts.savedVariables.uibutton.top )
   )  
   ESOA_GUI2_Notes:SetHeight( 150 )
   ESOA_GUI2_Notes:SetWidth(  300 )
@@ -42,7 +40,7 @@ function ElderScrollsOfAlts:ShowGuiCharacterNote(self)
   local pNote = ElderScrollsOfAlts.view.selectedPlayerData["note"]
   --debugMsg("selectedData="..tostring(selectedData))
   if( pNote == nil ) then
-    --
+    --ElderScrollsOfAlts.errorMsg("Character has no note to display note")
   end
   local sVal = zo_strformat("(<<C:1>>)", ElderScrollsOfAlts.view.selectedPlayerData["name"] )
   
@@ -57,14 +55,14 @@ end
 function ElderScrollsOfAlts:ResetNote()
   local tplayer = ElderScrollsOfAlts.view.selectedPlayerData
   if( tplayer == nil ) then
-    ElderScrollsOfAlts.errorMsg("failed to get selected character for note")
+    ElderScrollsOfAlts.errorMsg("Error: failed to get selected character for note")
     return
   end
-  
+  --
   ESOA_GUI2_Notes_Index_Note:SetText("")
   ESOA_GUI2_Notes_Category_Edit:SetText("")
   ESOA_GUI2_Notes_Order_Edit:SetText("")
-  
+  --
   local note = tplayer.note
   if( note ~= nil ) then
     ESOA_GUI2_Notes_Index_Note:SetText(note)

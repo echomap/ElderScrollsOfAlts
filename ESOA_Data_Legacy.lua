@@ -174,6 +174,9 @@ end
 ------------------------------
 -- 
 function ElderScrollsOfAlts.SavePlayerDataLegacy( playerLineKey, keyName, elementData )	
+	if(ElderScrollsOfAlts.altData.players==nil) then
+		return
+	end
 	if( ElderScrollsOfAlts.altData.players[playerLineKey] ~= nil ) then
 		ElderScrollsOfAlts.altData.players[playerLineKey][keyName] = elementData
 		ElderScrollsOfAlts.debugMsg("SavePlayerData: player=",playerLineKey," keyName=",keyName," as ", elementData) 

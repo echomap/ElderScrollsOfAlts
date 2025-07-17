@@ -90,6 +90,7 @@ function ElderScrollsOfAlts.SavePlayerData( playerLineKey, keyName, elementData 
 	ElderScrollsOfAlts.debugMsg("SavePlayerData: playerKey=",playerLineKey," keyName=",keyName," as ", elementData) 
 	if (ESOADatastore ~= nil) then
 		ElderScrollsOfAlts.SavePlayerDataDS( playerLineKey, keyName, elementData )
+		ElderScrollsOfAlts.SavePlayerDataLegacy( playerLineKey, keyName, elementData )
 	else 
 		ElderScrollsOfAlts.SavePlayerDataLegacy( playerLineKey, keyName, elementData )
 	end

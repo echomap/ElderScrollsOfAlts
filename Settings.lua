@@ -106,10 +106,11 @@ function ElderScrollsOfAlts.LoadSettings()
     type    = "button",
     name    = GetString(ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME),
     tooltip = GetString(ESOA_SETTINGS_CLEARNONACCOUNTWIDE_TT),
-    getFunc = function() return ElderScrollsOfAlts.altData.accountdataonly end,
-    setFunc = function(value)	 
-		ElderScrollsOfAlts:ClearNonAccountWideData()
-    end,
+	func = function()  
+			--ElderScrollsOfAlts.altData.accountdataonly end,
+			ElderScrollsOfAlts.outputMsg("ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME: Called" )
+			ElderScrollsOfAlts:ClearNonAccountWideData()
+	end,
     width   = "half",
 	warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
@@ -131,7 +132,6 @@ function ElderScrollsOfAlts.LoadSettings()
     getFunc = function() return ElderScrollsOfAlts.view.pauseactivesave end,
     setFunc = function(value)
       ElderScrollsOfAlts.view.pauseactivesave = value
-      --ElderScrollsOfAlts:SetupCPBar()
     end,
     width   = "half",
   }
@@ -142,7 +142,6 @@ function ElderScrollsOfAlts.LoadSettings()
     getFunc = function() return ElderScrollsOfAlts.view.dontLoadDataInDungeon end,
     setFunc = function(value)
       ElderScrollsOfAlts.view.dontLoadDataInDungeon = value
-      --ElderScrollsOfAlts:SetupCPBar()
     end,
     width   = "half",
   }
@@ -153,7 +152,6 @@ function ElderScrollsOfAlts.LoadSettings()
     getFunc = function() return ElderScrollsOfAlts.view.dontLoadDataInCombat end,
     setFunc = function(value)
       ElderScrollsOfAlts.view.dontLoadDataInCombat = value
-      --ElderScrollsOfAlts:SetupCPBar()
     end,
     width   = "half",
   }
@@ -164,7 +162,6 @@ function ElderScrollsOfAlts.LoadSettings()
     getFunc = function() return ElderScrollsOfAlts.view.dontLoadDataWhilePvPFlagged end,
     setFunc = function(value)
       ElderScrollsOfAlts.view.dontLoadDataWhilePvPFlagged = value
-      --ElderScrollsOfAlts:SetupCPBar()
     end,
     width   = "half",
   }
@@ -211,7 +208,7 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)   ElderScrollsOfAlts.SetUIHIdeInMenues(value) end,
     width   = "full",
   }--]]
-  --
+  --[[
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
     name    = GetString(ESOA_SETTINGS_CPACTIVEBAR1_NM),
@@ -221,7 +218,7 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.savedVariables.cpactivebar1.show = value
       ElderScrollsOfAlts:SetupCPBar()
     end,
-    width   = "half",	--or "half" (optional)
+    width   = "half",
   }
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
@@ -232,8 +229,9 @@ function ElderScrollsOfAlts.LoadSettings()
       ElderScrollsOfAlts.savedVariables.cpactivebar2.show = value
       ElderScrollsOfAlts:SetupCPBar()
       end,
-    width   = "half",	--or "half" (optional)
+    width   = "half",
   }
+  ]]
   --
   --
   optionsTable [#optionsTable+1] = {

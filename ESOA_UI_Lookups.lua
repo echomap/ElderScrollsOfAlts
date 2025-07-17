@@ -45,49 +45,43 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       --TODO eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")"
     end
   elseif(viewKey=="Note" or viewKey=="note") then
-    eline.tooltipHdr = "Note: " .. playerLine["name"]
+    eline.tooltipHdr =  "Note for "..playerLine["name"]	
     local nHint = "Double LEFT Click to select row, OR, Double RIGHT Click to set a Note"
-    if( playerLine["note"]==nil or playerLine["note"]=="") then --TODO string.len (s)?
-	  eline:GetChild(1):SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
-      eline.tooltip = nHint
-    else
-      --art\store\pc_crwn_crown_1x1.dds
-      eline:GetChild(1):SetTexture("/esoui/art/icons/quest_letter_001.dds")      
-      eline.tooltip = playerLine["note"] .. string.char(10) .. string.char(10) .. nHint
+	eline.tooltip = nHint
+	eline:GetChild(1):SetTexture("/esoui/art/icons/heraldrybg_onion_01.dds")
+	--
+	local nNote = nil
+    if( playerLine["note"]~=nil and playerLine["note"]~="") then
+		eline:GetChild(1):SetTexture("/esoui/art/icons/quest_letter_001.dds")   
+		nNote = zo_strformat("[<<1>>]<<2>>", playerLine["note"], (string.char(10)..string.char(10)) )
+	end
+	local nCat = nil
+	if( playerLine["category"]~=nil and playerLine["category"]~="") then
+		nCat = zo_strformat("[category: <<1>>]<<2>>", playerLine["category"], (string.char(10)..string.char(10)) )	  
     end
-	--not a functionlocal nTexture = eline:GetTexture()
-	--eline:SetMouseEnabled(true)
+	if(nCat~=nil or nNote~=nil) then   
+		eline.tooltip = zo_strformat("<<3>><<4>><<1>>", 
+					nHint, (string.char(10)..string.char(10)), nNote, nCat )
+	end
     eline:SetHandler("OnMouseDoubleClick", function(...) ElderScrollsOfAlts:GUILineDoubleClick(...) end )
-	--eline:SetHandler('OnMouseEnter',function(self) ElderScrollsOfAlts:TooltipEnter(self, viewKey ) end)
-	--eline:SetHandler('OnMouseExit',function(self) ElderScrollsOfAlts:TooltipExit(self) end)  
-	--d("(" .. ElderScrollsOfAlts.name .. ") IsMouseEnabled=" ..  tostring(eline:IsMouseEnabled())  )
-    --eline:SetHandler('OnMouseDoubleClick',function(control, button)
-    --    ElderScrollsOfAlts:GUILineDoubleClick(control, button)
-    --end)
   elseif(viewKey=="Alliance") then
-    local pAlliance  = playerLine["alliance"]
+	local pAlliance  = playerLine["alliance"]
 	local psAlliance = GetAllianceName(pAlliance)
-    eline.alliance = pAlliance
-    if pAlliance ~= nil then
-      local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
-      eline:GetChild(1):SetTexture(pAllIcon)  
-      eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  psAlliance )
-	  --eline:SetHandler('OnMouseEnter',function(self)
-		--  ElderScrollsOfAlts:TooltipEnterStub(self, self.entry)
-	  --end)
-	  --eline:SetHandler('OnMouseExit',function(self)
-		--	ElderScrollsOfAlts:TooltipExitStub(self)
-	 -- end) 
-    end
+	eline.alliance = pAlliance
+	if pAlliance ~= nil then
+		local pAllIcon = ElderScrollsOfAlts:GetAllianceIcon(pAlliance);
+		eline:GetChild(1):SetTexture(pAllIcon)  
+		eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  psAlliance )
+	end
   elseif(viewKey=="Alliance Name" or viewKey=="alliance name") then
-    local pAlliance = playerLine["alliance"]
-    eline.allianceid = pAlliance
-    --TODO alliance name
-    eline.alliance = GetAllianceName(pAlliance) 
-    eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  pAlliance )
+	local pAlliance = playerLine["alliance"]
+	eline.allianceid = pAlliance
+	--TODO alliance name
+	eline.alliance = GetAllianceName(pAlliance) 
+	eline.tooltip = zo_strformat("<<1>> is in the <<2>>", playerLine.name,  pAlliance )
   elseif(viewKey=="Class" or viewKey=="class") then
-    eline:SetText( ElderScrollsOfAlts:GetClassText(playerLine["class"]) )
-    eline.tooltip = playerLine.name .. " is a ".. (playerLine["class"])
+	eline:SetText( ElderScrollsOfAlts:GetClassText(playerLine["class"]) )
+	eline.tooltip = playerLine.name .. " is a ".. (playerLine["class"])
   elseif(viewKey=="Level" or viewKey=="level") then
     eline.tooltip = playerLine.name .. " is level ".. playerLine["level"]
     eline:SetText( playerLine["level"] )

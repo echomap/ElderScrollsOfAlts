@@ -284,14 +284,18 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
   ElderScrollsOfAlts.view.accountnames = {}
   if(ESOADatastore~=nil) then
 	local list = ESOADatastore.getAccountList()
+	local aString = "Account Name(s):["
 	for account, serverdata in pairs(list) do
 		--bar.account = dServer
 		--bar.server  = dName
-		ElderScrollsOfAlts.outputMsg("Account Name(s): Added= account=" , account )
+		ElderScrollsOfAlts.debugMsg("Account Name(s): Added= account=" , account )
+		aString = aString .. account .. ","
 		table.insert(ElderScrollsOfAlts.view.accountnames, account)
 	end
+	aString = aString .. "]"
+	ElderScrollsOfAlts.outputMsg( aString )
   else 
-	ElderScrollsOfAlts.outputMsg("Account Name(s): Added=" , ElderScrollsOfAlts.view.accountnamecurrrent )
+	ElderScrollsOfAlts.outputMsg("Account Name: Added=" , ElderScrollsOfAlts.view.accountnamecurrrent )
     table.insert(ElderScrollsOfAlts.view.accountnames, ElderScrollsOfAlts.view.accountnamecurrrent)
   end
   --
