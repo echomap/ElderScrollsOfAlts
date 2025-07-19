@@ -62,6 +62,7 @@ function ElderScrollsOfAlts.LoadSettings()
     width = "full",	--"full" or "half" (optional)
     reference = "ESOA_SETTINGS_FONTSIZE_Select",--TODO refresh me
   }
+  ----ROW START
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
     name    = GetString(ESOA_SETTINGS_SHOWPERCENTS_NAME),
@@ -70,22 +71,31 @@ function ElderScrollsOfAlts.LoadSettings()
     setFunc = function(value)
       ElderScrollsOfAlts.altData.showpercents = value
     end,
-    width   = "half",
+    width   = "full",
 	--warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
-  optionsTable [#optionsTable+1] = {
-    type    = "checkbox",
-    name    = GetString(ESOA_SETTINGS_SHOWBETA_NAME),
-    tooltip = GetString(ESOA_SETTINGS_SHOWBETA_TT),
-    getFunc = function() return ElderScrollsOfAlts.altData.beta end,
-    setFunc = function(value)
-      ElderScrollsOfAlts.altData.beta = value
-    end,
-    width   = "half",
-	requiresReload = true, -- boolean, if set to true, the warning text will contain a notice that changes are only applied after an UI reload and any change to the value will make the "Apply Settings" button appear on the panel which will reload the UI when pressed (optional)
-	--warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
-  }  
-  if(ElderScrollsOfAlts.altData.beta) then
+  ----ROW START
+  --ElderScrollsOfAlts.altData.maxViewButtons
+  optionsTable[#optionsTable+1] = {
+    type = "slider",
+    name = GetString(ESOA_SETTINGS_VIEWBUTTONSSHOWMAX_NAME),
+    getFunc = function() return ElderScrollsOfAlts.altData.maxViewButtons end,
+    setFunc = function(value) ElderScrollsOfAlts.altData.maxViewButtons = value end,
+    min = 2,
+    max = 10,
+    step = 1, --(optional)
+    clampInput = false, -- boolean, if set to false the input won't clamp to min and max and allow any number instead (optional)
+    decimals = 0, -- when specified the input value is rounded to the specified number of decimals (optional)
+    autoSelect = false, -- boolean, automatically select everything in the text input field when it gains focus (optional)
+    inputLocation = "below", -- or "right", determines where the input field is shown. This should not be used within the addon menu and is for custom sliders (optional) 
+    tooltip = GetString(ESOA_SETTINGS_VIEWBUTTONSSHOWMAX_TT),
+    width = "full", --or "half" (optional)
+    warning = GetString(ESOA_SETTINGS_VIEWBUTTONSSHOWMAX_WARNING),
+    requiresReload = false, -- boolean, if set to true, the warning text will contain a notice that changes are only applied after an UI reload and any change to the value will make the "Apply Settings" button appear on the panel which will reload the UI when pressed (optional)
+    default = 160, -- default value or function that returns the default value (optional)
+    reference = "ESOA_NuMViewsShownSlider" -- unique global reference to control (optional)
+  }
+  ----ROW START
   optionsTable [#optionsTable+1] = {
     type    = "checkbox",
     name    = GetString(ESOA_SETTINGS_ACCOUNTWIDEONLY_NAME),
@@ -103,18 +113,30 @@ function ElderScrollsOfAlts.LoadSettings()
 	warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
   optionsTable [#optionsTable+1] = {
+    type    = "checkbox",
+    name    = GetString(ESOA_SETTINGS_SHOWBETA_NAME),
+    tooltip = GetString(ESOA_SETTINGS_SHOWBETA_TT),
+    getFunc = function() return ElderScrollsOfAlts.altData.beta end,
+    setFunc = function(value)
+      ElderScrollsOfAlts.altData.beta = value
+    end,
+    width   = "half",
+	requiresReload = true, -- boolean, if set to true, the warning text will contain a notice that changes are only applied after an UI reload and any change to the value will make the "Apply Settings" button appear on the panel which will reload the UI when pressed (optional)
+	--warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
+  }
+  ----ROW START
+  optionsTable [#optionsTable+1] = {
     type    = "button",
     name    = GetString(ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME),
     tooltip = GetString(ESOA_SETTINGS_CLEARNONACCOUNTWIDE_TT),
 	func = function()  
 			--ElderScrollsOfAlts.altData.accountdataonly end,
-			ElderScrollsOfAlts.outputMsg("ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME: Called" )
 			ElderScrollsOfAlts:ClearNonAccountWideData()
 	end,
     width   = "half",
 	warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),
   }
-  end
+  ----ROW START
   -- ^Account Settings^ --
 
   ---- -- --- -- --- ----

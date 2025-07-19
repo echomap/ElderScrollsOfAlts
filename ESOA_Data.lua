@@ -37,8 +37,10 @@ function ElderScrollsOfAlts:LoadPlayerDataForGui()
 			--load Legacy Stored Data
 			ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()			
 			local legNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
-			ElderScrollsOfAlts.outputMsg("Loaded from Legacy, cnt#=", legNum-dsNum )
-			ElderScrollsOfAlts.outputMsg("Loaded from Both, cnt#=", legNum )
+			if( (legNum-dsNum)>0 ) then
+				ElderScrollsOfAlts.outputMsg("Loaded from Legacy, cnt#=", legNum-dsNum )
+				ElderScrollsOfAlts.outputMsg("Loaded from Both, cnt#=", legNum )
+			end
 		else
 			-- Only Use Datastore
 			ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLinesDS()

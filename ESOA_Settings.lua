@@ -155,14 +155,17 @@ function ElderScrollsOfAlts:SettingsListOfViews()
   local validChoices =  {}  
 	table.insert(validChoices, "Select")
   local viewCnt = 0
-  if(ElderScrollsOfAlts.savedVariables.gui==nil)then
+  if(not ElderScrollsOfAlts.CtrlIsGUIViewInitialized()) then
     ElderScrollsOfAlts.outputMsg("InitializeGui wasn't called first")
     ElderScrollsOfAlts.InitializeGui()
-  end  
-  for viewIdx = 1, #ElderScrollsOfAlts.savedVariables.gui do
-    local guiLine = ElderScrollsOfAlts.savedVariables.gui[viewIdx]
-    local viewName = guiLine.name
-    table.insert(validChoices, viewIdx)-- viewName )  
+  end
+  local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
+  for viewIdx = 1, #guiview do
+    local guiLine = guiview[viewIdx]
+	if(guiLine~=nil) then
+		local viewName = guiLine.name
+		table.insert(validChoices, viewIdx)-- viewName )  
+	end
   end
   return validChoices 
 end
@@ -199,20 +202,23 @@ end
 ------------------------------
 -- view: Delete
 function ElderScrollsOfAlts:DoDeleteSelectedView()
- local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
-  local viewText = ""
-  if(guiLine~=nil)then
-    --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
-    ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx] = nil
-    ElderScrollsOfAlts.outputMsg("Deleted view " , ElderScrollsOfAlts.savedVariables.selected.viewidx)
-  end
-  ElderScrollsOfAlts:RefreshSettingsDropdowns()
+	local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
+	local guiLine = guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+	local viewText = ""
+	if(guiLine~=nil)then
+		--ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
+		table.remove(guiview, ElderScrollsOfAlts.savedVariables.selected.viewidx)
+		--guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx] = nil
+		ElderScrollsOfAlts.outputMsg("Deleted view " , ElderScrollsOfAlts.savedVariables.selected.viewidx)
+	end
+	ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
 
 ------------------------------
 -- view: Select
 function ElderScrollsOfAlts:DoTestSelectedView()
-	local guiLine2B = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+	local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
+	local guiLine2B = guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx]
 	if(guiLine2B==nil)then
 		ElderScrollsOfAlts.outputMsg("Failed test: Can't find data line")
 		return
@@ -273,7 +279,8 @@ function ElderScrollsOfAlts:DoAddNewViewData()
   local newView= {}
   newView["name"] = "New View"
   newView["view"] = ElderScrollsOfAlts:deepcopy( viewTemplate["view"] )
-  table.insert( ElderScrollsOfAlts.savedVariables.gui, newView )
+  local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
+  table.insert( guiview, newView )
   ElderScrollsOfAlts.outputMsg("Added new view")
   ElderScrollsOfAlts:RefreshSettingsDropdowns()
 end
@@ -281,8 +288,9 @@ end
 ------------------------------
 --Save DATA from FORM
 function ElderScrollsOfAlts:DoSaveSelectedView()
-  --TODO
-  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+  --TODO  
+  local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
+  local guiLine = guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx]
   if(guiLine~=nil)then
     guiLine["name"] = tostring(ElderScrollsOfAlts.view.SettingsViewName)
     --guiLine["view"] = ElderScrollsOfAlts.view.SettingsViewData 
@@ -357,8 +365,8 @@ function ElderScrollsOfAlts:DoSaveSelectedView()
       ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: k="..tostring(k2).." v="..tostring(v2) )
     end
     --]]
-    --ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx].name = ElderScrollsOfAlts.view.newViewName
-    --ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx].veiw = ElderScrollsOfAlts.view.newViewEntry
+    --guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx].name = ElderScrollsOfAlts.view.newViewName
+    --guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx].veiw = ElderScrollsOfAlts.view.newViewEntry
     ElderScrollsOfAlts.outputMsg("Saved View")
   else
     ElderScrollsOfAlts.outputMsg("DoSaveSelectedView: Can't find data line")
@@ -368,7 +376,8 @@ end--DoSaveSelectedView
 ------------------------------
 --Edit button puts data into FORM
 function ElderScrollsOfAlts:DoEditSelectedView()
-  local guiLine = ElderScrollsOfAlts.savedVariables.gui[ElderScrollsOfAlts.savedVariables.selected.viewidx]
+  local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
+  local guiLine = guiview[ElderScrollsOfAlts.savedVariables.selected.viewidx]
   local viewText = ""
   if(guiLine~=nil)then
     --ElderScrollsOfAlts.outputMsg("Edit view found as <".. tostring(guiLine.name)..">" )
@@ -571,8 +580,10 @@ end
 ------------------------------
 -- ProfileSettings, from settings
 function ElderScrollsOfAlts:DoSaveProfileSettings()
-  local pName = GetUnitName("player")  
-  ElderScrollsOfAlts.altData.defaults = {}
+  local pName = GetUnitName("player") 
+  if(ElderScrollsOfAlts.altData.defaults==nil) then
+	ElderScrollsOfAlts.altData.defaults = {}
+  end
   ElderScrollsOfAlts.altData.defaultsSaveTime = GetTimeStamp()
   ElderScrollsOfAlts.altData.useAsDefault = pName
   --
@@ -594,6 +605,7 @@ function ElderScrollsOfAlts:DoSaveProfileSettings()
   ElderScrollsOfAlts.altData.defaults.colorSkillsMax     = ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax
   ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax = ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax
   --
+  --TODO guiviews?
 end
 
 ------------------------------
@@ -628,6 +640,9 @@ end
 -- (ElderScrollsOfAlts.altData.accountdataonly)
 function ElderScrollsOfAlts:SetupAccountWideOnly()
 	ElderScrollsOfAlts.outputMsg("SetupAccountWideOnly: Called" )
+	if(ElderScrollsOfAlts.altData.defaults==nil) then
+		ElderScrollsOfAlts.altData.defaults = {}
+	end
 	-- copy player to account
 	-- all things savedvars will be from accoutnvars
 	-- data migrated?
@@ -644,12 +659,20 @@ function ElderScrollsOfAlts:SetupAccountWideOnly()
 		ElderScrollsOfAlts.ShowUIButton()
 	end
 	--
-	ElderScrollsOfAlts.altData.defaults.uiMouseHighlight = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
+	if(ElderScrollsOfAlts.savedVariables.viewmousehighlight==nil or ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown==nil) then
+		ElderScrollsOfAlts.altData.defaults.uiMouseHighlight = true
+	else
+		ElderScrollsOfAlts.altData.defaults.uiMouseHighlight = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
+	end
 	--colors
 	ElderScrollsOfAlts.SetupDefaultColors()
 	--
-	if(ElderScrollsOfAlts.altData.tabviewdata==nil) then
-		ElderScrollsOfAlts.altData.tabviewdata = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.savedVariables.gui)
+	if(ElderScrollsOfAlts.altData.tabviewdata==nil) then	
+		if(ElderScrollsOfAlts.savedVariables.gui~=nil) then
+			ElderScrollsOfAlts.altData.tabviewdata = ElderScrollsOfAlts:deepcopy( ElderScrollsOfAlts.savedVariables.gui )
+		else
+			ElderScrollsOfAlts:ResetUIViews(self)
+		end
 	end
 	--views
 end
@@ -659,7 +682,7 @@ end
 -- (ElderScrollsOfAlts.altData.accountdataonly)
 function ElderScrollsOfAlts:SetupNotAccountWideOnly()
 	ElderScrollsOfAlts.outputMsg("SetupNotAccountWideOnly: Called" )
-	if not ElderScrollsOfAlts.savedVariables.uibutton.shown then
+	if ElderScrollsOfAlts.savedVariables.uibutton==nil or not ElderScrollsOfAlts.savedVariables.uibutton.shown then
 		ElderScrollsOfAlts.HideUIButton()
 	else
 		ElderScrollsOfAlts.ShowUIButton()
@@ -673,7 +696,7 @@ end
 -- ProfileSettings, from settings, WILL REMOVE all character specific VIEW settings
 -- (ElderScrollsOfAlts.altData.accountdataonly)
 function ElderScrollsOfAlts:ClearNonAccountWideData()
-	ElderScrollsOfAlts.outputMsg("ClearNonAccountWideData: Called" )
+	ElderScrollsOfAlts.outputMsg("-Clearing this Characters NonAccountWideData" )
 	-- data migrated?
 	-- remove players data
 	ElderScrollsOfAlts.savedVariables.viewmousehighlight = nil
@@ -682,6 +705,11 @@ function ElderScrollsOfAlts:ClearNonAccountWideData()
     ElderScrollsOfAlts.savedVariables.cpactivebar1	= nil
     ElderScrollsOfAlts.savedVariables.cpactivebar2 	= nil
 	ElderScrollsOfAlts.savedVariables.pvpwarnings	= nil
+	ElderScrollsOfAlts.savedVariables.viewdropdown	= nil
+	ElderScrollsOfAlts.savedVariables.fieldWidthForName 	= nil
+	ElderScrollsOfAlts.savedVariables.allowsaveoddviewnames = nil	
+	--
+    ElderScrollsOfAlts.savedVariables.gui			= nil
 	--
     ElderScrollsOfAlts.savedVariables.colors		= nil
     --

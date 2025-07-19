@@ -359,6 +359,9 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [17] = "Companion_5_name",
       [18] = "Companion_5_level",
       [19] = "Companion_5_rapport",
+      [17] = "Companion_6_name",
+      [18] = "Companion_6_level",
+      [19] = "Companion_6_rapport",
     }
   },
   ["Writs"] = {

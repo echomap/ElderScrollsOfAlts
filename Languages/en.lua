@@ -197,7 +197,7 @@ local localization_strings = {
   ESOA_SETTINGS_ACCOUNTWIDEONLY_NAME = "AccountWideOnly",
   ESOA_SETTINGS_ACCOUNTWIDEONLY_TT = "Will use the same settings for all characters settings, from color to view ",
   ESOA_SETTINGS_CLEARNONACCOUNTWIDE_NAME = "Clear Specific Data",
-  ESOA_SETTINGS_CLEARNONACCOUNTWIDE_TT = "Will DELETE the character specific settings for all characters settings to color and view data!! (NON-reversable) And should help with memory and load times.",
+  ESOA_SETTINGS_CLEARNONACCOUNTWIDE_TT = "Will DELETE this character specific settings for THIS character's settings to color and view data!! (NON-reversable) And should help with memory and load times.",
   
   ESOA_SETTINGS_SHOWPERCENTS_NAME  = "Show Partial Numbers",
   ESOA_SETTINGS_SHOWPERCENTS_TT    = "Show skills partial numbers?",
@@ -246,6 +246,11 @@ local localization_strings = {
   ESOA_SETTINGS_CHARNAMEFIELD_NAME = "Char name field width",
   ESOA_SETTINGS_CHARNAMEFIELD_TT   = "Width of Name field displayed.",
   ESOA_SETTINGS_CHARNAMEFIELD_WARNING = "Don't set this to a negative number or too big, that's on you!",
+
+  ESOA_SETTINGS_VIEWBUTTONSSHOWMAX_NAME = "Num View Tabs To Show",
+  ESOA_SETTINGS_VIEWBUTTONSSHOWMAX_TT   = "How many View Tabs To show in GUI header.",
+  ESOA_SETTINGS_VIEWBUTTONSSHOWMAX_WARNING = "Don't set this to a negative number or too big, that's on you!",
+
   
   ESOA_SETTINGS_CPACTIVEBAR1_NM = "Show champion active bar #1?",
   ESOA_SETTINGS_CPACTIVEBAR1_TT = "A simple ESOA created bar that will show your active champion passives after opening/closing the champion screen.",
