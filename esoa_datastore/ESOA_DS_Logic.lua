@@ -18,7 +18,7 @@ function EchoESOADatastore.saveCurrentCharcterDataAll(loadtype)
 	--check if want to save equip
 	EchoESOADatastore.debugMsg("saveCurrentCharcterDataAll: saveEquip=", EchoESOADatastore.svESOADataAW.saveEquipData)
 	if(EchoESOADatastore.svESOADataAW.saveEquipData) then
-		EchoESOADatastore.saveEquipData()
+		--TODO EchoESOADatastore.saveEquipData()
 	end
 	-- etc...?
 end
@@ -50,7 +50,7 @@ end
 function EchoESOADatastore.getCharacterList(accountname)
 	local retval = {}
 	if( accountname==nil ) then
-		EchoESOADatastore.outputMsg("-Returning CharList for all Accounts" )
+		EchoESOADatastore.debugMsg("-Returning CharList for all Accounts" )
 		for dAccount, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
 			EchoESOADatastore.debugMsg("getCharList: Account=", dAccount , " dName=", dName )
 			for id, tdata in pairs(EchoESOADatastore.svListDataAW[dAccount].players) do
@@ -184,6 +184,16 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	retval["companions"] 	= EchoESOADatastore.svCharDataAW.sections.companions[characterID]
 	-- (Tracking)
 	retval["tracking"] 		= EchoESOADatastore.svCharDataAW.tracking[characterID]		
+	-- OTHER
+	if(EchoESOADatastore.svCharDataAW.sections.equipment~=nil and EchoESOADatastore.svCharDataAW.sections.equipment[characterID]~=nil ) then
+		retval["equipment"] = EchoESOADatastore.svCharDataAW.sections.equipment[characterID]
+	--else
+	--	EchoESOADatastore.outputMsg("SetupGuiPlayerEquipLinesDS: no equipment section for : [",characterID,"]" )
+	end
+	if(EchoESOADatastore.svCharDataAW.sections.championpoints~=nil and EchoESOADatastore.svCharDataAW.sections.championpoints[characterID]~=nil ) then
+		retval["championpoints"] = EchoESOADatastore.svCharDataAW.sections.championpoints[characterID]	
+	end
+	--
 	-- (Custom)-->
 	if( EchoESOADatastore.svCharDataAW.custom ~= nil ) then
 		retval["custom"]	= EchoESOADatastore.svCharDataAW.custom[characterID]
@@ -210,27 +220,27 @@ end
 
 ------------------------------
 -- Implementation
-function EchoESOADatastore.getCharacterByName(characterName,account)
+--function EchoESOADatastore.getCharacterByName(characterName,account)
 	--TODO
-end
+--end
 
 ------------------------------
 -- Implementation
-function EchoESOADatastore.getCharacterByID(characterID,account)
+--function EchoESOADatastore.getCharacterByID(characterID,account)
 	--TODO
-end
+--end
 
 ------------------------------
 -- Implementation
-function EchoESOADatastore.getBasicDataForCharacters()
+--function EchoESOADatastore.getBasicDataForCharacters()
 	--TODO
-end
+--end
 
 ------------------------------
 -- Implementation
-function EchoESOADatastore.getBasicDataForCharacter(characterName)
+--function EchoESOADatastore.getBasicDataForCharacter(characterName)
 	--TODO
-end
+--end
 
 ---------------------
 -- Implementation

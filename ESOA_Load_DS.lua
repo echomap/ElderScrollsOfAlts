@@ -13,7 +13,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 	local accountname = GetDisplayName()
 	if( ElderScrollsOfAlts.view.selectedAccount ~=nil ) then
 		accountname = ElderScrollsOfAlts.view.selectedAccount		
-		ElderScrollsOfAlts.outputMsg("SetupDSPlayer: switched to account: [",accountname,"]" )
+		ElderScrollsOfAlts.debugMsg("SetupDSPlayer: switched to account: [",accountname,"]" )
 	end
 	ElderScrollsOfAlts.outputMsg("SetupDSPlayer: for account: [",accountname,"]" )
 	--
@@ -124,8 +124,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(chardataO,chardata)
 	ElderScrollsOfAlts:SetupPlayerLinesTrackingDS(chardataO,chardata)
 	--
-	--ElderScrollsOfAlts:SetupGuiPlayerEquipLinesDS(chardataO,chardata)   
-	--ElderScrollsOfAlts:SetupPlayerLinesCPDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerEquipLinesDS(chardataO,chardata)   
+	ElderScrollsOfAlts:SetupPlayerLinesCPDS(chardataO,chardata)
 	--
 	chardataO.account = chardata.accountname
 	chardataO.charkey = chardata.charkey
@@ -962,6 +962,205 @@ function ElderScrollsOfAlts:SetupPlayerLinesTrackingDS(output, input)
       end
     end
   end  
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--output,input)
+function ElderScrollsOfAlts:SetupGuiPlayerEquipLinesDS(output, input)
+	local equipment = input.equipment
+	--Defaults
+	output.heavy  = 0
+	output.medium = 0
+	output.light  = 0
+	local EMPTYLINE = ""
+	output.Head       = EMPTYLINE
+	--output.Head_Link  = ev.itemLink     
+	output.Head_Type  = EMPTYLINE     
+	output.Chest  = EMPTYLINE
+	--output.Chest_Link  = ev.itemLink
+	output.Chest_Type  = EMPTYLINE     
+	output.Feet  = EMPTYLINE
+	--output.Feet_Link  = ev.itemLink          
+	output.Feet_Type  = EMPTYLINE     
+	output.Hands  = EMPTYLINE
+	--output.Hands_Link  = ev.itemLink          
+	output.Hands_Type  = EMPTYLINE
+	output.Legs  = EMPTYLINE
+	--output.Legs_Link  = ev.itemLink          
+	output.Legs_Type  = EMPTYLINE
+	output.Shoulders  = EMPTYLINE
+	--output.Shoulders_Link  = ev.itemLink
+	output.Shoulders_Type  = EMPTYLINE
+	output.Waist  = EMPTYLINE
+	-- output.Waist_Link  = ev.itemLink          
+	output.Waist_Type  = EMPTYLINE
+	output.Neck  = EMPTYLINE
+	--output.Neck_Link    = ev.itemLink          
+	--output.Neck_Quality = ev.quality
+	output.Ring2  = EMPTYLINE
+	--output.Ring2_Link    = ev.itemLink  
+	--output.Ring2_Quality = ev.quality
+	output.Ring1  = EMPTYLINE
+	--output.Ring1_Link    = ev.itemLink  
+	--output.Ring1_Quality = ev.quality
+	output.O1  = EMPTYLINE
+	--output.O1_Link  = ev.itemLink  
+	--output.O1_WeaponType  = ev.weaponType  
+	output.M1  = EMPTYLINE
+	--output.M1_Link  = ev.itemLink  
+	--output.M1_WeaponType  = ev.weaponType  
+	output.M2  = EMPTYLINE
+	--output.M2_Link  = ev.itemLink              
+	-- output.M2_WeaponType  = ev.weaponType  
+	output.O2  = EMPTYLINE
+	--output.O2_Link  = ev.itemLink  
+	--output.O2_WeaponType  = ev.weaponType  
+	output.M2  = EMPTYLINE
+	--output.M2_Link  = ev.itemLink  
+	--output.M2_WeaponType  = ev.weaponType  
+	output.Op  = EMPTYLINE
+	--output.Op_Link  = ev.itemLink
+	output.Mp  = EMPTYLINE
+	--output.Mp_Link  = ev.itemLink  
+	--
+	if equipment == nil then 
+		--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerEquipLinesDS: no equipment section for : [",input.name,"]" )
+		return
+	end
+	if equipment.slots == nil then
+		--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerEquipLinesDS: no equipment slots section for : [",input.name,"]" )
+		return
+	end
+	--
+	local equip = equipment.slots
+	for ek, ev in pairs(equip) do
+		if ek == nil then return end
+		--ElderScrollsOfAlts.debugMsg(" equip " .. ek)
+		local tarmortype = 0
+		local lLine = ""
+		--Armor Types
+		if ev.armorType ~=nil then
+			output.armortype = 0
+			if( ev.armorType == ARMORTYPE_HEAVY ) then
+				lLine = "H"
+				output.heavy = output.heavy +1
+				tarmortype = 1
+			elseif( ev.armorType == ARMORTYPE_MEDIUM ) then
+				output.medium = output.medium +1
+				lLine = "M"
+				tarmortype = 2
+			elseif( ev.armorType == ARMORTYPE_LIGHT ) then
+				output.light = output.light +1
+				lLine = "L"
+				tarmortype = 3
+			end
+		end
+		--Armor Types/Slots
+		if ev.equipType == EQUIP_TYPE_HEAD then
+			output.Head       = lLine
+			output.Head_Link  = ev.itemLink     
+			output.Head_Type  = tarmortype     
+		elseif ev.equipType == EQUIP_TYPE_CHEST then
+			output.Chest  = lLine
+			output.Chest_Link  = ev.itemLink
+			output.Chest_Type  = tarmortype     
+		elseif ev.equipType == EQUIP_TYPE_FEET then --10
+			output.Feet  = lLine
+			output.Feet_Link  = ev.itemLink          
+			output.Feet_Type  = tarmortype     
+		elseif ev.equipType == EQUIP_TYPE_HAND then
+			output.Hands  = lLine
+			output.Hands_Link  = ev.itemLink          
+			output.Hands_Type  = tarmortype
+		elseif ev.equipType == EQUIP_TYPE_LEGS then
+			output.Legs  = lLine
+			output.Legs_Link  = ev.itemLink          
+			output.Legs_Type  = tarmortype
+		elseif ev.equipType == EQUIP_TYPE_SHOULDERS then
+			output.Shoulders  = lLine
+			output.Shoulders_Link  = ev.itemLink
+			output.Shoulders_Type  = tarmortype
+		elseif ev.equipType == EQUIP_TYPE_WAIST then
+			output.Waist  = lLine
+			output.Waist_Link  = ev.itemLink          
+			output.Waist_Type  = tarmortype
+		elseif ev.equipType == EQUIP_TYPE_NECK then
+			output.Neck  = "O"
+			output.Neck_Link    = ev.itemLink          
+			output.Neck_Quality = ev.quality
+		elseif ev.equipType == EQUIP_TYPE_RING then
+			if( ev.slotId == EQUIP_SLOT_RING1) then
+				output.Ring2  = "O"
+				output.Ring2_Link    = ev.itemLink  
+				output.Ring2_Quality = ev.quality
+			elseif( ev.slotId == EQUIP_SLOT_RING2) then
+				output.Ring1  = "O"
+				output.Ring1_Link    = ev.itemLink  
+				output.Ring1_Quality = ev.quality
+			end
+			-- Weapon Types/Slots
+			--sword:eq=5(EQUIP_TYPE_ONE_HAND),slot=4(EQUIP_SLOT_MAIN_HAND)
+			--shield:eq=7(EQUIP_TYPE_OFF_HAND),slot=5(EQUIP_SLOT_OFF_HAND)
+			--staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=20(EQUIP_SLOT_BACKUP_MAIN)
+			--staff2/h:eq=6(EQUIP_TYPE_TWO_HAND),slot=4 (EQUIP_SLOT_MAIN_HAND)  
+		elseif ev.equipType == EQUIP_TYPE_ONE_HAND then --5
+			--debugMsg("1h1 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+			if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then --20
+				--debugMsg("Set O1 to "..ev.itemName)
+				output.O1  = "O"
+				output.O1_Link  = ev.itemLink  
+				output.O1_WeaponType  = ev.weaponType  
+			elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then --4
+				output.M1  = "O"
+				output.M1_Link  = ev.itemLink  
+				output.M1_WeaponType  = ev.weaponType  
+			elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then --5
+				output.M2  = "O"
+				output.M2_Link  = ev.itemLink              
+				output.M2_WeaponType  = ev.weaponType  
+			end
+		elseif ev.equipType == EQUIP_TYPE_OFF_HAND then --7
+			--debugMsg("1h2 itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+			if( ev.slotId == EQUIP_SLOT_BACKUP_OFF) then --21
+				--debugMsg("Set O2 to "..ev.itemName)
+				output.O2  = "O2"
+				output.O2_Link  = ev.itemLink  
+				output.O2_WeaponType  = ev.weaponType  
+			elseif( ev.slotId == EQUIP_SLOT_OFF_HAND) then --5
+				output.M2  = "O"
+				output.M2_Link  = ev.itemLink  
+				output.M2_WeaponType  = ev.weaponType  
+			end 
+		elseif ev.equipType == EQUIP_TYPE_TWO_HAND then 
+			--debugMsg("2h itemLink: "..ev.itemLink .." slotid="..tostring(ev.slotId) )
+			if( ev.slotId == EQUIP_SLOT_BACKUP_MAIN) then
+				--debugMsg("Set O1(b) to "..ev.itemName)
+				output.O1  = "O"
+				output.O1_Link  = ev.itemLink  
+				output.O1_WeaponType  = ev.weaponType  
+			elseif( ev.slotId == EQUIP_SLOT_MAIN_HAND) then
+				output.M1  = "O"
+				output.M1_Link  = ev.itemLink  
+				output.M1_WeaponType  = ev.weaponType  
+			end
+		elseif ev.equipType == EQUIP_TYPE_POISON then
+			if( ev.slotId == EQUIP_SLOT_BACKUP_POISON) then
+				output.Op  = "O"
+				output.Op_Link  = ev.itemLink
+			elseif( ev.slotId == EQUIP_SLOT_POISON) then
+				output.Mp  = "O"
+				output.Mp_Link  = ev.itemLink  
+			end
+		end
+	end --pairs(equip)
+end
+
+------------------------------
+-- Translate from DataStore format to ESOA format
+--output,input)
+function ElderScrollsOfAlts:SetupPlayerLinesCPDS(output, input)
+
 end
 
 ------------------------------

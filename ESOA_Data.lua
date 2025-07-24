@@ -221,11 +221,11 @@ end
 ------------------------------
 --
 function ElderScrollsOfAlts:CollectCP()
-  if (EchoESOADatastore ~= nil) then
-    --TODO EchoESOADatastore.XSDSFD()
-  else 
-    ElderScrollsOfAlts:CollectCPLegacy()
-  end
+	if (EchoESOADatastore ~= nil) then
+		ESOADatastore.saveCurrentCharcterDataCP()
+	else 
+		ElderScrollsOfAlts:CollectCPLegacy()
+	end
 end
 
 

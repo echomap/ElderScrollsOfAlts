@@ -7,6 +7,38 @@
 
 
 ------------------------------
+-- 
+local SLOT_TYPE_REV = {
+  EQUIP_SLOT_HEAD      = "Head",
+  EQUIP_SLOT_NECK      = "Neck",
+  EQUIP_SLOT_SHOULDERS = "Shoulders",
+  EQUIP_SLOT_CHEST     = "Chest",
+  EQUIP_SLOT_WAIST     = "Waist",
+  EQUIP_SLOT_WRIST     = "Wrist",
+  EQUIP_SLOT_FEET      = "Feet", --9
+  EQUIP_SLOT_HAND      = "Hand",
+  EQUIP_SLOT_LEGS      = "Legs",
+  
+  EQUIP_SLOT_BACKUP_MAIN   = "ScndMain",
+  EQUIP_SLOT_BACKUP_OFF    = "ScndOff",
+  EQUIP_SLOT_BACKUP_POISON = "ScndPoison",
+  EQUIP_SLOT_OFF_HAND      = "OffHand",
+  EQUIP_SLOT_POISON        = "MainPoison",
+  EQUIP_SLOT_MAIN_HAND     = "MainHand",
+  EQUIP_SLOT_RANGED        = "Ranged",
+  
+  EQUIP_SLOT_CLASS1  = "Class1",
+  EQUIP_SLOT_CLASS2  = "Class2",
+  EQUIP_SLOT_CLASS3  = "Class3",
+  EQUIP_SLOT_COSTUME = "Costume",
+  
+  EQUIP_SLOT_RING1 = "Ring1",
+  EQUIP_SLOT_RING2 = "Ring2",
+  
+  EQUIP_SLOT_NONE = "None",
+}
+
+------------------------------
 -- INT
 -- 
 --("world","Vampire","Blood Ritual")
@@ -108,8 +140,14 @@ function EchoESOADatastore.checkNullData(characterLineKey)
 	end
 	if EchoESOADatastore.svCharDataAW.sections.companions == nil then
 		EchoESOADatastore.svCharDataAW.sections.companions = {}
-		EchoESOADatastore.debugMsg("CheckData set empty companions table" )
 	end
+	if EchoESOADatastore.svCharDataAW.sections.equipment == nil then
+		EchoESOADatastore.svCharDataAW.sections.equipment = {}
+	end
+	if EchoESOADatastore.svCharDataAW.sections.championpoints == nil then
+		EchoESOADatastore.svCharDataAW.sections.championpoints = {}
+	end
+	
 end
 
 ------------------------------
@@ -160,31 +198,31 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	end
 	--
 	-- SAVE SECTIONS
-	EchoESOADatastore.saveCurrentPlayerDataBio( playerKey,   EchoESOADatastore.svCharDataAW.sections.bio )	  
+	EchoESOADatastore.saveCurrentPlayerDataBio(   playerKey, EchoESOADatastore.svCharDataAW.sections.bio )	  
 	EchoESOADatastore.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats )
 	EchoESOADatastore.saveCurrentPlayerDataSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.skills )
 	EchoESOADatastore.saveCurrentPlayerDataTradeSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.tradeskills )
-	EchoESOADatastore.saveCurrentPlayerDataXP( playerKey,    EchoESOADatastore.svCharDataAW.sections.xp )
-	EchoESOADatastore.saveCurrentPlayerDataPower( playerKey, EchoESOADatastore.svCharDataAW.sections.power )
+	EchoESOADatastore.saveCurrentPlayerDataXP(     playerKey, EchoESOADatastore.svCharDataAW.sections.xp )
+	EchoESOADatastore.saveCurrentPlayerDataPower(  playerKey, EchoESOADatastore.svCharDataAW.sections.power )
 	EchoESOADatastore.saveCurrentPlayerDataRiding( playerKey, EchoESOADatastore.svCharDataAW.sections.riding )	 
-	EchoESOADatastore.saveCurrentPlayerDataBags( playerKey, EchoESOADatastore.svCharDataAW.sections.bags )
+	EchoESOADatastore.saveCurrentPlayerDataBags(   playerKey, EchoESOADatastore.svCharDataAW.sections.bags )
 	EchoESOADatastore.saveCurrentPlayerDataSkillpoints( playerKey, EchoESOADatastore.svCharDataAW.sections.skillpoints )
-	EchoESOADatastore.saveCurrentPlayerDataAchieve( playerKey, EchoESOADatastore.svCharDataAW.sections.achieve )
+	EchoESOADatastore.saveCurrentPlayerDataAchieve(  playerKey, EchoESOADatastore.svCharDataAW.sections.achieve )
 	EchoESOADatastore.saveCurrentPlayerDataCurrency( playerKey, EchoESOADatastore.svCharDataAW.sections.currency )
 	EchoESOADatastore.saveCurrentPlayerDataAVA( playerKey, EchoESOADatastore.svCharDataAW.sections.ava )
 	EchoESOADatastore.saveCurrentPlayerDataPVP( playerKey, EchoESOADatastore.svCharDataAW.sections.pvp )
-	EchoESOADatastore.saveCurrentPlayerDataInfamy( playerKey, EchoESOADatastore.svCharDataAW.sections.infamy )
+	EchoESOADatastore.saveCurrentPlayerDataInfamy(   playerKey, EchoESOADatastore.svCharDataAW.sections.infamy )
 	EchoESOADatastore.saveCurrentPlayerDataLocation( playerKey, EchoESOADatastore.svCharDataAW.sections.location )
 	EchoESOADatastore.saveCurrentPlayerDataResearch( playerKey, EchoESOADatastore.svCharDataAW.sections.research )
-	EchoESOADatastore.saveCurrentPlayerDataBuffs( playerKey, EchoESOADatastore.svCharDataAW.sections.buffs )
+	EchoESOADatastore.saveCurrentPlayerDataBuffs(    playerKey, EchoESOADatastore.svCharDataAW.sections.buffs )
 	EchoESOADatastore.saveCurrentPlayerDataResearchtraits( playerKey, EchoESOADatastore.svCharDataAW.sections.researchtraits )
 	--
 	EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, EchoESOADatastore.svCharDataAW.sections.companions )
-	-- TODO: EchoESOADatastore.saveCurrentPlayerDataEquipment( playerKey, EchoESOADatastore.svCharDataAW.sections.equipment )
-	-- TODO: saveCurrentPlayerDataCPInt
+	EchoESOADatastore.saveCurrentPlayerDataEquipment(  playerKey, EchoESOADatastore.svCharDataAW.sections.equipment )
+	EchoESOADatastore.saveCurrentPlayerDataChampionPoints( playerKey, EchoESOADatastore.svCharDataAW.sections.championpoints )
 	--
 	EchoESOADatastore.saveCurrentPlayerDataSpecial( playerKey, EchoESOADatastore.svCharDataAW.sections.special, EchoESOADatastore.svCharDataAW.sections.buffs, EchoESOADatastore.svCharDataAW.sections.skills, EchoESOADatastore.svCharDataAW.sections.bio )
-	EchoESOADatastore.saveCurrentPlayerDataBank( playerKey, EchoESOADatastore.svListDataAW[dName] )
+	EchoESOADatastore.saveCurrentPlayerDataBank(    playerKey, EchoESOADatastore.svListDataAW[dName] )
 	--
 end
 
@@ -255,7 +293,6 @@ end
 ------------------------------
 -- INT
 function EchoESOADatastore.saveCurrentPlayerDataTradeSkills(playerKey, sectionElem)
-	-- 
 	sectionElem[playerKey] = {}
 	local playerElem = sectionElem[playerKey]
 	--
@@ -302,7 +339,6 @@ end
 ------------------------------
 -- INT
 function EchoESOADatastore.saveCurrentPlayerDataStats(playerKey, sectionElem)
-	--
 	sectionElem[playerKey] = {}
 	local playerElem = sectionElem[playerKey]	
 	-- Resets all my data to current data
@@ -589,7 +625,7 @@ function EchoESOADatastore.saveCurrentPlayerDataCurrency( playerKey, sectionElem
 end
 
 ------------------------------
--- INT
+-- INT TODO
 function EchoESOADatastore.saveCurrentPlayerDataPVP( playerKey, sectionElem)
 	sectionElem[playerKey] = {}
 	local playerElem = sectionElem[playerKey]
@@ -1161,19 +1197,145 @@ function EchoESOADatastore.getCharcterCustomData(characterLineKey, keyName)
 	return EchoESOADatastore.svCharDataAW.custom[characterLineKey][keyName]
 end
 
+
 ------------------------------
--- INT
--- Saves all Player data
+-- save
 function EchoESOADatastore.saveCurrentPlayerDataCPInt()
-	--TODO
+	EchoESOADatastore.saveCurrentPlayerDataChampionPoints( EchoESOADatastore.getCurrentCharacterKey() , EchoESOADatastore.svCharDataAW.sections.championpoints )
 end
+	
+------------------------------
+-- INT TODO
+function EchoESOADatastore.getCurrentCharacterKey()
+	-- Initial Data	
+	local dName 	= GetDisplayName()
+	local pName     = GetUnitName("player")
+	local rName     = GetRawUnitName("player")   
+	local pID       = GetCurrentCharacterId()
+	local pServer   = GetWorldName()
+	local playerKey = pID.."_".. pServer:gsub(" ","_")
+	return playerKey
+end
+
+------------------------------
+-- INT TODO
+-- Saves all Player data
+function EchoESOADatastore.saveCurrentPlayerDataChampionPoints( playerKey, sectionElem )
+	ElderScrollsOfAlts.debugMsg("CollectCP: called")
+	if(sectionElem[playerKey] == nil ) then
+		sectionElem[playerKey] = {}
+	end
+	sectionElem[playerKey] = {}
+	local playerElem = sectionElem[playerKey]
+	--
+    playerElem.championpointsactive = {}
+    --
+    local CP = CHAMPION_PERKS
+    local championBar = CHAMPION_PERKS:GetChampionBar() 
+    local CPData = CHAMPION_DATA_MANAGER
+    
+    local start, nd = GetAssignableChampionBarStartAndEndSlots() -- 1 and 12.
+	--d("start:"..tostring(start).." nd:"..tostring(nd) )
+    for i=start, nd do -- loop all (12) slots.
+		local starId  = GetSlotBoundId(i, HOTBAR_CATEGORY_CHAMPION)
+		local req     = GetRequiredChampionDisciplineIdForSlot(i, HOTBAR_CATEGORY_CHAMPION)
+		local disType = GetChampionDisciplineType(req)
+		--
+		if starId ~= 0 then
+			local pointsSpent = GetNumPointsSpentOnChampionSkill(starId)
+			local name = GetChampionSkillName(starId)
+			playerElem.championpointsactive[i] = {}
+			playerElem.championpointsactive[i].id = starId
+			playerElem.championpointsactive[i].name = name
+			playerElem.championpointsactive[i].disciplineid = req
+			playerElem.championpointsactive[i].disciplinetype = disType
+			playerElem.championpointsactive[i].numspentpoints = pointsSpent
+		end
+    end
+    --
+    playerElem.championpoints = {}
+    local numDisciplines = GetNumChampionDisciplines()
+    --d("numDisciplines: " .. tostring(numDisciplines) )
+    for disciplineIndex = 1, numDisciplines do
+		playerElem.championpoints[disciplineIndex] = {}
+		playerElem.championpoints[disciplineIndex].name = GetChampionDisciplineName(disciplineIndex)
+		--
+		for championSkillIndex = 1, GetNumChampionDisciplineSkills(disciplineIndex) do
+			local championSkillId = GetChampionSkillId(disciplineIndex, championSkillIndex)
+			--local numPendingPoints =  GetNumPendingChampionPoints(disciplineIndex, championSkillIndex)
+			local ptsspent  = GetNumPointsSpentOnChampionSkill(championSkillId)
+			if(ptsspent>0) then
+				local championSkillType = GetChampionSkillType(championSkillId)
+				local isSlottable       = ElderScrollsOfAlts:CheckIfCpTypeIsSlottable( championSkillType )
+				if(isSlottable) then
+					local name      = GetChampionSkillName(championSkillId)
+					local abilityId = GetChampionAbilityId(championSkillId)
+					playerElem.championpoints[disciplineIndex][championSkillId] = {}
+					--playerElem.championpoints[disciplineIndex][championSkillId].pts = numPendingPoints
+					playerElem.championpoints[disciplineIndex][championSkillId].name      = name
+					playerElem.championpoints[disciplineIndex][championSkillId].ptsspent  = ptsspent
+					playerElem.championpoints[disciplineIndex][championSkillId].abilityId = abilityId
+				end
+			end--spent points
+		end
+    end
+	ElderScrollsOfAlts.debugMsg("CollectCP: done")
+end
+--CollectCP()
 
 ------------------------------
 -- INT  TODO
 function EchoESOADatastore.saveCurrentPlayerDataEquipment( playerKey, sectionElem )
-	--sectionElem[playerKey] = {}
-	--local playerElem = sectionElem[playerKey]
+	if(sectionElem[playerKey] == nil ) then
+		sectionElem[playerKey] = {}
+	end
+	sectionElem[playerKey] = {}
+	local playerElem = sectionElem[playerKey]
 	--
+	playerElem.items = {}
+    playerElem.slots = {}
+	local elemH = playerElem.slots
+	for slotId = 0, GetBagSize(BAG_WORN) do    
+		local itemName = GetItemName(BAG_WORN, slotId)
+		--quality is numeric
+		local icon, stack, sellPrice, meetsUsageRequirement, locked, equipType, itemStyleId, quality = GetItemInfo(BAG_WORN, slotId)
+		local itemId = GetItemInstanceId(BAG_WORN, slotId)
+		local itemLink = GetItemLink(BAG_WORN, slotId)--, number LinkStyle linkStyle) 
+		local itemLevel = GetItemLevel(BAG_WORN, slotId)
+		if( equipType ~= nil and equipType > EQUIP_TYPE_MIN_VALUE ) then
+			--TODO check itemname not nil, and EquipType > 0
+			elemH[slotId] = {}
+			elemH[slotId].itemId   = itemId
+			elemH[slotId].itemName = itemName
+			elemH[slotId].itemLink = itemLink
+			elemH[slotId].icon = icon
+			elemH[slotId].quality = quality
+			elemH[slotId].itemStyleId = itemStyleId
+			elemH[slotId].slotId    = slotId
+			elemH[slotId].equipType = equipType
+			elemH[slotId].equipLoc  = SLOT_TYPE_REV[slotId]
+			elemH[slotId].itemLevel = itemLevel
+			--equipslot
+
+			local itemType, specializedItemType = GetItemLinkItemType(itemLink)
+			--Returns: number ItemType itemType, number SpecializedItemType specializedItemType 
+			elemH[slotId].itemType = itemType
+			elemH[slotId].specializedItemType = specializedItemType
+			elemH[slotId].armorType = nil
+			elemH[slotId].weaponType = nil
+
+			if( itemType == ITEMTYPE_ARMOR ) then
+				local armorType = GetItemLinkArmorType(itemLink)
+				--Returns: number ArmorType armorType 
+				elemH[slotId].armorType = armorType
+			end
+			if( itemType == ITEMTYPE_WEAPON ) then
+				local weaponType = GetItemLinkWeaponType(itemLink)
+				--Returns: number WeaponType weaponType 
+				elemH[slotId].weaponType = weaponType
+			end
+		end
+	end
 end
 
 ------------------------------
