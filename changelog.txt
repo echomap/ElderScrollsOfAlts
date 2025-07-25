@@ -1,13 +1,12 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-1.00.01
-1.00.58
+2.00.01
 [list]
 [*] Ordered companion output better
 [*] Added setting for showing partial done for skills
-[*] TODO datatore updates
-[*] TODO New global setting to save space (optional)
+[*] datatore updates
+[*] New global setting to save space (optional)
 [/list]
 
 
