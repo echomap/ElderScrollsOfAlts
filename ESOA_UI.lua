@@ -1866,6 +1866,7 @@ function ElderScrollsOfAlts:EquipShowTip(myLabel,equipName)
   local itemLink = myLabel.itemlink
   if(itemLink~=nil) then
     --debugMsg("EquipShowTip itemLink is set")
+	--TODO can i add more info to this?
     ZO_PopupTooltip_SetLink(itemLink)
   else
     --debugMsg("EquipShowTip itemLink is nil")

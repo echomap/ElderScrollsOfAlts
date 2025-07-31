@@ -315,6 +315,20 @@ function ElderScrollsOfAlts:dumpPrintTable(o)
    end
 end
 
+function ElderScrollsOfAlts:parse_key_value_pairs(input_string, pattern)
+	local result = {}
+	if(input_string~=nil) then
+		for key, value in string.gmatch(input_string, pattern) do
+			result[key] = value
+		end
+	end
+	return result
+end
+
+function ElderScrollsOfAlts:parseKeyValues(input_string)
+	local pattern = "(%w+)=(%w+)"	
+	return ElderScrollsOfAlts:parse_key_value_pairs(input_string, pattern)
+end
 
 ------------------------------
 -- EOF

@@ -564,10 +564,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
                 playerLines[k][rtKT.."_XPCode"] = -1
                 playerLines[k][rtKT.."_Percentage"] = -1
               elseif( rtVT.nextRankXP > rtVT.currentXP )then
-                playerLines[k][rtKT.."_XPCode"] = 1
-                playerLines[k][rtKT.."_Percentage"] =  math.floor(  (rtVT.currentXP/rtVT.nextRankXP)*100  )
-				local das = rtVT.currentXP / rtVT.nextRankXP
-				--ElderScrollsOfAlts.outputMsg("Skills DAS[", playerLines[k].name , "] das=", das, " name=", rtVT.name, " curXP=",rtVT.currentXP, " NextXP=", rtVT.nextRankXP)
+                playerLines[k][rtKT.."_XPCode"] = 1				
+				local nCurr = rtVT.currentXP - rtVT.lastRankXP
+				local nNext = rtVT.nextRankXP - rtVT.lastRankXP
+                playerLines[rtKT.."_Percentage"] =  math.floor(  (nCurr/nNext)*100  )
+				local das = nCurr / nNext
 				if(das~=nil and das~=0) then
 					das = das*100
 					playerLines[k][rtKT.."_Perc"] = math.floor( das )

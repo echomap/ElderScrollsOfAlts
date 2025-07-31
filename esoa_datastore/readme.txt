@@ -10,8 +10,6 @@
 -note and custom order, and other custom data
 -tradeskills baseranks in DS?
 -skill percentages off?
--companions
--research
 -speical, ie werewolf, bloodmoon
 -bankspace/free
 ------------------------------

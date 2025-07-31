@@ -420,6 +420,38 @@ function ElderScrollsOfAlts.CtrlIsGUIViewInitialized()
 	return false
 end
 
+-----------------------------
+-- 
+function ElderScrollsOfAlts.CtrlGetViewCustomColWidths()
+	if(ElderScrollsOfAlts.altData.ViewCustomColWidths==nil) then
+		ElderScrollsOfAlts.altData.ViewCustomColWidths = ""
+	end
+	return ElderScrollsOfAlts.altData.ViewCustomColWidths
+end
+
+-----------------------------
+-- 
+function ElderScrollsOfAlts.CtrlSetViewCustomColWidths(val)
+	ElderScrollsOfAlts.altData.ViewCustomColWidths = val	
+	ElderScrollsOfAlts.outputMsg("customwidth CTRL text='",val,"'")
+end
+
+-----------------------------
+-- 
+function ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
+	if(ElderScrollsOfAlts.altData.ViewCustomColWidths==nil) then
+		return nil
+	else
+		local str = ElderScrollsOfAlts.altData.ViewCustomColWidths
+		local pkvTable = ElderScrollsOfAlts:parseKeyValues(str)
+		ElderScrollsOfAlts:dumpPrintTable(pkvTable)
+		return pkvTable
+	end
+end
+
+
+
+
 ------------------------------
 
 ----------------------------------------

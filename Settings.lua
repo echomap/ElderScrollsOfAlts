@@ -614,7 +614,27 @@ function ElderScrollsOfAlts.LoadSettings()
     --reference = "ESOASettingsViewEditbox" -- unique global reference to control (optional)
   }
   -- ^VIEW Settings^ --
-
+	--
+	optionsTable[#optionsTable+1] = {
+		type = "editbox",
+		name = GetString(ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_NAME),
+		getFunc = function() return ElderScrollsOfAlts.GetViewCustomColWidths() end,
+		setFunc = function(text) ElderScrollsOfAlts.SetViewCustomColWidths(text) end,
+		width   = "full",	--or "half" (optional)
+		isMultiline = true,
+		isExtraWide = true,
+		reference = "ESOA_SETTINGS_CUSTOMWIDTH_TEXT",
+	}
+	--
+	optionsTable[#optionsTable+1] = {
+		type    = "button",
+		name    = GetString(ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_SAVE_NAME),
+		tooltip = GetString(ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_SAVE_TT),
+		func    = function() ElderScrollsOfAlts.SetViewCustomColWidths2() end,
+		width   = "half",	--or "half" (optional)
+		warning = GetString(ESOA_KEY_SETTINGS_NOCONFIRM),	--(optional)
+	}
+  
   ---- -- --- -- --- ----
   -- END SETTINGS     --
   ---- -- --- -- --- ----

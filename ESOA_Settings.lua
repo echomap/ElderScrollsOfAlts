@@ -718,6 +718,37 @@ function ElderScrollsOfAlts:ClearNonAccountWideData()
 end
 
 
+-----------------------------
+-- 
+function ElderScrollsOfAlts.GetViewCustomColWidths()
+	return ElderScrollsOfAlts.CtrlGetViewCustomColWidths()
+end
+
+-----------------------------
+-- 
+function ElderScrollsOfAlts.SetViewCustomColWidths(val)
+	ElderScrollsOfAlts.CtrlSetViewCustomColWidths(val)
+	ElderScrollsOfAlts.outputMsg("customwidth text='",val,"'")
+end
+
+-----------------------------
+-- 
+function ElderScrollsOfAlts.SetViewCustomColWidths2()		
+	local textCtr = WINDOW_MANAGER:GetControlByName("ESOA_SETTINGS_CUSTOMWIDTH_TEXT", "")
+	if(textCtr~=nil) then
+		local textCtrT = textCtr.text
+		ElderScrollsOfAlts.outputMsg("customwidth textCtrT='",textCtrT,"'")
+		ElderScrollsOfAlts.CtrlSetViewCustomColWidths(textCtrT)
+		ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
+	else	
+		ElderScrollsOfAlts.outputMsg("Warn: ESOA_SETTINGS_CUSTOMWIDTH_TEXT not found")
+	end	
+end
+
+
+-----------------------------
+-----------------------------
+
 ----------------------------------------
 --[[ Settings GUI ]]-- 
 ----------------------------------------

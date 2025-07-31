@@ -199,7 +199,7 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	--
 	-- SAVE SECTIONS
 	EchoESOADatastore.saveCurrentPlayerDataBio(   playerKey, EchoESOADatastore.svCharDataAW.sections.bio )	  
-	EchoESOADatastore.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats )
+	EchoESOADatastore.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats, dName )
 	EchoESOADatastore.saveCurrentPlayerDataSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.skills )
 	EchoESOADatastore.saveCurrentPlayerDataTradeSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.tradeskills )
 	EchoESOADatastore.saveCurrentPlayerDataXP(     playerKey, EchoESOADatastore.svCharDataAW.sections.xp )
@@ -338,11 +338,9 @@ end
 
 ------------------------------
 -- INT
-function EchoESOADatastore.saveCurrentPlayerDataStats(playerKey, sectionElem)
+function EchoESOADatastore.saveCurrentPlayerDataStats(playerKey, sectionElem, pName )
 	sectionElem[playerKey] = {}
-	local playerElem = sectionElem[playerKey]	
-	-- Resets all my data to current data
-	playerElem = {}
+	local playerElem = sectionElem[playerKey]
 	playerElem.name = pName
 	--
 	local current, max, effectiveMax = GetUnitPower("player", POWERTYPE_STAMINA)
@@ -370,7 +368,7 @@ end
 -- INT
 function EchoESOADatastore.saveCurrentPlayerDataSpecial( playerKey, sectionElem, buffsSection, skillsSection, bioSection )
 	sectionElem[playerKey] = {}
-	local playerElem = sectionElem[playerKey]	
+	local playerElem = sectionElem[playerKey]
 	--
 	local myBioSection     = bioSection[playerKey]
 	local mySkilllsSection = skillsSection[playerKey]
@@ -1067,7 +1065,7 @@ function EchoESOADatastore:SaveDataSkillData(skillType,baseElem,outputUndiscover
 			else
 				EchoESOADatastore.outputMsg("Error writing to pre. ii="..tostring(ii).. "x=" .. tostring(name) );
 			end
-
+			--ie: SaveDataSkillData:[Assault] lastRankXP:758000 nextRankXP:1158000 currentXP:758978
 			local lastRankXP, nextRankXP, currentXP  = GetSkillLineXPInfo( skillType, ii )
 			baseElemTable.lastRankXP = lastRankXP
 			baseElemTable.nextRankXP = nextRankXP

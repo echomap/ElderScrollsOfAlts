@@ -123,7 +123,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline.value = playerLine[viewXlate.."_Rank"] 
 	-- 20250518
 	if( ElderScrollsOfAlts.altData.showpercents and playerLine[viewXlate.."_Perc"]~=nil) then
-		local das = zo_strformat("<<1>>.<<2>>", eline.value, playerLine[viewXlate.."_Perc"] )
+		local nPX = playerLine[viewXlate.."_Perc"]
+		local nPY = string.format("%02d", nPX)
+		local das = zo_strformat("<<1>>.<<2>>", eline.value, nPY )
 		eline.value = das
 	end 
     eline.sort_data = eline.value

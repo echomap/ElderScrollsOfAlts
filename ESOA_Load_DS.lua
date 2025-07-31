@@ -429,9 +429,12 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
                 output[rtKT.."_XPCode"] = -1
                 output[rtKT.."_Percentage"] = -1
               elseif( rtVT.nextRankXP > rtVT.currentXP )then
+				--ie: lastRankXP:758000 nextRankXP:1158000 currentXP:758978  978/400000
                 output[rtKT.."_XPCode"] = 1
-                output[rtKT.."_Percentage"] =  math.floor(  (rtVT.currentXP/rtVT.nextRankXP)*100  )
-				local das = rtVT.currentXP / rtVT.nextRankXP
+				local nCurr = rtVT.currentXP  - rtVT.lastRankXP
+				local nNext = rtVT.nextRankXP - rtVT.lastRankXP
+                output[rtKT.."_Percentage"] =  math.floor(  (nCurr/nNext)*100  )
+				local das = nCurr / nNext
 				if(das~=nil and das~=0) then
 					das = das*100
 					output[rtKT.."_Perc"] = math.floor( das )

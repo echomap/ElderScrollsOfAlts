@@ -165,6 +165,11 @@ local localization_strings = {
   ESOA_SETTINGS_ED_VIEWENTRIES_TT      = "For easy copy and paste this into a the 'Edit View Data' field above.",
   ESOA_SETTINGS_ED_ALLVIEWENTRIES_NAME = "All Allowable Entries List",
   
+  ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_NAME = "Custom Column Widths",
+  ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_TT = "Custom Column Widths",
+  ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_SAVE_NAME = "Save Widths",
+  ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_SAVE_TT   = "Save Widths",
+  
   ESOA_SETTINGS_SAVEBUTTON_NAME = "Save",
   ESOA_SETTINGS_SAVEBUTTON_TT   = "Save selected View!",
   ESOA_SETTINGS_TESTBUTTON_NAME = "Test",
