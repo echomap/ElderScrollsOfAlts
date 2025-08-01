@@ -432,19 +432,22 @@ end
 -----------------------------
 -- 
 function ElderScrollsOfAlts.CtrlSetViewCustomColWidths(val)
-	ElderScrollsOfAlts.altData.ViewCustomColWidths = val	
-	ElderScrollsOfAlts.outputMsg("customwidth CTRL text='",val,"'")
+	ElderScrollsOfAlts.altData.ViewCustomColWidths = val
+	--ElderScrollsOfAlts.outputMsg("customwidth CTRL text='",val,"'")
 end
 
 -----------------------------
 -- 
 function ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
-	if(ElderScrollsOfAlts.altData.ViewCustomColWidths==nil) then
+	if( ElderScrollsOfAlts.altData.ViewCustomColWidths==nil ) then
+		ElderScrollsOfAlts.outputMsg("CustomWidths: are nil")
 		return nil
 	else
+		--ElderScrollsOfAlts.outputMsg("CustomWidths: -->")
 		local str = ElderScrollsOfAlts.altData.ViewCustomColWidths
 		local pkvTable = ElderScrollsOfAlts:parseKeyValues(str)
-		ElderScrollsOfAlts:dumpPrintTable(pkvTable)
+		--ElderScrollsOfAlts:dumpPrintTable(pkvTable)
+		--ElderScrollsOfAlts.outputMsg("<-- CustomWidths")
 		return pkvTable
 	end
 end

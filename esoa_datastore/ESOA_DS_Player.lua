@@ -199,7 +199,7 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	--
 	-- SAVE SECTIONS
 	EchoESOADatastore.saveCurrentPlayerDataBio(   playerKey, EchoESOADatastore.svCharDataAW.sections.bio )	  
-	EchoESOADatastore.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats, dName )
+	EchoESOADatastore.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats, pName, dName )
 	EchoESOADatastore.saveCurrentPlayerDataSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.skills )
 	EchoESOADatastore.saveCurrentPlayerDataTradeSkills(playerKey, EchoESOADatastore.svCharDataAW.sections.tradeskills )
 	EchoESOADatastore.saveCurrentPlayerDataXP(     playerKey, EchoESOADatastore.svCharDataAW.sections.xp )
@@ -338,16 +338,18 @@ end
 
 ------------------------------
 -- INT
-function EchoESOADatastore.saveCurrentPlayerDataStats(playerKey, sectionElem, pName )
+function EchoESOADatastore.saveCurrentPlayerDataStats(playerKey, sectionElem, pName, sName )
 	sectionElem[playerKey] = {}
 	local playerElem = sectionElem[playerKey]
-	playerElem.name = pName
+	playerElem.name    = pName
+	playerElem.account = sName
 	--
-	local current, max, effectiveMax = GetUnitPower("player", POWERTYPE_STAMINA)
+	local current, max, effectiveMax 
+	current, max, effectiveMax = GetUnitPower("player", COMBAT_MECHANIC_FLAGS_STAMINA)
 	playerElem["stamina"] = max
-	current, max, effectiveMax = GetUnitPower("player", POWERTYPE_HEALTH)
+	current, max, effectiveMax = GetUnitPower("player", COMBAT_MECHANIC_FLAGS_HEALTH)
 	playerElem["health"] = max
-	current, max, effectiveMax = GetUnitPower("player", POWERTYPE_MAGICKA)
+	current, max, effectiveMax = GetUnitPower("player", COMBAT_MECHANIC_FLAGS_MAGICKA)
 	playerElem["magicka"] = max
 	current, max, effectiveMax = GetUnitPower("player", POWERTYPE_POWER)
 	playerElem["power"] = max
@@ -359,8 +361,11 @@ function EchoESOADatastore.saveCurrentPlayerDataStats(playerKey, sectionElem, pN
 	playerElem["combo"] = max
 	current, max, effectiveMax = GetUnitPower("player", POWERTYPE_CHARGES)
 	playerElem["charges"] = max
-	current, max, effectiveMax = GetUnitPower("player", POWERTYPE_MOUNT_STAMINA)
+	current, max, effectiveMax = GetUnitPower("player", COMBAT_MECHANIC_FLAGS_ULTIMATE)
+	playerElem["ultimate"] = max
+	current, max, effectiveMax = GetUnitPower("player", COMBAT_MECHANIC_FLAGS_MOUNT_STAMINA)
 	playerElem["mountstamina"] = max
+	
 	--
 end
 

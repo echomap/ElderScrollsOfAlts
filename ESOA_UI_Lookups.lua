@@ -936,97 +936,107 @@ end
 
 ------------------------------
 -- View Lookup, Return WIDTH
-function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey)
-  local lviewKey = viewKey:lower()
-  if(viewKey=="Name") then
-    return ElderScrollsOfAlts.altData.fieldWidthForName
-  elseif(viewKey=="Special") then
-    return 24
-  elseif(viewKey=="SpecialBiteTimer") then
-    return 70
-  elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed" or viewKey=="achieveearned" ) then  
-    return 60
-  elseif(viewKey=="Alliance") then
-    return 28
-  elseif(viewKey=="Alliance Name") then
-    return 50
-  elseif(viewKey=="Note") then
-    return 35
-  elseif(viewKey=="Class") then
-    return 52
-  elseif(viewKey=="Level") then
-    return 40
-  elseif(viewKey=="Race") then
-    return 75
-  elseif(viewKey=="Gender") then
-    return 25
-  elseif(viewKey=="ReducedBounty") then
-    return 50    
-  elseif(viewKey=="Alchemy" or lviewKey=="blacksmithing" or lviewKey == "smithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="JC" or viewKey=="Jewelry" or viewKey=="Woodworking" or viewKey=="Provisioning") then
-    return 45
-  --
-  elseif(viewKey=="BagSpace") then
-    return 60
-  elseif(viewKey=="BagSpaceFree" or viewKey=="BackpackUsed" or viewKey=="BackpackSize" or viewKey=="BackpackFree") then
-    return 45
-  --
-  elseif( viewKey=="lastlogin" ) then
-    return 75
-  elseif(viewKey=="lastlogindiff") then
-    return 75
-  elseif(viewKey=="Skillpoints") then
-    return 45
-  elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
-    return 45
-  elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
-    return 35
-  elseif(viewKey=="Riding Timer") then
-    return 60
-  elseif(viewKey=="Clothier Research 1" or viewKey=="Clothier Research 2" or viewKey=="Clothier Research 3") then
-    return 65
-  elseif(viewKey=="Blacksmithing Research 1" or viewKey=="Blacksmithing Research 2" or viewKey=="Blacksmithing Research 3") then
-    return 65
-  elseif(viewKey=="Alliance Name" or viewKey=="AllianceName" or viewKey == "HomeCampaignName" or viewKey=="AssignedCampaignName" ) then
-    return 120
-  elseif(viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
-    return 165
-  elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
-    return 45
-  elseif( viewKey=="AssignedCampaignEndsAt") then  
-    return 90
-  elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
-    return 65
-  elseif(viewKey=="Jewelcrafting Research 1" or viewKey=="Jewelcrafting Research 2" or viewKey=="Jewelcrafting Research 3") then
-    return 65
-  elseif(viewKey=="Heavy" or viewKey=="Medium" or viewKey=="Light") then        
-    return 30
-  elseif(viewKey=="Head" or viewKey=="Shoulders" or viewKey=="Chest" or viewKey=="Waist" or viewKey=="Legs" or viewKey=="Hands" or viewKey=="Feet" ) then
-    return 35
-  elseif(viewKey=="Neck" or viewKey=="Ring1" or viewKey=="Ring2" ) then
-    return 30
-  elseif(viewKey=="M1" or viewKey=="M2" or viewKey=="Mp" or viewKey=="O1" or viewKey=="O2" or viewKey=="Op" ) then
-    return 35
-  --
-  elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then    
-    return 65        
-  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
-    return 45
-  --
-  elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
-    if( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
-      return 35
-    elseif( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
-      return 35
-    elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
-      return 40
-    else
-      return 110
-    end
+function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey,customWidths)
+	local lviewKey = viewKey:lower()
+	if(customWidths==nil) then
+		customWidths = ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
+	end
+	if(customWidths~=nil) then
+		local cWidth = customWidths[viewKey]
+		--ElderScrollsOfAlts.outputMsg("SortBar:  viewKey='",viewKey,"' cWidth='",cWidth,"'")
+		if(cWidth~=nil) then
+			return cWidth
+		end
+	end
+	if(viewKey=="Name") then
+		return ElderScrollsOfAlts.altData.fieldWidthForName
+	elseif(viewKey=="Special") then
+		return 24
+	elseif(viewKey=="SpecialBiteTimer") then
+		return 70
+	elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed" or viewKey=="achieveearned" ) then  
+		return 60
+	elseif(viewKey=="Alliance") then
+		return 28
+	elseif(viewKey=="Alliance Name") then
+		return 50
+	elseif(viewKey=="Note") then
+		return 35
+	elseif(viewKey=="Class") then
+		return 52
+	elseif(viewKey=="Level") then
+		return 40
+	elseif(viewKey=="Race") then
+		return 75
+	elseif(viewKey=="Gender") then
+		return 25
+	elseif(viewKey=="ReducedBounty") then
+		return 50    
+	elseif(viewKey=="Alchemy" or lviewKey=="blacksmithing" or lviewKey == "smithing" or viewKey=="Clothing" or viewKey=="Enchanting" or viewKey=="JC" or viewKey=="Jewelry" or viewKey=="Woodworking" or viewKey=="Provisioning") then
+		return 45
+	--
+	elseif(viewKey=="BagSpace") then
+		return 60
+	elseif(viewKey=="BagSpaceFree" or viewKey=="BackpackUsed" or viewKey=="BackpackSize" or viewKey=="BackpackFree") then
+		return 45
+	--
+	elseif( viewKey=="lastlogin" ) then
+		return 75
+	elseif(viewKey=="lastlogindiff") then
+		return 75
+	elseif(viewKey=="Skillpoints") then
+		return 45
+	elseif(viewKey=="Assault" or viewKey=="Support" or viewKey=="Legerdemain" or viewKey=="Soul Magic" or viewKey=="Werewolf" or viewKey=="Vampire" or viewKey=="Fighters Guild" or viewKey=="Mages Guild" or viewKey=="Undaunted" or viewKey=="Thieves Guild" or viewKey=="Dark Brotherhood" or viewKey=="Psijic Order" or viewKey=="Scrying" or viewKey=="Excavation") then
+		return 45
+	elseif(viewKey=="Riding Speed" or viewKey=="Riding Stamina" or viewKey=="Riding Inventory") then
+		return 35
+	elseif(viewKey=="Riding Timer") then
+		return 60
+	elseif(viewKey=="Clothier Research 1" or viewKey=="Clothier Research 2" or viewKey=="Clothier Research 3") then
+		return 65
+	elseif(viewKey=="Blacksmithing Research 1" or viewKey=="Blacksmithing Research 2" or viewKey=="Blacksmithing Research 3") then
+		return 65
+	elseif(viewKey=="Alliance Name" or viewKey=="AllianceName" or viewKey == "HomeCampaignName" or viewKey=="AssignedCampaignName" ) then
+		return 120
+	elseif(viewKey=="UnitAvARankName" or viewKey=="AvARankName" or viewKey=="AvaRankName" ) then
+		return 165
+	elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
+		return 45
+	elseif( viewKey=="AssignedCampaignEndsAt") then  
+		return 90
+	elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
+		return 65
+	elseif(viewKey=="Jewelcrafting Research 1" or viewKey=="Jewelcrafting Research 2" or viewKey=="Jewelcrafting Research 3") then
+		return 65
+	elseif(viewKey=="Heavy" or viewKey=="Medium" or viewKey=="Light") then        
+		return 30
+	elseif(viewKey=="Head" or viewKey=="Shoulders" or viewKey=="Chest" or viewKey=="Waist" or viewKey=="Legs" or viewKey=="Hands" or viewKey=="Feet" ) then
+		return 35
+	elseif(viewKey=="Neck" or viewKey=="Ring1" or viewKey=="Ring2" ) then
+		return 30
+	elseif(viewKey=="M1" or viewKey=="M2" or viewKey=="Mp" or viewKey=="O1" or viewKey=="O2" or viewKey=="Op" ) then
+		return 35
+	--
+	elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then    
+		return 65        
+	elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
+		return 45
+	--
+	elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
+		if( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
+			return 35
+		elseif( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
+			return 35
+		elseif( ElderScrollsOfAlts.ends_with(viewKey, "rapport") ) then
+			return 40
+		else
+			return 110
+		end
 	--	
-  --
-  else
-    return 45
-  end
+	--
+	else
+		return 45
+	end
 end
 
 ------------------------------

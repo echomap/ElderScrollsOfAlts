@@ -727,17 +727,17 @@ end
 -----------------------------
 -- 
 function ElderScrollsOfAlts.SetViewCustomColWidths(val)
+	--ElderScrollsOfAlts.outputMsg("customwidth text='",val,"'")
 	ElderScrollsOfAlts.CtrlSetViewCustomColWidths(val)
-	ElderScrollsOfAlts.outputMsg("customwidth text='",val,"'")
 end
 
 -----------------------------
 -- 
 function ElderScrollsOfAlts.SetViewCustomColWidths2()		
 	local textCtr = WINDOW_MANAGER:GetControlByName("ESOA_SETTINGS_CUSTOMWIDTH_TEXT", "")
-	if(textCtr~=nil) then
-		local textCtrT = textCtr.text
-		ElderScrollsOfAlts.outputMsg("customwidth textCtrT='",textCtrT,"'")
+	if(textCtr~=nil and textCtr.editbox~=nil) then
+		local textCtrT = textCtr.editbox:GetText()
+		--ElderScrollsOfAlts.outputMsg("customwidth textCtrT='",textCtrT,"'")
 		ElderScrollsOfAlts.CtrlSetViewCustomColWidths(textCtrT)
 		ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
 	else	

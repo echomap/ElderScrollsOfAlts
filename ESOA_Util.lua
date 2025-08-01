@@ -303,7 +303,7 @@ end
 --
 function ElderScrollsOfAlts:dumpPrintTable(o)
    if type(o) == 'table' then
-    d('')
+    ElderScrollsOfAlts.outputMsg( "" )
 	ElderScrollsOfAlts.outputMsg( "{" )
       for k,v in pairs(o) do
          if type(k) ~= 'number' then k = '"'..k..'"' end
@@ -315,7 +315,8 @@ function ElderScrollsOfAlts:dumpPrintTable(o)
    end
 end
 
-function ElderScrollsOfAlts:parse_key_value_pairs(input_string, pattern)
+-- Separation char is apparently an: & (and maybe ;)
+function ElderScrollsOfAlts:parseKeyValuePairs(input_string, pattern)
 	local result = {}
 	if(input_string~=nil) then
 		for key, value in string.gmatch(input_string, pattern) do
@@ -325,9 +326,24 @@ function ElderScrollsOfAlts:parse_key_value_pairs(input_string, pattern)
 	return result
 end
 
+-- Lines of KEY:VALUE
+function ElderScrollsOfAlts:parseLines(input_string, pattern)
+	if(pattern==nil) then
+		pattern = "([^:]+):([^:\n\r]+)"
+		pattern = "([^:]+)[:=]([^:\n\r]+)"
+	end
+	local t = {}
+	for line in (input_string..'\n'):gmatch("(.-)\r?\n") do
+	  for a, b in line:gmatch( pattern ) do
+		t[a] = b
+	  end
+	end
+	return t
+end
+
 function ElderScrollsOfAlts:parseKeyValues(input_string)
-	local pattern = "(%w+)=(%w+)"	
-	return ElderScrollsOfAlts:parse_key_value_pairs(input_string, pattern)
+	--local pattern = "(%w+)=(%w+)" return ElderScrollsOfAlts:parseKeyValuePairs(input_string, pattern)
+	return ElderScrollsOfAlts:parseLines(input_string)
 end
 
 ------------------------------

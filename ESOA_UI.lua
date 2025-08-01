@@ -540,7 +540,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
 		line.viewName = viewName
 		line.viewIdx  = viewIdx
 		ElderScrollsOfAlts.view.viewLookupIdxFromName[viewName] = viewIdx
-		--line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry), ElderScrollsOfAlts.defaultFieldHeight)
+		--line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry,customWidths), ElderScrollsOfAlts.defaultFieldHeight)
 		--line:SetAnchor(TOPLEFT, predecessor, TOPRIGHT, 0, 0)
 		if(viewPred==nil)then
 		  line:SetAnchor(TOPLEFT, vParent, TOPLEFT, 10, 24)    
@@ -960,7 +960,7 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
   eline:SetText( playerLine.name ) --TODO get function to get display name              
   eline:SetHidden(false) 
   eline:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, 0)
-  --eline:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry), ElderScrollsOfAlts.defaultFieldHeight)
+  --eline:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry,customWidths), ElderScrollsOfAlts.defaultFieldHeight)
   eline:SetDimensions(ElderScrollsOfAlts.altData.fieldWidthForName, ElderScrollsOfAlts.defaultFieldHeight)
   eline:SetMaxLineCount(ElderScrollsOfAlts.altData.fieldWidthForName)
   eline.tooltip = playerLine.name.."("..charKey..")"
@@ -993,7 +993,9 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
 
   table.insert( dataLine.displayedEntries, eline)
   builtWidthL = builtWidthL + eline:GetWidth()
-    
+  --
+  local customWidths = ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
+
   --create the other entries
   local predecessor = eline
   --parent      = ESOA_GUI2_Body_ListHolder
@@ -1007,7 +1009,7 @@ function ElderScrollsOfAlts.LoadDataEntriesForSetView(dataLine, mainParentDH, pl
       --return
     else
       eline:SetHidden(false)
-      eline:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry),ElderScrollsOfAlts.defaultFieldHeight)
+      eline:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry,customWidths),ElderScrollsOfAlts.defaultFieldHeight)
       eline:SetAnchor(TOPLEFT, predecessor, TOPRIGHT, 0, 0)
       eline:SetMouseEnabled(true)
       eline:SetHandler('OnMouseEnter',function(self)
@@ -1161,7 +1163,7 @@ function ElderScrollsOfAlts:SetupGuiHeaderListing(viewName)
     end
     line:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(entry) )--TODO get function to get display name
     line:SetHidden(false)
-    line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry),ElderScrollsOfAlts.defaultFieldHeight)
+    line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry,customWidths),ElderScrollsOfAlts.defaultFieldHeight)
     --line:SetAnchor(TOPLEFT, predecessor, TOPRIGHT, 0, 0)
     if(predecessor==nil)then
       line:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, 0)    
@@ -1196,7 +1198,7 @@ function ElderScrollsOfAlts:SetupGuiHeaderListing(viewName)
       else
         line:SetText( ElderScrollsOfAlts.GuiSortBarLookupDisplayText(entry) )--TODO get function to get display name
         line:SetHidden(false)
-        line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry),ElderScrollsOfAlts.defaultFieldHeight)
+        line:SetDimensions(ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(entry,customWidths),ElderScrollsOfAlts.defaultFieldHeight)
         line:SetAnchor(TOPLEFT, predecessor, TOPRIGHT, 0, 0)
         --line:SetHandler('OnClicked',function(self)
           --PlaySound(SOUNDS.POSITIVE_CLICK)        
