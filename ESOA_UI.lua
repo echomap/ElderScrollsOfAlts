@@ -220,12 +220,14 @@ function ElderScrollsOfAlts.InitializeGui()
     ESOA_GUI2_Header_Hide:GetWidth() + 
     ESOA_GUI2_Header_Minimize:GetWidth() + 
     ESOA_GUI2_Header_CategorySelect:GetWidth() + 
-    160 + --name width
+    namewidth + --name width, was always=160
     ESOA_GUI2_Header_SortUp:GetWidth() + 
     ESOA_GUI2_Header_SortDown:GetWidth() + 
     ESOA_GUI2_Header_SortBy_Value:GetWidth() + 
+    ESOA_GUI2_Header_SortBy_Label:GetWidth() + 
 	ESOA_GUI2_Header_Dropdown_AccountName:GetWidth() + 
     ESOA_GUI2_Header_WhoAmI:GetWidth()
+  --
   ElderScrollsOfAlts.debugMsg("mainHdrMinWidth=",tostring(mainHdrMinWidth))
   ElderScrollsOfAlts.view.headerWinWidth = mainHdrMinWidth
   ESOA_GUI2_Body_CharListHeader.headerWinWidth = mainHdrMinWidth

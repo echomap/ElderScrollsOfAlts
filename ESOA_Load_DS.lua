@@ -681,7 +681,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(output,input)
   output.AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
   output.guestcampaignname    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
   output.currentcampaignname  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
-  output.assignedcampaignname = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  output.AssignedCampaignLastloaded = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignLastloaded ,"")
   
   output.IsInCampaign         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.isInCampaign        ,"")  
   output.UnitAlliance         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAlliance        ,"")

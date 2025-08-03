@@ -859,14 +859,14 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLines(playerLines,k)
   playerLines[k].InCampaign           = ElderScrollsOfAlts:getValueOrDefault( alliancewar.inCampaign          ,"")
   playerLines[k].GuestCampaignId      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignId     ,"")
   --
-  playerLines[k].CurrentCampaignId    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
-  playerLines[k].CurrentCampaignAssigned     = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
-  playerLines[k].CurrentCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignEndsAt,"") 
+  playerLines[k].CurrentCampaignId       = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignId      ,"")
+  playerLines[k].CurrentCampaignAssigned = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignAssigned,"") 
+  playerLines[k].CurrentCampaignEndsAt   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.CurrentCampaignEndsAt,"") 
   --
-  playerLines[k].AssignedCampaignId   = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
+  playerLines[k].AssignedCampaignId          = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
   playerLines[k].AssignedCampaignEndsSeconds = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsSeconds,0) 
   playerLines[k].AssignedCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsAt,"") 
-
+  playerLines[k].AssignedCampaignLastloaded  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignLastloaded,"") 
   --
   playerLines[k].AssignedCampaignEndsAt_value = playerLines[k].AssignedCampaignEndsSeconds
   

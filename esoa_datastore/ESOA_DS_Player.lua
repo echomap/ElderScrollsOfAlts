@@ -691,6 +691,7 @@ function EchoESOADatastore.saveCurrentPlayerDataAVA( playerKey, sectionElem )
 			"earnedTier: '",         earnedTier,
 			"' nextTierProgress: '", nextTierProgress,
 			"' nextTierTotal: '",    nextTierTotal,"'" )
+		playerElem.AssignedCampaignLastloaded = GetTimeStamp()
 		playerElem.AssignedCampaignRewardEarnedTier       = tonumber(earnedTier)
 		playerElem.AssignedCampaignRewardNextProgressTier = tonumber(nextTierProgress)
 		playerElem.AssignedCampaignRewardNextTotalTier    = tonumber(nextTierTotal)
@@ -785,7 +786,7 @@ function EchoESOADatastore.saveCurrentPlayerDataInfamy( playerKey, sectionElem)
 
 	local sBountyDecayZero = GetSecondsUntilBountyDecaysToZero()
 	local sHeatDecayZero   = GetSecondsUntilHeatDecaysToZero()
-	local now = GetTimeStamp() 
+	local now = GetTimeStamp()
 
 	--local timeTillReady = GetTimeStamp() + sBountyDecayZero
 	playerElem.bountytozero = now + sBountyDecayZero

@@ -29,6 +29,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
   ElderScrollsOfAlts.debugMsg("Set WhoamI: playerKey=",playerKey)
   --local timeTotalStart = GetFrameTimeSeconds()
   --ElderScrollsOfAlts.debugMsg("timeTotalStart: " .. tostring(timeTotalStart) )
+  local pNow = GetTimeStamp()
   
   --debugMsg("pName='"..tostring(pName).."'" )
 	if ElderScrollsOfAlts.altData.players == nil then
@@ -268,7 +269,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
     ElderScrollsOfAlts.altData.players[playerKey].misc = {}
   end
   
-  ElderScrollsOfAlts.altData.players[playerKey].misc.now = GetTimeStamp()--ZO_FormatClockTime()
+  ElderScrollsOfAlts.altData.players[playerKey].misc.now = pNow --ZO_FormatClockTime()
   
   --Riding
   local inventoryBonus, maxInventoryBonus, staminaBonus, maxStaminaBonus, speedBonus, maxSpeedBonus =   GetRidingStats()
@@ -288,13 +289,13 @@ function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
   local timeMs, totalDurationMs = GetTimeUntilCanBeTrained()
   ElderScrollsOfAlts.altData.players[playerKey].misc.riding.timeMs          = timeMs
   ElderScrollsOfAlts.altData.players[playerKey].misc.riding.totalDurationMs = totalDurationMs
-  ElderScrollsOfAlts.altData.players[playerKey].misc.riding.timeDataTaken   = GetTimeStamp()--secconds
+  ElderScrollsOfAlts.altData.players[playerKey].misc.riding.timeDataTaken   = pNow--secconds
   if(timeMs<1)then
     ElderScrollsOfAlts.altData.players[playerKey].misc.riding.trainingReadyAt  = 0
   else
     --ElderScrollsOfAlts.debugMsg("timeMs="..tostring(timeMs) )
-    local expiresAt = GetTimeStamp() + ( timeMs/1000 )
-    --local expiresAt = GetTimeStamp() + timeMs
+    local expiresAt = pNow + ( timeMs/1000 )
+    --local expiresAt = pNow + timeMs
     ElderScrollsOfAlts.altData.players[playerKey].misc.riding.trainingReadyAt  = expiresAt
   end
  
@@ -385,6 +386,7 @@ function ElderScrollsOfAlts.DataSaveLivePlayer2(loadtype)
 		  "earnedTier: '",         earnedTier,
 		  "' nextTierProgress: '", nextTierProgress,
 		  "' nextTierTotal: '",    nextTierTotal,"'" )
+	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignLastloaded = pNow
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardEarnedTier       = tonumber(earnedTier)
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextProgressTier = tonumber(nextTierProgress)
 	  ElderScrollsOfAlts.altData.players[playerKey].alliancewar.AssignedCampaignRewardNextTotalTier    = tonumber(nextTierTotal)

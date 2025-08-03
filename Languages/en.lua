@@ -166,7 +166,7 @@ local localization_strings = {
   ESOA_SETTINGS_ED_ALLVIEWENTRIES_NAME = "All Allowable Entries List",
   
   ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_NAME = "Custom Column Widths",
-  ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_TT = "Custom Column Widths",
+  ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_TT = "Use the name shown in the tooltip of the header you wish to set a width for, ie: Note:25. Each entry should be on it's own line. (Caps Matter)",
   ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_SAVE_NAME = "Save Widths",
   ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_SAVE_TT   = "Save Widths",
   

@@ -95,6 +95,7 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["CurrentCampaignId"] = 1,
   ["AssignedCampaignId"] = 1,
   ["AssignedCampaignEndsAt"] = 1,
+  ["AssignedCampaignLastloaded"] = 1,
   
   ["CurrentCampaignName"] = 1,
   ["GuestCampaignName"] = 1,

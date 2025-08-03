@@ -618,6 +618,7 @@ function ElderScrollsOfAlts.LoadSettings()
 	optionsTable[#optionsTable+1] = {
 		type = "editbox",
 		name = GetString(ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_NAME),
+		tooltip = GetString(ESOA_SETTINGS_VIEW_CUSTOMCOLWIDTH_TT),
 		getFunc = function() return ElderScrollsOfAlts.GetViewCustomColWidths() end,
 		setFunc = function(text) ElderScrollsOfAlts.SetViewCustomColWidths(text) end,
 		width   = "full",	--or "half" (optional)
