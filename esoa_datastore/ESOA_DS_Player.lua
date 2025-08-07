@@ -663,6 +663,7 @@ function EchoESOADatastore.saveCurrentPlayerDataAVA( playerKey, sectionElem )
 	playerElem.guestCampaignName    = GetCampaignName(guestCampaignId)
 	playerElem.currentCampaignName  = GetCampaignName(currentCampaignId)
 	playerElem.assignedCampaignName = GetCampaignName(assignedCampaignId)
+	playerElem.assignedcampaignname = playerElem.assignedCampaignName
 
 	playerElem.isInCampaign         = isInCampaign
 	playerElem.unitAlliance         = pAlliance
@@ -749,7 +750,8 @@ function EchoESOADatastore.saveCurrentPlayerDataAVA( playerKey, sectionElem )
 			EchoESOADatastore.debugMsg("avaAEnd loaded from cache '", playerElem.AssignedCampaignEndsAt, "'")
 		end
 	end
-
+	--
+	playerElem.assignedcampaignendsat = playerElem.AssignedCampaignEndsAt
 	--GetLargeAvARankIcon(rank))
 	--GetAllianceColor(alliance):UnpackRGBA())
 
@@ -1348,9 +1350,11 @@ function EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)
 	EchoESOADatastore.debugMsg("saveCompanionDataInit: playerKey= " .. tostring(playerKey) )
 	if(EchoESOADatastore.svCharDataAW.sections.companions==nil) then
 		EchoESOADatastore.svCharDataAW.sections.companions = {}
+		EchoESOADatastore.outputMsg("saveCompanionDataInit: AW= " .. tostring(EchoESOADatastore.svCharDataAW.sections.companions) )
 	end
 	local sectionElem = EchoESOADatastore.svCharDataAW.sections.companions
-	if(sectionElem==nil) then
+	--EchoESOADatastore.debugMsg("saveCompanionDataInit: AW2= " .. tostring(EchoESOADatastore.svCharDataAW.sections.companions) )
+	if(sectionElem[playerKey]==nil) then
 		sectionElem[playerKey] = {}
 	end
 	local playerElem = sectionElem[playerKey]

@@ -312,7 +312,9 @@ function ElderScrollsOfAlts:ShowGuiByChoice()
   ElderScrollsOfAlts.debugMsg("ShowGuiByChoice");
   if( ESOA_GUI2:IsHidden()) then
     ElderScrollsOfAlts:CreateGUI()
+	ElderScrollsOfAlts.view.needToLoadGuiData = false
     ElderScrollsOfAlts:ShowSetView()
+	ElderScrollsOfAlts.view.needToLoadGuiData = true
 	--SCENE_MANAGER:ToggleTopLevel(ESOA_GUI2)???
   else
     ESOA_GUI2:SetHidden(true)
@@ -516,7 +518,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
   if( guiview==nill or #guiview==0) then
 	ElderScrollsOfAlts.outputMsg("Error with SetupAndShowViewButtons guiview" )
   end
-  ElderScrollsOfAlts.outputMsg("SetupAndShowViewButtons: guiview#=", #guiview )
+  ElderScrollsOfAlts.debugMsg("SetupAndShowViewButtons: guiview#=", #guiview )
   for viewIdx = 1, #guiview do
     local guiLine = guiview[viewIdx]
 	if(guiLine~=nil) then
@@ -1371,13 +1373,18 @@ function ElderScrollsOfAlts:DoGuiSort(control,newSort,sortText)
     --]]
     
     local testEntry1 = ESOA_GUI2_Body_ListHolder.dataLines[1].playerLine
+	if(testEntry1~=nil) then
+		ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch testEntry1 a='",testEntry1[ElderScrollsOfAlts.view.currentSortKey],"'")
+		ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch testEntry1 b='",testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"],"'")
+		ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch testEntry1 c='",testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_rank"],"'")
+	end
     if(testEntry1==nil) then
       gSearch = nil
       ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #0")
-    elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"] ~=nil ) then
+    elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_Rank"] ~= nil ) then
       gSearch = gSearch2
       ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #2")
-    elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_rank"] ~=nil ) then
+    elseif( testEntry1[ElderScrollsOfAlts.view.currentSortKey.."_rank"] ~= nil ) then
       gSearch = gSearch2b
       ElderScrollsOfAlts.debugMsg("DoGuiSort: gSearch set to #2b")
     --elseif( testEntry1[ ElderScrollsOfAlts.view.currentSortKey:gsub(" ","_") ] ~=nil ) then
@@ -1780,7 +1787,7 @@ function ElderScrollsOfAlts:ListOfCategories(forDisplayOnly)
 		end
 	end 
 	if (ESOADatastore ~= nil ) then
-		ElderScrollsOfAlts.outputMsg("Getting all chars for UI listing")
+		ElderScrollsOfAlts.debugMsg("Getting all chars for UI listing")
 		local reval = EchoESOADatastore.getCharacterList()
 		if(reval~=nil) then
 			for index, tvalue in pairs(reval) do

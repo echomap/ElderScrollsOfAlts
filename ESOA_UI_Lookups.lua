@@ -11,7 +11,10 @@
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
   ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: 1viewKey: '" , tostring(viewKey), "'" )
   if(eline==nil) then return end
+  local viewKeyL = string.lower(viewKey)
   eline.viewKey = viewKey
+  eline.viewKeyL = viewKeyL
+  --
   if(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
     local vampire  = playerLine["Vampire"] 
@@ -243,6 +246,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
 		eline:SetText( playerLine[viewKey] )
 		eline.value = playerLine[viewKey]
 	end
+  elseif( viewKeyL=="assignedcampaignendsat" ) then
+		eline:SetText( playerLine[viewKey] )
+		eline.value = playerLine[viewKey]
   --
   --
   elseif(viewKey=="BagSpace") then
@@ -279,7 +285,6 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     --eline:SetText(bf)
     eline:SetText( ElderScrollsOfAlts.ColorText( noneColor, bf ) )
     --
-    
   elseif(viewKey=="Skillpoints") then
     eline:SetText(playerLine["skillpoints"])
     eline.tooltip = zo_strformat("<<1>> has <<2>> free skillpoints", playerLine.name,playerLine["skillpoints"])
@@ -771,7 +776,7 @@ function ElderScrollsOfAlts:GuiCharLineLookupPopulateResearchData(viewKey,eline,
   if( codeS==3 ) then
     --  
     eline.traitDesc = "Old data! Refresh asap!!"
-	ElderScrollsOfAlts.outputMsg("Warm: Old ResearchData for-> playerLine[",playerLine.name, "] tradeName=",tradeName, " mKyeS=",mKyeS, " codeS=",codeS, " tradeTimeS=",tradeTimeS )
+	ElderScrollsOfAlts.outputMsg("Warn: Old ResearchData for-> playerLine[",playerLine.name, "] tradeName=",tradeName, " mKyeS=",mKyeS, " codeS=",codeS, " tradeTimeS=",tradeTimeS )
   elseif( codeS <= -2 ) then
 	-- code -2->not unlocked,  code=-3->knows all traits,  code=-4->not unclocked
     eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerNone(), playerLine[mKye1]) )
@@ -923,6 +928,10 @@ function ElderScrollsOfAlts.GuiSortBarLookupSortText(viewKey)
     return "lastloginraw"
   elseif( viewKey=="AssignedCampaignEndsAt") then  
     return "AssignedCampaignEndsSeconds"
+  elseif( viewKey=="AssignedCampaignEndsAt") then  
+	return "assignedcampaignlastloadeddiff"
+  elseif( viewKey=="AssignedCampaignLastloaded") then  
+	return "assignedcampaignlastloadeddiff"
   elseif(viewKey=="Jewelry") then
     return "jewelry crafting"
   elseif(viewKey=="Jewelry Crafting") then
@@ -1003,6 +1012,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey,customWidths)
 	elseif(viewKey=="UnitAvARank" or viewKey=="HomeCampaignId" or viewKey=="AssignedCampaignId" or viewKey == "GuestCampaignId" or viewKey=="AssignedCampaignRewardEarnedTier" or viewKey=="CurrentCampaignRewardEarnedTier" or viewKey=="GuestCampaignRewardEarnedTier" ) then
 		return 45
 	elseif( viewKey=="AssignedCampaignEndsAt") then  
+		return 90
+	elseif( viewKey=="AssignedCampaignLastloaded") then  
 		return 90
 	elseif(viewKey=="Woodworking Research 1" or viewKey=="Woodworking Research 2" or viewKey=="Woodworking Research 3") then
 		return 65
@@ -1159,6 +1170,8 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return "Home Campaign"
   elseif(viewKey=="AssignedCampaignName") then
     return "AvA(A)Name"
+  elseif(viewKey=="AssignedCampaignLastloaded") then
+	return "AVALastLoad"
   elseif(viewKey=="UnitAvARank") then
     return "AvARank"
   elseif(viewKey=="UnitAvARankPoints") then

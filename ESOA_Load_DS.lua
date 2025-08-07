@@ -15,7 +15,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 		accountname = ElderScrollsOfAlts.view.selectedAccount		
 		ElderScrollsOfAlts.debugMsg("SetupDSPlayer: switched to account: [",accountname,"]" )
 	end
-	ElderScrollsOfAlts.outputMsg("SetupDSPlayer: for account: [",accountname,"]" )
+	ElderScrollsOfAlts.debugMsg("SetupDSPlayer: for account: [",accountname,"]" )
 	--
 	ElderScrollsOfAlts.view.accountData = {} --todo needed? 
 	ElderScrollsOfAlts.view.accountData.secondsplayed = 0 --todo needed? 
@@ -130,14 +130,14 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	chardataO.account = chardata.accountname
 	chardataO.charkey = chardata.charkey
 	chardataO.rawname = chardata.charkey
-	--ElderScrollsOfAlts.outputMsg("FlattenChar2: out: account=",tostring(chardataO.account) ," charkey=",tostring(chardataO.charkey), " name=",tostring(chardataO.name), " rawname=",tostring(chardataO.rawname), " playerKey=",tostring(chardataO.playerKey) )
+	--ElderScrollsOfAlts.debugMsg("FlattenChar2: out: account=",tostring(chardataO.account) ," charkey=",tostring(chardataO.charkey), " name=",tostring(chardataO.name), " rawname=",tostring(chardataO.rawname), " playerKey=",tostring(chardataO.playerKey) )
 	return chardataO
 end
 
 
 -- Called from Datastore POST Flatten
 function ElderScrollsOfAlts:SetupGuiPlayerBaseLines2DS(playerLine,k)
-	--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerBaseLines2DS: k='"..tostring(k).."'")
+	--ElderScrollsOfAlts.debugMsg("SetupGuiPlayerBaseLines2DS: k='"..tostring(k).."'")
 	--
 	if( ElderScrollsOfAlts.altData.players~=nil and ElderScrollsOfAlts.altData.players[k]~=nil ) then
 		if(playerLine.category==nil) then
@@ -289,7 +289,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerMiscLinesDS(output,input)
     output.backpackused  = bags.backpackUsed
     output.backpackfree  = bags.backpackFree
   end
-  --ElderScrollsOfAlts.outputMsg("bags0: bu=", output.backpackused, " bs=", output.backpacksize, " bf=", output.backpackfree)
+  --ElderScrollsOfAlts.debugMsg("bags0: bu=", output.backpackused, " bs=", output.backpacksize, " bf=", output.backpackfree)
   if skillpoints ~=nil then
     output.skillpoints   = skillpoints.skillpoints
   end
@@ -379,7 +379,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerInfamyLinesDS(output,input)
       else
         output.reducedbounty_tooltip  =  output.reducedbounty_tooltip.. " and should be expired"
       end
-      --ElderScrollsOfAlts.outputMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
+      --ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
     end
     ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
   end
@@ -438,7 +438,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
 				if(das~=nil and das~=0) then
 					das = das*100
 					output[rtKT.."_Perc"] = math.floor( das )
-					--ElderScrollsOfAlts.outputMsg("setupgui: das ",das, " name=", rtVT.name)
+					--ElderScrollsOfAlts.debugMsg("setupgui: das ",das, " name=", rtVT.name)
 				end
               end
               --debugMsg("skills DD ["..rtKT.."_Rank]" .." as="..tostring(rtVT.rank))
@@ -576,8 +576,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLinesDS(output,input)
 			ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(info,subskills ,output,string.lower(iName),iName)  
 		else
 			ElderScrollsOfAlts.debugMsg("Load: trade as: iName=" , iName)
-			--ElderScrollsOfAlts.outputMsg("Trade2a: ", " tradeL[iName]='", tostring(tradeL[iName]), "' tradeS[iName]='", tostring(tradeS[iName]) )
-			--ElderScrollsOfAlts.outputMsg("Trade2a: ", " output='", tostring(output), "' iName='", tostring(iName) )
+			--ElderScrollsOfAlts.debugMsg("Trade2a: ", " tradeL[iName]='", tostring(tradeL[iName]), "' tradeS[iName]='", tostring(tradeS[iName]) )
+			--ElderScrollsOfAlts.debugMsg("Trade2a: ", " output='", tostring(output), "' iName='", tostring(iName) )
 			ElderScrollsOfAlts:SetupGuiPlayerTradeLines2DS(info,subskills ,output, string.lower(iName), iName)  
 		end
 	end
@@ -655,7 +655,7 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(output,input)
   output.AssignedCampaignId   		 = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignId  ,"") 
   output.AssignedCampaignEndsSeconds = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsSeconds,0) 
   output.AssignedCampaignEndsAt      = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignEndsAt,"") 
-
+  output.assignedcampaignendsat      = output.AssignedCampaignEndsAt
   --
   output.AssignedCampaignEndsAt_value = output.AssignedCampaignEndsSeconds
   
@@ -678,11 +678,26 @@ function ElderScrollsOfAlts:SetupAllianceWarPlayerLinesDS(output,input)
   
   output.GuestCampaignName    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")  
   output.CurrentCampaignName  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
-  output.AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  output.AssignedCampaignName = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")  
   output.guestcampaignname    = ElderScrollsOfAlts:getValueOrDefault( alliancewar.guestCampaignName    ,"")
   output.currentcampaignname  = ElderScrollsOfAlts:getValueOrDefault( alliancewar.currentCampaignName     ,"")
-  output.AssignedCampaignLastloaded = ElderScrollsOfAlts:getValueOrDefault( alliancewar.AssignedCampaignLastloaded ,"")
-  
+  --
+  output.assignedcampaignname = ElderScrollsOfAlts:getValueOrDefault( alliancewar.assignedCampaignName ,"")
+  --
+  local assignedCampaignLastloaded  = alliancewar.AssignedCampaignLastloaded
+  if(assignedCampaignLastloaded~=nil) then
+	-- TIME
+	local lastAVAdiff = GetDiffBetweenTimeStamps(GetTimeStamp(), assignedCampaignLastloaded)
+	output.assignedcampaignlastloadeddiff = ZO_FormatTime(lastAVAdiff, TIME_FORMAT_STYLE_DESCRIPTIVE_MINIMAL, 
+		TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+	output.AssignedCampaignLastloadedraw = assignedCampaignLastloaded
+	output.AssignedCampaignLastloaded = ZO_FormatTime(assignedCampaignLastloaded, TIME_FORMAT_STYLE_RELATIVE_TIMESTAMP, 
+		TIME_FORMAT_PRECISION_SECONDS, TIME_FORMAT_DIRECTION_DESCENDING)
+  else
+	output.AssignedCampaignLastloaded = "-"	
+  end
+  output.assignedcampaignlastloaded = output.AssignedCampaignLastloaded
+  --
   output.IsInCampaign         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.isInCampaign        ,"")  
   output.UnitAlliance         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.unitAlliance        ,"")
   output.AllianceName         = ElderScrollsOfAlts:getValueOrDefault( alliancewar.allianceName        ,"")
@@ -1028,11 +1043,11 @@ function ElderScrollsOfAlts:SetupGuiPlayerEquipLinesDS(output, input)
 	--output.Mp_Link  = ev.itemLink  
 	--
 	if equipment == nil then 
-		--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerEquipLinesDS: no equipment section for : [",input.name,"]" )
+		--ElderScrollsOfAlts.debugMsg("SetupGuiPlayerEquipLinesDS: no equipment section for : [",input.name,"]" )
 		return
 	end
 	if equipment.slots == nil then
-		--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerEquipLinesDS: no equipment slots section for : [",input.name,"]" )
+		--ElderScrollsOfAlts.debugMsg("SetupGuiPlayerEquipLinesDS: no equipment slots section for : [",input.name,"]" )
 		return
 	end
 	--

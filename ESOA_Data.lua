@@ -33,13 +33,13 @@ function ElderScrollsOfAlts:LoadPlayerDataForGui()
 			-- Check if chardata is in the Datastore
 			ElderScrollsOfAlts.view.playerLines = ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 			local dsNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
-			ElderScrollsOfAlts.outputMsg("Loaded from Datastore, cnt#=", dsNum )
 			--load Legacy Stored Data
 			ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()			
 			local legNum = ElderScrollsOfAlts:tablelength(ElderScrollsOfAlts.view.playerLines)
 			if( (legNum-dsNum)>0 ) then
-				ElderScrollsOfAlts.outputMsg("Loaded from Legacy, cnt#=", legNum-dsNum )
-				ElderScrollsOfAlts.outputMsg("Loaded from Both, cnt#=", legNum )
+				ElderScrollsOfAlts.outputMsg("Loaded: DS#:",dsNum, " Legacy#:",(legNum-dsNum), " Total#:", legNum )
+			else
+				ElderScrollsOfAlts.outputMsg("Loaded from Datastore, cnt#=", dsNum )
 			end
 		else
 			-- Only Use Datastore

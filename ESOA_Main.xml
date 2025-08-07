@@ -85,7 +85,7 @@ For future, to see if can change font sizes per account?
 		<!-- <OnInitialized> ElderScrollsOfAlts:InitText(self,"ESOA_VIEW_HOME","Home") </OnInitialized> -->
 		<OnMouseEnter> </OnMouseEnter>
 		<OnMouseUp> ElderScrollsOfAlts:ShowAndSetView(self.viewName,self.viewIdx,self) </OnMouseUp>
-		<Dimensions x="70" y="20" />
+		<Dimensions x="75" y="20" />
 		<Textures
 			normal="EsoUI/Art/ActionBar/abilityFrame64_up.dds"
 			pressed="EsoUI/Art/ActionBar/abilityFrame64_down.dds"

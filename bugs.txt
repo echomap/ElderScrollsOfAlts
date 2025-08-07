@@ -1,4 +1,6 @@
+----------
 -= ESOA =-
+----------
 ==Bugs/TODO==
 settings: use dropdown instead of buttons
 settings: max # buttons ElderScrollsOfAlts.altData.maxViewButtons
@@ -24,5 +26,4 @@ banker checkbox to change note icon?
 pause update on dungeon enter
 pause update on pvp enter
 show update notification checkbox
-
 width include min header
