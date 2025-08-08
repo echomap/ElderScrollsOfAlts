@@ -138,9 +138,11 @@ function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
     local charKey = string.sub(charname,0,iStart-1) 
     ElderScrollsOfAlts.debugMsg("DoDeleteSelectedCharacter: charKey=" , tostring(charKey))
 	--[data]
-	iStart, iEnd = string.find(charname, "%]" )
+	iStart, iEnd = string.find(charKey, "%]" )
+	ElderScrollsOfAlts.debugMsg("DoDeleteSelectedCharacter: iStart=" , tostring(iStart), " iEnd=" , tostring(iEnd))
 	if(iStart>0) then
-		charKey = string.sub(charname,iStart) 
+		charKey = string.sub(charKey,iStart+1) 
+		ElderScrollsOfAlts.debugMsg("DoDeleteSelectedCharacter: charKey2=" , tostring(charKey))
 	end
 	--
 	local deletedOk = false
@@ -151,6 +153,7 @@ function ElderScrollsOfAlts:DoDeleteSelectedCharacter()
 	-- 
 	if( ESOADatastore~=nil ) then	
 		ESOADatastore.deleteCharacterByID(charKey,GetDisplayName())
+		 deletedOk = true
 	end
 	if(deletedOk) then
 		ElderScrollsOfAlts.outputMsg("ESOA deleted character: Name=" , tostring(charname) )
