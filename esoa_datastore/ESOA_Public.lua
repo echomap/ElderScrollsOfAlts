@@ -128,6 +128,24 @@ end
 
 ------------------------------
 -- API
+function ESOADatastore.deleteCharacterByID(characterID,accountname)
+	return EchoESOADatastore.deleteCharacterByID(characterID,accountname)
+end
+
+------------------------------
+-- API
+function ESOADatastore.deleteAllCharacterByAccount(accountname)
+	return EchoESOADatastore.deleteAllCharacterByAccount(accountname)
+end
+
+------------------------------
+-- API
+function ESOADatastore.deleteAllCharacterByAccount(accountname)
+	return EchoESOADatastore.deleteAllCharacterByAccount(accountname)
+end
+
+------------------------------
+-- API
 function ESOADatastore.getAccountList()
 	return EchoESOADatastore.getAccountList()
 end

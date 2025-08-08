@@ -774,11 +774,11 @@ function EchoESOADatastore.saveCurrentPlayerDataInfamy( playerKey, sectionElem)
 	-- INFMAY_THRESHHOLD_DISREPUTABLE, FUGITIVE, NOTOFIOUS, UPSTANDING  
 	local infamy = GetInfamy()
 	local bounty = GetBounty()
-	EchoESOADatastore.debugMsg("infamy="..tostring(infamy) )
+	EchoESOADatastore.debugMsg("infamy="..tostring(infamy) )	
 	local fullBountyPayoffAmount    = GetFullBountyPayoffAmount()
 	local reducedBountyPayoffAmount = GetReducedBountyPayoffAmount()
 	local infamyLevel     = GetInfamyLevel(infamy)
-	local infamyLevelText = ElderScrollsOfAlts.getInfamyLevelText(infamyLevel)
+	local infamyLevelText = ElderScrollsOfAlts:getInfamyLevelText(infamyLevel)
 
 	playerElem.displayText = infamyLevelText
 	playerElem.infamy = infamy
@@ -1348,14 +1348,20 @@ end
 -- Companions
 function EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataInit: playerKey= " .. tostring(playerKey) )
+	if(playerKey==nil) then
+		EchoESOADatastore.debugMsg("Warn: saveCompanionDataInit called with no playerKey")
+		return nil
+	end
 	if(EchoESOADatastore.svCharDataAW.sections.companions==nil) then
 		EchoESOADatastore.svCharDataAW.sections.companions = {}
 		EchoESOADatastore.outputMsg("saveCompanionDataInit: AW= " .. tostring(EchoESOADatastore.svCharDataAW.sections.companions) )
 	end
 	local sectionElem = EchoESOADatastore.svCharDataAW.sections.companions
 	--EchoESOADatastore.debugMsg("saveCompanionDataInit: AW2= " .. tostring(EchoESOADatastore.svCharDataAW.sections.companions) )
-	if(sectionElem[playerKey]==nil) then
-		sectionElem[playerKey] = {}
+	if(sectionElem[playerKey]==nil) then	
+		EchoESOADatastore.outputMsg("saveCompanionDataInit: playerKey= ",playerKey, " companionId=",companionId, " cname=",cname)
+		EchoESOADatastore.svCharDataAW.sections.companions[playerKey] = {}
+		sectionElem = EchoESOADatastore.svCharDataAW.sections.companions
 	end
 	local playerElem = sectionElem[playerKey]
 	EchoESOADatastore.debugMsg("companion save data: companionId: '", companionId, "' as '", cname, "'" )
@@ -1386,6 +1392,9 @@ end
 function EchoESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname, level, currentExperience, experienceForLevel)
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataLevel: playerKey= " .. tostring(playerKey) )
+	if(playerElemC~=nil) then
+		return
+	end
 	--
 	playerElemC.data[companionId].level              = level
 	playerElemC.data[companionId].currentExperience  = currentExperience
@@ -1399,6 +1408,9 @@ function EchoESOADatastore.saveCompanionDataSkillRank(playerKey, companionId, cn
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillRank: Called")
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillRank: playerKey= " .. tostring(playerKey) )
+	if(playerElemC~=nil) then
+		return
+	end
 	--
 	EchoESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cname, skillLineId, slName )
 	playerElemC.data[companionId].skillline[skillLineId].rank = rank
@@ -1410,6 +1422,9 @@ function EchoESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cn
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: Called")
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: playerKey= " .. tostring(playerKey) )
+	if(playerElemC~=nil) then
+		return
+	end
 	--
 	if(playerElemC.data[companionId].skillline == nil) then
 		playerElemC.data[companionId].skillline = {}
@@ -1425,7 +1440,10 @@ end
 --Companions
 function EchoESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport)
 	EchoESOADatastore.debugMsg("saveCompanionDataRapport:[",playerKey,"] compid=",companionId," cname=",cname, " rapp=", tostring(currentRapport) )
-	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
+	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)
+	if(playerElemC~=nil) then
+		return
+	end
 	--
 	playerElemC.data[companionId].id      = companionId
 	playerElemC.data[companionId].name    = cname

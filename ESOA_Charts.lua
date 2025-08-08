@@ -730,7 +730,7 @@ function ElderScrollsOfAlts:getInfamyLevelText(infamyLevel)
   elseif(infamyLevel==INFAMY_THRESHOLD_NOTORIOUS) then
     return GetString(ESOA_INFAMY_NOTORIOUS)
   elseif(infamyLevel==INFAMY_THRESHOLD_UPSTANDING) then
-  return GetString(ESOA_INFAMY_UPSTANDING)
+	return GetString(ESOA_INFAMY_UPSTANDING)
   end  
   return GetString(ESOA_INFAMY_UPSTANDING)
 end

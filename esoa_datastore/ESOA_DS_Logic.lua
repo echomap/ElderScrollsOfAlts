@@ -262,14 +262,12 @@ end
 ------------------------------
 -- Implementation
 function EchoESOADatastore.deleteCharacterByID(characterID,account)
-	--TODO
-	if(EchoESOADatastore.svListDataAW[accountname]==nil) then
+	if(EchoESOADatastore.svListDataAW[account]==nil) then
 		EchoESOADatastore.outputMsg("No data for Account["..account.."]")
 		return
 	end
-	local playerKey = characterID
 	if(account==nil) then
-		--find account for character
+		--find account for character ??
 	end
 	EchoESOADatastore.debugMsg("deleteCharacterByID: characterID=[",characterID, "] for account[",account,"]" )
 	EchoESOADatastore.svListDataAW[account].players[characterID] = nil
@@ -285,11 +283,6 @@ function EchoESOADatastore.deleteCharacterByID(characterID,account)
 	EchoESOADatastore.svCharDataAW.sections.skillpoints[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.achieve[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.currency[characterID] = nil
-	EchoESOADatastore.svCharDataAW.sections.bio[characterID] = nil
-	EchoESOADatastore.svCharDataAW.sections.stats[characterID] = nil
-	EchoESOADatastore.svCharDataAW.sections.skills[characterID] = nil
-	EchoESOADatastore.svCharDataAW.sections.tradeskills[characterID] = nil
-
 	EchoESOADatastore.svCharDataAW.sections.ava[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.pvp[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.infamy[characterID] = nil
@@ -297,11 +290,38 @@ function EchoESOADatastore.deleteCharacterByID(characterID,account)
 	EchoESOADatastore.svCharDataAW.sections.research[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.buffs[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.researchtraits[characterID] = nil
-	----Section: Equipment section
-	--EchoESOADatastore:SavaDataPlayerEquipment(playerKey)
-	--
+	
+	EchoESOADatastore.svCharDataAW.sections.xp[characterID] = nil
 	EchoESOADatastore.svCharDataAW.sections.special[characterID] = nil
+	EchoESOADatastore.svCharDataAW.sections.companions[characterID] = nil
+	EchoESOADatastore.svCharDataAW.sections.equipment[characterID] = nil
+	EchoESOADatastore.svCharDataAW.sections.championpoints[characterID] = nil
 	--
+	EchoESOADatastore.svCharDataAW.tracking[characterID] = nil
+	EchoESOADatastore.svCharDataAW.custom[characterID] = nil
+	--
+end
+
+------------------------------
+-- API
+function EchoESOADatastore.deleteAllCharacterByAccount(accountname)
+	--
+	if(EchoESOADatastore.svListDataAW[accountname]==nil) then
+		EchoESOADatastore.outputMsg("No data for Account["..accountname.."]")
+		return
+	end
+	EchoESOADatastore.debugMsg("deleteAllCharacterByAccount: for account[",accountname,"]" )
+	--
+	local charList = EchoESOADatastore.getCharacterList(accountname)
+	if(charList~=nil) then
+		for index, tvalue in pairs(reval) do
+			--EchoESOADatastore.debugMsg("index=".. tostring(index) .. " tvalue=".. tostring(tvalue) )
+			EchoESOADatastore.outputMsg("name=".. tostring(tvalue.name) .. " id=".. tostring(tvalue.id) .. " account=".. tostring(tvalue.account ) )
+			EchoESOADatastore.deleteCharacterByID(tvalue.id,accountname)
+		end
+	else
+		EchoESOADatastore.outputMsg("No players listed in datastsore for account[",accountname,"]" )
+	end
 end
 
 ------------------------------
