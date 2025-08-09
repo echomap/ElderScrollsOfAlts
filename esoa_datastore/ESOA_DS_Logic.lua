@@ -47,8 +47,11 @@ end
 
 ------------------------------
 -- Implementation
+-- Go through account (or all), and return a simple list of characters
+-- Also, check for bad character names, ie, blank, or '-'
 function EchoESOADatastore.getCharacterList(accountname)
 	local retval = {}
+	local delVal = {}
 	if( accountname==nil ) then
 		EchoESOADatastore.debugMsg("-Returning CharList for all Accounts" )
 		for dAccount, dName in pairs(EchoESOADatastore.svListDataAW.servers) do
@@ -56,12 +59,19 @@ function EchoESOADatastore.getCharacterList(accountname)
 			for id, tdata in pairs(EchoESOADatastore.svListDataAW[dAccount].players) do
 				EchoESOADatastore.debugMsg("getCharList: character1=[" , id , "] tdata=", tdata )
 				if(tdata~=nil) then
-					local bar = {}
-					bar.id = id
-					bar.name = tdata.name
-					bar.account = dAccount
-					bar.server  = tdata.server
-					table.insert(retval, bar)
+					if(id==nil or id=="_") then
+						local bar = {}
+						bar.id = id
+						bar.account = dAccount
+						table.insert(delVal, bar)
+					else
+						local bar = {}
+						bar.id = id
+						bar.name = tdata.name
+						bar.account = dAccount
+						bar.server  = tdata.server
+						table.insert(retval, bar)
+					end
 				end
 			end
 		end
@@ -73,14 +83,28 @@ function EchoESOADatastore.getCharacterList(accountname)
 			for id, tdata in pairs(EchoESOADatastore.svListDataAW[accountname].players) do	
 				EchoESOADatastore.debugMsg("getCharList: character2=[" , id , "] tdata=", tdata )
 				if(tdata~=nil) then
-					local bar = {}
-					bar.id = id
-					bar.name = tdata.name
-					bar.account =accountname
-					bar.server  = dAccount
-					table.insert(retval, bar)
+					if(id==nil or id=="_") then
+						local bar = {}
+						bar.id = id
+						bar.account = accountname
+						table.insert(delVal, bar)
+					else
+						local bar = {}
+						bar.id = id
+						bar.name = tdata.name
+						bar.account = accountname
+						bar.server  = dAccount
+						table.insert(retval, bar)
+					end
 				end
 			end
+		end
+	end
+	--	
+	if(delVal~=nil) then
+		for index, tvalue in pairs(delVal) do
+			EchoESOADatastore.outputMsg("Cleaned up bad-data, for char idx=[".. tostring(index).. "] tval=".. tostring(tvalue) .. " ID='".. tostring(tvalue.id) .. "' account='".. tostring(tvalue.account).."'")
+			EchoESOADatastore.deleteCharacterByID(tvalue.id,tvalue.account)
 		end
 	end
 	EchoESOADatastore.debugMsg("getCharList: retval#=" , #retval )
@@ -325,6 +349,31 @@ function EchoESOADatastore.deleteAllCharacterByAccount(accountname)
 end
 
 ------------------------------
+-- Internal/
+function EchoESOADatastore.CheckDataIntegrity()
+--[[
+	d("Checking for Deletable chars..")
+	local delVal = {}
+	local reval = EchoESOADatastore.getCharacterList(account)
+	if(reval~=nil) then
+		for index, tvalue in pairs(reval) do
+			EchoESOADatastore.outputMsg("Check: name=".. tostring(tvalue.name) .. " id=".. tostring(tvalue.id) .. " account=".. tostring(tvalue.account) )
+			if(tvalue.id==nil or tvalue.id=="_") then
+				table.insert(delVal, tvalue.id)
+			end
+			--local val = EchoESOADatastore.getDataForCharacterById(tvalue.id, account)
+			--retval1[tvalue.id] = val
+		end
+	end
+	if(delVal~=nil) then
+		for index, tvalue in pairs(reval) do
+			d("Deletable chars:".. tostring(index).. " tval=".. tostring(tvalue) )
+		end
+	end
+]]
+end
+
+------------------------------
 ------------------------------
 
 ------------------------------
@@ -360,6 +409,8 @@ function EchoESOADatastore:matchStringList(str,itemlist)
   return false;
 end
 
+------------------------------
+-- UTIL/
 function EchoESOADatastore:flatten( item, result )
     local result = result or {}  --  create empty table, if none given during initialization
     if type( item ) == 'table' then

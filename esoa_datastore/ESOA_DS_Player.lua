@@ -663,7 +663,7 @@ function EchoESOADatastore.saveCurrentPlayerDataAVA( playerKey, sectionElem )
 	playerElem.guestCampaignName    = GetCampaignName(guestCampaignId)
 	playerElem.currentCampaignName  = GetCampaignName(currentCampaignId)
 	playerElem.assignedCampaignName = GetCampaignName(assignedCampaignId)
-	playerElem.assignedcampaignname = playerElem.assignedCampaignName
+	--playerElem.assignedcampaignname = playerElem.assignedCampaignName
 
 	playerElem.isInCampaign         = isInCampaign
 	playerElem.unitAlliance         = pAlliance
@@ -1392,7 +1392,7 @@ end
 function EchoESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname, level, currentExperience, experienceForLevel)
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataLevel: playerKey= " .. tostring(playerKey) )
-	if(playerElemC~=nil) then
+	if(playerElemC==nil) then
 		return
 	end
 	--
@@ -1408,7 +1408,7 @@ function EchoESOADatastore.saveCompanionDataSkillRank(playerKey, companionId, cn
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillRank: Called")
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillRank: playerKey= " .. tostring(playerKey) )
-	if(playerElemC~=nil) then
+	if(playerElemC==nil) then
 		return
 	end
 	--
@@ -1422,7 +1422,7 @@ function EchoESOADatastore.saveCompanionDataSkillLine(playerKey, companionId, cn
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: Called")
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)	
 	EchoESOADatastore.debugMsg("saveCompanionDataSkillLine: playerKey= " .. tostring(playerKey) )
-	if(playerElemC~=nil) then
+	if(playerElemC==nil) then
 		return
 	end
 	--
@@ -1441,7 +1441,7 @@ end
 function EchoESOADatastore.saveCompanionDataRapport(playerKey, companionId, cname, currentRapport)
 	EchoESOADatastore.debugMsg("saveCompanionDataRapport:[",playerKey,"] compid=",companionId," cname=",cname, " rapp=", tostring(currentRapport) )
 	local playerElemC = EchoESOADatastore.saveCompanionDataInit(playerKey, companionId, cname)
-	if(playerElemC~=nil) then
+	if(playerElemC==nil) then
 		return
 	end
 	--

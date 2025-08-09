@@ -105,6 +105,7 @@ end
 ------------------------------
 -- API (accountname is optional)
 function ESOADatastore.getCharacterList(accountname)
+	EchoESOADatastore.CheckDataIntegrity()
 	return EchoESOADatastore.getCharacterList(accountname)
 end
 
@@ -147,6 +148,7 @@ end
 ------------------------------
 -- API
 function ESOADatastore.getAccountList()
+	EchoESOADatastore.CheckDataIntegrity()
 	return EchoESOADatastore.getAccountList()
 end
 
