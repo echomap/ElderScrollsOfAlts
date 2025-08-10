@@ -24,12 +24,12 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       eline.special = 1
 	  --eline:GetChild(1):SetResizeToFitFile(false) 
       eline:GetChild(1):SetTexture("/esoui/art/icons/store_werewolfbite_01.dds")
-      eline.tooltip = playerLine.name .. " is a ".."Werewolf (" .. tostring(playerLine.special_bitetimerDisplay) ..")" .. string.char(10) .. string.char(10) .. nHint
+      eline.tooltip = playerLine.name .. " is a ".."Werewolf".. string.char(10) .. "(Can bite another in: " .. tostring(playerLine.special_bitetimerDisplay) ..")" .. string.char(10) .. string.char(10) .. nHint
     elseif vampire then
       eline:GetChild(1):SetTexture("/esoui/art/icons/store_vampirebite_01.dds")
       eline.special = 2
 	  --eline:GetChild(1):SetResizeToFitFile(false) 
-      eline.tooltip = playerLine.name .. " is a ".."Vampire (" .. tostring(playerLine.special_bitetimerDisplay) ..")".. string.char(10) .. string.char(10) .. nHint
+      eline.tooltip = playerLine.name .. " is a ".."Vampire" ..string.char(10).. "(Can bite another in: " .. tostring(playerLine.special_bitetimerDisplay) ..")" ..string.char(10).. string.char(10) .. nHint
 	else
 		eline.tooltip = nHint
     end

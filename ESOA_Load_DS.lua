@@ -87,7 +87,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	chardataO.source2 = "DS"
 	ElderScrollsOfAlts.debugMsg("FlattenChar: out: account=",tostring(chardataO.account) ," charkey=",tostring(chardataO.charkey), " playerKey=",tostring(chardataO.playerKey), " charKey=",tostring(chardataO.charkey) )
 	--
-	ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(chardataO,chardata) -- includes special logic
 	-- CHECK Data TODO
 	ElderScrollsOfAlts.debugMsg("FlattenChar: out='", tostring(chardataO.name) ,",")
 	ElderScrollsOfAlts.debugMsg("FlattenChar: lvl=", tostring(chardataO.level) )
@@ -202,7 +202,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)
       output.special_bitetimerDisplay = "[Unk]"
       output.special_icon = foundItem["textureName"]
       
-      --specialdata
+      --specialdata -> special (in ds)
       if(input.special~=nil)then
         local expiresAt = input.special.expiresAt
         if(expiresAt~=nil)then
@@ -235,7 +235,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)
       output.special_bitetimerDisplay = "[Unk]"
       output.special_icon = foundItem["textureName"]
       
-      --[playerKey].bio.specialdata
+      --specialdata -> special (in ds)
       if(input.special~=nil)then
         local expiresAt = input.special.expiresAt
         if(expiresAt~=nil)then

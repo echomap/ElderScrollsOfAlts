@@ -206,6 +206,7 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	retval["buffs"] 		= EchoESOADatastore.svCharDataAW.sections.buffs[characterID]
 	retval["researchtraits"]= EchoESOADatastore.svCharDataAW.sections.researchtraits[characterID]
 	retval["companions"] 	= EchoESOADatastore.svCharDataAW.sections.companions[characterID]
+	retval["special"]       = EchoESOADatastore.svCharDataAW.sections.special[characterID]
 	-- (Tracking)
 	retval["tracking"] 		= EchoESOADatastore.svCharDataAW.tracking[characterID]		
 	-- OTHER
@@ -237,7 +238,6 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	--
 	-- TODO: (CP, Equipment) section(s)
 	--
-	table.insert(retval, EchoESOADatastore.svCharDataAW.sections.special[characterID]  )
 	--
 	return retval
 end

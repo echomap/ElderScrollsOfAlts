@@ -409,11 +409,9 @@ function EchoESOADatastore.saveCurrentPlayerDataSpecial( playerKey, sectionElem,
 	end	
 	----Section: Special section
 	if( myBioSection.Vampire == true) then
-		playerElem = {}
 		EchoESOADatastore:SaveDataVampire( playerKey, playerElem, buffsSection, mySkilllsSection )
 	end
 	if( myBioSection.Werewolf == true) then
-		playerElem = {}
 		EchoESOADatastore:SaveDataWerewolf( playerKey, playerElem, buffsSection, mySkilllsSection )
 	end
 end
@@ -439,9 +437,6 @@ end
 -- INT
 function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection,mySkilllsSection, skillineName, specialSkillName, abilityname, buffcooldown)
 	-- 
-	baseElem[playerKey] = {}
-	local playerElem = baseElem[playerKey]
-	-- 
 	EchoESOADatastore.debugMsg("SaveDataSpecialBiteplayerKey= " .. tostring(playerKey) )
 	--Has to have this ability to be able to BITE!
 	EchoESOADatastore.debugMsg("SaveDataSpecialBite: skillineName=",tostring(skillineName)," specialSkillName=",tostring(specialSkillName) ," abilityname=",tostring(abilityname)," buffcooldown=",tostring(buffcooldown)  )
@@ -452,11 +447,11 @@ function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection
 	end
 	baseElem.biteability = abilityname
 	--
-	local buffName = buffcooldown
-	local fedBuff  = buffsSection[buffName]
+	local myBuffsSection = buffsSection[playerKey]
+	local fedBuff  = myBuffsSection[buffcooldown]
 	EchoESOADatastore.debugMsg("SaveDataSpecialBite: fedBuff= " .. tostring(fedBuff) )
 	--
-	baseElem.buffName  = buffName
+	baseElem.buffName  = buffcooldown
 	baseElem.fedBuff   = fedBuff
 	baseElem.expiresAt = nil
 	if(fedBuff==nil) then
@@ -464,7 +459,7 @@ function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection
 	end
 	--
 	local expiresAt   = fedBuff.expiresAt
-	EchoESOADatastore.outputMsg("SaveDataSpecialBite: expiresAt= " .. tostring(expiresAt) )
+	EchoESOADatastore.debugMsg("SaveDataSpecialBite: expiresAt= " .. tostring(expiresAt) )
 	baseElem.expiresAt = expiresAt
 	--
 	--Time in seconds left till expires
