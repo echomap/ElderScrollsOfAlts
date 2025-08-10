@@ -229,6 +229,50 @@ function ElderScrollsOfAlts:CollectCP()
 end
 
 
+------------------------------
+--
+--("world","Vampire","Blood Ritual")
+function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
+	local retVal = nil
+	if (EchoESOADatastore ~= nil) then
+		if( tplayer.skills~=nil and 
+			tplayer.skills[skillType]~=nil and 
+			tplayer.skills[skillType][skillClass]~=nil and
+			tplayer.skills[skillType][skillClass]["abilities"]~=nil and
+			tplayer.skills[skillType][skillClass]["abilities"][skillName]~=nil) then
+				retVal = tplayer.skills[skillType][skillClass]["abilities"][skillName]
+		end
+		--[[
+		if( tplayer.skills~=nil ) then
+			EchoESOADatastore.outputMsg("FindAbility: 1")
+			if( tplayer.skills[skillType]~=nil ) then
+				EchoESOADatastore.outputMsg("FindAbility: 2")
+				if( tplayer.skills[skillType][skillClass]~=nil ) then
+					EchoESOADatastore.outputMsg("FindAbility: 3")
+					if( tplayer.skills[skillType][skillClass]["abilities"]~=nil ) then
+						EchoESOADatastore.outputMsg("FindAbility: 4")
+						if( tplayer.skills[skillType][skillClass]["abilities"][skillName]~=nil ) then
+							EchoESOADatastore.outputMsg("FindAbility: 5")
+						end
+					end
+				end
+			end
+		end
+		EchoESOADatastore.outputMsg("FindAbility: retVal=",tostring(retVal))
+		]]
+	else	
+	  if( tplayer.skills~=nil and 
+		  tplayer.skills[skillType]~=nil and 
+		  tplayer.skills[skillType]["typelist"]~=nil and
+		  tplayer.skills[skillType]["typelist"][skillClass]~=nil and
+		  tplayer.skills[skillType]["typelist"][skillClass]["abilities"]~=nil and
+		  tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]~=nil) then
+		retVal = tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]
+	  end
+	end
+  return retVal
+end
+
 ----------------------------------------
  --[[ ESOA Data ]]-- 
 ----------------------------------------

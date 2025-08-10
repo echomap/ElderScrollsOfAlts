@@ -203,8 +203,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)
       output.special_icon = foundItem["textureName"]
       
       --specialdata
-      if(input.bio.specialdata~=nil)then
-        local expiresAt = input.bio.specialdata.expiresAt
+      if(input.special~=nil)then
+        local expiresAt = input.special.expiresAt
         if(expiresAt~=nil)then
           --Time in seconds left till expires
           local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )
@@ -236,8 +236,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)
       output.special_icon = foundItem["textureName"]
       
       --[playerKey].bio.specialdata
-      if(input.bio.specialdata~=nil)then
-        local expiresAt = input.bio.specialdata.expiresAt
+      if(input.special~=nil)then
+        local expiresAt = input.special.expiresAt
         if(expiresAt~=nil)then
           --Time in seconds left till expires
           local timeDiff = GetDiffBetweenTimeStamps( expiresAt, GetTimeStamp() )

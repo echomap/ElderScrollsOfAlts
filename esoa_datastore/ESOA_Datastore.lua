@@ -23,7 +23,12 @@ EchoESOADatastore = {
 	svListDataAW  = {},
     svCharDataAW  = {},
     svEquipDataAW = {},	
-    
+    --
+	BITE_WERE_ABILITY  = GetString(ESOA_BITE_WERE_ABILITY),
+    BITE_WERE_COOLDOWN = GetString(ESOA_BITE_WERE_COOLDOWN),
+    BITE_VAMP_ABILITY  = GetString(ESOA_BITE_VAMP_ABILITY),
+    BITE_VAMP_COOLDOWN = GetString(ESOA_BITE_VAMP_COOLDOWN),
+	--
     -- Default settings.    
     defaultSettings1 = {
     },

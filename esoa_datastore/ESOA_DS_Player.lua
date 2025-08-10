@@ -42,17 +42,35 @@ local SLOT_TYPE_REV = {
 -- INT
 -- 
 --("world","Vampire","Blood Ritual")
-function EchoESOADatastore:FindAbility(tplayer,skillType,skillClass,skillName)
-  local retVal = nil
-  if( tplayer.skills~=nil and 
-      tplayer.skills[skillType]~=nil and 
-      tplayer.skills[skillType]["typelist"]~=nil and
-      tplayer.skills[skillType]["typelist"][skillClass]~=nil and
-      tplayer.skills[skillType]["typelist"][skillClass]["abilities"]~=nil and
-      tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]~=nil) then
-    retVal = tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]
-  end
-  return retVal
+function EchoESOADatastore:FindAbility(mySkilllsSection,skillType,skillClass,skillName)
+	EchoESOADatastore.debugMsg("FindAbility: skillType=",tostring(skillType)," skillClass=",tostring(skillClass) ," skillName=",tostring(skillName) )
+	local retVal = nil
+	if( mySkilllsSection~=nil and 
+		mySkilllsSection[skillType]~=nil and 
+		mySkilllsSection[skillType][skillClass]~=nil and
+		mySkilllsSection[skillType][skillClass]["abilities"]~=nil and
+		mySkilllsSection[skillType][skillClass]["abilities"][skillName]~=nil) then
+			retVal = mySkilllsSection[skillType][skillClass]["abilities"][skillName]
+	end
+	--[[
+	if( mySkilllsSection~=nil ) then
+		EchoESOADatastore.outputMsg("FindAbility: 1")
+		if( mySkilllsSection[skillType]~=nil ) then
+			EchoESOADatastore.outputMsg("FindAbility: 2")
+			if( mySkilllsSection[skillType][skillClass]~=nil ) then
+				EchoESOADatastore.outputMsg("FindAbility: 3")
+				if( mySkilllsSection[skillType][skillClass]["abilities"]~=nil ) then
+					EchoESOADatastore.outputMsg("FindAbility: 4")
+					if( mySkilllsSection[skillType][skillClass]["abilities"][skillName]~=nil ) then
+						EchoESOADatastore.outputMsg("FindAbility: 5")
+					end
+				end
+			end
+		end
+	end
+	EchoESOADatastore.outputMsg("FindAbility: retVal=",tostring(retVal))
+	]]
+	return retVal
 end
 
 ------------------------------
@@ -392,40 +410,42 @@ function EchoESOADatastore.saveCurrentPlayerDataSpecial( playerKey, sectionElem,
 	----Section: Special section
 	if( myBioSection.Vampire == true) then
 		playerElem = {}
-		EchoESOADatastore:SaveDataVampire( playerKey, playerElem, buffsSection )
+		EchoESOADatastore:SaveDataVampire( playerKey, playerElem, buffsSection, mySkilllsSection )
 	end
 	if( myBioSection.Werewolf == true) then
 		playerElem = {}
-		EchoESOADatastore:SaveDataWerewolf( playerKey, playerElem, buffsSection )
+		EchoESOADatastore:SaveDataWerewolf( playerKey, playerElem, buffsSection, mySkilllsSection )
 	end
 end
 
 ------------------------------
 -- INT
-function EchoESOADatastore:SaveDataWerewolf(playerKey, baseElem, buffsSection)
+function EchoESOADatastore:SaveDataWerewolf(playerKey, baseElem, buffsSection, mySkilllsSection)
 	EchoESOADatastore.debugMsg("SaveDataWerewolf: playerKey= " .. tostring(playerKey) )
 	baseElem.werewolf = true
-	EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection, "world","Werewolf",ElderScrollsOfAlts.BITE_WERE_ABILITY,ElderScrollsOfAlts.BITE_WERE_COOLDOWN)
+	--TODO replace with GetString(ESOA_BITE_WERE_NAME),GetString(ESOA_SKILL_WORLD),
+	EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection,mySkilllsSection, "world","Werewolf",EchoESOADatastore.BITE_WERE_ABILITY,EchoESOADatastore.BITE_WERE_COOLDOWN)
 end
 
 ------------------------------
 -- INT
-function EchoESOADatastore:SaveDataVampire(playerKey, baseElem, buffsSection)
+function EchoESOADatastore:SaveDataVampire(playerKey, baseElem, buffsSection, mySkilllsSection)
 	EchoESOADatastore.debugMsg("SaveDataVampire: playerKey= " .. tostring(playerKey) )
 	baseElem.vampire = true
-	EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection, "world","Vampire",ElderScrollsOfAlts.BITE_VAMP_ABILITY,ElderScrollsOfAlts.BITE_VAMP_COOLDOWN)
+	EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection,mySkilllsSection, "world","Vampire",EchoESOADatastore.BITE_VAMP_ABILITY,EchoESOADatastore.BITE_VAMP_COOLDOWN)
 end
 
 ------------------------------
 -- INT
-function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection, skillineName, specialSkillName, abilityname, buffcooldown, buffsSection)
+function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection,mySkilllsSection, skillineName, specialSkillName, abilityname, buffcooldown)
 	-- 
 	baseElem[playerKey] = {}
 	local playerElem = baseElem[playerKey]
 	-- 
 	EchoESOADatastore.debugMsg("SaveDataSpecialBiteplayerKey= " .. tostring(playerKey) )
 	--Has to have this ability to be able to BITE!
-	local foundItem = EchoESOADatastore:FindAbility( playerElem, skillineName, specialSkillName, abilityname)
+	EchoESOADatastore.debugMsg("SaveDataSpecialBite: skillineName=",tostring(skillineName)," specialSkillName=",tostring(specialSkillName) ," abilityname=",tostring(abilityname)," buffcooldown=",tostring(buffcooldown)  )
+	local foundItem = EchoESOADatastore:FindAbility( mySkilllsSection, skillineName, specialSkillName, abilityname)
 	EchoESOADatastore.debugMsg("SaveDataSpecialBite: foundItem= " .. tostring(foundItem) )
 	if(foundItem==nil) then
 		return
@@ -444,7 +464,7 @@ function EchoESOADatastore:SaveDataSpecialBite(playerKey, baseElem, buffsSection
 	end
 	--
 	local expiresAt   = fedBuff.expiresAt
-	EchoESOADatastore.debugMsg("SaveDataSpecialBite: expiresAt= " .. tostring(expiresAt) )
+	EchoESOADatastore.outputMsg("SaveDataSpecialBite: expiresAt= " .. tostring(expiresAt) )
 	baseElem.expiresAt = expiresAt
 	--
 	--Time in seconds left till expires
@@ -1227,7 +1247,7 @@ end
 -- INT TODO
 -- Saves all Player data
 function EchoESOADatastore.saveCurrentPlayerDataChampionPoints( playerKey, sectionElem )
-	ElderScrollsOfAlts.debugMsg("CollectCP: called")
+	EchoESOADatastore.debugMsg("CollectCP: called")
 	if(sectionElem[playerKey] == nil ) then
 		sectionElem[playerKey] = {}
 	end
@@ -1285,7 +1305,7 @@ function EchoESOADatastore.saveCurrentPlayerDataChampionPoints( playerKey, secti
 			end--spent points
 		end
     end
-	ElderScrollsOfAlts.debugMsg("CollectCP: done")
+	EchoESOADatastore.debugMsg("CollectCP: done")
 end
 --CollectCP()
 

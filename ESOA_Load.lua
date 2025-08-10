@@ -68,21 +68,6 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesForK(playerLines,k)
 end
 
 --
---("world","Vampire","Blood Ritual")
-function ElderScrollsOfAlts:FindAbility(tplayer,skillType,skillClass,skillName)
-  local retVal = nil
-  if( tplayer.skills~=nil and 
-      tplayer.skills[skillType]~=nil and 
-      tplayer.skills[skillType]["typelist"]~=nil and
-      tplayer.skills[skillType]["typelist"][skillClass]~=nil and
-      tplayer.skills[skillType]["typelist"][skillClass]["abilities"]~=nil and
-      tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]~=nil) then
-    retVal = tplayer.skills[skillType]["typelist"][skillClass]["abilities"][skillName]
-  end
-  return retVal
-end
-
---
 function ElderScrollsOfAlts:SetupGuiPlayerBaseLines2Legacy(playerLines,k)
 	--ElderScrollsOfAlts.outputMsg("SetupGuiPlayerBaseLines2Legacy: k='"..tostring(k).."'")
 	--
