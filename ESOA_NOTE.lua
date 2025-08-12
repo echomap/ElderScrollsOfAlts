@@ -10,15 +10,15 @@
 function ElderScrollsOfAlts:ShowCharacterNote(self)
 	local charactername = ElderScrollsOfAlts.savedVariables.selected.charactername
 	--Select the Row
-	ElderScrollsOfAlts.outputMsg("ShowCharacterNote:"," SelChar=", tostring(charactername) )
-	ElderScrollsOfAlts.outputMsg("ShowCharacterNote:"," SelRow=" , tostring(ElderScrollsOfAlts.view.selectedPlayerRow) )
+	ElderScrollsOfAlts.debugMsg("ShowCharacterNote:"," SelChar=", tostring(charactername) )
+	ElderScrollsOfAlts.debugMsg("ShowCharacterNote:"," SelRow=" , tostring(ElderScrollsOfAlts.view.selectedPlayerRow) )
 	--
 	local selectedPlayer = ElderScrollsOfAlts.view.playerLines[charactername]
 	ElderScrollsOfAlts.view.selectedPlayerData = selectedPlayer
-	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer="..tostring(selectedPlayer) )
-	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer name="   ..tostring(selectedPlayer.name) )
-	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer rawname="..tostring(selectedPlayer.rawname) )
-	ElderScrollsOfAlts.outputMsg("ShowCharacterNote: selectedPlayer charkey="..tostring(selectedPlayer.charkey) )
+	ElderScrollsOfAlts.debugMsg("ShowCharacterNote: selectedPlayer="..tostring(selectedPlayer) )
+	ElderScrollsOfAlts.debugMsg("ShowCharacterNote: selectedPlayer name="   ..tostring(selectedPlayer.name) )
+	ElderScrollsOfAlts.debugMsg("ShowCharacterNote: selectedPlayer rawname="..tostring(selectedPlayer.rawname) )
+	ElderScrollsOfAlts.debugMsg("ShowCharacterNote: selectedPlayer charkey="..tostring(selectedPlayer.charkey) )
 	--
 	ElderScrollsOfAlts:ShowGuiCharacterNote(self)
 end

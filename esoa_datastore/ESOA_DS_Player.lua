@@ -1183,7 +1183,7 @@ end
 ------------------------------
 -- INT - Only use for CURRENT Server
 function EchoESOADatastore.saveCharcterCustomData(characterLineKey, keyName, elementData)
-	EchoESOADatastore.outputMsg("SaveCustomData: character=",tostring(characterLineKey)," keyName=",tostring(keyName)," as '", tostring(elementData),"'")
+	EchoESOADatastore.debugMsg("SaveCustomData: character=",tostring(characterLineKey)," keyName=",tostring(keyName)," as '", tostring(elementData),"'")
 	EchoESOADatastore.checkNullData(characterLineKey)
 	--
 	if( EchoESOADatastore.svCharDataAW.custom == nil ) then

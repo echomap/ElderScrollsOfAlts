@@ -211,14 +211,14 @@ function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)
           --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
           if(timeDiff<0) then
             output.special_bitetimer = 0
-            output.special_bitetimerDisplay = "[v.v]"
+            output.special_bitetimerDisplay = "[v.v] (now!)"
           else
             output.special_bitetimer        = timeDiff
             output.special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
           end
         else
           output.special_bitetimer = 0
-          output.special_bitetimerDisplay = "[v.v]"
+          output.special_bitetimerDisplay = "[v.v] (now!)"
         end
       end--has special data
     end--foundItem
@@ -244,14 +244,14 @@ function ElderScrollsOfAlts:SetupGuiPlayerBioLinesDS(output,input)
           --ElderScrollsOfAlts.debugMsg("Buff timeDiff=".. tostring(timeDiff) )
           if(timeDiff<0) then
             output.special_bitetimer = 0
-            output.special_bitetimerDisplay = "[v.v]"
+            output.special_bitetimerDisplay = "[v.v] (now!)"
           else
             output.special_bitetimer        = timeDiff
             output.special_bitetimerDisplay = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
           end
         else
           output.special_bitetimer = 0
-          output.special_bitetimerDisplay = "[v.v]"
+          output.special_bitetimerDisplay = "[v.v] (now!)"
         end
       end--has special data
     end--foundItem
