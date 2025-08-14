@@ -186,6 +186,8 @@ function EchoESOADatastore.getDataForCharacterById(characterID,account)
 	end
 	local retval = {}
 	EchoESOADatastore.debugMsg("GetCharDataByID: characterID=["..characterID.. "] for account["..account.."]" )
+	retval.charkey     = characterID
+	retval.accountname = account
 	-- (Sections)
 	retval["bio"] 			= EchoESOADatastore.svCharDataAW.sections.bio[characterID]
 	retval["stats"] 		= EchoESOADatastore.svCharDataAW.sections.stats[characterID]

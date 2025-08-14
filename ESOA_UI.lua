@@ -666,7 +666,8 @@ function ElderScrollsOfAlts:CreateGUI()
   local playerLines = ElderScrollsOfAlts.view.playerLines
   if(playerLines~=nil) then
   for k_entry, playerline in pairs(playerLines) do
-    local charKey = k_entry
+    local charKey = k_entry	
+	ElderScrollsOfAlts.debugMsg("CreateGUI: charKey=",tostring(charKey) )
     --local lineName = "ESOA_GUI2_Body_ListHolder_Line_"..viewName.."_" ..charKey  
     local lineName = "ESOA_GUI2_Body_ListHolder_Line_" ..charKey  
     --create the line holder
@@ -681,6 +682,7 @@ function ElderScrollsOfAlts:CreateGUI()
     else
       line:SetAnchor(TOPLEFT, parent, BOTTOMLEFT, 0, 15)    
     end
+	--
     line.charKey = charKey
     line.playerLine = playerline
     line:SetHandler("OnMouseEnter", function(self) ElderScrollsOfAlts:GuiLineOnMouseEnter(self) end )
@@ -699,8 +701,8 @@ function ElderScrollsOfAlts:CreateGUI()
       ElderScrollsOfAlts.debugMsg("Selected current player to hightlight")
       ESOA_GUI2_Header_WhoAmI:SetHandler("OnMouseDoubleClick", function(...) 
 		  --ElderScrollsOfAlts:GUILineDoubleClick(...)
-		  local line = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..ElderScrollsOfAlts.view.whoiamplayerKey)
-		  ElderScrollsOfAlts:ShowHightlight(line)
+		  local line2 = ESOA_GUI2_Body_ListHolder:GetNamedChild('_Line_'..ElderScrollsOfAlts.view.whoiamplayerKey)
+		  ElderScrollsOfAlts:ShowHightlight(line2)
       end )
 	  ElderScrollsOfAlts:ShowHightlight(line)
       ESOA_GUI2_Header_WhoAmI:SetMouseEnabled(true)
@@ -795,30 +797,53 @@ function ElderScrollsOfAlts:ShowSetView()
     ESOA_GUI2_Body_ListHolder.rowHeight = ESOA_GUI2_Body_ListHolder.dataLines[1]:GetHeight(); --+ ElderScrollsOfAlts.altData.fieldYOffset
     --ElderScrollsOfAlts.debugMsg("(A)Reset lineH rowHeight from " .. tostring(oldRowHeight) .. " to ".. tostring( ESOA_GUI2_Body_ListHolder.rowHeight) )
   end
-  
+  local delDHL = {}
   --for category (from ESOA_GUI2_Body_ListHolder.dataHolderLines to ESOA_GUI2_Body_ListHolder.dataLines)
   local selCategory = ElderScrollsOfAlts.savedVariables.selected.category
   for dHL = 1, #ESOA_GUI2_Body_ListHolder.dataHolderLines do
 	local dataHolderLine = ESOA_GUI2_Body_ListHolder.dataHolderLines[dHL] --ESOA_RowTemplate
     local charKey = dataHolderLine.charKey
+	--ElderScrollsOfAlts.outputMsg("ShowSetView: charKey=",tostring(charKey) )
     local playerLine = ElderScrollsOfAlts.view.playerLines[charKey]
-    local pCategory = playerLine.category
-    local pServer   = playerLine.server
-    if(pCategory==selCategory or ElderScrollsOfAlts.CATEGORY_ALL==selCategory )then
-      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
-    elseif( 
-      ElderScrollsOfAlts.starts_with(selCategory, ElderScrollsOfAlts.CATEGORY_US) and 
-      ElderScrollsOfAlts.starts_with(pServer, ElderScrollsOfAlts.CATEGORY_US)
-    ) then
-      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
-    elseif(
-      ElderScrollsOfAlts.starts_with(selCategory, ElderScrollsOfAlts.CATEGORY_EU) and 
-      ElderScrollsOfAlts.starts_with(pServer, ElderScrollsOfAlts.CATEGORY_EU) 
-    ) then
-      table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
-    end
+	local playerLineT = type(playerLine)    
+	if(playerLineT=='number') then
+		ElderScrollsOfAlts.outputMsg("ShowSetView: charKey=",tostring(charKey), " playerLine=",tostring(playerLine), " type=",tostring(playerLineT))
+		table.insert(delDHL,charKey)
+		-- okay, how and why is this a number sometimes now??? ugh!
+	else
+		local pCategory = playerLine.category
+		local pServer   = playerLine.server
+		if(pCategory==selCategory or ElderScrollsOfAlts.CATEGORY_ALL==selCategory )then
+		  table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
+		elseif( 
+		  ElderScrollsOfAlts.starts_with(selCategory, ElderScrollsOfAlts.CATEGORY_US) and 
+		  ElderScrollsOfAlts.starts_with(pServer, ElderScrollsOfAlts.CATEGORY_US)
+		) then
+		  table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
+		elseif(
+		  ElderScrollsOfAlts.starts_with(selCategory, ElderScrollsOfAlts.CATEGORY_EU) and 
+		  ElderScrollsOfAlts.starts_with(pServer, ElderScrollsOfAlts.CATEGORY_EU) 
+		) then
+		  table.insert( ESOA_GUI2_Body_ListHolder.dataLines, dataHolderLine ) --ESOA_RowTemplate
+		end
+	end
     dataHolderLine:SetHidden(true)
   end
+  --
+  -- delete keys in table: delDHL  
+  local cntDel = 0
+  for rtK2,rtV2 in pairs(delDHL) do
+	if(rtK2~=nil) then
+		ElderScrollsOfAlts.outputMsg("Clean up of datalines: rtK2=",tostring(rtK2)," rtV2=",tostring(rtV2))
+		--table.remove(ElderScrollsOfAlts.view.playerLines[rtV2])
+		ElderScrollsOfAlts.view.playerLines[rtV2] = nil
+		cntDel = cntDel+1
+	end
+  end
+  if(cntDel>0)then
+	ElderScrollsOfAlts.outputMsg("Warn, had to clean up ",cntDel," datalines.")
+  end
+  --
   ElderScrollsOfAlts.view.playerLineCount = #ESOA_GUI2_Body_ListHolder.dataLines
   ElderScrollsOfAlts.debugMsg("ShowSetView: dataLinesCnt=" , tostring(ElderScrollsOfAlts.view.playerLineCount) )
   

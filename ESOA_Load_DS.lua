@@ -38,8 +38,9 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDS()
 			ElderScrollsOfAlts:SetupGuiPlayerBaseLines(playerLines,k)	-- contains only defaults
 			playerLines[k].accountname = accountname
 			playerLines[k].charkey = k
-			tvalue.charkey = k
-			tvalue.accountname = accountname
+			ElderScrollsOfAlts.debugMsg("playerLines charkey set to=", tostring(charkey) )
+			--tvalue.charkey = k
+			--tvalue.accountname = accountname
 			ElderScrollsOfAlts.debugMsg("Player: set charkey=".. tostring(k) ) 
 			--ElderScrollsOfAlts:SetupGuiPlayerBaseLines2(playerLines,k)	--contains local stuff
 			--ElderScrollsOfAlts:SetupGuiPlayerBaseLinesDS2(playerLines,k)	--TODO since contains local stuff
@@ -78,6 +79,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	end
 	local chardataO = {}
 	chardataO.account = chardata.accountname
+	ElderScrollsOfAlts.debugMsg("playerLinesB charkey set to=", tostring(chardataO.playerkey) )
 	chardataO.playerkey = chardata.charkey
 	chardataO.playerKey = chardata.charkey
 	chardataO.charkey = chardata.charkey
@@ -92,7 +94,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	ElderScrollsOfAlts.debugMsg("FlattenChar: out='", tostring(chardataO.name) ,",")
 	ElderScrollsOfAlts.debugMsg("FlattenChar: lvl=", tostring(chardataO.level) )
 	-- Server/Account/Custom Data
-	local dName 	=chardataO.account -- chardata["server"]
+	local dName 	= chardataO.account -- chardata["server"]
 	local charKey 	= chardata.charkey
 	if(dName~=nil) then 
 		chardataO.account = dName
@@ -391,7 +393,7 @@ end
 --
 function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
   --Set Defaults
-  --HACK! TODO fix ->
+  --HACK! TODO fix? or not... ->
   local aTypes = {"Assault_Rank","Support_Rank","Legerdemain_Rank","Soul Magic_Rank","Werewolf_Rank","Vampire_Rank","Fighters Guild_Rank","Mages Guild_Rank","Undaunted_Rank","Thieves Guild_Rank","Dark Brotherhood_Rank","Psijic Order_Rank","Scrying_Rank","Excavation_Rank"}
   for rtK,rtV in pairs(aTypes) do
     --debugMsg("skills All "..k.." as="..rtK.." rtVT='"..tostring(rtV).."'")
@@ -402,7 +404,6 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
   -- Check if player even has skills
   local rTypes = {"ava","guild","world"}
   local skills = input.skills
-
   if(skills~=nil) then
     for rtK,rtV in pairs(rTypes) do
       --debugMsg("skills for "..k.." as="..rtK.." rtV="..tostring(rtV))
@@ -413,7 +414,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
           local skillL = skillO
           if(skillL~=nil)then
             for rtKT,rtVT in pairs(skillL) do
-              --debugMsg("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
+              ElderScrollsOfAlts.debugMsg("skills rtKT=",tostring(rtKT)," rtVT=",tostring(rtVT))
               output[rtKT.."_Rank"] = rtVT.rank
               output[rtKT.."_Name"] = rtVT.name
               output[string.lower(rtKT).."_rank"] = rtVT.rank
@@ -472,7 +473,32 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
       end
     end
   end
---xxx
+  --
+  -- Output Class Skills
+  if(skills~=nil) then
+    local skillsC = skills.class
+	if(skillsC~=nil)then  
+		local idx = 1
+		for rtK2,rtV2 in pairs(skillsC) do
+			ElderScrollsOfAlts.debugMsg("skills rtKT2=",tostring(rtK2)," rtVT2=",tostring(rtV2))
+			local rtKK = nil
+			if(idx==1) then
+				rtKK = "skillline1"
+			elseif(idx==2) then
+				rtKK = "skillline2"
+			elseif(idx==3) then
+				rtKK = "skillline3"
+			end
+			if(rtKK~=nil)then
+				output[rtKK] = rtV2.name
+				--output[rtKK.."_Name"] = rtV2.name
+				--output[rtKK.."_Rank"] = rtV2.rank
+			end
+			idx = idx+1
+		end
+	end
+  end
+  --
 end
 
 

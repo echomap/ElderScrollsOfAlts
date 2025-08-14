@@ -233,6 +233,9 @@ ElderScrollsOfAlts.view.guiTemplates = {
       [23] = "lastlogindiff",
       [24] = "achieveearned",
       [25] = "ReducedBounty",
+	  [26] = "skillline1",
+	  [27] = "skillline2",
+	  [28] = "skillline3"
     }
   },
   ["Pvp"] = {

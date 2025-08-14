@@ -9,13 +9,23 @@
 ------------------------------
 -- View Lookup, show data
 function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline,playerLine)
-  ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: 1viewKey: '" , tostring(viewKey), "'" )
-  if(eline==nil) then return end
-  local viewKeyL = string.lower(viewKey)
-  eline.viewKey = viewKey
-  eline.viewKeyL = viewKeyL
+	ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: 1viewKey: '" , tostring(viewKey), "'" )
+	if(eline==nil) then return end
+	local viewKeyL = string.lower(viewKey)
+	eline.viewKey = viewKey
+	eline.viewKeyL = viewKeyL
+	--
+	if(viewKeyL=="skillline1") then
+		eline:SetText( playerLine.skillline1 )
+		eline.value = tostring(playerLine.skillline1)
+	elseif(viewKeyL=="skillline2") then
+		eline:SetText( playerLine.skillline2 )
+		eline.value = playerLine.skillline2
+	elseif(viewKeyL=="skillline3") then
+		eline:SetText( playerLine.skillline3 )
+		eline.value = playerLine.skillline3
   --
-  if(viewKey=="Special") then
+  elseif(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
     local vampire  = playerLine["Vampire"] 
     eline.special = 0
@@ -494,7 +504,8 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     eline:SetText( playerLine[string.lower(viewKey)]  )
     eline.tooltip = zo_strformat("<<1>> has <<2>> <<3>>",
         playerLine.name, playerLine[string.lower(viewKey)], viewKey2
-      )    
+      )
+  --
   --
   --
   else
@@ -1032,6 +1043,13 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey,customWidths)
 		return 65        
 	elseif( ElderScrollsOfAlts.starts_with(viewKey, "Buff_") or  ElderScrollsOfAlts.starts_with(viewKey, "buff_") ) then
 		return 45
+	--	
+	elseif(lviewKey=="skillline1") then
+		return 120
+	elseif(lviewKey=="skillline2") then
+		return 120
+	elseif(lviewKey=="skillline3") then
+		return 120
 	--
 	elseif( ElderScrollsOfAlts.starts_with(viewKey, "Companion_") or  ElderScrollsOfAlts.starts_with(viewKey, "companion_") ) then
 		if( ElderScrollsOfAlts.ends_with(viewKey, "level") ) then
@@ -1202,7 +1220,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     return viewKey2
   elseif(viewKey=="ReducedBounty") then
     return "Bounty"
- elseif(viewKey=="zoneName") then
+  elseif(viewKey=="zoneName") then
     return "Zone"
   elseif(viewKey=="subzoneName") then
     return "SubZone"
@@ -1232,6 +1250,13 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
 	end
 	return "C"..tbl[2]..tbl[3]	
   --
+  --
+  elseif(viewKey=="skillline1") then
+		return "Class1"
+  elseif(viewKey=="skillline2") then
+		return "Class2"
+  elseif(viewKey=="skillline3") then
+		return "Class3"
   --
   else
     if(string.len(viewKey) > 10) then

@@ -440,7 +440,7 @@ end
 -- 
 function ElderScrollsOfAlts.CtrlGetViewCustomColWidthsParsed()
 	if( ElderScrollsOfAlts.altData.ViewCustomColWidths==nil ) then
-		ElderScrollsOfAlts.outputMsg("CustomWidths: are nil")
+		ElderScrollsOfAlts.debugMsg("CustomWidths: are nil")
 		return nil
 	else
 		--ElderScrollsOfAlts.outputMsg("CustomWidths: -->")
