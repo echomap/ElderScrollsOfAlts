@@ -18,12 +18,21 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
 	if(viewKeyL=="skillline1") then
 		eline:SetText( playerLine.skillline1 )
 		eline.value = tostring(playerLine.skillline1)
+		local r2 = playerLine[viewKeyL.."_rank2"]
+		eline.tooltip = zo_strformat("<<1>> skillline#1 is -<<2>>- (lvl<<3>>)", 
+					playerLine.name, playerLine.skillline1, r2, (string.char(10)..string.char(10)) )
 	elseif(viewKeyL=="skillline2") then
 		eline:SetText( playerLine.skillline2 )
 		eline.value = playerLine.skillline2
+		local r2 = playerLine[viewKeyL.."_rank2"]
+		eline.tooltip = zo_strformat("<<1>> skillline#2 is -<<2>>- (lvl<<3>>)", 
+					playerLine.name, playerLine.skillline1, r2, (string.char(10)..string.char(10)) )
 	elseif(viewKeyL=="skillline3") then
 		eline:SetText( playerLine.skillline3 )
 		eline.value = playerLine.skillline3
+		local r2 = playerLine[viewKeyL.."_rank2"]
+		eline.tooltip = zo_strformat("<<1>> skillline#3 is -<<2>>- (lvl<<3>>)", 
+					playerLine.name, playerLine.skillline1, r2, (string.char(10)..string.char(10)) )
   --
   elseif(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]

@@ -595,34 +595,34 @@ end
 ------------------------------
 -- ProfileSettings, from settings
 function ElderScrollsOfAlts:DoSaveProfileSettings()
-  local pName = GetUnitName("player") 
-  if(ElderScrollsOfAlts.altData.defaults==nil) then
-	ElderScrollsOfAlts.altData.defaults = {}
-  end
-  ElderScrollsOfAlts.altData.defaultsSaveTime = GetTimeStamp()
-  ElderScrollsOfAlts.altData.useAsDefault = pName
-  --
-  ElderScrollsOfAlts.altData.defaults.uiButtonShow       = ElderScrollsOfAlts.savedVariables.uibutton.shown
-  --USED? ElderScrollsOfAlts.altData.defaults.uiViewDropDown     = ElderScrollsOfAlts.GetUIViewDropDownShown()
-  ElderScrollsOfAlts.altData.defaults.uiMouseHighlight   = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
-  --
-  ElderScrollsOfAlts.altData.defaults.hideinmenus        = ElderScrollsOfAlts.savedVariables.hideinmenus
-  ElderScrollsOfAlts.altData.defaults.cpactivebar1Show   = ElderScrollsOfAlts.savedVariables.cpactivebar1.show
-  ElderScrollsOfAlts.altData.defaults.cpactivebar2Show   = ElderScrollsOfAlts.savedVariables.cpactivebar2.show
-  --
-  --TODO Views?
-  ElderScrollsOfAlts.altData.defaults.pvpwarnings = ElderScrollsOfAlts.savedVariables.pvpwarnings
-  --
-  if(ElderScrollsOfAlts.savedVariables.colors~=nil) then
-	  ElderScrollsOfAlts.altData.defaults.colorTimerNear     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
-	  ElderScrollsOfAlts.altData.defaults.colorTimerNearer   = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
-	  ElderScrollsOfAlts.altData.defaults.colorTimerDone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
-	  ElderScrollsOfAlts.altData.defaults.colorTimerNone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
-	  ElderScrollsOfAlts.altData.defaults.colorSkillsMax     = ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax
-	  ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax = ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax
-  else
-	
-  end
+	local pName = GetUnitName("player") 
+	if(ElderScrollsOfAlts.altData.defaults==nil) then
+		ElderScrollsOfAlts.altData.defaults = {}
+	end
+	ElderScrollsOfAlts.altData.defaultsSaveTime = GetTimeStamp()
+	ElderScrollsOfAlts.altData.useAsDefault = pName
+	--
+	ElderScrollsOfAlts.altData.defaults.uiButtonShow       = ElderScrollsOfAlts.savedVariables.uibutton.shown
+	--USED? ElderScrollsOfAlts.altData.defaults.uiViewDropDown = ElderScrollsOfAlts.GetUIViewDropDownShown()
+	ElderScrollsOfAlts.altData.defaults.uiMouseHighlight   = ElderScrollsOfAlts.savedVariables.viewmousehighlight.shown
+	--
+	ElderScrollsOfAlts.altData.defaults.hideinmenus        = ElderScrollsOfAlts.savedVariables.hideinmenus
+	ElderScrollsOfAlts.altData.defaults.cpactivebar1Show   = ElderScrollsOfAlts.savedVariables.cpactivebar1.show
+	ElderScrollsOfAlts.altData.defaults.cpactivebar2Show   = ElderScrollsOfAlts.savedVariables.cpactivebar2.show
+	--
+	--TODO Views?
+	ElderScrollsOfAlts.altData.defaults.pvpwarnings = ElderScrollsOfAlts.savedVariables.pvpwarnings
+	--
+	if(ElderScrollsOfAlts.savedVariables.colors~=nil) then
+		ElderScrollsOfAlts.altData.defaults.colorTimerNear     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNear
+		ElderScrollsOfAlts.altData.defaults.colorTimerNearer   = ElderScrollsOfAlts.savedVariables.colors.colorTimerNearer
+		ElderScrollsOfAlts.altData.defaults.colorTimerDone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerDone
+		ElderScrollsOfAlts.altData.defaults.colorTimerNone     = ElderScrollsOfAlts.savedVariables.colors.colorTimerNone
+		ElderScrollsOfAlts.altData.defaults.colorSkillsMax     = ElderScrollsOfAlts.savedVariables.colors.colorSkillsMax
+		ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax = ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax
+	else
+		--
+	end
   --
   --TODO guiviews?
 end
@@ -658,7 +658,7 @@ end
 -- ProfileSettings, from settings,
 -- (ElderScrollsOfAlts.altData.accountdataonly)
 function ElderScrollsOfAlts:SetupAccountWideOnly()
-	ElderScrollsOfAlts.outputMsg("SetupAccountWideOnly: Called" )
+	ElderScrollsOfAlts.debugMsg("SetupAccountWideOnly: Called" )
 	if(ElderScrollsOfAlts.altData.defaults==nil) then
 		ElderScrollsOfAlts.altData.defaults = {}
 	end
@@ -700,7 +700,7 @@ end
 -- ProfileSettings, from settings,
 -- (ElderScrollsOfAlts.altData.accountdataonly)
 function ElderScrollsOfAlts:SetupNotAccountWideOnly()
-	ElderScrollsOfAlts.outputMsg("SetupNotAccountWideOnly: Called" )
+	ElderScrollsOfAlts.debugMsg("SetupNotAccountWideOnly: Called" )
 	if ElderScrollsOfAlts.savedVariables.uibutton==nil or not ElderScrollsOfAlts.savedVariables.uibutton.shown then
 		ElderScrollsOfAlts.HideUIButton()
 	else

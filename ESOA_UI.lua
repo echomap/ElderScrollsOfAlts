@@ -61,8 +61,10 @@ function ElderScrollsOfAlts.SetupDefaultColorsPercharacter()
 		ElderScrollsOfAlts.savedVariables.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.rgbaWhite.a
 	end
 end
+--  ElderScrollsOfAlts.altData.colors.colorTimerNone
+--  ElderScrollsOfAlts.altData.colors.colorTimerX
+--  were saved into ElderScrollsOfAlts.altData.defaults.colorX
 function ElderScrollsOfAlts.SetupDefaultColorsAccount()
-	--
 	if(ElderScrollsOfAlts.altData.colors==nil) then
 		ElderScrollsOfAlts.altData.colors = {}
 	end
@@ -108,6 +110,48 @@ function ElderScrollsOfAlts.SetupDefaultColorsAccount()
 		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.b   = ElderScrollsOfAlts.rgbaWhite.b
 		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.rgbaWhite.a
 	end
+	--
+	--were saved into ElderScrollsOfAlts.altData.defaults.colorX
+	--
+	--if( ElderScrollsOfAlts.altData.colorssetupfromSV==nil) then
+	if(ElderScrollsOfAlts.altData.defaults.colorTimerNear~=nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.r   = ElderScrollsOfAlts.altData.defaults.colorTimerNear.r
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.g   = ElderScrollsOfAlts.altData.defaults.colorTimerNear.g
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.b   = ElderScrollsOfAlts.altData.defaults.colorTimerNear.b
+		ElderScrollsOfAlts.altData.colors.colorTimerNear.a   = ElderScrollsOfAlts.altData.defaults.colorTimerNear.a
+	end
+	if(ElderScrollsOfAlts.altData.defaults.colorTimerNearer~=nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.r   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer.r
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.g   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer.g
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.b   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer.b
+		ElderScrollsOfAlts.altData.colors.colorTimerNearer.a   = ElderScrollsOfAlts.altData.defaults.colorTimerNearer.a
+		end
+	if(ElderScrollsOfAlts.altData.defaults.colorTimerDone~=nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.r   = ElderScrollsOfAlts.altData.defaults.colorTimerDone.r
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.g   = ElderScrollsOfAlts.altData.defaults.colorTimerDone.g
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.b   = ElderScrollsOfAlts.altData.defaults.colorTimerDone.b
+		ElderScrollsOfAlts.altData.colors.colorTimerDone.a   = ElderScrollsOfAlts.altData.defaults.colorTimerDone.a
+	end
+	if(ElderScrollsOfAlts.altData.defaults.colorTimerNone~=nil) then
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.r   = ElderScrollsOfAlts.altData.defaults.colorTimerNone.r
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.g   = ElderScrollsOfAlts.altData.defaults.colorTimerNone.g
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.b   = ElderScrollsOfAlts.altData.defaults.colorTimerNone.b
+		ElderScrollsOfAlts.altData.colors.colorTimerNone.a   = ElderScrollsOfAlts.altData.defaults.colorTimerNone.a
+	end
+	if(ElderScrollsOfAlts.altData.defaults.colorSkillsMax~=nil) then
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.r   = ElderScrollsOfAlts.altData.defaults.colorSkillsMax.r
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.g   = ElderScrollsOfAlts.altData.defaults.colorSkillsMax.g
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.b   = ElderScrollsOfAlts.altData.defaults.colorSkillsMax.b
+		ElderScrollsOfAlts.altData.colors.colorSkillsMax.a   = ElderScrollsOfAlts.altData.defaults.colorSkillsMax.a
+	end
+	if(ElderScrollsOfAlts.altData.colors.colorSkillsNearMax==nil) then
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.r   = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax.r
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.g   = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax.g
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.b   = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax.b
+		ElderScrollsOfAlts.altData.colors.colorSkillsNearMax.a   = ElderScrollsOfAlts.altData.defaults.colorSkillsNearMax.a
+	end
+	--ElderScrollsOfAlts.altData.colorssetupfromSV=true
+	--end
 end
 --[[
 ElderScrollsOfAlts.savedVariables.colors.colorTimerNear.r = 0.64 
@@ -160,13 +204,12 @@ function ElderScrollsOfAlts:ResetPlayerOrder() --TODO Datastore
 end
 ------------------------------
 -- SETUP:
-function ElderScrollsOfAlts.CheckData()
-	ElderScrollsOfAlts.debugMsg("CheckData:"," Called!")
+function ElderScrollsOfAlts.CheckUIData()
+	ElderScrollsOfAlts.debugMsg("CheckUIData:"," Called!")
 	--
 	if(ElderScrollsOfAlts.savedVariables.fieldWidthForName==nil) then
 		ElderScrollsOfAlts.savedVariables.fieldWidthForName=nil
 	end
-
 	--
 	if(ElderScrollsOfAlts.altData.fieldWidthForName==nil) then
 		ElderScrollsOfAlts.altData.fieldWidthForName = ElderScrollsOfAlts.defaultFieldWidthForName
@@ -177,14 +220,14 @@ function ElderScrollsOfAlts.CheckData()
 	--NEW 2024 10 06
 	ElderScrollsOfAlts.altData.fieldYOffset = 0
 	--
-	ElderScrollsOfAlts.debugMsg("CheckData:"," Done!")
+	ElderScrollsOfAlts.debugMsg("CheckUIData:"," Done!")
 end
 
 ------------------------------
 -- SETUP:
 function ElderScrollsOfAlts.InitializeGui()
   ElderScrollsOfAlts.debugMsg("InitializeGui:"," Called!")
-  ElderScrollsOfAlts.CheckData()
+  ElderScrollsOfAlts.CheckInitialData()
   
   -- GUI Views Update
   if( not ElderScrollsOfAlts.CtrlIsGUIViewInitialized() ) then

@@ -39,7 +39,7 @@ function ElderScrollsOfAlts:LoadPlayerDataForGui()
 			if( (legNum-dsNum)>0 ) then
 				ElderScrollsOfAlts.outputMsg("Loaded: DS#:",dsNum, " Legacy#:",(legNum-dsNum), " Total#:", legNum )
 			else
-				ElderScrollsOfAlts.outputMsg("Loaded from Datastore, cnt#=", dsNum )
+				ElderScrollsOfAlts.debugMsg("Loaded from Datastore, cnt#=", dsNum )
 			end
 		else
 			-- Only Use Datastore

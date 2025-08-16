@@ -492,7 +492,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
 			if(rtKK~=nil)then
 				output[rtKK] = rtV2.name
 				--output[rtKK.."_Name"] = rtV2.name
-				--output[rtKK.."_Rank"] = rtV2.rank
+				output[rtKK.."_rank2"] = rtV2.rank
+				--output[rtKK.."_baseline"] = rtK2
 			end
 			idx = idx+1
 		end

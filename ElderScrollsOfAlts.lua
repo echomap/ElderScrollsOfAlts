@@ -327,6 +327,20 @@ function ElderScrollsOfAlts.SetupDefaultDefaults()
   end
 end
 
+------------------------------
+-- SETUP:
+function ElderScrollsOfAlts.CheckInitialData()
+	ElderScrollsOfAlts.debugMsg("CheckInitialData:"," Called!")
+	--
+	ElderScrollsOfAlts.CheckUIData()
+	if(ElderScrollsOfAlts.altData.lastVersion==nil or ElderScrollsOfAlts.altData.lastVersion~=ElderScrollsOfAlts.version) then
+		--upgrade?
+		ElderScrollsOfAlts.outputMsg("UPGRADE: Please, backup your savedvariables before a reload or logout!!")
+		ElderScrollsOfAlts.altData.lastVersion = ElderScrollsOfAlts.version
+	end
+	ElderScrollsOfAlts.debugMsg("CheckInitialData:"," Done!")
+end
+
 --------------------------------
 -- SETUP  setup event handling
 -- Called from OnAddOnLoaded
@@ -413,7 +427,7 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
     ElderScrollsOfAlts.allowedViewEntriesLC[kName] = kVal
   end
   --check/setup a bit earlier
-  ElderScrollsOfAlts.CheckData()
+  ElderScrollsOfAlts.CheckInitialData()
   ElderScrollsOfAlts.SetupDefaultDefaults()
   ElderScrollsOfAlts.SetupDefaultColors()
   zo_callLater(ElderScrollsOfAlts.DelayedStart, 3000)

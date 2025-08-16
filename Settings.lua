@@ -336,7 +336,7 @@ function ElderScrollsOfAlts.LoadSettings()
 		return ElderScrollsOfAlts.CtrlUnPackColor( ElderScrollsOfAlts.CtrlGetColorTimerNone() )
     end,
     setFunc = 	function(r,g,b,a)
-		ElderScrollsOfAlts.CtrletColorTimerNone(r,g,b,a)
+		ElderScrollsOfAlts.CtrlSetColorTimerNone(r,g,b,a)
     end,
     width = "full",	--or "half" (optional)
   }
