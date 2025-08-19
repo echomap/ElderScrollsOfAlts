@@ -3,10 +3,11 @@
 ==Unpublished ESOA==
 2.00.01
 [list]
-[*] Ordered companion output better
-[*] Added setting for showing partial done for skills
+[*] U47
 [*] datatore updates
 [*] New global setting to save space (optional)
+[*] Ordered companion and other output better
+[*] Added setting for showing partially done skills
 [/list]
 
 
