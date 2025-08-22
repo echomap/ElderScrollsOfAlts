@@ -46,10 +46,12 @@ local SLOT_TYPE_REV = {
 function ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
 	--
 	local accountname = GetDisplayName()
+	local skipLegacyLoad = false
 	if( ElderScrollsOfAlts.view.selectedAccount ~= nil ) then
 		if( accountname~=ElderScrollsOfAlts.view.selectedAccount ) then
-			ElderScrollsOfAlts.outputMsg("SetupLEGPlayer: Can't Load Legacy characters from a different account.")
-			return
+			skipLegacyLoad = true
+			ElderScrollsOfAlts.outputMsg("Info: Can't Load Legacy characters from a different account, skipping them.")
+			--return
 		end
 	end
 	--TODO bankspaces ?
@@ -58,19 +60,24 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
 	-- Load from ESOA if not alrady in VIEW (via datastore)
 	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 		if k == nil then return end
-		ElderScrollsOfAlts.debugMsg("SetupLinePre: Checking player: '" , k , "'")
-		pCount = pCount+1
-		--
-		if( ElderScrollsOfAlts.view.playerLines[k] == nil )  then
-			ElderScrollsOfAlts.debugMsg("SetupLinePre: player: '" , k , "'")
-			ElderScrollsOfAlts.view.playerLines[k] = {}
-			ElderScrollsOfAlts:SetupGuiPlayerLinesForK( ElderScrollsOfAlts.view.playerLines,k )
+		if(skipLegacyLoad) then
+			ElderScrollsOfAlts.outputMsg("Info: --Skipping Load of Legacy character:",tostring(k) )
 		else
-			--TODO destroy ESOA data????
-			ElderScrollsOfAlts.altData.players[k] = nil
+			ElderScrollsOfAlts.debugMsg("SetupLinePre: Checking player: '" , k , "'")
+			pCount = pCount+1
+			--
+			if( ElderScrollsOfAlts.view.playerLines[k] == nil )  then
+				ElderScrollsOfAlts.debugMsg("SetupLinePre: player: '" , k , "'")
+				ElderScrollsOfAlts.view.playerLines[k] = {}
+				ElderScrollsOfAlts:SetupGuiPlayerLinesForK( ElderScrollsOfAlts.view.playerLines,k )
+			else
+				--TODO destroy ESOA data????
+				ElderScrollsOfAlts.altData.players[k] = nil
+			end
 		end
 		-- CHECK Data
-	end --for k, v in pairs(ElderScrollsOfAlts.altData.players) do
+	end --for pairs(ElderScrollsOfAlts.altData.players)
+	ElderScrollsOfAlts.view.legacyLoadCount = pCount
 	-- PlayerLines to table
 end
 

@@ -534,7 +534,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
           local skillL = skillO.typelist
           if(skillL~=nil)then
             for rtKT,rtVT in pairs(skillL) do
-              --debugMsg("skills cont "..k.." as="..rtKT.." rtVT="..tostring(rtVT))
+			  --ElderScrollsOfAlts.debugMsg("setup subskills: rtKT ", tostring(rtKT)," rtVT=",tostring(rtVT))
               playerLines[k][rtKT.."_Rank"] = rtVT.rank
               playerLines[k][rtKT.."_Name"] = rtVT.name
               playerLines[k][string.lower(rtKT).."_rank"] = rtVT.rank
@@ -553,7 +553,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
                 playerLines[k][rtKT.."_XPCode"] = 1				
 				local nCurr = rtVT.currentXP - rtVT.lastRankXP
 				local nNext = rtVT.nextRankXP - rtVT.lastRankXP
-                playerLines[rtKT.."_Percentage"] =  math.floor(  (nCurr/nNext)*100  )
+                playerLines[k][rtKT.."_Percentage"] =  math.floor(  (nCurr/nNext)*100  )
 				local das = nCurr / nNext
 				if(das~=nil and das~=0) then
 					das = das*100
@@ -580,7 +580,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
                   end
                 end
                 --d("ak:" .. tostring(ak)  .. " sstext:" .. tostring(sstext) ) 
-                playerLines[k][rtKT.."_subskills"] = sstext
+                playerLines[k][rtKT.."_subskills"]  = sstext
                 playerLines[k][rtKT.."_subskillsA"] = sstextA
                 playerLines[k][rtKT.."_subskillsP"] = sstextP
                 --d("sstext:" .. sstext)
@@ -592,6 +592,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLines(playerLines,k)
       end
     end
   end
+  --
+  playerLines[k]["skillline1"] = "---"
+  playerLines[k]["skillline2"] = "---"
+  playerLines[k]["skillline3"] = "---"
 --xxx
 end
 
@@ -688,12 +692,12 @@ function ElderScrollsOfAlts:SetupGuiPlayerTradeLines(playerLines,k)
     local ffirst = iName:find(" ")
     if(ffirst~=nil and ffirst>0) then
       ElderScrollsOfAlts.debugMsg("Load: trade as: iName="..iName)
-      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName] ,playerLines[k],string.lower(iName),iName)  
+      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName],playerLines[k],string.lower(iName),iName)  
       iName = string.sub(iName,1,ffirst)      
       ElderScrollsOfAlts.debugMsg("Load: trade as: iName="..iName)
-      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName] ,playerLines[k],string.lower(iName),iName)  
+      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName],playerLines[k],string.lower(iName),iName)  
     else
-      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName] ,playerLines[k],string.lower(iName),iName)  
+      ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL[iName],tradeS[iName],playerLines[k],string.lower(iName),iName)  
     end
   end
   --yyyy ElderScrollsOfAlts:SetupGuiPlayerTradeLines2(tradeL["Jewelry Crafting"],tradeS["Jewelry Crafting"],playerLines[k],"jewelry","Jewelry Crafting")  

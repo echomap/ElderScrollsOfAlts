@@ -1,7 +1,14 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-2.00.01
+2.00.03
+[list]
+[*] 
+[/list]
+
+
+==ESOA Published V1.00.XX==
+2.00.02/2.00.01
 [list]
 [*] U47
 [*] datatore updates
@@ -9,9 +16,6 @@
 [*] Ordered companion and other output better
 [*] Added setting for showing partially done skills
 [/list]
-
-
-==ESOA Published V1.00.XX==
 1.00.57
 [list]
 [*] Bug fix for earned subskill level, ie mage guild/mage adept

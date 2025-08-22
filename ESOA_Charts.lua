@@ -199,7 +199,6 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["skillline1"] = 1,
   ["skillline2"] = 1,
   ["skillline3"] = 1,
-  
 }
 
 -----------

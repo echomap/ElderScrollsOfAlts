@@ -848,11 +848,11 @@ function ElderScrollsOfAlts:ShowSetView()
     local charKey = dataHolderLine.charKey
 	--ElderScrollsOfAlts.outputMsg("ShowSetView: charKey=",tostring(charKey) )
     local playerLine = ElderScrollsOfAlts.view.playerLines[charKey]
+	-- Check that there are no invalid playerlines per bugs
 	local playerLineT = type(playerLine)    
 	if(playerLineT=='number') then
-		ElderScrollsOfAlts.outputMsg("ShowSetView: charKey=",tostring(charKey), " playerLine=",tostring(playerLine), " type=",tostring(playerLineT))
+		ElderScrollsOfAlts.outputMsg("WARN: ShowSetView: charKey=",tostring(charKey), " playerLine=",tostring(playerLine), " type=",tostring(playerLineT))
 		table.insert(delDHL,charKey)
-		-- okay, how and why is this a number sometimes now??? ugh!
 	else
 		local pCategory = playerLine.category
 		local pServer   = playerLine.server
@@ -877,14 +877,14 @@ function ElderScrollsOfAlts:ShowSetView()
   local cntDel = 0
   for rtK2,rtV2 in pairs(delDHL) do
 	if(rtK2~=nil) then
-		ElderScrollsOfAlts.outputMsg("Clean up of datalines: rtK2=",tostring(rtK2)," rtV2=",tostring(rtV2))
+		ElderScrollsOfAlts.debugMsg("Clean up of datalines: rtK2=",tostring(rtK2)," rtV2=",tostring(rtV2))
 		--table.remove(ElderScrollsOfAlts.view.playerLines[rtV2])
 		ElderScrollsOfAlts.view.playerLines[rtV2] = nil
 		cntDel = cntDel+1
 	end
   end
   if(cntDel>0)then
-	ElderScrollsOfAlts.outputMsg("Warn, had to clean up ",cntDel," datalines.")
+	ElderScrollsOfAlts.outputMsg("WARN: Had to clean up ",cntDel," datalines.")
   end
   --
   ElderScrollsOfAlts.view.playerLineCount = #ESOA_GUI2_Body_ListHolder.dataLines
