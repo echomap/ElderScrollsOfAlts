@@ -1,20 +1,22 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-2.00.03
+2.00.04
 [list]
 [*] 
 [/list]
 
 
 ==ESOA Published V1.00.XX==
-2.00.02/2.00.01
+2.00.03/2.00.02/2.00.01
 [list]
+[*] !!!!!!REMEMBER TO BACKUP YOUR SAVEDVARIABLES!!!!!!
 [*] U47
-[*] datatore updates
+[*] Separate Datatore to save character data
 [*] New global setting to save space (optional)
 [*] Ordered companion and other output better
 [*] Added setting for showing partially done skills
+[*] Only as much testing as one person can do, so beware! Beeeeewaaaaare!
 [/list]
 1.00.57
 [list]
