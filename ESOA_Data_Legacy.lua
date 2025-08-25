@@ -61,7 +61,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSpre()
 	for k, v in pairs(ElderScrollsOfAlts.altData.players) do
 		if k == nil then return end
 		if(skipLegacyLoad) then
-			ElderScrollsOfAlts.outputMsg("Info: --Skipping Load of Legacy character:",tostring(k) )
+			ElderScrollsOfAlts.outputMsg("Info: --Skipping Load of Legacy character: ",tostring(k) )
 		else
 			ElderScrollsOfAlts.debugMsg("SetupLinePre: Checking player: '" , k , "'")
 			pCount = pCount+1
