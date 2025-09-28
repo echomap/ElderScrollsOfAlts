@@ -19,9 +19,9 @@ local localization_strings = {
   ESOA_INFAMY_UPSTANDING   = "Upstanding",
 
   ESOA_BITE_WERE_ABILITY  = "Bloodmoon",
-  ESOA_BITE_WERE_COOLDOWN = "Bit an ally", --funny ally is saved lowercase
+  ESOA_BITE_WERE_COOLDOWN = "Feed Cooldown",
   ESOA_BITE_VAMP_ABILITY  = "Blood Ritual",
-  ESOA_BITE_VAMP_COOLDOWN = "Fed on ally",  --funny ally is saved lowercase --Not this anymore? "Blood Ritual Cooldown"
+  ESOA_BITE_VAMP_COOLDOWN = "Feed Cooldown",
   --
 }
 

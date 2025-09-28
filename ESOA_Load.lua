@@ -193,6 +193,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerInfamyLines(playerLines,k)
   if( infamy ~= nil ) then
     playerLines[k].ReducedBounty_Rank = infamy.reducedBounty
     playerLines[k].reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
+	output.reducedbounty_displaytext = infamy.displayText
+	output.reducedbounty_bountytozero = infamy.bountytozero
    --d("infamy.displayText='"..tostring(infamy.displayText).."'")
     playerLines[k].reducedbounty_tooltip = infamy.displayText
     local timeDiff = GetDiffBetweenTimeStamps( infamy.bountytozero, GetTimeStamp() )

@@ -400,6 +400,20 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
         ElderScrollsOfAlts:timeToDisplay( (ElderScrollsOfAlts.view.accountData.secondsplayed*1000) ,true,false),
         ElderScrollsOfAlts.view.accountData.secondsplayed
       )
+  elseif(viewKeyL=="bounty" or viewKeyL=="reducedbounty")then
+	local rBounty = playerLine["ReducedBounty_Rank"]
+	local tBounty = playerLine["reducedbounty_displaytext"]
+	local zBounty = playerLine["reducedbounty_bountytozero"]
+    eline:SetText( rBounty )
+	local timeDiff = GetDiffBetweenTimeStamps( zBounty, GetTimeStamp() )
+    if(rBounty>0) then
+      if(timeDiff>0) then
+        --output.reducedbounty_timeleft = timeDiff
+        eline.tooltip =  tBounty .. " and should expire in: " ..ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+      else
+		eline.tooltip =  tBounty .. " and should be expired"
+      end
+    end
   --
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then
     local viewKey2 = viewKey
