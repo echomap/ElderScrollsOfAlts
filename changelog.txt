@@ -3,8 +3,8 @@
 ==Unpublished ESOA==
 2.00.05
 [list]
-[*] 
-[*] 
+[*] copy/paste bug
+[*] fixing tooltip lack of info
 [/list]
 
 
