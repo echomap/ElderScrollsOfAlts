@@ -610,23 +610,29 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
     ElderScrollsOfAlts.debugMsg("GuiCharLineLookupPopulateData: tttext1: '" , tostring(tttext1), "' key: '", (viewKey), "'" )     
   end
   --
-  local newTTtext = nil  
+  local newTTtext = nil
+  -- Add subskills to existing tooltip
   if(sstext~=nil ) then
     newTTtext = sstext
   elseif(sstext1~=nil ) then    
-    newTTtext = sstext1    
-  elseif(tttext~=nil ) then
+    newTTtext = sstext1
+  end
+  if(newTTtext~=nil) then  
+		if(eline.tooltip~=nil)then
+			eline.tooltip = eline.tooltip .. " " .. newTTtext
+		else
+			eline.tooltip = newTTtext
+		end		
+		newTTtext = nil
+  end
+  -- Set this as specific tooltip
+  if(tttext~=nil ) then
     newTTtext = tttext     
   elseif(tttext1~=nil ) then
     newTTtext = tttext1     
   end
-  --d("newTTtext:"..tostring(newTTtext) )
-  if(newTTtext~=nil) then  
-    if(eline.tooltip~=nil)then
-      eline.tooltip = eline.tooltip .. " " .. newTTtext
-    else
-      eline.tooltip = newTTtext
-    end
+  if(newTTtext~=nil) then
+	eline.tooltip = newTTtext
   end
   --TODO colors? _subskillsA _subskillsP
   --data_subskills
