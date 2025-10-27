@@ -1,14 +1,23 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
+2.00.07
+[list]
+[*] 
+[*] 
+[/list]
+
+
+==ESOA Published V1.00.XX==
+2.00.06
+[list]
+[*] API boost v48
+[/list]
 2.00.05
 [list]
 [*] copy/paste bug
 [*] fixing tooltip lack of info
 [/list]
-
-
-==ESOA Published V1.00.XX==
 2.00.04
 [list]
 [*] When did they change it from "Fed on ally" to "Feed Cooldown"--???
