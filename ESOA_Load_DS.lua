@@ -944,7 +944,7 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input)
 	ElderScrollsOfAlts.debugMsg("FlattenCompanion: Called for:" , input.charkey )
 	-- Defaults
 	for ii = 1, ElderScrollsOfAlts.maxCompanions do
-	local tempn0 = string.format("companion_%s",ii)
+		local tempn0 = string.format("companion_%s",ii)
 		output[tempn0.."_name"]    = "-none-"
 		output[tempn0.."_level"]   = -1
 		output[tempn0.."_rapport"] = -1
@@ -953,25 +953,39 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input)
 	end
 	-- Real Data
 	local linedata = input.companions
-	ElderScrollsOfAlts.debugMsg("FlattenCompanion: linedata:" , tostring(linedata) )
-	if linedata == nil then return end  
+	--ElderScrollsOfAlts.debugMsg("FlattenCompanion: linedata:" , tostring(linedata) )
+	if linedata == nil then
+		ElderScrollsOfAlts.debugMsg("FlattenCompanion: no lineata --DONE" )
+		return
+	end  
 	local cnt = ElderScrollsOfAlts:tablelength(linedata.ids)
 	ElderScrollsOfAlts.debugMsg("FlattenCompanion: cnt:" , cnt )
-	if cnt == nil then return end
-	-- KEYS -- sorted by release of companion
-	local keyset={}
+	if cnt == nil then
+		ElderScrollsOfAlts.debugMsg("FlattenCompanion: no cnt --DONE" )
+		return
+	end
+	-- KEYS -- sorted by release of companion -- table(index, companion#)
+	local ordered_keys={}
 	if(linedata.data~=nil) then
-		for rtK1, rtKV1 in pairs(linedata.data) do
-			keyset[rtK1] = rtK1
+		for k in pairs(linedata.data) do
+			table.insert(ordered_keys, k)
 		end
 	end
-	table.sort(keyset)
-	-- Fill in Output with Real Data, aligned to the first entry	
+	table.sort(ordered_keys)
+	--[[
+	for i = 1, #ordered_keys do
+		local k, v = ordered_keys[i], linedata.data[ ordered_keys[i] ]
+		ElderScrollsOfAlts.outputMsg("FlattenCompanion: keyset: k:" , k, " v:",tostring(v) )
+	end
+	]]
+	-- Fill in Output with Real Data -- aligned to the first entry
 	local cInc = 1
-	for kk, vv in pairs(keyset) do
-		local ldata = linedata.data[kk]
+	for i = 1, #ordered_keys do
+		local k, ldata = ordered_keys[i], linedata.data[ ordered_keys[i] ]
+	--for kk, vv in ipairs(keyset) do
+		--local ldata = linedata.data[vv]
 		if(ldata~=nil) then
-			ElderScrollsOfAlts.debugMsg( "FlattenCompanion:"," kk=",kk," ldata=", tostring(ldata),".")	
+			--ElderScrollsOfAlts.debugMsg( "FlattenCompanion:"," kk=",kk," vv=",vv," ldata=", tostring(ldata),".")	
 			local tempn = string.format("companion_%s",cInc)
 			output[tempn.."_name"]    = ldata.name
 			output[tempn.."_level"]   = ldata.level

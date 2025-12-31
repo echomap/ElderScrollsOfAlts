@@ -3,7 +3,7 @@
 ==Unpublished ESOA==
 2.00.07
 [list]
-[*] 
+[*] Companion reorder
 [*] 
 [/list]
 
