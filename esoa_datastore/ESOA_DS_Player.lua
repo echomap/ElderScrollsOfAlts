@@ -215,6 +215,19 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 		EchoESOADatastore.svListDataAW[dName].players[playerKey].playersorder = ElderScrollsOfAlts.altData.playersorderlast
 	end
 	--
+	-- Account Level
+	--
+	if(EchoESOADatastore.svESOADataAW[dName].ava==nil) then
+		EchoESOADatastore.svESOADataAW[dName].ava = {}
+		EchoESOADatastore.svESOADataAW[dName].ava.campaigns = {}
+	end
+	local accountAvaElem = EchoESOADatastore.svESOADataAW[dName].ava
+	--
+	if(EchoESOADatastore.svESOADataAW[dName].companions==nil) then
+		EchoESOADatastore.svESOADataAW[dName].companions = {}
+	end
+	--
+	--
 	-- SAVE SECTIONS
 	EchoESOADatastore.saveCurrentPlayerDataBio(   playerKey, EchoESOADatastore.svCharDataAW.sections.bio )	  
 	EchoESOADatastore.saveCurrentPlayerDataStats( playerKey, EchoESOADatastore.svCharDataAW.sections.stats, pName, dName )
@@ -1051,7 +1064,7 @@ function EchoESOADatastore.saveCurrentPlayerDataCompanions( playerKey, sectionEl
 		EchoESOADatastore.debugMsg("saveCompanionData: defId=",defId)
 	end
 	-- Do this in events
-  --COMPANION END
+	--COMPANION END
 end
 
 ------------------------------
@@ -1414,6 +1427,22 @@ function EchoESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname,
 	playerElemC.data[companionId].level              = level
 	playerElemC.data[companionId].currentExperience  = currentExperience
 	playerElemC.data[companionId].experienceForLevel = experienceForLevel
+	--
+	-- Account Level Data
+	--
+	local dName 	= GetDisplayName() -- TODO cache or pass this
+	if(EchoESOADatastore.svESOADataAW[dName].companions==nil) then
+		EchoESOADatastore.svESOADataAW[dName].companions = {}
+	end
+	if(EchoESOADatastore.svESOADataAW[dName].companions[companionId]==nil) then
+		EchoESOADatastore.svESOADataAW[dName].companions[companionId] = {}
+	end
+	local accountCompanionsElem = EchoESOADatastore.svESOADataAW[dName].companions
+	--EchoESOADatastore.outputMsg("saveCompanionDataLevel: dName=" , tostring(dName), " companionId=", tostring(companionId)   )
+	accountCompanionsElem[companionId].name					= cname
+	accountCompanionsElem[companionId].level				= level
+	accountCompanionsElem[companionId].currentExperience  	= currentExperience
+	accountCompanionsElem[companionId].experienceForLevel 	= experienceForLevel
 	--
 end
 

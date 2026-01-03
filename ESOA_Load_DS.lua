@@ -123,7 +123,7 @@ function ElderScrollsOfAlts:SetupGuiPlayerLinesDSFlatten(chardata)
 	ElderScrollsOfAlts:SetupPlayerLinesCurrencyDS(chardataO,chardata)
 	ElderScrollsOfAlts:SetupGuiResearchPlayerLinesDS(chardataO,chardata)
 	ElderScrollsOfAlts:SetupPlayerLinesCustomDS(chardataO,chardata)
-	ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(chardataO,chardata)
+	ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(chardataO,chardata,dName)
 	ElderScrollsOfAlts:SetupPlayerLinesTrackingDS(chardataO,chardata)
 	--
 	ElderScrollsOfAlts:SetupGuiPlayerEquipLinesDS(chardataO,chardata)   
@@ -940,7 +940,7 @@ function ElderScrollsOfAlts:SetupPlayerLinesCustomDS(output, input)
 end
 
 --
-function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input)
+function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input, dName)
 	ElderScrollsOfAlts.debugMsg("FlattenCompanion: Called for:" , input.charkey )
 	-- Defaults
 	for ii = 1, ElderScrollsOfAlts.maxCompanions do
@@ -982,16 +982,26 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input)
 	local cInc = 1
 	for i = 1, #ordered_keys do
 		local k, ldata = ordered_keys[i], linedata.data[ ordered_keys[i] ]
-	--for kk, vv in ipairs(keyset) do
-		--local ldata = linedata.data[vv]
+		local companionId = k
 		if(ldata~=nil) then
 			--ElderScrollsOfAlts.debugMsg( "FlattenCompanion:"," kk=",kk," vv=",vv," ldata=", tostring(ldata),".")	
 			local tempn = string.format("companion_%s",cInc)
 			output[tempn.."_name"]    = ldata.name
-			output[tempn.."_level"]   = ldata.level
 			output[tempn.."_rapport"] = ldata.rapport
-			output[tempn.."_currentexperience"]  = ldata.currentExperience
-			output[tempn.."_experienceforlevel"] = ldata.experienceForLevel
+			--
+			--ElderScrollsOfAlts.debugMsg( "FlattenCompanion: lookup accountdata for dName=",dName," companionId=" ,companionId)
+			local accountElem  = EchoESOADatastore.svESOADataAW[dName].companions
+			if(accountElem~=nil and accountElem[companionId]~=nil) then
+				--ElderScrollsOfAlts.debugMsg( "FlattenCompanion: using account lvl for dName=",dName," companionId=" ,companionId)
+				output[tempn.."_level"]  			 = accountElem[companionId].level
+				output[tempn.."_currentexperience"]  = accountElem[companionId].currentExperience
+				output[tempn.."_experienceforlevel"] = accountElem[companionId].experienceForLevel
+			else 
+				output[tempn.."_level"]   = ldata.level		
+				output[tempn.."_currentexperience"]  = ldata.currentExperience
+				output[tempn.."_experienceforlevel"] = ldata.experienceForLevel
+			end
+			--
 			ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", ldata.name, "'" )
 			cInc = cInc +1
 		end

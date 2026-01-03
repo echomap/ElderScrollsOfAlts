@@ -4,7 +4,7 @@
 2.00.07
 [list]
 [*] Companion reorder
-[*] 
+[*] Companion store level info at account level
 [/list]
 
 

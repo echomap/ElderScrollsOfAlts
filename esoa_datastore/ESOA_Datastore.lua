@@ -16,6 +16,7 @@ EchoESOADatastore = {
     view            = {
       fError    = false,
       fErrorMsg = nil,
+	  currentAccountName = GetDisplayName(),
     },
     --
     -- Saved settings.
