@@ -996,10 +996,11 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input, dName)
 				output[tempn.."_level"]  			 = accountElem[companionId].level
 				output[tempn.."_currentexperience"]  = accountElem[companionId].currentExperience
 				output[tempn.."_experienceforlevel"] = accountElem[companionId].experienceForLevel
-			else 
-				output[tempn.."_level"]   = ldata.level		
+			end
+			if( ldata.currentExperience > output[tempn.."_currentexperience"] ) then
+				output[tempn.."_level"]   			 = ldata.level
 				output[tempn.."_currentexperience"]  = ldata.currentExperience
-				output[tempn.."_experienceforlevel"] = ldata.experienceForLevel
+				output[tempn.."_experienceforlevel"] = ldata.experienceForLevel			
 			end
 			--
 			ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", ldata.name, "'" )
