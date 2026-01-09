@@ -997,7 +997,7 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input, dName)
 				output[tempn.."_currentexperience"]  = accountElem[companionId].currentExperience
 				output[tempn.."_experienceforlevel"] = accountElem[companionId].experienceForLevel
 			end
-			if( ldata.currentExperience > output[tempn.."_currentexperience"] ) then
+			if( ldata.currentExperience > output[tempn.."_currentexperience"] or ldata.level > output[tempn.."_level"] ) then
 				output[tempn.."_level"]   			 = ldata.level
 				output[tempn.."_currentexperience"]  = ldata.currentExperience
 				output[tempn.."_experienceforlevel"] = ldata.experienceForLevel			
