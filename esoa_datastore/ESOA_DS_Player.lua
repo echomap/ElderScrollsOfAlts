@@ -813,6 +813,16 @@ function EchoESOADatastore.saveCurrentPlayerDataInfamy( playerKey, sectionElem)
 	playerElem.bounty = bounty
 	playerElem.fullBounty    = fullBountyPayoffAmount
 	playerElem.reducedBounty = reducedBountyPayoffAmount
+	
+	--** _Returns:_ *integer* _totalLaunders_, *integer* _laundersUsed_, *integer* _resetTimeSeconds_
+	local totalLaunders, laundersUsed, resetTimeSeconds = GetFenceLaunderTransactionInfo()
+	playerElem.LaundersUsed = laundersUsed
+	playerElem.LaundersTotal = totalLaunders	
+	--
+	--** _Returns:_ *integer* _totalSells_, *integer* _sellsUsed_, *integer* _resetTimeSeconds_
+	local totalSells, sellsUsed, resetTimeSeconds2 = GetFenceSellTransactionInfo()
+	playerElem.SellsUsed = sellsUsed
+	playerElem.SellsTotal = totalSells
 
 	local sBountyDecayZero = GetSecondsUntilBountyDecaysToZero()
 	local sHeatDecayZero   = GetSecondsUntilHeatDecaysToZero()
@@ -821,6 +831,7 @@ function EchoESOADatastore.saveCurrentPlayerDataInfamy( playerKey, sectionElem)
 	--local timeTillReady = GetTimeStamp() + sBountyDecayZero
 	playerElem.bountytozero = now + sBountyDecayZero
 	playerElem.heattozero   = now + sHeatDecayZero
+	playerElem.LaunderReset = now + resetTimeSeconds2
 
 	--local thresholdType = getInfamyLevel( infamy )
 	--local heat, bounty = GetPlayerInfamyData()
@@ -1424,9 +1435,11 @@ function EchoESOADatastore.saveCompanionDataLevel(playerKey, companionId, cname,
 		return
 	end
 	--
-	playerElemC.data[companionId].level              = level
-	playerElemC.data[companionId].currentExperience  = currentExperience
-	playerElemC.data[companionId].experienceForLevel = experienceForLevel
+	EchoESOADatastore.debugMsg("saveCompanionDataLevel: playerKey= " .. tostring(playerKey) )
+	-- TODO Remove local saving of exp/lvl
+	playerElemC.data[companionId].level              = nil
+	playerElemC.data[companionId].currentExperience  = nil
+	playerElemC.data[companionId].experienceForLevel = nil
 	--
 	-- Account Level Data
 	--

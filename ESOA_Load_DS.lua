@@ -365,32 +365,44 @@ end
 -- Translate from DataStore format to ESOA format
 --
 function ElderScrollsOfAlts:SetupGuiPlayerInfamyLinesDS(output,input)
-  local infamy = input.infamy
-  output.reducedbounty      = 0
-  output.ReducedBounty_Rank = 0
-  if( infamy ~= nil ) then
-    output.ReducedBounty_Rank = infamy.reducedBounty
-    output.reducedbounty = ZO_CommaDelimitNumber(infamy.reducedBounty)
-	output.reducedbounty_displaytext = infamy.displayText
-	output.reducedbounty_bountytozero = infamy.bountytozero
-   --d("infamy.displayText='"..tostring(infamy.displayText).."'")
-   --[[
-    output.reducedbounty_tooltip = infamy.displayText
-    local timeDiff = GetDiffBetweenTimeStamps( infamy.bountytozero, GetTimeStamp() )
-    if(infamy.reducedBounty>0) then
-      if(timeDiff>0) then
-        output.reducedbounty_timeleft = timeDiff
-        output.reducedbounty_tooltip  =  infamy.displayText .. " and should expire in: " ..ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
-      else
-        output.reducedbounty_tooltip  =  output.infamy.displayText .. " and should be expired"
-      end
-      --ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
-	else
-	    output.reducedbounty_tooltip  =  output.infamy.displayText
-    end
-    ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
-	]]--
-  end
+	local infamy = input.infamy
+	output.reducedbounty      = 0
+	output.ReducedBounty_Rank = 0
+	--
+	output.LaundersUsed		= 0
+	output.LaundersTotal	= 0
+	output.SellsUsed		= 0
+	output.SellsTotal		= 0
+	--
+	if( infamy ~= nil ) then
+		output.ReducedBounty_Rank 		= infamy.reducedBounty
+		output.reducedbounty 			= ZO_CommaDelimitNumber(infamy.reducedBounty)
+		output.reducedbounty_displaytext  = infamy.displayText
+		output.reducedbounty_bountytozero = infamy.bountytozero
+		--
+		output.LaundersUsed		= ElderScrollsOfAlts:getValueOrDefault(infamy.LaundersUsed,0)
+		output.LaundersTotal	= ElderScrollsOfAlts:getValueOrDefault(infamy.LaundersTotal,0)
+		output.SellsUsed		= ElderScrollsOfAlts:getValueOrDefault(infamy.SellsUsed,0)
+		output.SellsTotal		= ElderScrollsOfAlts:getValueOrDefault(infamy.SellsTotal,0)
+		output.LaunderReset 	= ElderScrollsOfAlts:getValueOrDefault(infamy.LaunderReset,0)
+		--
+		--[[
+		output.reducedbounty_tooltip = infamy.displayText
+		local timeDiff = GetDiffBetweenTimeStamps( infamy.bountytozero, GetTimeStamp() )
+		if(infamy.reducedBounty>0) then
+		if(timeDiff>0) then
+		output.reducedbounty_timeleft = timeDiff
+		output.reducedbounty_tooltip  =  infamy.displayText .. " and should expire in: " ..ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+		else
+		output.reducedbounty_tooltip  =  output.infamy.displayText .. " and should be expired"
+		end
+		--ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
+		else
+		output.reducedbounty_tooltip  =  output.infamy.displayText
+		end
+		ElderScrollsOfAlts.debugMsg("reducedbounty_tooltip='"..tostring(output.reducedbounty_tooltip).."'")
+		]]--
+	end
 end
 
 
@@ -941,7 +953,7 @@ end
 
 --
 function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input, dName)
-	ElderScrollsOfAlts.debugMsg("FlattenCompanion: Called for:" , input.charkey )
+	ElderScrollsOfAlts.debugMsg("FlattenCompanion: Called for:'", input.charkey,"'" )
 	-- Defaults
 	for ii = 1, ElderScrollsOfAlts.maxCompanions do
 		local tempn0 = string.format("companion_%s",ii)
@@ -989,18 +1001,24 @@ function ElderScrollsOfAlts:SetupPlayerLinesCompanionsDS(output, input, dName)
 			output[tempn.."_name"]    = ldata.name
 			output[tempn.."_rapport"] = ldata.rapport
 			--
-			--ElderScrollsOfAlts.debugMsg( "FlattenCompanion: lookup accountdata for dName=",dName," companionId=" ,companionId)
 			local accountElem  = EchoESOADatastore.svESOADataAW[dName].companions
+			local cMaxLevel = false
 			if(accountElem~=nil and accountElem[companionId]~=nil) then
 				--ElderScrollsOfAlts.debugMsg( "FlattenCompanion: using account lvl for dName=",dName," companionId=" ,companionId)
 				output[tempn.."_level"]  			 = accountElem[companionId].level
 				output[tempn.."_currentexperience"]  = accountElem[companionId].currentExperience
 				output[tempn.."_experienceforlevel"] = accountElem[companionId].experienceForLevel
+				if(accountElem[companionId].level==ElderScrollsOfAlts.maxCompanionLevel) then
+					cMaxLevel = true
+				end
 			end
-			if( ldata.currentExperience > output[tempn.."_currentexperience"] or ldata.level > output[tempn.."_level"] ) then
-				output[tempn.."_level"]   			 = ldata.level
-				output[tempn.."_currentexperience"]  = ldata.currentExperience
-				output[tempn.."_experienceforlevel"] = ldata.experienceForLevel			
+			--if there is local companion data check it, and not at max level in account data...
+			if(ldata.level~=nil and not cMaxLevel ) then
+				if( ldata.level >= output[tempn.."_level"] ) then
+					output[tempn.."_level"]   			 = ldata.level
+					output[tempn.."_currentexperience"]  = ldata.currentExperience
+					output[tempn.."_experienceforlevel"] = ldata.experienceForLevel			
+				end
 			end
 			--
 			ElderScrollsOfAlts.debugMsg("companion data: tempn: '", tempn, "' set '", tempn.."_name", "' as '", ldata.name, "'" )

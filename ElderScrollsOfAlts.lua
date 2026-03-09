@@ -1,7 +1,7 @@
 ElderScrollsOfAlts = {
     name            = "ElderScrollsOfAlts",	-- Matches folder and Manifest file names.
     displayName     = "Elder Scrolls of Alts",
-    version         = "2.00.04",			-- A nuisance to match to the Manifest.
+    version         = "2.00.07",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.
     menuName        = "ElderScrollsOfAlts_Options", -- Unique identifier for menu object.
@@ -9,6 +9,7 @@ ElderScrollsOfAlts = {
     --HOME_FONT_BASE  = "ZoFontWinT2",
     --HOME_FONT_SEL   = "ZoFontGameLargeBold",
     maxCompanions            = 12,
+    maxCompanionLevel        = 20,
     defaultMaxViewButtons    = 5,
     defaultMaxLines          = 12,
     defaultFieldWidthForName = 180,
@@ -129,16 +130,18 @@ function ElderScrollsOfAlts.SlashCommandHandler(text)
 		ElderScrollsOfAlts.outputMsg("ElderScrollsOfAlts: Beta = " .. tostring(ElderScrollsOfAlts.altData.beta) )
 		--ElderScrollsOfAlts.savedVariables.beta = ElderScrollsOfAlts.altData.beta
     --ElderScrollsOfAlts.LoadSettings()
-  elseif options[1] == "savebuttondata" then --debug
-    ElderScrollsOfAlts:ButtonFrameOnMoveStop()--debug
-  elseif options[1] == "testdata" then--debug
-    ElderScrollsOfAlts:LoadTestData1()--debug
-  elseif options[1] == "deltestdata" then--debug 
-    ElderScrollsOfAlts:DelTestData1()     --debug
-  elseif options[1] == "changefont" then--debug
-    ElderScrollsOfAlts:ChangeESOAFontGame() --debug
-  elseif options[1] == "testtime1" then--debug
-    ElderScrollsOfAlts:TestTime1() --debug
+  elseif options[1] == "savebuttondata" then --test
+    ElderScrollsOfAlts:ButtonFrameOnMoveStop()--test
+  elseif options[1] == "testdata" then--test
+    ElderScrollsOfAlts:LoadTestData1()--test
+  elseif options[1] == "testlaunder" then--test
+	ElderScrollsOfAlts:TestLaunder()
+  elseif options[1] == "deltestdata" then--test 
+    ElderScrollsOfAlts:DelTestData1()     --test
+  elseif options[1] == "changefont" then--test
+    ElderScrollsOfAlts:ChangeESOAFontGame() --test
+  elseif options[1] == "testtime1" then--test
+    ElderScrollsOfAlts:TestTime1() --test
   elseif options[1] == "resetviews" then
     ElderScrollsOfAlts:ResetUIViews()     
   elseif options[1] == "showentries" then
@@ -266,6 +269,28 @@ function ElderScrollsOfAlts.OnCompanionSkillRankUpdate(eventCode, skillLineId, r
   local slName      = GetSkillLineNameById(skillLineId)
   ElderScrollsOfAlts:CollectCompanionDataSkillRank(companionId, tostring(cname), skillLineId, slName, rank )
 end
+
+------------------------------
+-- EVENT_COMPANION_EXPERIENCE_GAIN (*integer* _companionId_, *integer* _level_, *integer* _previousExperience_, *integer* _currentExperience_)
+-- OnCompanionExperienceUpdate: eventCode: '131785' companionId: '13' level='16' prevExp: '27922'' currExp: '28059'
+function ElderScrollsOfAlts.OnCompanionExperienceUpdate(eventCode, companionId, level, prevExp, currExp )
+  ElderScrollsOfAlts.debugMsg( "OnCompanionExperienceUpdate: eventCode: '", eventCode, "' companionId: '", companionId, "' level='", tostring(level), "' prevExp: '", (prevExp), "'", "' currExp: '", (currExp), "'" )
+  --
+  local cname = GetCompanionName(companionId) --is there a RawName, so can have w/o the gender ctrl char?
+  local characterGender = GetGenderFromNameDescriptor(cname)
+  if(characterGender~=nil) then
+	local indexstart = string.find(cname,"%^")
+	if(indexstart~= nil and indexstart>0) then
+		cname = cname:sub(1, indexstart-1)
+	end
+  end
+  local level, currentExperience = GetActiveCompanionLevelInfo()
+  local xplevel = GetNumExperiencePointsInCompanionLevel(level+1)
+  ElderScrollsOfAlts:CollectCompanionDataLevel(companionId, tostring(cname), level, currentExperience, xplevel)
+  --
+end
+
+
 -- COMPANIONS --
 
 --------------------------------
@@ -457,6 +482,11 @@ function ElderScrollsOfAlts.OnAddOnLoaded(event, addonName)
   EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_SKILL_LINE_ADDED, ElderScrollsOfAlts.OnCompanionSkilllineAdded )
   eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_SKILL_RANK_UPDATE"
   EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_SKILL_RANK_UPDATE, ElderScrollsOfAlts.OnCompanionSkillRankUpdate )
+  
+  eventNamespace = ElderScrollsOfAlts.name.."EVENT_COMPANION_EXPERIENCE_GAIN"
+  EVENT_MANAGER:RegisterForEvent(eventNamespace,	EVENT_COMPANION_EXPERIENCE_GAIN, ElderScrollsOfAlts.OnCompanionExperienceUpdate )
+  
+  
   ------------------------------
   
   -- Slash commands must be lowercase. Set to nil to disable.

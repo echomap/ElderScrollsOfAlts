@@ -68,5 +68,21 @@ function ElderScrollsOfAlts:TestTime1()
 	end
 end
 
+-- 
+function ElderScrollsOfAlts:TestLaunder()
+	--** _Returns:_ *integer* _totalLaunders_, *integer* _laundersUsed_, *integer* _resetTimeSeconds_
+	local totalLaunders, laundersUsed, resetTimeSeconds = GetFenceLaunderTransactionInfo()
+	d("totalLaunders="..tostring(totalLaunders))
+	d("laundersUsed="..tostring(laundersUsed))
+	d("resetTimeSeconds="..tostring(resetTimeSeconds))
+	
+	--
+	--** _Returns:_ *integer* _totalSells_, *integer* _sellsUsed_, *integer* _resetTimeSeconds_
+	local totalSells, sellsUsed, resetTimeSeconds2 = GetFenceSellTransactionInfo()
+	d("totalSells="..tostring(totalSells))
+	d("sellsUsed="..tostring(sellsUsed))
+	d("resetTimeSeconds2="..tostring(resetTimeSeconds2))
+	--
+end 
 
 --TEST TEST TEST TEST

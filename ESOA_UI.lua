@@ -566,7 +566,7 @@ function ElderScrollsOfAlts:SetupAndShowViewButtons()
     local guiLine = guiview[viewIdx]
 	if(guiLine~=nil) then
 		local viewName = guiLine.name
-		if(viewName==nil) then viewName = "FIXME" end    
+		if(viewName==nil) then viewName = "FIXME"+math.random() end    
 		table.insert(validChoices,  viewName )
 		--
 		local line = vParent:GetNamedChild('_ViewBtn_'..viewName )

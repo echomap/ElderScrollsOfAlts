@@ -292,7 +292,8 @@ function ElderScrollsOfAlts:DoAddNewViewData()
     return
   end
   local newView= {}
-  newView["name"] = "New View"
+  local numBtns = #ElderScrollsOfAlts.view.viewButtons
+  newView["name"] = "NewView" + numBtns
   newView["view"] = ElderScrollsOfAlts:deepcopy( viewTemplate["view"] )
   local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
   table.insert( guiview, newView )

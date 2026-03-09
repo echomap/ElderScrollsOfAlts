@@ -415,6 +415,21 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
       end
     end
   --
+  elseif(viewKeyL=="launderreset")then
+	local zlaunderreset = playerLine["LaunderReset"]
+	local timeDiff = GetDiffBetweenTimeStamps( zlaunderreset, GetTimeStamp() ) 
+	ElderScrollsOfAlts.debugMsg("zlaunderreset:  timeDiff='",timeDiff, "' zlaunderreset='",zlaunderreset,"' (" , playerLine.name,")" )
+    if(timeDiff>0) then
+		local texp = ElderScrollsOfAlts:timeToDisplay( (timeDiff*1000) ,true,false)
+        eline.tooltip =  "Should expire in: " .. texp
+		eline:SetText( texp )
+		ElderScrollsOfAlts.debugMsg("zlaunderreset: time left (" , playerLine.name , ")" )
+    else
+		eline:SetText( "---" ) 
+		eline.tooltip =  playerLine.name .. " is Ready to Launder!"
+		ElderScrollsOfAlts.debugMsg("zlaunderreset: reset (" , playerLine.name,")" )
+    end
+  --
   elseif( ElderScrollsOfAlts.starts_with(viewKey, "currency_") or  ElderScrollsOfAlts.starts_with(viewKey, "Currency_") ) then
     local viewKey2 = viewKey
     local pos = string.find(viewKey, "_")
@@ -1006,7 +1021,7 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayWidth(viewKey,customWidths)
 	elseif(viewKey=="SecondsPlayed" or viewKey=="TimePlayed" or viewKey=="achieveearned" ) then  
 		return 60
 	elseif(viewKey=="Alliance") then
-		return 28
+		return 29
 	elseif(viewKey=="Alliance Name") then
 		return 50
 	elseif(viewKey=="Note") then
@@ -1247,8 +1262,18 @@ function ElderScrollsOfAlts.GuiSortBarLookupDisplayText(viewKey)
     local pos = string.find(viewKey, "_")
     viewKey2 = string.sub(viewKey,pos+1)
     return viewKey2
+  --
   elseif(viewKey=="ReducedBounty") then
     return "Bounty"
+  elseif(viewKey=="LaundersUsed") then
+    return "L_Used"
+  elseif(viewKey=="LaundersTotal") then
+    return "L_Total"
+  elseif(viewKey=="SellsUsed") then
+    return "S_Used"
+  elseif(viewKey=="SellsTotal") then
+    return "S_Total"
+  --
   elseif(viewKey=="zoneName") then
     return "Zone"
   elseif(viewKey=="subzoneName") then

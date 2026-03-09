@@ -1,14 +1,20 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-2.00.07
+2.00.08
 [list]
-[*] Companion reorder
-[*] Companion store level info at account level
+[*] 
 [/list]
 
 
 ==ESOA Published V1.00.XX==
+2.00.07
+[list]
+[*] Companion reorder
+[*] Companion store level/exp info at account level // Rapport is still by Character
+[*] Added laundering totals columns {LaundersUsed} {LaundersTotal}  {SellsUsed} {SellsTotal}  {LaunderReset}
+[*] New views created names with random#
+[/list]
 2.00.06
 [list]
 [*] API boost v48

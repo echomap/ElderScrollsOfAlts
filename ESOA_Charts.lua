@@ -133,6 +133,12 @@ ElderScrollsOfAlts.allowedViewEntries = {
   ["Currency_Outfit Change Tokens"] = 1,
   
   ["ReducedBounty"] = 1, 
+  ["LaundersTotal"] = 1, 
+  ["LaundersUsed"] = 1, 
+  ["SellsTotal"] = 1, 
+  ["SellsUsed"] = 1, 
+  ["LaunderReset"] = 1, 
+  
   ["zoneName"] = 1, 
   ["subzoneName"] = 1, 
   ["ZoneName"] = 1, 
