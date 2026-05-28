@@ -1,13 +1,18 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-2.00.08
+2.00.09
 [list]
 [*] 
 [/list]
 
 
 ==ESOA Published V1.00.XX==
+2.00.08
+[list]
+[*] Bug in create new view
+[*] dealing with a nil value for AVA on char load
+[/list]
 2.00.07
 [list]
 [*] Companion reorder

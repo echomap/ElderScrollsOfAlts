@@ -286,14 +286,15 @@ end
 ------------------------------
 -- view: Add
 function ElderScrollsOfAlts:DoAddNewViewData()
+  ElderScrollsOfAlts.debugMsg("DoAddNewViewData: called")
   local viewTemplate = ElderScrollsOfAlts.view.guiTemplates[ElderScrollsOfAlts.savedVariables.selected.viewTemplate]
   if(viewTemplate==nil)then
     ElderScrollsOfAlts.outputMsg("Failed to find specified template view w/name='".. tostring(ElderScrollsOfAlts.savedVariables.selected.viewTemplate).."'")
     return
   end
-  local newView= {}
+  local newView = {}
   local numBtns = #ElderScrollsOfAlts.view.viewButtons
-  newView["name"] = "NewView" + numBtns
+  newView["name"] = "NewView" .. tostring(numBtns)
   newView["view"] = ElderScrollsOfAlts:deepcopy( viewTemplate["view"] )
   local guiview = ElderScrollsOfAlts.CtrlGetGUIView()
   table.insert( guiview, newView )

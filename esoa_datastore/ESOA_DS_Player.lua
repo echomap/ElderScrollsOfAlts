@@ -217,6 +217,9 @@ function EchoESOADatastore.saveCurrentPlayerDataInt()
 	--
 	-- Account Level
 	--
+	if(EchoESOADatastore.svESOADataAW[dName]==nil) then
+		EchoESOADatastore.svESOADataAW[dName] = {}
+	end
 	if(EchoESOADatastore.svESOADataAW[dName].ava==nil) then
 		EchoESOADatastore.svESOADataAW[dName].ava = {}
 		EchoESOADatastore.svESOADataAW[dName].ava.campaigns = {}
