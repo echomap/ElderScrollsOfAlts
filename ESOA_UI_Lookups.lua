@@ -19,20 +19,53 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
 		eline:SetText( playerLine.skillline1 )
 		eline.value = tostring(playerLine.skillline1)
 		local r2 = playerLine[viewKeyL.."_rank2"]
-		eline.tooltip = zo_strformat("<<1>> skillline#1 is -<<2>>- (lvl<<3>>)", 
-					playerLine.name, playerLine.skillline1, r2, (string.char(10)..string.char(10)) )
+		local s1as = playerLine.skillline1_isAccountSkill
+		local s1cm = playerLine.skillline3_isClassMastery
+		local s1ast = ""
+		if(s1as == false ) then
+			s1ast = "(class skill)"
+		else
+			s1ast = "(account skill)"
+		end
+		eline.tooltip = zo_strformat("<<1>> skillline#2 is -<<2>>- <<4>>(lvl<<3>>) <<4>><<5>> ",
+					playerLine.name, playerLine.skillline2, r2, string.char(10), s1ast )
+		if(s1as == false) then
+			eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), eline.value ) )
+		end
 	elseif(viewKeyL=="skillline2") then
 		eline:SetText( playerLine.skillline2 )
 		eline.value = playerLine.skillline2
 		local r2 = playerLine[viewKeyL.."_rank2"]
-		eline.tooltip = zo_strformat("<<1>> skillline#2 is -<<2>>- (lvl<<3>>)", 
-					playerLine.name, playerLine.skillline2, r2, (string.char(10)..string.char(10)) )
+		local s2as = playerLine.skillline2_isAccountSkill
+		local s2cm = playerLine.skillline3_isClassMastery
+		local s2ast = ""
+		if(s2as == false ) then
+			s2ast = "(class skill)"
+		else
+			s2ast = "(account skill)"
+		end
+		eline.tooltip = zo_strformat("<<1>> skillline#2 is -<<2>>- <<4>>(lvl<<3>>) <<4>><<5>> ",
+					playerLine.name, playerLine.skillline2, r2, string.char(10), s2ast )
+		if(s2as == false) then
+			eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), eline.value ) )
+		end
 	elseif(viewKeyL=="skillline3") then
 		eline:SetText( playerLine.skillline3 )
 		eline.value = playerLine.skillline3
 		local r2 = playerLine[viewKeyL.."_rank2"]
-		eline.tooltip = zo_strformat("<<1>> skillline#3 is -<<2>>- (lvl<<3>>)", 
-					playerLine.name, playerLine.skillline3, r2, (string.char(10)..string.char(10)) )
+		local s3as = playerLine.skillline3_isAccountSkill
+		local s3cm = playerLine.skillline3_isClassMastery
+		local s3ast = ""
+		if(s3as == false ) then
+			s3ast = "(class skill)"
+		else
+			s3ast = "(account skill)"
+		end
+		eline.tooltip = zo_strformat("<<1>> skillline#3 is -<<2>>- <<4>>(lvl<<3>>) <<4>><<5>> ", 
+					playerLine.name, playerLine.skillline3, r2, string.char(10), s3ast )		
+		if(s3as == false) then
+			eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), eline.value ) )
+		end
   --
   elseif(viewKey=="Special") then
     local werewolf = playerLine["Werewolf"]
@@ -268,6 +301,9 @@ function ElderScrollsOfAlts.GuiCharLineLookupPopulateData(viewname,viewKey,eline
   elseif( viewKeyL=="assignedcampaignendsat" ) then
 		eline:SetText( playerLine[viewKey] )
 		eline.value = playerLine[viewKey]
+		if( playerLine["AssignedCampaignEndsAtOver"] ~=nil and playerLine["AssignedCampaignEndsAtOver"] == true ) then
+				eline:SetText( ElderScrollsOfAlts.ColorText( ElderScrollsOfAlts.CtrlGetColorTimerDone(), eline.value ) )
+		end
   --
   --
   elseif(viewKey=="BagSpace") then

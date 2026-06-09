@@ -442,6 +442,10 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
               output[rtKT.."_NextRankXP"] = rtVT.nextRankXP
               output[rtKT.."_CurrentXP"]  = rtVT.currentXP
               output[rtKT.."_XPCode"]     = -1
+			  --
+			  output[rtKT.."_isAccountSkill"]     = rtVT.isAccountSkill
+			  output[rtKT.."_isClassMastery"]     = rtVT.isClassMastery
+			  --
               if( rtVT.nextRankXP == 0 )then
                  output[rtKT.."_XPCode"] = 0
               elseif( rtVT.nextRankXP==nil or rtVT.currentXP==nil) then
@@ -500,7 +504,8 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
 		for rtK2,rtV2 in pairs(skillsC) do
 			ElderScrollsOfAlts.debugMsg("skills rtKT2=",tostring(rtK2)," rtVT2=",tostring(rtV2))
 			local rtKK = nil
-			if(idx==1) then
+			if(rtV2.isClassMastery==true ) then
+			elseif(idx==1) then
 				rtKK = "skillline1"
 			elseif(idx==2) then
 				rtKK = "skillline2"
@@ -512,11 +517,13 @@ function ElderScrollsOfAlts:SetupGuiPlayerSkillsLinesDS(output,input)
 				--output[rtKK.."_Name"] = rtV2.name
 				output[rtKK.."_rank2"] = rtV2.rank
 				--output[rtKK.."_baseline"] = rtK2
+				output[rtKK.."_isAccountSkill"] = rtV2.isAccountSkill
+				output[rtKK.."_isClassMastery"] = rtV2.isClassMastery
+				idx = idx+1
 			end
-			idx = idx+1
-		end
-	end
-  end
+		end --for loop
+	end -- skillsC~=nil
+  end -- skills
   --
 end
 

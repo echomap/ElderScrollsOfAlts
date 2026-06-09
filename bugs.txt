@@ -27,3 +27,4 @@ pause update on dungeon enter
 pause update on pvp enter
 show update notification checkbox
 width include min header
+save / show class mastery?

@@ -1096,11 +1096,13 @@ function EchoESOADatastore:SaveDataSkillData(skillType,baseElem,outputUndiscover
 	local numSkillLines = GetNumSkillLines(skillType)
 	for ii = 1, numSkillLines do
 		local name, rank, discovered, skillLineId, advised, unlockText = GetSkillLineInfo(skillType,ii)
+		
 		--name, number rank, boolean discovered, number skillLineId, boolean advised, unlockText
 		if name == nil then
 			name = ii;
 		end
 		if discovered or outputUndiscovered then
+			--EchoESOADatastore.outputMsg("loadPlayerDataPart: name=",name," rank=",rank, " discovered=",discovered)			
 			--EchoESOADatastore.debugMsg("loadPlayerDataPart: unlockText="..unlockText..".")
 			baseElem[name]	= {}
 			local baseElemTable = baseElem[name]
@@ -1121,6 +1123,13 @@ function EchoESOADatastore:SaveDataSkillData(skillType,baseElem,outputUndiscover
 			baseElemTable.nextRankXP = nextRankXP
 			baseElemTable.currentXP  = currentXP
 			EchoESOADatastore.debugMsg("SaveDataSkillData:[",name,"] lastRankXP:",lastRankXP, " nextRankXP:",nextRankXP, " currentXP:",currentXP)
+
+			--** _Returns:_ *luaindex* _rank_, *bool* _isAdvised_, *bool* _isActive_, *bool* _isDiscovered_, *bool* _isAccountSkill_, *bool* _isInTraining_, *bool* _isClassMastery_
+			local rank2, isAdvised2, isActive2, isDiscovered2, isAccountSkill2, isInTraining2, isClassMastery2
+			= GetSkillLineDynamicInfo(skillType,ii)
+			--EchoESOADatastore.outputMsg("loadPlayerDataPart: name=",name," isActive2=",isActive2, " isDiscovered2=",isDiscovered2," isAccountSkill=",isAccountSkill2, " isClassMastery=",isClassMastery2, " " )
+			baseElemTable.isAccountSkill = isAccountSkill2
+			baseElemTable.isClassMastery = isClassMastery2
 
 			--EchoESOADatastore.loadPlayerDataPartDetails(skillType,skillLineId,ii,name,pName)
 			--string name, textureName texture, number earnedRank, boolean passive, boolean ultimate, boolean purchased, number:nilable progressionIndex, number:nilable rankIndex 

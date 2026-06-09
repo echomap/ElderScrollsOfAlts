@@ -1,13 +1,19 @@
 -=-=-=ESOA=-=-=-
 -=-=-=-=-=-=-=-
 ==Unpublished ESOA==
-2.00.09
+2.00.10
 [list]
 [*] 
 [/list]
 
 
 ==ESOA Published V1.00.XX==
+2.00.09
+[list]
+[*] U50
+[*] AvaEndCamp coloring when the camp is over
+[*] Coloring class skills, to differentiate with account ones
+[/list]
 2.00.08
 [list]
 [*] Bug in create new view
